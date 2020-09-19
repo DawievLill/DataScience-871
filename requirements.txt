@@ -1,4 +1,3 @@
-3.7
 jupyter-book
 matplotlib
 numpy
