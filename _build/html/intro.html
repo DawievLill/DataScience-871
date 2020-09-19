@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Introduction &#8212; Data Science 871</title>
+    <title>Data Science for Economics &#8212; Data Science 871</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
@@ -26,8 +26,6 @@
     <script src="_static/copybutton.js"></script>
     <script src="_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -37,7 +35,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Julia" href="julia.html" />
+    <link rel="next" title="Getting started with Julia" href="content/julia/julia.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -71,7 +69,7 @@
   <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="#">
-   Introduction
+   Data Science for Economics
   </a>
  </li>
 </ul>
@@ -82,13 +80,13 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="julia.html">
-   1. Julia
+  <a class="reference internal" href="content/julia/julia.html">
+   Getting started with Julia
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="data.html">
-   2. Working with data
+  <a class="reference internal" href="content/julia/data.html">
+   Working with data
   </a>
  </li>
 </ul>
@@ -99,8 +97,8 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="la_intro.html">
-   1. Linear algebra basics
+  <a class="reference internal" href="content/linear-algebra/la_intro.html">
+   Linear algebra basics
   </a>
  </li>
 </ul>
@@ -111,8 +109,8 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="regress.html">
-   1. Linear regression
+  <a class="reference internal" href="content/regression/regress.html">
+   Linear regression
   </a>
  </li>
 </ul>
@@ -123,8 +121,8 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="julia.html">
-   1. Julia
+  <a class="reference internal" href="content/classification/neighbours.html">
+   k-Nearest neighbours
   </a>
  </li>
 </ul>
@@ -135,8 +133,8 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="julia.html">
-   1. Julia
+  <a class="reference internal" href="content/tree-methods/trees.html">
+   Tree-based methods
   </a>
  </li>
 </ul>
@@ -147,8 +145,8 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="julia.html">
-   1. Julia
+  <a class="reference internal" href="content/support-vector/svm.html">
+   Support vector machines
   </a>
  </li>
 </ul>
@@ -159,8 +157,8 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="julia.html">
-   1. Julia
+  <a class="reference internal" href="content/neural-net/neural.html">
+   Neural networks
   </a>
  </li>
 </ul>
@@ -241,8 +239,8 @@
         
               <div>
                 
-  <div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="data-science-for-economics">
+<h1>Data Science for Economics<a class="headerlink" href="#data-science-for-economics" title="Permalink to this headline">¶</a></h1>
 <p>In this part of the course we will mostly focus on machine learning methods. We will be using <code class="docutils literal notranslate"><span class="pre">Julia</span></code> as our primary programming language. Don’t worry if you have never worked with <code class="docutils literal notranslate"><span class="pre">Julia</span></code>, you can continue working in <code class="docutils literal notranslate"><span class="pre">R</span></code>. Most of your <code class="docutils literal notranslate"><span class="pre">R</span></code> code can be called into <code class="docutils literal notranslate"><span class="pre">Julia</span></code> with a a package called <code class="docutils literal notranslate"><span class="pre">RCall.jl</span></code>!</p>
 <p><code class="docutils literal notranslate"><span class="pre">Julia</span></code> and <code class="docutils literal notranslate"><span class="pre">Python</span></code> are great languages for machine learning, with many libraries and packages for you to use. My preference is to use <code class="docutils literal notranslate"><span class="pre">Julia</span></code>, but <code class="docutils literal notranslate"><span class="pre">Python</span></code> is used more widely in industry. Luckily the differences between the languages are not that different, so learning the one will help with learning the other.</p>
 <p>In this course we <strong>officially</strong> use <code class="docutils literal notranslate"><span class="pre">R</span></code>. So I will often provide you with <code class="docutils literal notranslate"><span class="pre">R</span></code> code. For my section, however, it is more important that you understand the machine learning concepts and then you can implement it in any language tha you prefer.</p>
@@ -305,7 +303,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="julia.html" title="next page"><span class="section-number">1. </span>Julia</a>
+    <a class='right-next' id="next-link" href="content/julia/julia.html" title="next page">Getting started with Julia</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

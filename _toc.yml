@@ -1,32 +1,32 @@
 
 - file: intro
-  numbered: true
+  numbered: false
 
 - part: Julia
   chapters:
-  - file: julia
-  - file: data
+  - file: content/julia/julia
+  - file: content/julia/data
 
 - part: Linear Algebra
   chapters:
-  - file: la_intro
+  - file: content/linear-algebra/la_intro
 
 - part: Regression
   chapters:
-  - file: regress
+  - file: content/regression/regress
 
 - part: k-Nearest neighbours
   chapters:
-  - file: julia
+  - file: content/classification/neighbours
 
 - part: Tree-based methods
   chapters:
-  - file: julia
+  - file: content/tree-methods/trees
 
 - part: Support vector machines
   chapters:
-  - file: julia
+  - file: content/support-vector/svm
 
 - part: Neural networks
   chapters:
-  - file: julia
+  - file: content/neural-net/neural

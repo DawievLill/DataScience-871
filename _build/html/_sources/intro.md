@@ -1,5 +1,5 @@
 
-Introduction
+Data Science for Economics
 ==============================================
 
 In this part of the course we will mostly focus on machine learning methods. We will be using `Julia` as our primary programming language. Don't worry if you have never worked with `Julia`, you can continue working in `R`. Most of your `R` code can be called into `Julia` with a a package called `RCall.jl`!
