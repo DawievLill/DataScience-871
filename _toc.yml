@@ -1,6 +1,6 @@
-file: intro
-sections:
-- file: julia
-- file: notebooks
-- file: content
-- file: markdown
+- file: intro
+  numbered: true
+
+- part: Julia
+  chapters:
+    - file julia
