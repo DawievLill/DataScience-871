@@ -16,12 +16,15 @@ Below are some of the topics that we will cover during this term.
 
 1. Introduction to `Julia`
 2. Working with data in `Julia`
-3. Relational databases
+3. Linear algebra and optimisation in `Julia`
 4. Linear and polynomial regression
 5. k-Nearest neigbours
 6. Tree-based methods
 7. Support vector machines
-8. Neural networks and deep learning **(time dependent)
-9. Cloud and parallel computing **(time dependent)
+8. Neural networks 
+9. Parallel programming
+10. Cloud computing with Google Compute Engine
+11. Databases (SQL and BigQuery)
+12. Spark
 
-We might not be able to cover much of deep learning and cloud computing. This depends on how fast we move through the other material. However, it is important to note that the techniques that you are presented in this section will be enough for you to succesfully complete a project.
+We will not have time to cover all the topics in full detail, so you can refer to the notes if you would like to know more. 
