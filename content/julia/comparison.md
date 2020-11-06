@@ -58,9 +58,7 @@ jgibbs(100, 5); # warm-up
 
 In this example we see that Julia is somewhere in the range of 40 to 80 times faster. This is quite significant, considering that the actual coding related to the functions specified is very similar. It does not require much in terms of a time investment to learn the difference in syntax. Programming does not stop at difference in syntax, but the general point is that even for someone with little programming experience, the increase in speed is perhaps enough motivation to take interest in the Julia project.
 
-It is true that one can use `Rcpp`, which is a library in `R` that allows you to input `C++` code and interface with `R`. The benefit here is that you will also see an immense increase in terms of performance. The disadvantage is that you will need to learn some `C++`, which is arguably more difficult to learn than `Julia`. I have some base level knowledge of `C++`, but have to spend much more time with it to reap the benefits. In contrast, in my opinion as an economist, and not a programmer, by profession, `Julia` is easier to digest.
-
-There are other examples that we can use that are perhaps a bit easier to digest.
+It is true that one can use `Rcpp`, which is a library in `R` that allows you to input `C++` code and interface with `R`. The benefit here is that you will also see an immense increase in terms of performance. The disadvantage is that you will need to learn some `C++`, which is arguably more difficult to learn than `Julia`. I have some base level knowledge of `C++`, but have to spend much more time with it to reap the benefits. In contrast, in my opinion as an economist, and not a programmer, `Julia` is easier to digest.
 
 ## Julia, R, Python, C?
 
