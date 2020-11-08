@@ -10,10 +10,9 @@ While there will be a fair bit of coding in this course. The goal of this portio
 
 In order to install `Julia` you need to go the `Julia` homepage, which can be found [here](https://julialang.org/), and follow the specific instructions. Installation is quite easy to do. [Here](https://www.youtube.com/watch?v=OOjKEgbt8AI) is a video that provide some details on how to perform the installation on Windows. The process is similar (easier) for Linux and Mac. 
 
-
 ## Can I still use RStudio for Julia?
 
-One of the most commonly asked questions that I get for people starting out with `Julia` or `Python` is, how do I run my scripts? One of the reasons why `R` is so easy to use for many people is the `RStudio` environment. For many economics students that have experience with `Stata` or `Matlab`, it is quite comforting to move to `R` and find that there is a fully fleshed out development environment where you can execute scripts within minutes. While there are similar options for `Python` such as `Spyder` and `PyCharm`, I prefer to use `Visual Studio Code` for `Python` and `Julia`. It takes a bit more effort to set up, but the end result is worth it. If you are new to `VS Code`, all you need to do is download and install the program on your system, [here](https://code.visualstudio.com/) is a link to the website. After you have installed the program, go to **Extensions** under the **View** tab and search for `Julia`. Install the `Julia` extension and you will be able to run `Julia` code inside of `VS Code`. We will go through this in detail in the lecture. You can basically set up `VS Code` to have a look and feel quite similar to that of `RStudio`. Another option would be to use `Jupyterlab`. However, I don't have enough experience with that interface to tell you whether it is quite as feature rich as `VS Code`.
+One of the most commonly asked questions that I get for people starting out with `Julia` or `Python` is, how do I run my scripts? One of the reasons why `R` is so easy to use for many people is the `RStudio` environment. For many economics students that have experience with `Stata` or `Matlab`, it is quite comforting to move to `R` and find that there is a fully fleshed out development environment where you can execute scripts within minutes. While there are similar options for `Python` such as `Spyder` and `PyCharm`, I prefer to use `Visual Studio Code` for `Python` and `Julia`. It takes a bit more effort to set up, but the end result is worth it. If you are new to `VS Code`, all you need to do is download and install the program on your system, [here](https://code.visualstudio.com/) is a link to the website. After you have installed the program, go to **Extensions** under the **View** tab and search for `Julia`. Install the `Julia` extension and you will be able to run `Julia` code inside of `VS Code` by pressing *Shift-Enter*, or you can run single lines by pressing *Alt-Enter*. We will go through this in detail in the lecture. You can basically set up `VS Code` to have a look and feel quite similar to that of `RStudio`. Another option would be to use `Jupyterlab`. However, I don't have enough experience with that interface to tell you whether it is quite as feature rich as `VS Code`.
 
 ## Introductory Julia resources
 
@@ -23,3 +22,14 @@ The number of resources, in comparison to other languages, are limited. However,
 
 This should be enough to get you started. I will introduce more advanced material and sources as we progress. I am not going to provide extensive lists of resources on `R` and `Python` in this notebook. I will reference some resources that I think are useful as we work through the material of the course. 
 
+# Julia Fundamentals
+
+We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is selft-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. For a more complete description of the concepts I refer you to the `Think Julia` book, which covers the topics in much more detail. You can also consult the `QuantEcon` notes for a similar description of the basics. Once you have worked through this section you should have a good idea of the core concepts in `Julia` and then we can proceed to working with data in the next section. 
+
+## Basics 
+
+## Collections 
+
+## Control Flow
+
+## Functions
