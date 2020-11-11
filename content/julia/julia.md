@@ -8,7 +8,7 @@ While there will be a fair bit of coding in this course. The goal of this portio
 
 ## Installing Julia
 
-In order to install `Julia` you need to go the `Julia` homepage, which can be found [here](https://julialang.org/), and follow the specific instructions. Installation is quite easy to do. [Here](https://www.youtube.com/watch?v=OOjKEgbt8AI) is a video that provide some details on how to perform the installation on Windows. The process is similar (easier) for Linux and Mac. 
+In order to install `Julia` you need to go the `Julia` homepage, which can be found [here](https://julialang.org/), and follow the specific instructions. Installation is quite easy to do. [Here](https://www.youtube.com/watch?v=OOjKEgbt8AI) is a video that provide some details on how to perform the installation on Windows. The process is similar (easier) for Linux and Mac.
 
 ## Can I still use RStudio for Julia?
 
@@ -20,11 +20,13 @@ In the context of economics, there is no better resource than the `QuantEcon` pa
 
 The number of resources, in comparison to other languages, are limited. However, there are some really nice tutorials that you can use to get started with `Julia`. The first place to look is on the `Julia` homepage. If you navigate to the `learn` section of the page, you will see that there are some introductory tutorials from the Julia Academy. These tutorials are well structured and we will borrow some of the material to form the basis of the notes that we present here. There are also some recommended books here. I think that the `Think Julia` book is quite nice for beginners and the `Introduction to Applied Linear Algebra` book will also feature in our development of ideas on linear algebra. Links to these books can be found [here](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html) and [here](http://vmls-book.stanford.edu/).
 
-This should be enough to get you started. I will introduce more advanced material and sources as we progress. I am not going to provide extensive lists of resources on `R` and `Python` in this notebook. I will reference some resources that I think are useful as we work through the material of the course. 
+This should be enough to get you started. I will introduce more advanced material and sources as we progress. I am not going to provide extensive lists of resources on `R` and `Python` in this notebook. I will reference some resources that I think are useful as we work through the material of the course.
 
 # Julia Fundamentals
 
-We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is selft-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. For a more complete description of the concepts I refer you to the `Think Julia` book, which covers the topics in much more detail. You can also consult the `QuantEcon` notes for a similar description of the basics. Once you have worked through this section you should have a good idea of the core concepts in `Julia` and then we can proceed to working with data in the next section. 
+We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is selft-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. For a more complete description of the concepts I refer you to the `Think Julia` book, which covers the topics in much more detail. You can also consult the `QuantEcon` notes for a similar description of the basics. Once you have worked through this section you should have a good idea of the core concepts in `Julia` and then we can proceed to working with data in the next section.
+
+
 
 ## Basics 
 
