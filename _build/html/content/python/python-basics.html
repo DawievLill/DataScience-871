@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting started with Python &#8212; Data Science 871</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="../../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Working with data" href="data.html" />
+    <link rel="prev" title="Data Science for Economics" href="../../intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  
+  <h1 class="site-logo" id="site-title">Data Science 871</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Data Science for Economics
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Python
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Getting started with Python
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="#python-fundamentals">
+   Python Fundamentals
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data.html">
+   Working with data
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Linear Algebra
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../linear-algebra/la_intro.html">
+   Linear algebra basics
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Regression
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/regress.html">
+   Linear regression
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  k-Nearest neighbours
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html">
+   k-Nearest neighbours
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Tree-based methods
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html">
+   Tree-based methods
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Support vector machines
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../support-vector/svm.html">
+   Support vector machines
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Neural networks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../neural-net/neural.html">
+   Neural networks
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/content/python/python-basics.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installing-python">
+   Installing Python
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#can-i-still-use-rstudio-for-python">
+   Can I still use RStudio for Python?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#introductory-python-resources">
+   Introductory Python resources
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="getting-started-with-python">
+<h1>Getting started with Python<a class="headerlink" href="#getting-started-with-python" title="Permalink to this headline">¶</a></h1>
+<p>In this notebook we will be going over some of the basics of <code class="docutils literal notranslate"><span class="pre">Python</span></code>. There are several excellent resources to get a better understanding of the language and I will reference them in this text. The best way to learn a new language is to try and code up something that you care about. Think about a specific project and try to implement it using the new language. Along the way you will encounter many stumbling blocks, but it is through the process of failing that we figure out how things work.</p>
+<p>While there will be a fair bit of coding in this course, the goal of this portion of the course is not to focus on package development. Hopefully some of you will go on to develop packages of your own, but we will not try and turn you into software engineers just yet. The aim is to get you comfortable with basic expression in the language. At this stage in your career, it is best to use carefully crafted existing packages when the need arises. You are more than welcome to look at the source code of the packages that you are using to see how professional software engineers go about developing packages.</p>
+<div class="section" id="installing-python">
+<h2>Installing Python<a class="headerlink" href="#installing-python" title="Permalink to this headline">¶</a></h2>
+<p>In order to install <code class="docutils literal notranslate"><span class="pre">Python</span></code> you can follow the instructions at the following link, <a class="reference external" href="https://julialang.org/">here</a>. Installation is quite easy to do, but if you are struggling please email me so that I can try and help. <span class="xref myst">Here</span> is a video that provide some details on how to perform the installation on Windows. The process is similar (easier) for Linux and Mac.</p>
+</div>
+<div class="section" id="can-i-still-use-rstudio-for-python">
+<h2>Can I still use RStudio for Python?<a class="headerlink" href="#can-i-still-use-rstudio-for-python" title="Permalink to this headline">¶</a></h2>
+<p>I believe that one of the reasons why <code class="docutils literal notranslate"><span class="pre">R</span></code> is so popular is the <code class="docutils literal notranslate"><span class="pre">RStudio</span></code> desktop environment. For many economics students that have experience with <code class="docutils literal notranslate"><span class="pre">Stata</span></code> or <code class="docutils literal notranslate"><span class="pre">Matlab</span></code>, it is quite comforting to move to <code class="docutils literal notranslate"><span class="pre">R</span></code> and find that there is a fully fleshed out development environment where you can execute scripts within minutes. In fact, one of the most commonly asked questions that I get for people starting out with <code class="docutils literal notranslate"><span class="pre">Python</span></code> is, <em>how do I run my scripts?</em>. For the complete beginner I would recommend trying to execute their commands in <code class="docutils literal notranslate"><span class="pre">Jupyterlab</span></code>. One can establish a nice workflow in this environment and there are several excellent extensions that make the experience quite enjoyable. There are options for <code class="docutils literal notranslate"><span class="pre">Python</span></code> that work similar to <code class="docutils literal notranslate"><span class="pre">RStudio</span></code>, such as <code class="docutils literal notranslate"><span class="pre">Spyder</span></code> and <code class="docutils literal notranslate"><span class="pre">PyCharm</span></code>, but I prefer to use <code class="docutils literal notranslate"><span class="pre">Visual</span> <span class="pre">Studio</span> <span class="pre">Code</span></code>.</p>
+<p>The big downside with <code class="docutils literal notranslate"><span class="pre">VS</span> <span class="pre">Code</span></code> is that it takes a bit more effort to set up and it is not immediately clear how to execute code. In addition, there are new concepts like terminals, workspaces and extensions that can leave the first time user confused. However, once the initial trepidation is dealt with, the end result is worth it. If you are new to <code class="docutils literal notranslate"><span class="pre">VS</span> <span class="pre">Code</span></code>, all you need to do is download and install the program on your system, <a class="reference external" href="https://code.visualstudio.com/">here</a> is a link to the website. After you have installed the program, go to <strong>Extensions</strong> under the <strong>View</strong> tab and search for <code class="docutils literal notranslate"><span class="pre">Python</span></code>. Install the <code class="docutils literal notranslate"><span class="pre">Python</span></code> extension and you will be able to run <code class="docutils literal notranslate"><span class="pre">Python</span></code> code inside of <code class="docutils literal notranslate"><span class="pre">VS</span> <span class="pre">Code</span></code> by pressing <em>Shift-Enter</em>, or you can run single lines by pressing <em>Alt-Enter</em>. Remember that if you want <code class="docutils literal notranslate"><span class="pre">VS</span> <span class="pre">Code</span></code> to recognise the script as <code class="docutils literal notranslate"><span class="pre">Pyton</span></code> code you need to add the <code class="docutils literal notranslate"><span class="pre">.py</span></code> suffix to the name of your script. We will go through this in detail in the lecture. You can basically set up <code class="docutils literal notranslate"><span class="pre">VS</span> <span class="pre">Code</span></code> to have a look and feel quite similar to that of <code class="docutils literal notranslate"><span class="pre">RStudio</span></code>.</p>
+</div>
+<div class="section" id="introductory-python-resources">
+<h2>Introductory Python resources<a class="headerlink" href="#introductory-python-resources" title="Permalink to this headline">¶</a></h2>
+<p>In the context of economics, there is no better resource than the <code class="docutils literal notranslate"><span class="pre">QuantEcon</span></code> page to get started, which can be found <a class="reference external" href="https://julia.quantecon.org/">here</a>. I will often be referencing the material on this page.</p>
+<p>This should be enough to get you started. I will introduce more advanced material and sources as we progress. I am not going to provide extensive lists of resources on <code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">Python</span></code> in this notebook. I will reference some resources that I think are useful as we work through the material of the course.</p>
+</div>
+</div>
+<div class="section" id="python-fundamentals">
+<h1>Python Fundamentals<a class="headerlink" href="#python-fundamentals" title="Permalink to this headline">¶</a></h1>
+<p>We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. For a more complete description of the concepts I refer you to the <code class="docutils literal notranslate"><span class="pre">Think</span> <span class="pre">Python</span></code> book, which covers the topics in much more detail. You can also consult the <code class="docutils literal notranslate"><span class="pre">QuantEcon</span></code> notes for a similar description of the basics. Once you have worked through this section you should have a good idea of the core concepts in <code class="docutils literal notranslate"><span class="pre">Python</span></code> and then we can proceed to working with data in the next section.</p>
+<div class="section" id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
+<p>Please take note that this is not a course in computer science, so I will be quite selective about the components that I include in this section. If you want a more complete treatment, I highly recommend <code class="docutils literal notranslate"><span class="pre">Think</span> <span class="pre">Python</span></code>. As you can imagine the most basic operations in any programming language are going to be arithmetic operations.</p>
+<div class="section" id="arithmetic">
+<h3>Arithmetic<a class="headerlink" href="#arithmetic" title="Permalink to this headline">¶</a></h3>
+<p>**</p>
+</div>
+</div>
+<div class="section" id="collections">
+<h2>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="control-flow">
+<h2>Control Flow<a class="headerlink" href="#control-flow" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./content/python"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="../../intro.html" title="previous page">Data Science for Economics</a>
+    <a class='right-next' id="next-link" href="data.html" title="next page">Working with data</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Dawie van Lill<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="../../_static/js/index.js"></script>
+    
+  </body>
+</html>

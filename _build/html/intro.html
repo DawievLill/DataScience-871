@@ -35,7 +35,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Getting started with Julia" href="content/julia/julia.html" />
+    <link rel="next" title="Getting started with Python" href="content/python/python-basics.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -75,17 +75,22 @@
 </ul>
 <p class="caption">
  <span class="caption-text">
-  Julia
+  Python
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="content/julia/julia.html">
-   Getting started with Julia
+  <a class="reference internal" href="content/python/python-basics.html">
+   Getting started with Python
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="content/julia/data.html">
+  <a class="reference internal" href="content/python/python-basics.html#python-fundamentals">
+   Python Fundamentals
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="content/python/data.html">
    Working with data
   </a>
  </li>
@@ -241,31 +246,31 @@
                 
   <div class="section" id="data-science-for-economics">
 <h1>Data Science for Economics<a class="headerlink" href="#data-science-for-economics" title="Permalink to this headline">¶</a></h1>
-<p>In this part of the course we will mostly focus on machine learning methods. We will be using both <code class="docutils literal notranslate"><span class="pre">Julia</span></code> and <code class="docutils literal notranslate"><span class="pre">R</span></code> as our programming languages. Don’t worry if you have never worked with <code class="docutils literal notranslate"><span class="pre">Julia</span></code>, you can continue working in <code class="docutils literal notranslate"><span class="pre">R</span></code>. Most of your <code class="docutils literal notranslate"><span class="pre">R</span></code> code can also be called into <code class="docutils literal notranslate"><span class="pre">Julia</span></code> with a a package called <code class="docutils literal notranslate"><span class="pre">RCall.jl</span></code>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>We will sometimes use <code class="docutils literal notranslate"><span class="pre">Julia</span></code>, since it is a great language for machine learning, with many packages for you to use. My preference is to use <code class="docutils literal notranslate"><span class="pre">Julia</span></code>, but <code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">Python</span></code> are used more widely in industry.</p>
-</div>
-<p>In this course we <strong>officially</strong> use <code class="docutils literal notranslate"><span class="pre">R</span></code>, which means I will provide you with <code class="docutils literal notranslate"><span class="pre">R</span></code> code (even if we work with <code class="docutils literal notranslate"><span class="pre">Julia</span></code>). For my section it is more important that you understand the machine learning concepts and then you can implement it in any language that you prefer.</p>
+<p>In this part of the course we will focus on machine learning methods and databases. At this stage in the world of data science three of the most frequently used languages are <code class="docutils literal notranslate"><span class="pre">R</span></code>, <code class="docutils literal notranslate"><span class="pre">Python</span></code> and <code class="docutils literal notranslate"><span class="pre">SQL</span></code>. This means that when you enter the job market, you will be required to have be proficient in at least one of these languages. In terms of statistical analysis <code class="docutils literal notranslate"><span class="pre">R</span></code> is the undoubted champion, while <code class="docutils literal notranslate"><span class="pre">Python</span></code> is a great general programming languages that can be used effectively in machine learning. <code class="docutils literal notranslate"><span class="pre">SQL</span></code> is the language used to interact with databases. We will be using both <code class="docutils literal notranslate"><span class="pre">Python</span></code> and <code class="docutils literal notranslate"><span class="pre">R</span></code> as our preferred programming languages, touching briefly on the basics of <code class="docutils literal notranslate"><span class="pre">SQL</span></code>. You do not have to worry if you have never worked with <code class="docutils literal notranslate"><span class="pre">Python</span></code>, you can continue working in <code class="docutils literal notranslate"><span class="pre">R</span></code> if you are more comfortable focusing on just one language at a time.</p>
+<p>Just to make it clear, in this course we <strong>officially</strong> use <code class="docutils literal notranslate"><span class="pre">R</span></code>, which means I will provide you with <code class="docutils literal notranslate"><span class="pre">R</span></code> code (even if we work with <code class="docutils literal notranslate"><span class="pre">Python</span></code>). For my section it is more important that you understand the machine learning concepts and then you can implement it in any language that you prefer. At this stage in your career as an economist / data scientist, you can focus on one programming language to fulfill most of your needs. Concepts will remain the same across most languages (except <code class="docutils literal notranslate"><span class="pre">C++</span></code>!) and as you develop your skills you will notice that the language you use becomes almost irrelevant. Someone that is trained in <code class="docutils literal notranslate"><span class="pre">Python</span></code>, for example, should be able to transfer those skills to other languages in a short time frame. The reason to showcase <code class="docutils literal notranslate"><span class="pre">Python</span></code> in this course is then partly to introduce you to a new language and then show that you can easily switch between languages if needed. The general mantra is that you should not be afraid to use different tools for different problems. My goal is not to overwhelm you with syntax, but rather show you how easy it can be to play around with different languages. In my personal workflow I leverage the speed of <code class="docutils literal notranslate"><span class="pre">Julia</span></code> for computational problems and switch to <code class="docutils literal notranslate"><span class="pre">Python</span></code> for deep learning problems due to its mature package ecosystem.</p>
 </div>
 <div class="section" id="topics">
 <h1>Topics<a class="headerlink" href="#topics" title="Permalink to this headline">¶</a></h1>
 <p>Below are some of the topics that we will cover during this term.</p>
 <ol class="simple">
-<li><p>Introduction to <code class="docutils literal notranslate"><span class="pre">Julia</span></code></p></li>
-<li><p>Working with data in <code class="docutils literal notranslate"><span class="pre">Julia</span></code></p></li>
-<li><p>Linear algebra and optimisation in <code class="docutils literal notranslate"><span class="pre">Julia</span></code></p></li>
+<li><p>Introduction to <code class="docutils literal notranslate"><span class="pre">Python</span></code> (self-study)</p></li>
+<li><p>Working with data in <code class="docutils literal notranslate"><span class="pre">Python</span></code> (self-study)</p></li>
+<li><p>Linear algebra and optimisation</p></li>
 <li><p>Linear and polynomial regression</p></li>
-<li><p>k-Nearest neigbours</p></li>
+<li><p>k-Nearest neighbours</p></li>
 <li><p>Tree-based methods</p></li>
 <li><p>Support vector machines</p></li>
 <li><p>Neural networks</p></li>
 <li><p>Parallel programming</p></li>
 <li><p>Cloud computing with Google Compute Engine</p></li>
 <li><p>Databases (SQL and BigQuery)</p></li>
-<li><p>Spark</p></li>
+<li><p>Spark and <code class="docutils literal notranslate"><span class="pre">R</span></code></p></li>
 </ol>
-<p>We will not have time to cover all the topics in full detail, so you can refer to the notes if you would like to know more.</p>
+<p>We will not have time to cover all the topics in full detail, so you can refer to the notes if you would like to know more. I will also link to other sets of notes so that you can read in more detail on some of the issues at hand. Since most of you have little experience with machine learning and programming, we will be taking things quite slow. In that sense this course provides you the basic tools from which you can go and further explore.</p>
+</div>
+<div class="section" id="textbook">
+<h1>Textbook<a class="headerlink" href="#textbook" title="Permalink to this headline">¶</a></h1>
+<p>Machine- and deep learning are developing at such a pace that one cannot possibly assign a textbook to cover all the relevant topics. However, there are some excellent books that can act as a springboard to further exploration. In terms of machine learning the main source that we will use is Introduction to Statistical Learning by Gareth James, Daniela Witten, Trevor Hastie (a fellow South African) and Robert Tibshirani. This book is truly an inspiring introduction to the field of statistical learning and gives an intuitive overview of some of the crucial concepts you are likely to encounter as a data scientist. A free version of the book can be downloaded <a class="reference external" href="http://faculty.marshall.usc.edu/gareth-james/ISL/">here</a>. The code for the book is presented in <code class="docutils literal notranslate"><span class="pre">R</span></code>, but I will provide <code class="docutils literal notranslate"><span class="pre">Python</span></code> code to replicate the labs and figures in the book, so that you can see how we can use different languages to solve the same problem. I will also be borrowing from other books to compile these notes and will reference those as we proceed.</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -310,7 +315,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="content/julia/julia.html" title="next page">Getting started with Julia</a>
+    <a class='right-next' id="next-link" href="content/python/python-basics.html" title="next page">Getting started with Python</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
