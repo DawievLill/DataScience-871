@@ -1,10 +1,10 @@
 - file: intro
   numbered: false
 
-- part: Julia
+- part: Python
   chapters:
-  - file: content/julia/julia
-  - file: content/julia/data
+  - file: content/python/python-basics
+  - file: content/python/data
 
 - part: Linear Algebra
   chapters:
