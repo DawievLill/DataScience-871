@@ -6,9 +6,9 @@ In this notebook we will be going over some of the basics of `Python`. There are
 
 While there will be a fair bit of coding in this course, the goal of this portion of the course is not to focus on package development. Hopefully some of you will go on to develop packages of your own, but we will not try and turn you into software engineers just yet. The aim is to get you comfortable with basic expression in the language. At this stage in your career, it is best to use carefully crafted existing packages when the need arises. You are more than welcome to look at the source code of the packages that you are using to see how professional software engineers go about developing packages. 
 
-## Installing Python
+## Installing Python and git
 
-In order to install `Python` you can follow the instructions at the following link, [here](https://julialang.org/). Installation is quite easy to do, but if you are struggling please email me so that I can try and help. [Here]() is a video that provide some details on how to perform the installation on Windows. The process is similar (easier) for Linux and Mac.
+In order to install `Python` you can follow the instructions at the following link, [here](https://julialang.org/). For `Python` you have to install [Anaconda](https://www.anaconda.com/products/individual) (or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)) and I also recommend installing [git](https://git-scm.com/downloads). In terms of using `git`, you can use the a command line interface, or a graphical user interface. If you are starting out and are not that comfortable with computers, then a GUI is recommended. When I use a GUI, I prefer to use [Gitkraken](https://www.gitkraken.com/), but [Github Desktop](https://desktop.github.com/) is an acceptable alternative. Installation for most of these should be quite easy to do, but if you are struggling please email me so that I can try and help. [Here]() is a video that provide some details on how to perform the installation on Windows. The process is similar (easier) for Linux and Mac.
 
 ## Can I still use RStudio for Python?
 
