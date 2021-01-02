@@ -24,15 +24,13 @@ This should be enough to get you started. I will introduce more advanced materia
 
 # Python Fundamentals
 
-We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. For a more complete description of the concepts I refer you to the `Think Python` book, which covers the topics in much more detail. You can also consult the `QuantEcon` notes for a similar description of the basics. Once you have worked through this section you should have a good idea of the core concepts in `Python` and then we can proceed to working with data in the next section.
+We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. If you want to just work in `R` that is acceptable. For a more complete description of the concepts I refer you to [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html), [`Composing Programs`](https://composingprograms.com/) [`Python Data Science Handbook`](https://github.com/jakevdp/PythonDataScienceHandbook), which covers the topics in much more detail. You can also consult the `QuantEcon` notes for a similar description of the basics. Once you have worked through this section you should have a good idea of the core concepts in `Python` and then we can proceed to working with data in the next section.
 
 ## Basics 
 
-Please take note that this is not a course in computer science, so I will be quite selective about the components that I include in this section. If you want a more complete treatment, I highly recommend `Think Python`. As you can imagine the most basic operations in any programming language are going to be arithmetic operations. 
+Please take note that this is not a course in computer science, so I will be quite selective about the components that I include in this section. In other words, I consider these components the bare minimum that you need to get started with data science in `Python`. As you can imagine the most basic operations in any programming language are going to be arithmetic operations. 
 
 ### Arithmetic
-
-**
 
 ## Collections 
 
