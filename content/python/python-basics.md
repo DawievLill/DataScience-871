@@ -1,3 +1,13 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
 
 Getting started with Python
 ==============================================
@@ -33,7 +43,7 @@ Please take note that this is not a course in computer science, so I will be qui
 Python will provide you with operators, think about these as special symbols that represent some form of computation. There are some operators that you are already comfortable with, even since primary school. Think about the basic operations of addition, subtraction and multiplication. Python provides operators such as `+`, `-` and `*` to express these computations. We note that the division operator is represented by `/`, while we express exponentiation with the `**` operator. **NB**, the usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as `Julia` and `R`. In `Python` the `^` is a bitwise operator. You are not expected to know what a bitwise operator is and it won't really feature in our work. 
 
 ````{tab} Python
-```python
+```python3
 39 + 3
 55 - 13
 6 * 7
@@ -59,6 +69,12 @@ Python will provide you with operators, think about these as special symbols tha
 4^3
 ```
 ````
+
+In Python one could execute the following combination of operations to arrive at a numerical answer, similar to what you would do with a calculator. 
+
+```{code-cell} python3
+8 + 7 - 9 * 19 ** 2 / 5
+```
 
 ### Values and types
 
