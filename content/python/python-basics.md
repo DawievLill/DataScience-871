@@ -22,7 +22,7 @@ In the context of economics, there is no better resource than the `QuantEcon` pa
 
 # Python Fundamentals
 
-We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. If you want to continue working exclusively with `R` that is completely acceptable. 
+We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. If you want to continue working exclusively with `R` that is completely acceptable. I will often also include the `R` and `Julia` code so that you can compare across languages. 
 
 ## Basics 
 
@@ -30,15 +30,37 @@ Please take note that this is not a course in computer science, so I will be qui
 
 ### Arithmetic
 
-Python will provide you with operators, think about these as special symbols that represent some form of computation. There are some operators that you are already comfortable with, even since primary school. Think about the basic operations of addition, subtraction and multiplication. Python provides operators such as `+`, `-` and `*` to express these computations,
+Python will provide you with operators, think about these as special symbols that represent some form of computation. There are some operators that you are already comfortable with, even since primary school. Think about the basic operations of addition, subtraction and multiplication. Python provides operators such as `+`, `-` and `*` to express these computations. We note that the division operator is represented by `/`, while we express exponentiation with the `**` operator. **NB**, the usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as `Julia` and `R`.
 
+````{tab} Python
 ```python
 39 + 3
 55 - 13
 6 * 7
+84 / 2
+4**3
 ```
+````
+````{tab} Julia
+```julia
+39 + 3
+55 - 13
+6 * 7
+84 / 2
+4^3
+```
+````
+````{tab} R
+```R
+39 + 3
+55 - 13
+6 * 7
+84 / 2
+4^3
+```
+````
 
-Finally we note that the division operator is represented by `/`, while we express exponentiation with the `**` operator. **NB**, the usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as `Julia` and `R`.
+
 
 ## Collections 
 

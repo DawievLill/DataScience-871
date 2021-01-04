@@ -6,3 +6,7 @@ author: Dawie van Lill
 latex:
   latex_documents:
     targetname: book.tex
+
+sphinx:
+  extra_extensions:
+   - sphinx_inline_tabs
