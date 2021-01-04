@@ -27,3 +27,12 @@ We will not have time to cover all the topics in full detail, so you can refer t
 # Readings
 
 Machine- and deep learning are developing at such a pace that one cannot possibly assign a textbook to cover all the relevant topics. However, there are some excellent books that can act as a springboard to further exploration. In terms of machine learning the main source that we will use is *Introduction to Statistical Learning* by Gareth James, Daniela Witten, Trevor Hastie (a fellow South African) and Robert Tibshirani. This book is truly an inspiring introduction to the field of statistical learning and gives an intuitive overview of some of the crucial concepts you are likely to encounter as a data scientist. A free version of the book can be downloaded [here](http://faculty.marshall.usc.edu/gareth-james/ISL/). The code for the book is presented in `R`, but I will provide `Python` code to replicate the labs and figures in the book, so that you can see how we can use different languages to solve the same problem. I will also be borrowing from other books to compile these notes and will reference those as we proceed.
+
+For those students that want higher level coverage of the work that we will be doing I recommend the following textbooks. 
+
+[*Probabilistic Machine Learning: An Introduction*](https://github.com/probml/pml-book/releases/latest/download/pml1.pdf) by Kevin Murphy
+
+[*Pattern Recognition and Machine Learning*](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf) by Christopher Bishop
+
+[*Elements of Statistical Learning*](https://web.stanford.edu/~hastie/ElemStatLearn/download.html) by Trevor Hastie, Robert Tibshirani and Jerome Friedman
+
