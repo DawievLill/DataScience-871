@@ -2,3 +2,5 @@ jupyter-book
 matplotlib
 numpy
 sphinx
+sphinx-inline-tabs
+sphinx-panels
