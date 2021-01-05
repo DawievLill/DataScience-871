@@ -36,7 +36,7 @@ We will start with some of the basics which you have already covered with Nico K
 
 ## Basics 
 
-Please take note that this is not a course in computer science, so I will be quite selective about the components that I include in this section. In other words, I consider these components the bare minimum that you need to get started with data science in `Python`. As you can imagine the most basic operations in any programming language are going to be arithmetic operations. 
+Please take note that this is not a course in computer science, so I will be quite selective about the components that I include in this section. In other words, I consider these components the bare minimum that you need to get started with data science in `Python`. If you want to engage with the material in a more active manner, I recommend going through this [`Python` tutorial](https://www.learnpython.org/).  As you can imagine the most basic operations in any programming language are going to be arithmetic operations. 
 
 ### Arithmetic
 
