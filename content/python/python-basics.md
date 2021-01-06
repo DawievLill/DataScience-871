@@ -17,19 +17,19 @@ While there will be a fair bit of coding in this course, the goal of this portio
 
 ## Installing Python and git
 
-In order to get started with `Python` I would advise you to install [Anaconda](https://www.anaconda.com/products/individual) (or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)) and I also recommend installing [git](https://git-scm.com/downloads). I believe that Nico will have covered some of the details on using version control. For this course it is important that you use `git`, you can use the a command line interface, or a graphical user interface. If you are starting out and are not that comfortable with computers, then a GUI is recommended. When I use a GUI, I prefer to use [Gitkraken](https://www.gitkraken.com/), but [Github Desktop](https://desktop.github.com/) is an acceptable alternative. Installation for most of these should be quite easy to do, but if you are struggling please email me so that I can try and help. I will also send a link via email that provides some installation instructions. 
+In order to get started with `Python` I would advise you to install [Anaconda](https://www.anaconda.com/products/individual) (or [Miniconda](https://docs.conda.io/en/latest/miniconda.html)). I also recommend installing [git](https://git-scm.com/downloads). I believe that Nico will have covered some of the details on using version control. For this course it is important that you use `git`. You can use the a command line interface, or a graphical user interface. If you are starting out and are not that comfortable with computers, then a GUI is recommended. When I use a GUI, I prefer to use [Gitkraken](https://www.gitkraken.com/), but [Github Desktop](https://desktop.github.com/) is an acceptable alternative. Installation for most of these should be quite easy to do, but if you are struggling please email me so that I can try and help. I will also send a link via email that provides some installation instructions. 
 
 ## Can I still use RStudio for Python?
 
-I believe that one of the reasons why `R` is so popular is the `RStudio` desktop environment. For many economics students that have experience with `Stata` or `Matlab`, it is quite comforting to move to `R` and find that there is a fully fleshed out development environment where you can execute scripts within minutes. In fact, one of the most commonly asked questions that I get for people starting out with `Python` is, *how do I run my scripts?*. For the complete beginner I would recommend trying to execute their commands in `Jupyterlab`. One can establish a nice workflow in this environment and there are several excellent extensions that make the experience quite enjoyable. There are options for `Python` that work similar to `RStudio`, such as `Spyder` and `PyCharm`, but I prefer to use `Visual Studio Code`. 
+I believe that one of the reasons why `R` is so popular is the `RStudio` desktop environment. For many economics students that have experience with `Stata` or `Matlab`, it is quite comforting to move to `R` and find that there is a fully fleshed out development environment where you can execute scripts within minutes. In fact, one of the most commonly asked questions that I get for people starting out with `Python` is, *how do I run my scripts?*. For the complete beginner I would recommend trying to execute their commands in [`Jupyterlab`](https://jupyter.org/install.html). One can establish a nice workflow in this environment and there are several excellent extensions that make the experience quite enjoyable. There are options for `Python` that work similar to `RStudio`, such as `Spyder` and `PyCharm`, but I prefer to use `Visual Studio Code`. 
 
-The big downside with `VS Code` is that it takes a bit more effort to set up and it is not immediately clear how to execute code. In addition, there are new concepts like terminals, workspaces and extensions that can leave the first time user confused. However, once the initial trepidation is dealt with, the end result is worth it. If you are new to `VS Code`, all you need to do is download and install the program on your system, [here](https://code.visualstudio.com/) is a link to the website. After you have installed the program, go to **Extensions** under the **View** tab and search for `Python`. Install the `Python` extension and you will be able to run `Python` code inside of `VS Code`. Remember that if you want `VS Code` to recognise the script as `Pyton` code you need to add the `.py` suffix to the name of your script. We will go through this in detail in the lecture. You can basically set up `VS Code` to have a look and feel quite similar to that of `RStudio`.
+The big downside with `VS Code` is that it takes a bit more effort to set up and it is not immediately clear how to execute code. In addition, there are new concepts like terminals, workspaces and extensions that can leave the first time user confused. However, once the initial trepidation is dealt with, the end result is worth it. If you are new to `VS Code`, all you need to do is download and install the program on your system, [here](https://code.visualstudio.com/) is a link to the website. After you have installed the program, go to **Extensions** under the **View** tab and search for `Python`. Install the `Python` extension. [Here](https://www.youtube.com/watch?v=CH3IOVGLCAQ&list=PLVR_rJLcetzkqoeuhpIXmG9uQCtSoGBz1&index=1) is a video that outlines the installation process. 
 
 # Python Fundamentals
 
 We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. The primary source for most of the material is [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html). If you want to continue working exclusively with `R` that is completely acceptable. I will often include the `R` and `Julia` code so that you can compare across languages. 
 
-In the context of economics, there is no better resource than the `QuantEcon` page to get started, which can be found [here](https://python.quantecon.org/). In addition to QuantEcon, I will also be referencing [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html), [`Composing Programs`](https://composingprograms.com/) and the [`Python Data Science Handbook`](https://github.com/jakevdp/PythonDataScienceHandbook). These resources cover the topics in much more detail than I will attempt to do here, so if you want to find out more I suggest you read through those.
+In the context of economics, there is no better resource than the `QuantEcon` page to get started, which can be found [here](https://python.quantecon.org/). Kevin Sheppard at Oxford also provides a [complete set of notes](https://www.kevinsheppard.com/files/teaching/python/notes/python_introduction_2020.pdf) that are appropriate for economics. In addition to QuantEcon and Kevin Sheppard's notes, I will also be referencing [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html), [`Composing Programs`](https://composingprograms.com/) and the [`Python Data Science Handbook`](https://github.com/jakevdp/PythonDataScienceHandbook). These resources cover the topics in much more detail than I will attempt to do here, so if you want to find out more I suggest you read through those.
 
 ## Basics 
 
@@ -84,7 +84,7 @@ type(2)
 ```{code-cell} python
 type(42.0)
 ```
-The aforementioned programming languages differ slightly in terms of syntax to find out the type of the value. 
+Different programming languages differ slightly in terms of syntax to find out the type of the value. 
 
 ````{tab} Python
 ```python
@@ -101,6 +101,21 @@ typeof(42.0)
 typeof(42.0)
 ```
 ````
+
+We won't be working exclusively with different types of numbers. Another important type that we take note of is the **string** type. This generally refers to any text that we want to work with. We refer to a statement such as *'I love Data Science!'* as a combination of letters that are strung together, which is why we call it a string. 
+
+```{code-cell} python
+type('I love Data Science')
+```
+
+Another basic type that we will often deal with are booleans. A boolean refers to a `True` or `False` value. We will see more on this in the next section. 
+
+**Remark**: You will often see that `Python` is referred to as a dynamically typed language, while other languages like `C++` or `Java` are statically typed. [Here](https://realpython.com/lessons/dynamic-vs-static/) is a nice description of the differences between the two and why it matters.  
+
+### Variables, expressions and statements
+
+
+
 
 ## Collections 
 

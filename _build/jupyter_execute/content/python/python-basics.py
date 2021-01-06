@@ -83,7 +83,7 @@ type(2)
 type(42.0)
 
 
-# The aforementioned programming languages differ slightly in terms of syntax to find out the type of the value. 
+# Different programming languages differ slightly in terms of syntax to find out the type of the value. 
 # 
 # ````{tab} Python
 # ```python
@@ -100,6 +100,23 @@ type(42.0)
 # typeof(42.0)
 # ```
 # ````
+# 
+# We won't be working exclusively with different types of numbers. Another important type that we take note of is the **string** type. This generally refers to any text that we want to work with. We refer to a statement such as *'I love Data Science!'* as a combination of letters that are strung together, which is why we call it a string.
+
+# In[4]:
+
+
+type('I love Data Science')
+
+
+# Another basic type that we will often deal with are booleans. A boolean refers to a `True` or `False` value. We will see more on this in the next section. 
+# 
+# **Remark**: You will often see that `Python` is referred to as a dynamically typed language, while other languages like `C++` or `Java` are statically typed. [Here](https://realpython.com/lessons/dynamic-vs-static/) is a nice description of the differences between the two and why it matters.  
+# 
+# ### Variables, expressions and statements
+# 
+# 
+# 
 # 
 # ## Collections 
 # 
