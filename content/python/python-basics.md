@@ -29,7 +29,7 @@ The big downside with `VS Code` is that it takes a bit more effort to set up and
 
 We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. The primary source for most of the material is [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html). If you want to continue working exclusively with `R` that is completely acceptable. I will often include the `R` and `Julia` code so that you can compare across languages. 
 
-In the context of economics, there is no better resource than the `QuantEcon` page to get started, which can be found [here](https://python.quantecon.org/). Kevin Sheppard at Oxford also provides a [complete set of notes](https://www.kevinsheppard.com/files/teaching/python/notes/python_introduction_2020.pdf) that are appropriate for economics. In addition to QuantEcon and Kevin Sheppard's notes, I will also be referencing [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html), [`Composing Programs`](https://composingprograms.com/) and the [`Python Data Science Handbook`](https://github.com/jakevdp/PythonDataScienceHandbook). These resources cover the topics in much more detail than I will attempt to do here, so if you want to find out more I suggest you read through those.
+In the context of economics, there is no better resource than the [`QuantEcon`](https://python.quantecon.org/) page to get started. Kevin Sheppard at Oxford also provides a [complete set of notes](https://www.kevinsheppard.com/files/teaching/python/notes/python_introduction_2020.pdf) that are appropriate for economics. In addition to QuantEcon and Kevin Sheppard's notes, I will also be referencing [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html), [`Composing Programs`](https://composingprograms.com/) and the [`Python Data Science Handbook`](https://github.com/jakevdp/PythonDataScienceHandbook). These resources cover the topics in much more detail than I will attempt to do here, so if you want to find out more I suggest you read through those.
 
 ## Basics 
 
@@ -105,16 +105,16 @@ typeof(42.0)
 We won't be working exclusively with different types of numbers. Another important type that we take note of is the **string** type. This generally refers to any text that we want to work with. We refer to a statement such as *'I love Data Science!'* as a combination of letters that are strung together, which is why we call it a string. 
 
 ```{code-cell} python
-type('I love Data Science')
+type('I love Data Science!')
 ```
 
-Another basic type that we will often deal with are booleans. A boolean refers to a `True` or `False` value. We will see more on this in the next section. 
+There are several data types that we will work with in `Python`. Some of the important types include booleans, lists, tuples, dictionaries and sets. We will learn more about some of these types and how to use them soon. 
 
 **Remark**: You will often see that `Python` is referred to as a dynamically typed language, while other languages like `C++` or `Java` are statically typed. [Here](https://realpython.com/lessons/dynamic-vs-static/) is a nice description of the differences between the two and why it matters.  
 
 ### Variables, expressions and statements
 
-
+One of the best features of any programming language is the ability to manipulate variables. We define a variable to be a name that refers to a specific value. In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable. 
 
 
 ## Collections 
