@@ -114,7 +114,17 @@ There are several data types that we will work with in `Python`. Some of the imp
 
 ### Variables, expressions and statements
 
-One of the best features of any programming language is the ability to manipulate variables. We define a variable to be a name that refers to a specific value. In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable. 
+One of the best features of any programming language is the ability to manipulate variables. We define a variable to be a name that refers to a specific value. In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable. We could assign the value of `42` to a specific variable `x` to get the following assignment statement. 
+
+```{code-cell} python
+x = 42
+```
+`Python` will place this object in memory and will conveniently keep it there as long as we are busy with our session. It is important to note that the way the computer reads this assignment statement is from right to left. The right side is evaluated first and that computed value gets assigned to the variable name on the left hand side. 
+
+```{code-cell} python
+x = 42
+```
+
 
 
 ## Collections 
