@@ -5,6 +5,11 @@
   chapters:
   - file: content/python/python-basics
   - file: content/python/data
+  - file: content/python/numpy
+  - file: content/python/scipy
+  - file: content/python/pandas
+  - file: content/python/matplotlib
+  - file: content/python/scikitlearn
 
 - part: Linear Algebra
   chapters:
@@ -14,7 +19,7 @@
   chapters:
   - file: content/regression/regress
 
-- part: k-Nearest neighbours
+- part: Classification
   chapters:
   - file: content/classification/neighbours
 

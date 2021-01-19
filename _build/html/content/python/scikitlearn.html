@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Working with data &#8212; Data Science 871</title>
+    <title>Scikit Learn &#8212; Data Science 871</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -56,8 +56,8 @@
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Numpy" href="numpy.html" />
-    <link rel="prev" title="Getting started with Python" href="python-basics.html" />
+    <link rel="next" title="Linear algebra basics" href="../linear-algebra/la_intro.html" />
+    <link rel="prev" title="Matplotlib" href="matplotlib.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -108,8 +108,8 @@
    Python Fundamentals
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="data.html">
    Working with data
   </a>
  </li>
@@ -133,8 +133,8 @@
    Matplotlib
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="scikitlearn.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Scikit Learn
   </a>
  </li>
@@ -248,9 +248,12 @@
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        
+        <a class="dropdown-buttons"
+            href="../../_sources/content/python/scikitlearn.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../_sources/content/python/data.md"><button type="button"
+        <a class="dropdown-buttons" href="../../_sources/content/python/scikitlearn.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -270,24 +273,27 @@
 
         <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/content/python/scikitlearn.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
     </div>
 
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
-        
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#importing-data">
-   Importing data
-  </a>
- </li>
-</ul>
-
-        </nav>
         
     </div>
 </div>
@@ -296,11 +302,8 @@
         
               <div>
                 
-  <div class="section" id="working-with-data">
-<h1>Working with data<a class="headerlink" href="#working-with-data" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="importing-data">
-<h2>Importing data<a class="headerlink" href="#importing-data" title="Permalink to this headline">¶</a></h2>
-</div>
+  <div class="section" id="scikit-learn">
+<h1>Scikit Learn<a class="headerlink" href="#scikit-learn" title="Permalink to this headline">¶</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
@@ -315,13 +318,13 @@
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "python",
             path: "./content/python"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'python'</script>
 
               </div>
               
@@ -331,8 +334,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="python-basics.html" title="previous page">Getting started with Python</a>
-    <a class='right-next' id="next-link" href="numpy.html" title="next page">Numpy</a>
+    <a class='left-prev' id="prev-link" href="matplotlib.html" title="previous page">Matplotlib</a>
+    <a class='right-next' id="next-link" href="../linear-algebra/la_intro.html" title="next page">Linear algebra basics</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

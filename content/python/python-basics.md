@@ -114,17 +114,12 @@ There are several data types that we will work with in Python. Some of the impor
 
 ### Variables
 
-Working with data wouldn't be interesting if were only able to work with values. One of the best features of any programming language is the ability to manipulate *variables*. We define a variable to be a name that refers to a specific value.  In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable with the `=` operator (equals sign). We could assign the value of `42` to a specific variable `x` to get the following assignment statement. 
+Working with data wouldn't be interesting if were only able to work with values. One of the best features of any programming language is the ability to manipulate *variables*. We define a variable to be a name that refers to a specific value. Variables allow us to store specific values. In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable with the `=` operator (equals sign). We could assign the value of `42` to a specific variable `x` to get the following assignment statement. 
 
 ```{code-cell} python
 x = 42
 ```
-Python will place this object in memory and will conveniently keep it there as long as we are busy with our session. It is important to note that the way the computer reads this assignment statement is from right to left. The right side is evaluated first and that computed value gets assigned to the variable name on the left hand side. If you want to see the value of the variable on the screen you can use the `print` function.
-
-```{code-cell} python
-x = 42
-print(x)
-```
+Python will place this object in memory and will conveniently keep it there as long as we are busy with our session. It is important to note that the way the computer reads this assignment statement is from right to left. The right side is evaluated first and that computed value gets assigned to the variable name on the left hand side. 
 
 Generally, we would like to choose variable names that are meaningful. In other words, they give us some notion of what the variable is used for. These variable names can be as long as you like and contain letters and numbers, but don't start a variable with a number. Lower case is usually used for variable names (this is merely a programming convention, not a rule). You can also use the underscore when you have a variable name with multiple words. 
 
@@ -140,11 +135,19 @@ To help you remember, when naming variables
 
 There are some **keywords** in Python that you cannot use, they are reserved. For example, you cannot use the word `if` or `for` as variable names, since these things mean something specific in the programming language. You don't need to remember these keywords. If you are using a development environment with syntax highlighting you will see that typing in a keyword will change the color of that word. 
 
+## Functions
 
+In the most general terms, a function can be defined as a process that takes an input (or inputs) and maps it to an output. From your mathematical training you are used function called `f` that takes an *argument* `x` to produce some output `f(x)`. In Python these functions operate in a similar manner. One could have a `print` function that prints the input that it is provided. In the example below the value of the variable is evaluated by the interpreter and then the print statement is executed. 
+
+```{code-cell} python
+x = 42
+print(x)
+```
 
 
 ## Collections 
 
 ## Control Flow
 
-## Functions
+
+
