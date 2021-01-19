@@ -37,7 +37,7 @@ Please take note that this is not a course in computer science, so I will be qui
 
 ### Arithmetic
 
-Python makes use of several operators, think about these as special symbols that represent some form of computational process. There are some operators that you are already comfortable with. Think about the basic operations of addition, subtraction and multiplication. Python comes with operators such as `+`, `-`, `*` and `/` to express these computations. Note that we express exponentiation with the `**` operator. The usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as Julia and R. In Python the `^` is a bitwise operator. You are not expected to know what a bitwise operator is and it won't really feature in our work. 
+The Python interpreter makes use of several operators, think about these as special symbols that represent some form of computational process. There are some operators that you are already comfortable with. Think about the basic operations of addition, subtraction and multiplication. Python comes with operators such as `+`, `-`, `*` and `/` to express these computations. Note that we express exponentiation with the `**` operator. The usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as Julia and R. In Python the `^` is a bitwise operator. You are not expected to know what a bitwise operator is and it won't really feature in our work. 
 
 ````{tab} Python
 ```python
@@ -108,18 +108,18 @@ We won't be working exclusively with different types of numbers as that would be
 type('I love Data Science!')
 ```
 
-There are several data types that we will work with in Python. Some of the important types include booleans, lists, tuples, dictionaries and sets. We will learn more about some of these types and how to use them soon. 
+There are several data types that we will work with in Python. Some of the important types include booleans, lists, tuples, dictionaries and sets. We will introduce the different types as we progress through the coding exercises. Kevin Sheppard has a nice [video](https://www.youtube.com/watch?v=XYH318V76ng&list=PLVR_rJLcetzkqoeuhpIXmG9uQCtSoGBz1&index=5) that gives an oversight of the basic Python types.  
 
 **Remark**: You will often see that Python is referred to as a dynamically typed language, while other languages like `C++` or `Java` are statically typed. [Here](https://realpython.com/lessons/dynamic-vs-static/) is a nice description of the differences between the two and why it matters.  
 
 ### Variables, expressions and statements
 
-One of the best features of any programming language is the ability to manipulate variables. We define a variable to be a name that refers to a specific value. In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable. We could assign the value of `42` to a specific variable `x` to get the following assignment statement. 
+Working with data wouldn't be interesting if were only able to work with values. One of the best features of any programming language is the ability to manipulate *variables*. We define a variable to be a name that refers to a specific value.  In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable with the `=` operator (equals sign). We could assign the value of `42` to a specific variable `x` to get the following assignment statement. 
 
 ```{code-cell} python
 x = 42
 ```
-`Python` will place this object in memory and will conveniently keep it there as long as we are busy with our session. It is important to note that the way the computer reads this assignment statement is from right to left. The right side is evaluated first and that computed value gets assigned to the variable name on the left hand side. 
+Python will place this object in memory and will conveniently keep it there as long as we are busy with our session. It is important to note that the way the computer reads this assignment statement is from right to left. The right side is evaluated first and that computed value gets assigned to the variable name on the left hand side. 
 
 Generally, we would like to choose variable names that are meaningful. In other words, they give us some notion of what the variable is used for. These variable names can be as long as you like and contain letters and numbers, but don't start a variable with a number. Lower case is usually used for variable names (this is merely a programming convention, not a rule). You can also use the underscore when you have a variable name with multiple words. 
 
@@ -127,7 +127,10 @@ Generally, we would like to choose variable names that are meaningful. In other 
 answer_to_ultimate_question = 42
 ```
 
-Finally, there are some **keywords** in Python that you cannot use, they are reserved. For example, you cannot use the word `if` or `for` as variable names, since these things mean something specific in the programming language. You don't need to remember these keywords. If you are using a development environment with syntax highlighting you will see that typing in a keyword will change the color of that word. 
+There are some **keywords** in Python that you cannot use, they are reserved. For example, you cannot use the word `if` or `for` as variable names, since these things mean something specific in the programming language. You don't need to remember these keywords. If you are using a development environment with syntax highlighting you will see that typing in a keyword will change the color of that word. 
+
+If we combine all we know so far about values, variables and operators we get to expressions and statements. Expressions are entered at the command prompt and **evaluated** while statements are **executed** by the interpreter. 
+
 
 
 ## Collections 
