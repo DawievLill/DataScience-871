@@ -112,14 +112,19 @@ There are several data types that we will work with in Python. Some of the impor
 
 **Remark**: You will often see that Python is referred to as a dynamically typed language, while other languages like `C++` or `Java` are statically typed. [Here](https://realpython.com/lessons/dynamic-vs-static/) is a nice description of the differences between the two and why it matters.  
 
-### Variables, expressions and statements
+### Variables
 
 Working with data wouldn't be interesting if were only able to work with values. One of the best features of any programming language is the ability to manipulate *variables*. We define a variable to be a name that refers to a specific value.  In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable with the `=` operator (equals sign). We could assign the value of `42` to a specific variable `x` to get the following assignment statement. 
 
 ```{code-cell} python
 x = 42
 ```
-Python will place this object in memory and will conveniently keep it there as long as we are busy with our session. It is important to note that the way the computer reads this assignment statement is from right to left. The right side is evaluated first and that computed value gets assigned to the variable name on the left hand side. 
+Python will place this object in memory and will conveniently keep it there as long as we are busy with our session. It is important to note that the way the computer reads this assignment statement is from right to left. The right side is evaluated first and that computed value gets assigned to the variable name on the left hand side. If you want to see the value of the variable on the screen you can use the `print` function.
+
+```{code-cell} python
+x = 42
+print(x)
+```
 
 Generally, we would like to choose variable names that are meaningful. In other words, they give us some notion of what the variable is used for. These variable names can be as long as you like and contain letters and numbers, but don't start a variable with a number. Lower case is usually used for variable names (this is merely a programming convention, not a rule). You can also use the underscore when you have a variable name with multiple words. 
 
@@ -127,9 +132,14 @@ Generally, we would like to choose variable names that are meaningful. In other 
 answer_to_ultimate_question = 42
 ```
 
+To help you remember, when naming variables
+ - choose meaningful names
+ - can include letters, digits and underscores
+ - cannot start with digits
+ - naming is case sensitive
+
 There are some **keywords** in Python that you cannot use, they are reserved. For example, you cannot use the word `if` or `for` as variable names, since these things mean something specific in the programming language. You don't need to remember these keywords. If you are using a development environment with syntax highlighting you will see that typing in a keyword will change the color of that word. 
 
-If we combine all we know so far about values, variables and operators we get to expressions and statements. Expressions are entered at the command prompt and **evaluated** while statements are **executed** by the interpreter. 
 
 
 
