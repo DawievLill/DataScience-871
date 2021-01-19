@@ -37,7 +37,7 @@ Please take note that this is not a course in computer science, so I will be qui
 
 ### Arithmetic
 
-The Python interpreter makes use of several operators, think about these as special symbols that represent some form of computational process. There are some operators that you are already comfortable with. Think about the basic operations of addition, subtraction and multiplication. Python comes with operators such as `+`, `-`, `*` and `/` to express these computations. Note that we express exponentiation with the `**` operator. The usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as Julia and R. In Python the `^` is a bitwise operator. You are not expected to know what a bitwise operator is and it won't really feature in our work. 
+The Python interpreter makes use of several operators, think about these as special symbols that represent some form of computational process. You are already comfortable with arithmetic operators. Think about the basic operations of addition, subtraction and multiplication. Python comes with operators such as `+`, `-`, `*` and `/` to express these computations. Note that we express exponentiation with the `**` operator. The usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as Julia and R. In Python the `^` is a bitwise operator. You are not expected to know what a bitwise operator is and it won't really feature in our work. 
 
 ````{tab} Python
 ```python
@@ -72,6 +72,8 @@ In Python one could execute the following combination of operations to arrive at
 ```{code-cell} python
 8 + 7 - 9 * 19 ** 2 / 5
 ```
+
+These arithmetic operators are not the only ones we will encounter, we will also see logical, relational, bitwise, identity, membership and assignment operators. We will discuss some of these operators once appropriate. 
 
 ### Values and types
 
@@ -144,10 +146,18 @@ x = 42
 print(x)
 ```
 
+Discuss the anatomy of a user defined function. Important to include a docstring. Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods. 
 
 ## Collections 
 
-## Control Flow
+These include lists, tuples, sets, dictionaries. List and tuples are sequence containers, while set and dict are mapping containers.
 
+## Control flow
 
+Introduce `if` and ternary operator. Discuss, `while`, `break, continue` and `pass`.
 
+## Loops and comprehensions
+
+## Packages and namespace
+
+## Coding style (optional)
