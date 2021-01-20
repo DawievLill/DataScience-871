@@ -47,6 +47,8 @@
     <script src="../../_static/tabs.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -348,6 +350,13 @@
     <a class="reference internal nav-link" href="#functions">
      2.2. Functions
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#defining-your-own-functions">
+       2.2.1. Defining your own functions
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#collections">
@@ -362,16 +371,6 @@
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#loops-and-comprehensions">
      2.5. Loops and comprehensions
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#packages-and-namespace">
-     2.6. Packages and namespace
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#coding-style-optional">
-     2.7. Coding style (optional)
     </a>
    </li>
   </ul>
@@ -574,7 +573,7 @@ print(x)
 <p>We will talk about classes, packages and modules again at a later stage.</p>
 </div>
 </div>
-<p>An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R and Julia the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called <code class="docutils literal notranslate"><span class="pre">Example</span></code> across the different programming languages, so that you can just see the process involved. The code below won’t work, it is merely for illustrative purposes.</p>
+<p>An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules and packages that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R and Julia the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called <code class="docutils literal notranslate"><span class="pre">Example</span></code> across the different programming languages, so that you can just see the process involved. The code below won’t work, it is merely for illustrative purposes.</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Python</label><div class="tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Example</span>
@@ -594,7 +593,70 @@ print(x)
 </div>
 </div>
 </div>
+<p>In Python if you were to import the <code class="docutils literal notranslate"><span class="pre">math</span></code> module you would be able to use all the functions and variables contained in that module object. You are bringing the functionality associated with that module into your session. One can now access any function or object from the package by the name of package together with the name of the function, separated by a dot. This <strong>dot notation</strong> has some benefits, but I much prefer the way in which Julia and R incorporate functions from modules. The main reason for this notation is to avoid potential naming conflicts, which we will discuss at the end of this section. Below is an example of the dot notation in action.</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">degrees</span> <span class="o">=</span> <span class="mi">45</span>
+<span class="n">radians</span> <span class="o">=</span> <span class="n">degrees</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">radians</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Julia</label><div class="tab-content docutils">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">degrees</span> <span class="o">=</span> <span class="mi">45</span>
+<span class="n">radians</span> <span class="o">=</span> <span class="n">degrees</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="o">*</span> <span class="nb">pi</span>
+<span class="n">sin</span><span class="p">(</span><span class="n">radians</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">R</label><div class="tab-content docutils">
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">degrees</span> <span class="o">=</span> <span class="m">45</span>
+<span class="n">radians</span> <span class="o">=</span> <span class="n">degrees</span> <span class="o">/</span> <span class="m">180.0</span> <span class="o">*</span> <span class="kc">pi</span>
+<span class="nf">sin</span><span class="p">(</span><span class="n">radians</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this example we see that the value for <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> is called from the <code class="docutils literal notranslate"><span class="pre">math</span></code> module using the dot notation, <code class="docutils literal notranslate"><span class="pre">math.pi</span></code> and <code class="docutils literal notranslate"><span class="pre">math.sin</span></code>. In the case of R and Julia we don’t have to worry about the dot notation for now, since <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> are built-in components of the language. However, there are instances with naming conflicts from different packages and those languages have their own way to deal with this.</p>
+<div class="section" id="defining-your-own-functions">
+<h3><span class="section-number">2.2.1. </span>Defining your own functions<a class="headerlink" href="#defining-your-own-functions" title="Permalink to this headline">¶</a></h3>
+<p>So far we have discussed functions that are included in Python, but we could also add functions of our own. When specifying our own function we need to give it a name and a sequence of statements to run whenever the function is called. The basic syntax to create a function is as follows:</p>
+<div class="tab-set docutils">
+<input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Python</label><div class="tab-content docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_name</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+    <span class="c1"># step 1</span>
+    <span class="c1"># step 2</span>
+    <span class="c1"># ...</span>
+    <span class="k">return</span> <span class="n">outputs</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Julia</label><div class="tab-content docutils">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">function_name</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+    <span class="c"># step 1</span>
+    <span class="c"># step 2</span>
+    <span class="c"># ...</span>
+    <span class="k">return</span> <span class="n">outputs</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">R</label><div class="tab-content docutils">
+<div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">function_name</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1"># step 1</span>
+    <span class="c1"># step 2</span>
+    <span class="c1"># ...</span>
+    <span class="nf">return</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The basic anatomy of the user defined function is the same across programming languages. In the case of Python <code class="docutils literal notranslate"><span class="pre">def</span></code> is used to tell Python that we are defining a new function. While in Julia and R we use the keyword <code class="docutils literal notranslate"><span class="pre">function</span></code> to indicate that a new function is being created. Within the body of the function we specify a <code class="docutils literal notranslate"><span class="pre">return</span></code> keyword to indicate the value that we would like the language to return. In some languages like Julia the <code class="docutils literal notranslate"><span class="pre">return</span></code> keyword is not strictly required, but it often makes the code more easily readable.</p>
 <p>Discuss the anatomy of a user defined function. Important to include a docstring. Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods.</p>
+</div>
 </div>
 <div class="section" id="collections">
 <h2><span class="section-number">2.3. </span>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h2>
@@ -606,12 +668,6 @@ print(x)
 </div>
 <div class="section" id="loops-and-comprehensions">
 <h2><span class="section-number">2.5. </span>Loops and comprehensions<a class="headerlink" href="#loops-and-comprehensions" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="packages-and-namespace">
-<h2><span class="section-number">2.6. </span>Packages and namespace<a class="headerlink" href="#packages-and-namespace" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="coding-style-optional">
-<h2><span class="section-number">2.7. </span>Coding style (optional)<a class="headerlink" href="#coding-style-optional" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

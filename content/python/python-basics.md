@@ -156,7 +156,7 @@ print(x)
 We will talk about classes, packages and modules again at a later stage. 
 ```
 ````
-An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R and Julia the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called `Example` across the different programming languages, so that you can just see the process involved. The code below won't work, it is merely for illustrative purposes.  
+An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules and packages that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R and Julia the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called `Example` across the different programming languages, so that you can just see the process involved. The code below won't work, it is merely for illustrative purposes.  
 
 ````{tab} Python
 ```python
@@ -176,6 +176,69 @@ library(Example)
 ```
 ````
 
+In Python if you were to import the `math` module you would be able to use all the functions and variables contained in that module object. You are bringing the functionality associated with that module into your session. One can now access any function or object from the package by the name of package together with the name of the function, separated by a dot. This **dot notation** has some benefits, but I much prefer the way in which Julia and R incorporate functions from modules. The main reason for this notation is to avoid potential naming conflicts, which we will discuss at the end of this section. Below is an example of the dot notation in action. 
+
+````{tab} Python
+```python
+import math
+
+degrees = 45
+radians = degrees / 180.0 * math.pi
+math.sin(radians)
+```
+````
+````{tab} Julia
+```julia
+degrees = 45
+radians = degrees / 180.0 * pi
+sin(radians)
+```
+````
+````{tab} R
+```R
+degrees = 45
+radians = degrees / 180.0 * pi
+sin(radians)
+```
+````
+
+In this example we see that the value for $\pi$ and $\sin$ is called from the `math` module using the dot notation, `math.pi` and `math.sin`. In the case of R and Julia we don't have to worry about the dot notation for now, since $\pi$ and $\sin$ are built-in components of the language. However, there are instances with naming conflicts from different packages and those languages have their own way to deal with this. 
+
+### Defining your own functions
+
+So far we have discussed functions that are included in Python, but we could also add functions of our own. When specifying our own function we need to give it a name and a sequence of statements to run whenever the function is called. The basic syntax to create a function is as follows:
+
+````{tab} Python
+```python
+def function_name(inputs):
+    # step 1
+    # step 2
+    # ...
+    return outputs
+```
+````
+````{tab} Julia
+```julia
+function function_name(inputs)
+    # step 1
+    # step 2
+    # ...
+    return outputs
+end
+```
+````
+````{tab} R
+```R
+function_name <- function(inputs) {
+    # step 1
+    # step 2
+    # ...
+    return(outputs)
+}
+```
+````
+
+The basic anatomy of the user defined function is the same across programming languages. In the case of Python `def` is used to tell Python that we are defining a new function. While in Julia and R we use the keyword `function` to indicate that a new function is being created. Within the body of the function we specify a `return` keyword to indicate the value that we would like the language to return. In some languages, like Julia, the `return` keyword is not strictly required, but it often makes the code more easily readable. 
 
 Discuss the anatomy of a user defined function. Important to include a docstring. Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods. 
 
@@ -188,7 +251,3 @@ These include lists, tuples, sets, dictionaries. List and tuples are sequence co
 Introduce `if` and ternary operator. Discuss, `while`, `break, continue` and `pass`.
 
 ## Loops and comprehensions
-
-## Packages and namespace
-
-## Coding style (optional)
