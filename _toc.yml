@@ -1,5 +1,5 @@
 - file: intro
-  numbered: false
+  numbered: True
 
 - part: Python
   chapters:

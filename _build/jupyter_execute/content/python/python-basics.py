@@ -127,6 +127,16 @@ x = 42
 
 # Python will place this object in memory and will conveniently keep it there as long as we are busy with our session. It is important to note that the way the computer reads this assignment statement is from right to left. The right side is evaluated first and that computed value gets assigned to the variable name on the left hand side. 
 # 
+# ````{margin}
+# ```{tip}
+# When naming variables
+#  - choose meaningful names
+#  - you can include letters, digits and underscores
+#  - don't start with digits
+#  - naming is case sensitive
+# ```
+# ````
+# 
 # Generally, we would like to choose variable names that are meaningful. In other words, they give us some notion of what the variable is used for. These variable names can be as long as you like and contain letters and numbers, but don't start a variable with a number. Lower case is usually used for variable names (this is merely a programming convention, not a rule). You can also use the underscore when you have a variable name with multiple words.
 
 # In[6]:
@@ -135,17 +145,11 @@ x = 42
 answer_to_ultimate_question = 42
 
 
-# To help you remember, when naming variables
-#  - choose meaningful names
-#  - can include letters, digits and underscores
-#  - cannot start with digits
-#  - naming is case sensitive
-# 
 # There are some **keywords** in Python that you cannot use, they are reserved. For example, you cannot use the word `if` or `for` as variable names, since these things mean something specific in the programming language. You don't need to remember these keywords. If you are using a development environment with syntax highlighting you will see that typing in a keyword will change the color of that word. 
 # 
 # ## Functions
 # 
-# In the most general terms, a function can be defined as a process that takes an input (or inputs) and maps it to an output. From your mathematical training you are used function called `f` that takes an *argument* `x` to produce some output `f(x)`. In Python these functions operate in a similar manner. One could have a `print` function that prints the input that it is provided. In the example below the value of the variable is evaluated by the interpreter and then the print statement is executed.
+# In the most general terms, a function can be defined as a process that takes an input (or inputs) and maps it to an output. From your mathematical training you are used function called `f` that takes an argument `x` to produce some output `f(x)`. In Python these functions operate in a similar manner, where the function takes and argument and **returns** a result. One could have a `print` function that prints the input that it is provided. In the example below the value of the variable is evaluated by the interpreter and then the print statement is executed to deliver a **return value**.
 
 # In[7]:
 
@@ -154,6 +158,32 @@ x = 42
 print(x)
 
 
+# ````{margin}
+# ```{note}
+# We will talk about classes, packages and modules again at a later stage. 
+# ```
+# ````
+# An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R and Julia the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called `Example` across the different programming languages, so that you can just see the process involved. The code below won't work, it is merely for illustrative purposes.  
+# 
+# ````{tab} Python
+# ```python
+# import Example
+# ```
+# ````
+# ````{tab} Julia
+# ```julia
+# Pkg.add("Example")
+# using Example
+# ```
+# ````
+# ````{tab} R
+# ```R
+# install.packages("Example")
+# library(Example)
+# ```
+# ````
+# 
+# 
 # Discuss the anatomy of a user defined function. Important to include a docstring. Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods. 
 # 
 # ## Collections 
