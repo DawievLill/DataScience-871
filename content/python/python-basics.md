@@ -141,6 +141,24 @@ answer_to_ultimate_question = 42
 
 There are some **keywords** in Python that you cannot use, they are reserved. For example, you cannot use the word `if` or `for` as variable names, since these things mean something specific in the programming language. You don't need to remember these keywords. If you are using a development environment with syntax highlighting you will see that typing in a keyword will change the color of that word. 
 
+
+## Collections 
+
+These include lists, tuples, sets, dictionaries. List and tuples are sequence containers, while set and dict are mapping containers.
+
+### Ordered collections
+
+### Associative collections
+
+
+## Control flow
+
+Introduce `if` and ternary operator. Discuss, `while`, `break, continue` and `pass`.
+
+### Conditional statements and blocks
+
+### Iteration
+
 ## Functions
 
 In the most general terms, a function can be defined as a process that takes an input (or inputs) and maps it to an output. From your mathematical training you are used function called `f` that takes an argument `x` to produce some output `f(x)`. In Python these functions operate in a similar manner, where the function takes and argument and **returns** a result. One could have a `print` function that prints the input that it is provided. In the example below the value of the variable is evaluated by the interpreter and then the print statement is executed to deliver a **return value**. 
@@ -240,14 +258,9 @@ function_name <- function(inputs) {
 
 The basic anatomy of the user defined function is the same across programming languages. In the case of Python `def` is used to tell Python that we are defining a new function. While in Julia and R we use the keyword `function` to indicate that a new function is being created. Within the body of the function we specify a `return` keyword to indicate the value that we would like the language to return. In some languages, like Julia, the `return` keyword is not strictly required, but it often makes the code more easily readable. 
 
-Discuss the anatomy of a user defined function. Important to include a docstring. Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods. 
+Note that the statements inside the defined function do not run until the function is called. We call functions in the following manner
 
-## Collections 
+It is important to include a docstring with your functions. This means including . Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods. 
 
-These include lists, tuples, sets, dictionaries. List and tuples are sequence containers, while set and dict are mapping containers.
 
-## Control flow
 
-Introduce `if` and ternary operator. Discuss, `while`, `break, continue` and `pass`.
-
-## Loops and comprehensions

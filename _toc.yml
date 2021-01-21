@@ -8,8 +8,7 @@
   - file: content/python/numpy
   - file: content/python/scipy
   - file: content/python/pandas
-  - file: content/python/matplotlib
-  - file: content/python/scikitlearn
+  - file: content/python/plotting
 
 - part: Linear Algebra
   chapters:

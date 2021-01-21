@@ -9,4 +9,4 @@ kernelspec:
   name: python
 ---
 
-# Matplotlib
+# Plotting in Python
