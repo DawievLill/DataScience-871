@@ -58,7 +58,7 @@
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="3. Working with data" href="data.html" />
+    <link rel="next" title="2. Working with data using Pandas" href="data.html" />
     <link rel="prev" title="Data Science for Economics" href="../../intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -106,74 +106,86 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="#python-fundamentals">
-   2. Python Fundamentals
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="data.html">
-   3. Working with data
+   2. Working with data using Pandas
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="numpy.html">
-   4. Numpy
+   3. Scientific computing
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="scipy.html">
-   5. Scipy
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="pandas.html">
-   6. Pandas
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="matplotlib.html">
-   7. Matplotlib
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="scikitlearn.html">
-   8. Scikit Learn
+  <a class="reference internal" href="plotting.html">
+   4. Plotting in Python
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Linear Algebra
+  Math for Machine Learning
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../linear-algebra/la_intro.html">
-   1. Linear algebra basics
+   1. Basics of linear algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../linear-algebra/optimisation.html">
+   2. Optimisation for machine learning
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Regression
+  Linear models
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../regression/regress.html">
-   1. Linear regression
+   1. Linear models
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Classification
+  Non-linear models
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html">
+   1. Nonlinear models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Classification basics
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../classification/neighbours.html">
-   1. k-Nearest neighbours
+   1. Logistic regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#linear-discriminant-analysis">
+   2. Linear discriminant analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#quadratic-discriminant-analysis">
+   3. Quadratic discriminant analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#k-nearest-neighbours">
+   4. K-Nearest neighbours
   </a>
  </li>
 </ul>
@@ -185,7 +197,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../tree-methods/trees.html">
-   1. Tree-based methods
+   1. Decision trees
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#bagging">
+   2. Bagging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#random-forests">
+   3. Random Forests
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#boosting">
+   4. Boosting
   </a>
  </li>
 </ul>
@@ -210,6 +237,38 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../neural-net/neural.html">
    1. Neural networks
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Databases
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html">
+   1. Relational databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#sql-basics">
+   2. SQL basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#python-and-databases">
+   3. Python and databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#r-and-databases">
+   4. R and databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#bigquery">
+   5. BigQuery
   </a>
  </li>
 </ul>
@@ -302,75 +361,80 @@
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   1. Getting started with Python
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installing-python">
+   1.1. Installing Python
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-do-i-run-python-programs">
+   1.2. How do I run Python programs?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basics">
+   1.3. Basics
   </a>
   <ul class="nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#installing-python">
-     1.1. Installing Python
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#arithmetic">
+     1.3.1. Arithmetic
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#how-do-i-run-python-programs">
-     1.2. How do I run Python programs?
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#values-and-types">
+     1.3.2. Values and types
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#variables">
+     1.3.3. Variables
     </a>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#python-fundamentals">
-   2. Python Fundamentals
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#collections">
+   1.4. Collections
   </a>
   <ul class="nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#basics">
-     2.1. Basics
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#arithmetic">
-       2.1.1. Arithmetic
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#values-and-types">
-       2.1.2. Values and types
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#variables">
-       2.1.3. Variables
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#functions">
-     2.2. Functions
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#defining-your-own-functions">
-       2.2.1. Defining your own functions
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#collections">
-     2.3. Collections
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ordered-collections">
+     1.4.1. Ordered collections
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#control-flow">
-     2.4. Control flow
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#associative-collections">
+     1.4.2. Associative collections
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#loops-and-comprehensions">
-     2.5. Loops and comprehensions
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#control-flow">
+   1.5. Control flow
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#conditional-statements-and-blocks">
+     1.5.1. Conditional statements and blocks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#iteration">
+     1.5.2. Iteration
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#functions">
+   1.6. Functions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#defining-your-own-functions">
+     1.6.1. Defining your own functions
     </a>
    </li>
   </ul>
@@ -399,17 +463,14 @@
 <p>I believe that one of the reasons why R is so popular is the <code class="docutils literal notranslate"><span class="pre">RStudio</span></code> desktop environment. For many economics students that have experience with <code class="docutils literal notranslate"><span class="pre">Stata</span></code> or <code class="docutils literal notranslate"><span class="pre">Matlab</span></code>, it is quite comforting to move to R and find that there is a fully fleshed out development environment where you can execute scripts within minutes. In fact, one of the most commonly asked questions that I get for people starting out with Python is, <em>how do I run my scripts?</em>. For the complete beginner I would recommend trying to execute their commands in <a class="reference external" href="https://jupyter.org/install.html"><code class="docutils literal notranslate"><span class="pre">Jupyterlab</span></code></a>. If you want more information on how to run Python in a JupyterLab setting, you can look at the following <a class="reference external" href="https://swcarpentry.github.io/python-novice-gapminder/01-run-quit/index.html">tutorial</a>. One can establish a nice workflow in this environment and there are several excellent extensions that make the experience quite enjoyable. There are options for Python that work similar to RStudio, such as <code class="docutils literal notranslate"><span class="pre">Spyder</span></code> and <code class="docutils literal notranslate"><span class="pre">PyCharm</span></code>, but I prefer to use <code class="docutils literal notranslate"><span class="pre">Visual</span> <span class="pre">Studio</span> <span class="pre">Code</span></code>.</p>
 <p>The big downside with <code class="docutils literal notranslate"><span class="pre">VS</span> <span class="pre">Code</span></code> is that it takes a bit more effort to set up and it is not immediately clear how to execute code. In addition, there are new concepts like terminals, workspaces and extensions that can leave the first time user confused. However, once the initial trepidation is dealt with, the end result is worth it. If you are new to VS Code, all you need to do is download and install the program on your system, <a class="reference external" href="https://code.visualstudio.com/">here</a> is a link to the website. After you have installed the program, go to <strong>Extensions</strong> under the <strong>View</strong> tab and search for <em>python</em>. Install the Python extension. <a class="reference external" href="https://www.youtube.com/watch?v=CH3IOVGLCAQ&amp;list=PLVR_rJLcetzkqoeuhpIXmG9uQCtSoGBz1&amp;index=1">Here</a> is a video that outlines the installation process.</p>
 </div>
-</div>
-<div class="section" id="python-fundamentals">
-<h1><span class="section-number">2. </span>Python Fundamentals<a class="headerlink" href="#python-fundamentals" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basics">
+<h2><span class="section-number">1.3. </span>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
 <p>We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. The primary source for most of the material is <a class="reference external" href="http://greenteapress.com/thinkpython2/html/index.html"><code class="docutils literal notranslate"><span class="pre">Think</span> <span class="pre">Python</span></code></a>. If you want to continue working exclusively with R that is completely acceptable. I will often include the R and Julia code so that you can compare across languages.</p>
 <p>In the context of economics, there is no better resource than the <a class="reference external" href="https://python.quantecon.org/"><code class="docutils literal notranslate"><span class="pre">QuantEcon</span></code></a> page to get started. Kevin Sheppard at Oxford also provides a <a class="reference external" href="https://www.kevinsheppard.com/files/teaching/python/notes/python_introduction_2020.pdf">complete set of notes</a> that are appropriate for economics. In addition to QuantEcon and Kevin Sheppard’s notes, I will also be referencing <a class="reference external" href="http://greenteapress.com/thinkpython2/html/index.html"><code class="docutils literal notranslate"><span class="pre">Think</span> <span class="pre">Python</span></code></a>, <a class="reference external" href="https://composingprograms.com/"><code class="docutils literal notranslate"><span class="pre">Composing</span> <span class="pre">Programs</span></code></a> and the <a class="reference external" href="https://github.com/jakevdp/PythonDataScienceHandbook"><code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">Data</span> <span class="pre">Science</span> <span class="pre">Handbook</span></code></a>. These resources cover the topics in much more detail than I will attempt to do here, so if you want to find out more I suggest you read through those.</p>
-<div class="section" id="basics">
-<h2><span class="section-number">2.1. </span>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
 <p>Please take note that this is not a course in computer science, so I will be quite selective about the components that I include in this section. In other words, I consider these components the bare minimum that you need to get started with data science in Python. If you want to engage with the material in a more active manner, I recommend going through this <a class="reference external" href="https://www.learnpython.org/">Python tutorial</a> or doing some basic introductory exercises at <a class="reference external" href="https://www.datacamp.com/">DataCamp</a>. Now let us get started with some of the essentials. As you can imagine the most basic operations in any programming language are going to be arithmetic operations.</p>
 <div class="section" id="arithmetic">
-<h3><span class="section-number">2.1.1. </span>Arithmetic<a class="headerlink" href="#arithmetic" title="Permalink to this headline">¶</a></h3>
-<p>The Python interpreter makes use of several operators, think about these as special symbols that represent some form of computational process. You are already comfortable with arithmetic operators. Think about the basic operations of addition, subtraction and multiplication. Python comes with operators such as <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code> to express these computations. Note that we express exponentiation with the <code class="docutils literal notranslate"><span class="pre">**</span></code> operator. The usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional <code class="docutils literal notranslate"><span class="pre">^</span></code> that is used in languages such as Julia and R. In Python the <code class="docutils literal notranslate"><span class="pre">^</span></code> is a bitwise operator. You are not expected to know what a bitwise operator is and it won’t really feature in our work.</p>
+<h3><span class="section-number">1.3.1. </span>Arithmetic<a class="headerlink" href="#arithmetic" title="Permalink to this headline">¶</a></h3>
+<p>The Python interpreter makes use of several operators, think about these as special symbols that represent some form of computational process. You are already comfortable with arithmetic operators. Think about the basic operations of addition, subtraction and multiplication. Python comes with operators such as <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code> and <code class="docutils literal notranslate"><span class="pre">/</span></code> to express these computations. Note that we express exponentiation with the <code class="docutils literal notranslate"><span class="pre">**</span></code> operator. The usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional <code class="docutils literal notranslate"><span class="pre">^</span></code> that is used in languages such as R. In Python the <code class="docutils literal notranslate"><span class="pre">^</span></code> is a bitwise operator. You are not expected to know what a bitwise operator is and it won’t really feature in our work.</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--0-input--1" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--1">Python</label><div class="tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="mi">39</span> <span class="o">+</span> <span class="mi">3</span>
@@ -420,16 +481,7 @@
 </pre></div>
 </div>
 </div>
-<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">Julia</label><div class="tab-content docutils">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">39</span> <span class="o">+</span> <span class="mi">3</span>
-<span class="mi">55</span> <span class="o">-</span> <span class="mi">13</span>
-<span class="mi">6</span> <span class="o">*</span> <span class="mi">7</span>
-<span class="mi">84</span> <span class="o">/</span> <span class="mi">2</span>
-<span class="mi">4</span><span class="o">^</span><span class="mi">3</span>
-</pre></div>
-</div>
-</div>
-<input class="tab-input" id="tab-set--0-input--3" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--3">R</label><div class="tab-content docutils">
+<input class="tab-input" id="tab-set--0-input--2" name="tab-set--0" type="radio"><label class="tab-label" for="tab-set--0-input--2">R</label><div class="tab-content docutils">
 <div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="m">39</span> <span class="o">+</span> <span class="m">3</span>
 <span class="m">55</span> <span class="o">-</span> <span class="m">13</span>
 <span class="m">6</span> <span class="o">*</span> <span class="m">7</span>
@@ -455,7 +507,7 @@
 <p>These arithmetic operators are not the only ones we will encounter, we will also see logical, relational, bitwise, identity, membership and assignment operators. We will discuss some of these operators once appropriate.</p>
 </div>
 <div class="section" id="values-and-types">
-<h3><span class="section-number">2.1.2. </span>Values and types<a class="headerlink" href="#values-and-types" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.3.2. </span>Values and types<a class="headerlink" href="#values-and-types" title="Permalink to this headline">¶</a></h3>
 <p>Values are the basic building blocks that the program works with. We have used numbers thus far in our arithmetic operations, but values can belong to different <strong>types</strong>. In the realm of numbers, one can classify the number <code class="docutils literal notranslate"><span class="pre">2</span></code> as an integer and <code class="docutils literal notranslate"><span class="pre">42.0</span></code> as a floating point number. These are values that belong to different types. In Python it is easy to determine what the type of a specific value is. One can find out by issuing the following command.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -488,12 +540,7 @@
 </pre></div>
 </div>
 </div>
-<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">Julia</label><div class="tab-content docutils">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">typeof</span><span class="p">(</span><span class="mf">42.0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<input class="tab-input" id="tab-set--1-input--3" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--3">R</label><div class="tab-content docutils">
+<input class="tab-input" id="tab-set--1-input--2" name="tab-set--1" type="radio"><label class="tab-label" for="tab-set--1-input--2">R</label><div class="tab-content docutils">
 <div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">typeof</span><span class="p">(</span><span class="m">42.0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -516,7 +563,7 @@
 <p><strong>Remark</strong>: You will often see that Python is referred to as a dynamically typed language, while other languages like <code class="docutils literal notranslate"><span class="pre">C++</span></code> or <code class="docutils literal notranslate"><span class="pre">Java</span></code> are statically typed. <a class="reference external" href="https://realpython.com/lessons/dynamic-vs-static/">Here</a> is a nice description of the differences between the two and why it matters.</p>
 </div>
 <div class="section" id="variables">
-<h3><span class="section-number">2.1.3. </span>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.3.3. </span>Variables<a class="headerlink" href="#variables" title="Permalink to this headline">¶</a></h3>
 <p>Working with data wouldn’t be interesting if were only able to work with values. One of the best features of any programming language is the ability to manipulate <em>variables</em>. We define a variable to be a name that refers to a specific value. Variables allow us to store specific values. In order to better understand this we want to introduce the idea of variable assignment. Variable assignment is the association of a value to a variable with the <code class="docutils literal notranslate"><span class="pre">=</span></code> operator (equals sign). We could assign the value of <code class="docutils literal notranslate"><span class="pre">42</span></code> to a specific variable <code class="docutils literal notranslate"><span class="pre">x</span></code> to get the following assignment statement.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -550,8 +597,28 @@
 <p>There are some <strong>keywords</strong> in Python that you cannot use, they are reserved. For example, you cannot use the word <code class="docutils literal notranslate"><span class="pre">if</span></code> or <code class="docutils literal notranslate"><span class="pre">for</span></code> as variable names, since these things mean something specific in the programming language. You don’t need to remember these keywords. If you are using a development environment with syntax highlighting you will see that typing in a keyword will change the color of that word.</p>
 </div>
 </div>
+<div class="section" id="collections">
+<h2><span class="section-number">1.4. </span>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h2>
+<p>These include lists, tuples, sets, dictionaries. List and tuples are sequence containers, while set and dict are mapping containers.</p>
+<div class="section" id="ordered-collections">
+<h3><span class="section-number">1.4.1. </span>Ordered collections<a class="headerlink" href="#ordered-collections" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="associative-collections">
+<h3><span class="section-number">1.4.2. </span>Associative collections<a class="headerlink" href="#associative-collections" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="control-flow">
+<h2><span class="section-number">1.5. </span>Control flow<a class="headerlink" href="#control-flow" title="Permalink to this headline">¶</a></h2>
+<p>Introduce <code class="docutils literal notranslate"><span class="pre">if</span></code> and ternary operator. Discuss, <code class="docutils literal notranslate"><span class="pre">while</span></code>, <code class="docutils literal notranslate"><span class="pre">break,</span> <span class="pre">continue</span></code> and <code class="docutils literal notranslate"><span class="pre">pass</span></code>.</p>
+<div class="section" id="conditional-statements-and-blocks">
+<h3><span class="section-number">1.5.1. </span>Conditional statements and blocks<a class="headerlink" href="#conditional-statements-and-blocks" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="iteration">
+<h3><span class="section-number">1.5.2. </span>Iteration<a class="headerlink" href="#iteration" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
 <div class="section" id="functions">
-<h2><span class="section-number">2.2. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<h2><span class="section-number">1.6. </span>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
 <p>In the most general terms, a function can be defined as a process that takes an input (or inputs) and maps it to an output. From your mathematical training you are used function called <code class="docutils literal notranslate"><span class="pre">f</span></code> that takes an argument <code class="docutils literal notranslate"><span class="pre">x</span></code> to produce some output <code class="docutils literal notranslate"><span class="pre">f(x)</span></code>. In Python these functions operate in a similar manner, where the function takes and argument and <strong>returns</strong> a result. One could have a <code class="docutils literal notranslate"><span class="pre">print</span></code> function that prints the input that it is provided. In the example below the value of the variable is evaluated by the interpreter and then the print statement is executed to deliver a <strong>return value</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -573,27 +640,21 @@ print(x)
 <p>We will talk about classes, packages and modules again at a later stage.</p>
 </div>
 </div>
-<p>An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules and packages that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R and Julia the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called <code class="docutils literal notranslate"><span class="pre">Example</span></code> across the different programming languages, so that you can just see the process involved. The code below won’t work, it is merely for illustrative purposes.</p>
+<p>An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules and packages that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called <code class="docutils literal notranslate"><span class="pre">Example</span></code> across the different programming languages, so that you can just see the process involved. The code below won’t work, it is merely for illustrative purposes.</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--2-input--1" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--1">Python</label><div class="tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Example</span>
 </pre></div>
 </div>
 </div>
-<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">Julia</label><div class="tab-content docutils">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span>
-<span class="k">using</span> <span class="n">Example</span>
-</pre></div>
-</div>
-</div>
-<input class="tab-input" id="tab-set--2-input--3" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--3">R</label><div class="tab-content docutils">
+<input class="tab-input" id="tab-set--2-input--2" name="tab-set--2" type="radio"><label class="tab-label" for="tab-set--2-input--2">R</label><div class="tab-content docutils">
 <div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;Example&quot;</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">Example</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>In Python if you were to import the <code class="docutils literal notranslate"><span class="pre">math</span></code> module you would be able to use all the functions and variables contained in that module object. You are bringing the functionality associated with that module into your session. One can now access any function or object from the package by the name of package together with the name of the function, separated by a dot. This <strong>dot notation</strong> has some benefits, but I much prefer the way in which Julia and R incorporate functions from modules. The main reason for this notation is to avoid potential naming conflicts, which we will discuss at the end of this section. Below is an example of the dot notation in action.</p>
+<p>In Python if you were to import the <code class="docutils literal notranslate"><span class="pre">math</span></code> module you would be able to use all the functions and variables contained in that module object. You are bringing the functionality associated with that module into your session. One can now access any function or object from the package by the name of package together with the name of the function, separated by a dot. This <strong>dot notation</strong> has some benefits, but I much prefer the way in which R incorporates functions from modules. The main reason for this notation is to avoid potential naming conflicts, which we will discuss at the end of this section. Below is an example of the dot notation in action.</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--3-input--1" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--1">Python</label><div class="tab-content docutils">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
@@ -604,14 +665,7 @@ print(x)
 </pre></div>
 </div>
 </div>
-<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">Julia</label><div class="tab-content docutils">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">degrees</span> <span class="o">=</span> <span class="mi">45</span>
-<span class="n">radians</span> <span class="o">=</span> <span class="n">degrees</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="o">*</span> <span class="nb">pi</span>
-<span class="n">sin</span><span class="p">(</span><span class="n">radians</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<input class="tab-input" id="tab-set--3-input--3" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--3">R</label><div class="tab-content docutils">
+<input class="tab-input" id="tab-set--3-input--2" name="tab-set--3" type="radio"><label class="tab-label" for="tab-set--3-input--2">R</label><div class="tab-content docutils">
 <div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">degrees</span> <span class="o">=</span> <span class="m">45</span>
 <span class="n">radians</span> <span class="o">=</span> <span class="n">degrees</span> <span class="o">/</span> <span class="m">180.0</span> <span class="o">*</span> <span class="kc">pi</span>
 <span class="nf">sin</span><span class="p">(</span><span class="n">radians</span><span class="p">)</span>
@@ -619,9 +673,9 @@ print(x)
 </div>
 </div>
 </div>
-<p>In this example we see that the value for <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> is called from the <code class="docutils literal notranslate"><span class="pre">math</span></code> module using the dot notation, <code class="docutils literal notranslate"><span class="pre">math.pi</span></code> and <code class="docutils literal notranslate"><span class="pre">math.sin</span></code>. In the case of R and Julia we don’t have to worry about the dot notation for now, since <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> are built-in components of the language. However, there are instances with naming conflicts from different packages and those languages have their own way to deal with this.</p>
+<p>In this example we see that the value for <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> is called from the <code class="docutils literal notranslate"><span class="pre">math</span></code> module using the dot notation, <code class="docutils literal notranslate"><span class="pre">math.pi</span></code> and <code class="docutils literal notranslate"><span class="pre">math.sin</span></code>. In the case of R we don’t have to worry about the dot notation for now, since <span class="math notranslate nohighlight">\(\pi\)</span> and <span class="math notranslate nohighlight">\(\sin\)</span> are built-in components of the language. However, there are instances with naming conflicts from different packages and those languages have their own way to deal with this.</p>
 <div class="section" id="defining-your-own-functions">
-<h3><span class="section-number">2.2.1. </span>Defining your own functions<a class="headerlink" href="#defining-your-own-functions" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">1.6.1. </span>Defining your own functions<a class="headerlink" href="#defining-your-own-functions" title="Permalink to this headline">¶</a></h3>
 <p>So far we have discussed functions that are included in Python, but we could also add functions of our own. When specifying our own function we need to give it a name and a sequence of statements to run whenever the function is called. The basic syntax to create a function is as follows:</p>
 <div class="tab-set docutils">
 <input checked="True" class="tab-input" id="tab-set--4-input--1" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--1">Python</label><div class="tab-content docutils">
@@ -633,17 +687,7 @@ print(x)
 </pre></div>
 </div>
 </div>
-<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">Julia</label><div class="tab-content docutils">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">function_name</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-    <span class="c"># step 1</span>
-    <span class="c"># step 2</span>
-    <span class="c"># ...</span>
-    <span class="k">return</span> <span class="n">outputs</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-<input class="tab-input" id="tab-set--4-input--3" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--3">R</label><div class="tab-content docutils">
+<input class="tab-input" id="tab-set--4-input--2" name="tab-set--4" type="radio"><label class="tab-label" for="tab-set--4-input--2">R</label><div class="tab-content docutils">
 <div class="highlight-R notranslate"><div class="highlight"><pre><span></span><span class="n">function_name</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1"># step 1</span>
     <span class="c1"># step 2</span>
@@ -654,20 +698,10 @@ print(x)
 </div>
 </div>
 </div>
-<p>The basic anatomy of the user defined function is the same across programming languages. In the case of Python <code class="docutils literal notranslate"><span class="pre">def</span></code> is used to tell Python that we are defining a new function. While in Julia and R we use the keyword <code class="docutils literal notranslate"><span class="pre">function</span></code> to indicate that a new function is being created. Within the body of the function we specify a <code class="docutils literal notranslate"><span class="pre">return</span></code> keyword to indicate the value that we would like the language to return. In some languages like Julia the <code class="docutils literal notranslate"><span class="pre">return</span></code> keyword is not strictly required, but it often makes the code more easily readable.</p>
-<p>Discuss the anatomy of a user defined function. Important to include a docstring. Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods.</p>
+<p>The basic anatomy of the user defined function is the same across programming languages. In the case of Python <code class="docutils literal notranslate"><span class="pre">def</span></code> is used to tell Python that we are defining a new function. While in R we use the keyword <code class="docutils literal notranslate"><span class="pre">function</span></code> to indicate that a new function is being created. Within the body of the function we specify a <code class="docutils literal notranslate"><span class="pre">return</span></code> keyword to indicate the value that we would like the language to return. In some languages, like Julia, the <code class="docutils literal notranslate"><span class="pre">return</span></code> keyword is not strictly required, but it often makes the code more easily readable.</p>
+<p>Note that the statements inside the defined function do not run until the function is called. We call functions in the following manner</p>
+<p>It is important to include a docstring with your functions. This means including . Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods.</p>
 </div>
-</div>
-<div class="section" id="collections">
-<h2><span class="section-number">2.3. </span>Collections<a class="headerlink" href="#collections" title="Permalink to this headline">¶</a></h2>
-<p>These include lists, tuples, sets, dictionaries. List and tuples are sequence containers, while set and dict are mapping containers.</p>
-</div>
-<div class="section" id="control-flow">
-<h2><span class="section-number">2.4. </span>Control flow<a class="headerlink" href="#control-flow" title="Permalink to this headline">¶</a></h2>
-<p>Introduce <code class="docutils literal notranslate"><span class="pre">if</span></code> and ternary operator. Discuss, <code class="docutils literal notranslate"><span class="pre">while</span></code>, <code class="docutils literal notranslate"><span class="pre">break,</span> <span class="pre">continue</span></code> and <code class="docutils literal notranslate"><span class="pre">pass</span></code>.</p>
-</div>
-<div class="section" id="loops-and-comprehensions">
-<h2><span class="section-number">2.5. </span>Loops and comprehensions<a class="headerlink" href="#loops-and-comprehensions" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -700,7 +734,7 @@ print(x)
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="../../intro.html" title="previous page">Data Science for Economics</a>
-    <a class='right-next' id="next-link" href="data.html" title="next page"><span class="section-number">3. </span>Working with data</a>
+    <a class='right-next' id="next-link" href="data.html" title="next page"><span class="section-number">2. </span>Working with data using Pandas</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

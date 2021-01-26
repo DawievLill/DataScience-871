@@ -1,2 +1,7 @@
-Tree-based methods
-==============================================
+# Decision trees
+
+# Bagging
+
+# Random Forests
+
+# Boosting

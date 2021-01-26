@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>4. Numpy &#8212; Data Science 871</title>
+    <title>3. Scientific computing &#8212; Data Science 871</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -47,6 +47,8 @@
     <script src="../../_static/tabs.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -56,8 +58,8 @@
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="5. Scipy" href="scipy.html" />
-    <link rel="prev" title="3. Working with data" href="data.html" />
+    <link rel="next" title="4. Plotting in Python" href="plotting.html" />
+    <link rel="prev" title="2. Working with data using Pandas" href="data.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -104,74 +106,86 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="python-basics.html#python-fundamentals">
-   2. Python Fundamentals
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="data.html">
-   3. Working with data
+   2. Working with data using Pandas
   </a>
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   4. Numpy
+   3. Scientific computing
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="scipy.html">
-   5. Scipy
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="pandas.html">
-   6. Pandas
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="matplotlib.html">
-   7. Matplotlib
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="scikitlearn.html">
-   8. Scikit Learn
+  <a class="reference internal" href="plotting.html">
+   4. Plotting in Python
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Linear Algebra
+  Math for Machine Learning
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../linear-algebra/la_intro.html">
-   1. Linear algebra basics
+   1. Basics of linear algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../linear-algebra/optimisation.html">
+   2. Optimisation for machine learning
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Regression
+  Linear models
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../regression/regress.html">
-   1. Linear regression
+   1. Linear models
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Classification
+  Non-linear models
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html">
+   1. Nonlinear models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Classification basics
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../classification/neighbours.html">
-   1. k-Nearest neighbours
+   1. Logistic regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#linear-discriminant-analysis">
+   2. Linear discriminant analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#quadratic-discriminant-analysis">
+   3. Quadratic discriminant analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#k-nearest-neighbours">
+   4. K-Nearest neighbours
   </a>
  </li>
 </ul>
@@ -183,7 +197,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../tree-methods/trees.html">
-   1. Tree-based methods
+   1. Decision trees
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#bagging">
+   2. Bagging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#random-forests">
+   3. Random Forests
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#boosting">
+   4. Boosting
   </a>
  </li>
 </ul>
@@ -208,6 +237,38 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../neural-net/neural.html">
    1. Neural networks
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Databases
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html">
+   1. Relational databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#sql-basics">
+   2. SQL basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#python-and-databases">
+   3. Python and databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#r-and-databases">
+   4. R and databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#bigquery">
+   5. BigQuery
   </a>
  </li>
 </ul>
@@ -302,8 +363,8 @@
         
               <div>
                 
-  <div class="section" id="numpy">
-<h1><span class="section-number">4. </span>Numpy<a class="headerlink" href="#numpy" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="scientific-computing">
+<h1><span class="section-number">3. </span>Scientific computing<a class="headerlink" href="#scientific-computing" title="Permalink to this headline">¶</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
@@ -334,8 +395,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="data.html" title="previous page"><span class="section-number">3. </span>Working with data</a>
-    <a class='right-next' id="next-link" href="scipy.html" title="next page"><span class="section-number">5. </span>Scipy</a>
+    <a class='left-prev' id="prev-link" href="data.html" title="previous page"><span class="section-number">2. </span>Working with data using Pandas</a>
+    <a class='right-next' id="next-link" href="plotting.html" title="next page"><span class="section-number">4. </span>Plotting in Python</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -9,4 +9,4 @@ kernelspec:
   name: python
 ---
 
-# Numpy
+# Scientific computing

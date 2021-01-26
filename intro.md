@@ -1,5 +1,5 @@
 
-Data Science for Economics
+Data Science for Economics and Finance
 ==============================================
 
 ```{warning}
@@ -14,17 +14,16 @@ Just to make it clear, in this course we **officially** use R, which means I wil
 
 Below are some of the topics that we will cover during this term.
 
-1. Introduction to Python (self-study)
-2. Working with data in Python (self-study)
-3. Linear algebra and optimisation
-4. Linear and polynomial regression
-5. k-Nearest neighbours
-6. Tree-based methods
-7. Support vector machines
-8. Neural networks
-9. Databases (SQL and BigQuery) 
-10. Parallel programming
-11. Cloud computing with Google Compute Engine
+1. Python fundamentals (self-study)
+2. Math for machine learning (self-study)
+3. Linear and polynomial regression
+4. k-Nearest neighbours
+5. Tree-based methods
+6. Support vector machines
+7. Neural networks
+8. Databases (SQL and BigQuery) 
+9.  Parallel programming
+10. Cloud computing with Google Compute Engine
 
 We will not have time to cover all the topics in full detail, so you can refer to the notes if you would like to know more. I will also link to other sets of notes so that you can read in more detail on some of the issues at hand. Since most of you have little experience with machine learning and programming, we will be taking things quite slow. In that sense this course provides you the basic tools from which you can go and further explore. 
 

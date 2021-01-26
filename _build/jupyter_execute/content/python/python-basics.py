@@ -17,19 +17,17 @@
 # 
 # The big downside with `VS Code` is that it takes a bit more effort to set up and it is not immediately clear how to execute code. In addition, there are new concepts like terminals, workspaces and extensions that can leave the first time user confused. However, once the initial trepidation is dealt with, the end result is worth it. If you are new to VS Code, all you need to do is download and install the program on your system, [here](https://code.visualstudio.com/) is a link to the website. After you have installed the program, go to **Extensions** under the **View** tab and search for *python*. Install the Python extension. [Here](https://www.youtube.com/watch?v=CH3IOVGLCAQ&list=PLVR_rJLcetzkqoeuhpIXmG9uQCtSoGBz1&index=1) is a video that outlines the installation process. 
 # 
-# # Python Fundamentals
+# ## Basics 
 # 
 # We will start with some of the basics which you have already covered with Nico Katzke in the first part of the course. This section is self-study and just gives an idea of the fundamental concepts like variables, data-types, functions, control flow and so forth. The primary source for most of the material is [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html). If you want to continue working exclusively with R that is completely acceptable. I will often include the R and Julia code so that you can compare across languages. 
 # 
 # In the context of economics, there is no better resource than the [`QuantEcon`](https://python.quantecon.org/) page to get started. Kevin Sheppard at Oxford also provides a [complete set of notes](https://www.kevinsheppard.com/files/teaching/python/notes/python_introduction_2020.pdf) that are appropriate for economics. In addition to QuantEcon and Kevin Sheppard's notes, I will also be referencing [`Think Python`](http://greenteapress.com/thinkpython2/html/index.html), [`Composing Programs`](https://composingprograms.com/) and the [`Python Data Science Handbook`](https://github.com/jakevdp/PythonDataScienceHandbook). These resources cover the topics in much more detail than I will attempt to do here, so if you want to find out more I suggest you read through those.
 # 
-# ## Basics 
-# 
 # Please take note that this is not a course in computer science, so I will be quite selective about the components that I include in this section. In other words, I consider these components the bare minimum that you need to get started with data science in Python. If you want to engage with the material in a more active manner, I recommend going through this [Python tutorial](https://www.learnpython.org/) or doing some basic introductory exercises at [DataCamp](https://www.datacamp.com/). Now let us get started with some of the essentials. As you can imagine the most basic operations in any programming language are going to be arithmetic operations. 
 # 
 # ### Arithmetic
 # 
-# The Python interpreter makes use of several operators, think about these as special symbols that represent some form of computational process. You are already comfortable with arithmetic operators. Think about the basic operations of addition, subtraction and multiplication. Python comes with operators such as `+`, `-`, `*` and `/` to express these computations. Note that we express exponentiation with the `**` operator. The usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as Julia and R. In Python the `^` is a bitwise operator. You are not expected to know what a bitwise operator is and it won't really feature in our work. 
+# The Python interpreter makes use of several operators, think about these as special symbols that represent some form of computational process. You are already comfortable with arithmetic operators. Think about the basic operations of addition, subtraction and multiplication. Python comes with operators such as `+`, `-`, `*` and `/` to express these computations. Note that we express exponentiation with the `**` operator. The usage of the exponentiation operator is different from many other programming languages, so remember to use this instead of the more traditional `^` that is used in languages such as R. In Python the `^` is a bitwise operator. You are not expected to know what a bitwise operator is and it won't really feature in our work. 
 # 
 # ````{tab} Python
 # ```python
@@ -38,15 +36,6 @@
 # 6 * 7
 # 84 / 2
 # 4**3
-# ```
-# ````
-# ````{tab} Julia
-# ```julia
-# 39 + 3
-# 55 - 13
-# 6 * 7
-# 84 / 2
-# 4^3
 # ```
 # ````
 # ````{tab} R
@@ -90,11 +79,6 @@ type(42.0)
 # ````{tab} Python
 # ```python
 # type(42.0)
-# ```
-# ````
-# ````{tab} Julia
-# ```julia
-# typeof(42.0)
 # ```
 # ````
 # ````{tab} R
@@ -147,6 +131,24 @@ answer_to_ultimate_question = 42
 
 # There are some **keywords** in Python that you cannot use, they are reserved. For example, you cannot use the word `if` or `for` as variable names, since these things mean something specific in the programming language. You don't need to remember these keywords. If you are using a development environment with syntax highlighting you will see that typing in a keyword will change the color of that word. 
 # 
+# 
+# ## Collections 
+# 
+# These include lists, tuples, sets, dictionaries. List and tuples are sequence containers, while set and dict are mapping containers.
+# 
+# ### Ordered collections
+# 
+# ### Associative collections
+# 
+# 
+# ## Control flow
+# 
+# Introduce `if` and ternary operator. Discuss, `while`, `break, continue` and `pass`.
+# 
+# ### Conditional statements and blocks
+# 
+# ### Iteration
+# 
 # ## Functions
 # 
 # In the most general terms, a function can be defined as a process that takes an input (or inputs) and maps it to an output. From your mathematical training you are used function called `f` that takes an argument `x` to produce some output `f(x)`. In Python these functions operate in a similar manner, where the function takes and argument and **returns** a result. One could have a `print` function that prints the input that it is provided. In the example below the value of the variable is evaluated by the interpreter and then the print statement is executed to deliver a **return value**.
@@ -163,17 +165,11 @@ print(x)
 # We will talk about classes, packages and modules again at a later stage. 
 # ```
 # ````
-# An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules and packages that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R and Julia the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called `Example` across the different programming languages, so that you can just see the process involved. The code below won't work, it is merely for illustrative purposes.  
+# An attractive feature of Python is the ability to import functions from modules and packages. Modules are files that contain collections of functions that we might want to use. Packages are folders that could contain multiple files and is usually a collection of modules. It is possible to write all the functions we want to use on our own, but often someone else has written functions that are easy to use and computationally efficient. My advice would be to work with modules and packages that other people have written till you feel comfortable enough programming your own functions. If you want to import a module you simply use the import command. In R the process is quite similar, you would simply use the package managers in those languages to install the required packages / modules. For the code example below, let us assume that there is a module called `Example` across the different programming languages, so that you can just see the process involved. The code below won't work, it is merely for illustrative purposes.  
 # 
 # ````{tab} Python
 # ```python
 # import Example
-# ```
-# ````
-# ````{tab} Julia
-# ```julia
-# Pkg.add("Example")
-# using Example
 # ```
 # ````
 # ````{tab} R
@@ -183,7 +179,7 @@ print(x)
 # ```
 # ````
 # 
-# In Python if you were to import the `math` module you would be able to use all the functions and variables contained in that module object. You are bringing the functionality associated with that module into your session. One can now access any function or object from the package by the name of package together with the name of the function, separated by a dot. This **dot notation** has some benefits, but I much prefer the way in which Julia and R incorporate functions from modules. The main reason for this notation is to avoid potential naming conflicts, which we will discuss at the end of this section. Below is an example of the dot notation in action. 
+# In Python if you were to import the `math` module you would be able to use all the functions and variables contained in that module object. You are bringing the functionality associated with that module into your session. One can now access any function or object from the package by the name of package together with the name of the function, separated by a dot. This **dot notation** has some benefits, but I much prefer the way in which R incorporates functions from modules. The main reason for this notation is to avoid potential naming conflicts, which we will discuss at the end of this section. Below is an example of the dot notation in action. 
 # 
 # ````{tab} Python
 # ```python
@@ -194,13 +190,6 @@ print(x)
 # math.sin(radians)
 # ```
 # ````
-# ````{tab} Julia
-# ```julia
-# degrees = 45
-# radians = degrees / 180.0 * pi
-# sin(radians)
-# ```
-# ````
 # ````{tab} R
 # ```R
 # degrees = 45
@@ -209,7 +198,7 @@ print(x)
 # ```
 # ````
 # 
-# In this example we see that the value for $\pi$ and $\sin$ is called from the `math` module using the dot notation, `math.pi` and `math.sin`. In the case of R and Julia we don't have to worry about the dot notation for now, since $\pi$ and $\sin$ are built-in components of the language. However, there are instances with naming conflicts from different packages and those languages have their own way to deal with this. 
+# In this example we see that the value for $\pi$ and $\sin$ is called from the `math` module using the dot notation, `math.pi` and `math.sin`. In the case of R we don't have to worry about the dot notation for now, since $\pi$ and $\sin$ are built-in components of the language. However, there are instances with naming conflicts from different packages and those languages have their own way to deal with this. 
 # 
 # ### Defining your own functions
 # 
@@ -224,16 +213,6 @@ print(x)
 #     return outputs
 # ```
 # ````
-# ````{tab} Julia
-# ```julia
-# function function_name(inputs)
-#     # step 1
-#     # step 2
-#     # ...
-#     return outputs
-# end
-# ```
-# ````
 # ````{tab} R
 # ```R
 # function_name <- function(inputs) {
@@ -245,16 +224,8 @@ print(x)
 # ```
 # ````
 # 
-# The basic anatomy of the user defined function is the same across programming languages. In the case of Python `def` is used to tell Python that we are defining a new function. While in Julia and R we use the keyword `function` to indicate that a new function is being created. Within the body of the function we specify a `return` keyword to indicate the value that we would like the language to return. In some languages like Julia the `return` keyword is not strictly required, but it often makes the code more easily readable. 
+# The basic anatomy of the user defined function is the same across programming languages. In the case of Python `def` is used to tell Python that we are defining a new function. While in R we use the keyword `function` to indicate that a new function is being created. Within the body of the function we specify a `return` keyword to indicate the value that we would like the language to return. In some languages, like Julia, the `return` keyword is not strictly required, but it often makes the code more easily readable. 
 # 
-# Discuss the anatomy of a user defined function. Important to include a docstring. Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods. 
+# Note that the statements inside the defined function do not run until the function is called. We call functions in the following manner
 # 
-# ## Collections 
-# 
-# These include lists, tuples, sets, dictionaries. List and tuples are sequence containers, while set and dict are mapping containers.
-# 
-# ## Control flow
-# 
-# Introduce `if` and ternary operator. Discuss, `while`, `break, continue` and `pass`.
-# 
-# ## Loops and comprehensions
+# It is important to include a docstring with your functions. This means including . Discussion on commenting in general as precursor to this discussion. In addition, discuss the idea of class methods.

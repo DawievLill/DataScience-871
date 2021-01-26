@@ -1,6 +1,1 @@
-Working with data
-==============================================
-
-
-
-## Importing data 
+# Working with data using Pandas

@@ -1,6 +1,1 @@
-Working with data
-==============================================
-
-
-
-## How to read data
+# Working with data using Pandas

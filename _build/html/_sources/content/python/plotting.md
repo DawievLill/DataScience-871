@@ -9,4 +9,4 @@ kernelspec:
   name: python
 ---
 
-# Scipy
+# Plotting in Python

@@ -6,19 +6,22 @@
   - file: content/python/python-basics
   - file: content/python/data
   - file: content/python/numpy
-  - file: content/python/scipy
-  - file: content/python/pandas
   - file: content/python/plotting
 
-- part: Linear Algebra
+- part: Math for Machine Learning
   chapters:
   - file: content/linear-algebra/la_intro
+  - file: content/linear-algebra/optimisation
 
-- part: Regression
+- part: Linear models
   chapters:
   - file: content/regression/regress
 
-- part: Classification
+- part: Non-linear models
+  chapters:
+  - file: content/regression/non-linear
+
+- part: Classification basics
   chapters:
   - file: content/classification/neighbours
 
@@ -33,3 +36,7 @@
 - part: Neural networks
   chapters:
   - file: content/neural-net/neural
+
+- part: Databases
+  chapters:
+  - file: content/databases/sql

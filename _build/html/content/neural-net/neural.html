@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1. Neural networks &#8212; Data Science 871</title>
+    <title>1. Perceptron &#8212; Data Science 871</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -47,6 +47,8 @@
     <script src="../../_static/tabs.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -56,7 +58,8 @@
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="1. Support vector machines" href="../support-vector/svm.html" />
+    <link rel="next" title="1. Relational databases" href="../databases/sql.html" />
+    <link rel="prev" title="1. Maximal margin classifier" href="../support-vector/svm.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -103,56 +106,41 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../python/python-basics.html#python-fundamentals">
-   2. Python Fundamentals
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="../python/data.html">
-   3. Working with data
+   2. Working with data using Pandas
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../python/numpy.html">
-   4. Numpy
+   3. Scientific computing
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../python/scipy.html">
-   5. Scipy
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../python/pandas.html">
-   6. Pandas
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../python/matplotlib.html">
-   7. Matplotlib
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../python/scikitlearn.html">
-   8. Scikit Learn
+  <a class="reference internal" href="../python/plotting.html">
+   4. Plotting in Python
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Linear Algebra
+  Math for Machine Learning
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../linear-algebra/la_intro.html">
-   1. Linear algebra basics
+   1. Basics of linear algebra
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../linear-algebra/optimisation.html">
+   2. Optimisation for machine learning
   </a>
  </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Regression
+  Linear models
  </span>
 </p>
 <ul class="nav sidenav_l1">
@@ -161,16 +149,73 @@
    1. Linear regression
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/regress.html#ridge-regression">
+   2. Ridge regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/regress.html#lasso">
+   3. LASSO
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/regress.html#elastic-nets">
+   4. Elastic nets
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
-  Classification
+  Non-linear models
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html">
+   1. Polynomial regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html#step-functions">
+   2. Step functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html#splines">
+   3. Splines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html#generalised-additive-models">
+   4. Generalised additive models
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Classification basics
  </span>
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../classification/neighbours.html">
-   1. k-Nearest neighbours
+   1. Logistic regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#linear-discriminant-analysis">
+   2. Linear discriminant analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#quadratic-discriminant-analysis">
+   3. Quadratic discriminant analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#k-nearest-neighbours">
+   4. K-Nearest neighbours
   </a>
  </li>
 </ul>
@@ -182,7 +227,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../tree-methods/trees.html">
-   1. Tree-based methods
+   1. Decision trees
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#bagging">
+   2. Bagging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#random-forests">
+   3. Random Forests
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../tree-methods/trees.html#boosting">
+   4. Boosting
   </a>
  </li>
 </ul>
@@ -194,7 +254,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../support-vector/svm.html">
-   1. Support vector machines
+   1. Maximal margin classifier
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../support-vector/svm.html#support-vector-classifier">
+   2. Support vector classifier
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../support-vector/svm.html#support-vector-machines">
+   3. Support vector machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../support-vector/svm.html#relationship-to-logistic-regression">
+   4. Relationship to logistic regression
   </a>
  </li>
 </ul>
@@ -206,7 +281,44 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   1. Neural networks
+   1. Perceptron
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="#basic-neural-network">
+   2. Basic neural network
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Databases
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html">
+   1. Relational databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#sql-basics">
+   2. SQL basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#python-and-databases">
+   3. Python and databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#r-and-databases">
+   4. R and databases
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../databases/sql.html#bigquery">
+   5. BigQuery
   </a>
  </li>
 </ul>
@@ -274,6 +386,25 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   1. Perceptron
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basic-neural-network">
+   2. Basic neural network
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -281,8 +412,11 @@
         
               <div>
                 
-  <div class="section" id="neural-networks">
-<h1><span class="section-number">1. </span>Neural networks<a class="headerlink" href="#neural-networks" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="perceptron">
+<h1><span class="section-number">1. </span>Perceptron<a class="headerlink" href="#perceptron" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="basic-neural-network">
+<h1><span class="section-number">2. </span>Basic neural network<a class="headerlink" href="#basic-neural-network" title="Permalink to this headline">¶</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
@@ -313,7 +447,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../support-vector/svm.html" title="previous page"><span class="section-number">1. </span>Support vector machines</a>
+    <a class='left-prev' id="prev-link" href="../support-vector/svm.html" title="previous page"><span class="section-number">1. </span>Maximal margin classifier</a>
+    <a class='right-next' id="next-link" href="../databases/sql.html" title="next page"><span class="section-number">1. </span>Relational databases</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
