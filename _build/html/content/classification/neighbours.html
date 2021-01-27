@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1. Logistic regression &#8212; Data Science 871</title>
+    <title>1. K-Nearest neighbours &#8212; Data Science 871</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -59,7 +59,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="1. Decision trees" href="../tree-methods/trees.html" />
-    <link rel="prev" title="1. Nonlinear models" href="../regression/non-linear.html" />
+    <link rel="prev" title="1. Polynomial regression" href="../regression/non-linear.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -90,7 +90,7 @@
     <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../../intro.html">
-   Data Science for Economics
+   Data Science for Economics and Finance
   </a>
  </li>
 </ul>
@@ -146,7 +146,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../regression/regress.html">
-   1. Linear models
+   1. Linear regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/regress.html#ridge-regression">
+   2. Ridge regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/regress.html#lasso">
+   3. LASSO
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/regress.html#elastic-nets">
+   4. Elastic nets
   </a>
  </li>
 </ul>
@@ -158,7 +173,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../regression/non-linear.html">
-   1. Nonlinear models
+   1. Polynomial regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html#step-functions">
+   2. Step functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html#splines">
+   3. Splines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../regression/non-linear.html#generalised-additive-models">
+   4. Generalised additive models
   </a>
  </li>
 </ul>
@@ -170,22 +200,17 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   1. Logistic regression
+   1. K-Nearest neighbours
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="#logistic-regression">
+   2. Logistic regression
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="#linear-discriminant-analysis">
-   2. Linear discriminant analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#quadratic-discriminant-analysis">
-   3. Quadratic discriminant analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#k-nearest-neighbours">
-   4. K-Nearest neighbours
+   3. Linear discriminant analysis
   </a>
  </li>
 </ul>
@@ -224,7 +249,22 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../support-vector/svm.html">
-   1. Support vector machines
+   1. Maximal margin classifier
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../support-vector/svm.html#support-vector-classifier">
+   2. Support vector classifier
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../support-vector/svm.html#support-vector-machines">
+   3. Support vector machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../support-vector/svm.html#relationship-to-logistic-regression">
+   4. Relationship to logistic regression
   </a>
  </li>
 </ul>
@@ -343,22 +383,17 @@
             <ul class="nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   1. Logistic regression
+   1. K-Nearest neighbours
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-regression">
+   2. Logistic regression
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#linear-discriminant-analysis">
-   2. Linear discriminant analysis
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quadratic-discriminant-analysis">
-   3. Quadratic discriminant analysis
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#k-nearest-neighbours">
-   4. K-Nearest neighbours
+   3. Linear discriminant analysis
   </a>
  </li>
 </ul>
@@ -372,17 +407,14 @@
         
               <div>
                 
-  <div class="section" id="logistic-regression">
-<h1><span class="section-number">1. </span>Logistic regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="k-nearest-neighbours">
+<h1><span class="section-number">1. </span>K-Nearest neighbours<a class="headerlink" href="#k-nearest-neighbours" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="logistic-regression">
+<h1><span class="section-number">2. </span>Logistic regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h1>
 </div>
 <div class="section" id="linear-discriminant-analysis">
-<h1><span class="section-number">2. </span>Linear discriminant analysis<a class="headerlink" href="#linear-discriminant-analysis" title="Permalink to this headline">¶</a></h1>
-</div>
-<div class="section" id="quadratic-discriminant-analysis">
-<h1><span class="section-number">3. </span>Quadratic discriminant analysis<a class="headerlink" href="#quadratic-discriminant-analysis" title="Permalink to this headline">¶</a></h1>
-</div>
-<div class="section" id="k-nearest-neighbours">
-<h1><span class="section-number">4. </span>K-Nearest neighbours<a class="headerlink" href="#k-nearest-neighbours" title="Permalink to this headline">¶</a></h1>
+<h1><span class="section-number">3. </span>Linear discriminant analysis<a class="headerlink" href="#linear-discriminant-analysis" title="Permalink to this headline">¶</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
@@ -413,7 +445,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../regression/non-linear.html" title="previous page"><span class="section-number">1. </span>Nonlinear models</a>
+    <a class='left-prev' id="prev-link" href="../regression/non-linear.html" title="previous page"><span class="section-number">1. </span>Polynomial regression</a>
     <a class='right-next' id="next-link" href="../tree-methods/trees.html" title="next page"><span class="section-number">1. </span>Decision trees</a>
 
     </div>

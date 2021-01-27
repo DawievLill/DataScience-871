@@ -1,3 +1,1 @@
-# Perceptron
-
-# Basic neural network 
+# Neural networks

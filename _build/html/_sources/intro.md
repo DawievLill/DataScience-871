@@ -3,7 +3,7 @@ Data Science for Economics and Finance
 ==============================================
 
 ```{warning}
-These notes are very much a work in progress. I am still slowly assembling everything and this site as it currently stands is not reflective of the final product. 
+These notes are very much a work in progress. I am still slowly assembling everything and this site as it currently stands is not reflective of the final product. The expectation is to have these notes done by some time in 2022. 
 ```
 
 In this part of the course we will focus on machine learning methods and databases. At this stage in the world of data science three of the most frequently used languages are `R`, `Python` and `SQL`. This means that when you enter the job market, you will have be proficient in at least one of these languages. In terms of statistical analysis R is the undoubted champion, while Python is a great general programming languages that can be used effectively in machine learning. SQL is the language used to interact with databases. We will be using both Python and R as our preferred programming languages, touching briefly on the basics of SQL. You do not have to worry if you have never worked with Python, you can continue working in R if you are more comfortable focusing on just one language at a time. 
