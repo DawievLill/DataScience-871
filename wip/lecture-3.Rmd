@@ -1,0 +1,30 @@
+---
+title: "Data Science for Economics and Finance"
+subtitle: "Lecture 3: Support vector machines"
+author:
+  name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
+  date: Lecture 3  "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    theme: cosmo
+    highlight: pygments
+always_allow_html: true
+urlcolor: blue
+mainfont: cochineal
+sansfont: Fira Sans
+monofont: Fira Code 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, dpi=300)
+```
+# References
+
+The primary references for today's discussion can be found [here](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) and [here](https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html).
+
+# Support vector machines
+
+We will not cover tree based methods. Tree based methods are covered in cross section econometrics. We might have some time to look over neural networks in a tutorial session. However, this might happen toward the end of the module. We want to see how far we get with the other methods in the course. 
+
+
+

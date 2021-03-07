@@ -1,0 +1,31 @@
+---
+title: "Data Science for Economics and Finance"
+subtitle: "Lecture 2: Classification"
+author:
+  name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
+  date: Lecture 2  "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    theme: cosmo
+    highlight: pygments
+always_allow_html: true
+urlcolor: blue
+mainfont: cochineal
+sansfont: Fira Sans
+monofont: Fira Code 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, dpi=300)
+```
+# References
+
+The primary references for today's discussion can be found [here](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) and [here](https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html).
+
+# Logistic regression
+
+# Linear discriminant analysis
+
+# Nearest neighbours
+
+

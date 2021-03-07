@@ -1,0 +1,77 @@
+---
+title: "Data Science for Economics and Finance"
+subtitle: "Lecture 4: Functions and parallel programming"
+author:
+  name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
+  date: Lecture 8  "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    theme: cosmo
+    highlight: haddock
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+always_allow_html: true
+urlcolor: blue
+mainfont: cochineal
+sansfont: Fira Sans
+monofont: Fira Code 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, dpi=300)
+```
+# References
+
+The primary references for today's discussion can be found [here](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html),  [here](https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html), [here](https://swcarpentry.github.io/sql-novice-survey/) and [here](https://db.rstudio.com/). Most of the material that we will cover for the next few weeks is **heavily** influenced by the amazing lecture notes by Grant McDermott. You can visit his [Github page](https://github.com/uo-ec607/lectures) for more information.  
+
+# R packages for this session
+
+```{r libs_print, cache=FALSE, eval=FALSE}
+
+## Load/install packages
+
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, DBI, dbplyr, RSQLite, bigrquery, hrbrthemes, nycflights13, glue)
+```
+
+# Introduction to databases
+
+The sessions from this week are going to be about databases and a quick introduction to the basics of the SQL programming language. I am assuming that most of you have only worked with data that can easily fit in into your computer's memory, since R (by default) takes all data that you import and places it in your Random Access Memory (RAM) The benefit of doing this is that RAM is very fast and this makes operations on data fast. The downside is that most of you don't have massive amounts of RAM on your computers so it easy for data manipulations to overwhelm your RAM capacity. You will most surely encounter a situation, in your not so distant future, where you will have to deal with large datasets that are outside of the scope of the memory contained in your laptop or desktop PC. If this happens you might want to look into storing the data in a **relational database**. 
+
+Relational databases (or databases) exist either on your local computer, or on some remote server (storage). Generally, in the world of "big data", we will access data remotely. This means that the data won't be found on your physical drive on the computer. It is important to note that with large datasets, we are often not concerned with the entire dataset itself, but simply a small subset of a larger dataset. What we will focus on this class is connecting with a database to retrieve the chunks of data that you need for your analysis. Getting information that we want is referred to as submitting a `query` to the database. This means that if you have access to a really large dataset that is available in a public or private database then you can submit a query without having to download the entire dataset onto your computer. A query is our way of telling the database that we want to work with a subset of the data, which we can then draw into the memory on our computer. Once again, we don't have to download the data directly on the computer in the case of remote servers, we simply connect to these servers and then once that connection is established we submit our query and the selected data is drawn into our computer memory. 
+
+# Databases and the tidyverse
+
+We can use `R` to connect to almost any existing database type. Most of the common database types have packages that allow to interface directly through `R`. In addition, the `dplyr` package that you used in Nico's section of the course supports most open-source databases such as `sqlite`, `mysql` and my favourite `postgresql`. At some later stage in the course after we have done some work on establishing a cloud workflow on the Google Cloud platform we will also work with Google's `BigQuery`. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
