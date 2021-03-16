@@ -362,7 +362,26 @@ div.tocify {
 <p>We can test whether this function works. Fingers crossed!</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cube</span>(<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 27</code></pre>
-<p>If my math is correct, it should be the case that <span class="math inline">\(3^3\)</span> is equal to <span class="math inline">\(27\)</span>. So the function seems to be doing its job.</p>
+<p>If my math is correct, it should be the case that <span class="math inline">\(3^3\)</span> is equal to <span class="math inline">\(27\)</span>. So the function seems to be doing its job. In general we wouldn’t write functions as simple as these, since they most likely already exist in base <code>R</code> (just look at the arithmetic functions in <code>R</code>) and will be more efficiently coded. However, in some cases we will need to write our own functions.</p>
+<p>In our example above we didn’t specify the <code>return</code> value in the code block. This is because <code>R</code>, like many other programming languages, automatically returns the final object in that you created with the function. However, it is good practice to always assign return objects.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cube <span class="ot">=</span>              </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) {     </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span>     <span class="do">## Create an intermediary object (that will be returned)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(x_cub)   <span class="do">## The value(s) or object(s) that we want returned.    </span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<p>Specifying a return value is also helpful when we want to return more than one object. For example, let’s say that we want to remind our user what variable they used as an argument in our function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cube <span class="ot">=</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) {     <span class="do">## The argument(s) that our function takes as an input</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span>      <span class="do">## The operation(s) that our function performs</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">value =</span> x, <span class="at">value_cubed =</span> x_cub)) <span class="do">## The list of object(s) that we want returned.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<p>If we have multiple return objects we have to combine them in a list. Remember that many objects in R contain multiple elements (vectors, data frames, and lists are all good examples of this). So we can also specify one of these “array”-type objects within the function itself if that provides a more convenient form of output. For example, we could combine the input and output values into a data frame:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cube <span class="ot">=</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(x) { </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">value =</span> x, <span class="at">value_cubed =</span> x_cub) <span class="do">## Bundle up our input and output values into a convenient dataframe.</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(df)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
 </div>
 </div>

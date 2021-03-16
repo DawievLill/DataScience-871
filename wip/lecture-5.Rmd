@@ -1,9 +1,9 @@
 ---
 title: "Data Science for Economics and Finance"
-subtitle: "Lecture 4: Functions and parallel programming"
+subtitle: "Lecture 5: Functions and parallel programming"
 author:
   name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
-  date: Lecture 4  "`r format(Sys.time(), '%d %B %Y')`"
+  date: Lecture 5  "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document:
     theme: cosmo
@@ -81,7 +81,39 @@ We can test whether this function works. Fingers crossed!
 cube(3)
 ```
 
-If my math is correct, it should be the case that $3^3$ is equal to $27$. So the function seems to be doing its job. 
+If my math is correct, it should be the case that $3^3$ is equal to $27$. So the function seems to be doing its job. In general we wouldn't write functions as simple as these, since they most likely already exist in base `R` (just look at the arithmetic functions in `R`) and will be more efficiently coded. However, in some cases we will need to write our own functions. 
+
+In our example above we didn't specify the `return` value in the code block. This is because `R`, like many other programming languages, automatically returns the final object in that you created with the function. However, it is good practice to always assign return objects.
+
+```{r cube2}
+cube =              
+  function(x) {     
+    x_cub = x^3     ## Create an intermediary object (that will be returned)
+    return(x_cub)   ## The value(s) or object(s) that we want returned.    
+  }
+```
+
+Specifying a return value is also helpful when we want to return more than one object. For example, let's say that we want to remind our user what variable they used as an argument in our function:
+
+```{r cube3}
+cube = 
+  function(x) {     ## The argument(s) that our function takes as an input
+    x_cub = x^3     ## The operation(s) that our function performs
+    return(list(value = x, value_cubed = x_cub)) ## The list of object(s) that we want returned.
+  }
+```
+
+If we have multiple return objects we have to combine them in a list.  Remember that many objects in R contain multiple elements (vectors, data frames, and lists are all good examples of this). So we can also specify one of these "array"-type objects within the function itself if that provides a more convenient form of output. For example, we could combine the input and output values into a data frame:
+
+```{r cube4}
+cube = 
+  function(x) { 
+    x_cub = x^3 
+    df = tibble(value = x, value_cubed = x_cub) ## Bundle up our input and output values into a convenient dataframe.
+    return(df)
+  }
+```
+
 
 
 

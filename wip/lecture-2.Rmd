@@ -1,6 +1,6 @@
 ---
 title: "Data Science for Economics and Finance"
-subtitle: "Lecture 2: Classification"
+subtitle: "Lecture 2: Regression shrinkage methods"
 author:
   name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
   date: Lecture 2  "`r format(Sys.time(), '%d %B %Y')`"
@@ -18,14 +18,14 @@ monofont: Fira Code
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = TRUE, dpi=300)
 ```
-# References
 
-The primary references for today's discussion can be found [here](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) and [here](https://datacarpentry.org/R-ecology-lesson/05-r-and-databases.html).
+# Linear regression
 
-# Logistic regression
+# Ridge regression
 
-# Linear discriminant analysis
+# LASSO
 
-# Nearest neighbours
+# Elastic nets
+
 
 

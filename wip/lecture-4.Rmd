@@ -1,16 +1,13 @@
 ---
 title: "Data Science for Economics and Finance"
-subtitle: "Lecture 4: Functions and parallel programming"
+subtitle: "Lecture 4: Classification continued"
 author:
   name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
   date: Lecture 4  "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document:
     theme: cosmo
-    highlight: haddock
-    toc: yes
-    toc_depth: 4
-    toc_float: yes
+    highlight: pygments
 always_allow_html: true
 urlcolor: blue
 mainfont: cochineal
@@ -21,72 +18,10 @@ monofont: Fira Code
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, cache = TRUE, dpi=300)
 ```
-## References and packages
 
-Most of the material that we will cover for the next few weeks is **heavily** influenced by (or directly copied from) the amazing lecture notes by Grant McDermott. You can visit his [Github page](https://github.com/uo-ec607/lectures) for more information.   
+## Tree based methods
 
-### R packages for this session
-
-Run this piece of code to ensure that you have the appropriate packages installed for the session to follow. 
-
-```{r, cache=F, message=F}
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(pbapply, data.table, tidyverse)
-```
-
-## Return of the function
-
-This first part of this section will be a recap of the lectures on programming from the first part of the course. We focus our attention on how to write functions and the related ideas in functional programming (especially as it applies to iteration). Most of these ideas overlap with what you were taught in the first few weeks, but there will be some components introduced that act as a continuation of what you covered before. The goal is to provide a solid foundation in these fundamental ideas, which can then lead us to our discussion on parallel programming in the final part of these notes. 
-
-### Function syntax
-
-You have already dealt with several functions in R. Some of them come pre-packaged with base R (e.g. `mean()`), while others are from external packages (e.g. `dplyr::filter()`). Functions in R all have the same basic syntax:
-
-```r
-function_name(ARGUMENTS)
-```
-Most of the time we use functions written by other people. However, as you know by now, you can write your own functions too. This is easy to do with the generic **`function()`** function. The syntax will again look familiar to you:
-
-```r
-function(ARGUMENTS) {
-  OPERATIONS
-  return(VALUE)
-}
-```
-
-While we can write anonymous functions like the one above, we typically write functions because we want to reuse code. For this typical use-case it makes sense to name our functions. You can use either `=` or `<-` when assigning the function name. Try to give functions names that make sense to other people reading your code. 
-
-```r
-my_func =
-  function(ARGUMENTS) {
-    OPERATIONS
-    return(VALUE)
-  }
-```
-
-#### Function example
-
-You should already have written some of your own functions, but as a quick reminder. Let us write a function that returns the cube of some input number.
-
-```{r cube1}
-cube =              ## Our function name
-  function(x) {     ## The argument(s) that our function takes as an input
-    x^3             ## The operation(s) that our function performs
-  }
-```
-
-We can test whether this function works. Fingers crossed!
-
-```{r cube 1a}
-cube(3)
-```
-
-If my math is correct, it should be the case that $3^3$ is equal to $27$. So the function seems to be doing its job. 
-
-
-
-
-
+If there is time at the end of the course we might want to take a look at support vector machines and perhaps a quick look at neural networks. However, for these topics should be enough for now. 
 
 
 
