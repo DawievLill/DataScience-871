@@ -1,0 +1,257 @@
+---
+title: "Data Science for Economics"
+subtitle: "Lecture 2: Shrinkage methods"
+author: "Dawie van Lill"
+date: "2021/04/05"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(primary_color = "#035AA6", secondary_color = "#03A696")
+```
+
+## Packages
+
+I thought slides would be easier to present than notes. 
+
+The code and slides are on the Github page. 
+
+Here are the packages that we will be using for this session.  
+
+```{r, cache=F, message=F}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(dplyr, ggplot2, rsample, caret, glmnet, vip, tidyverse, AmesHousing)
+```
+
+Let us give quick rundown of some of the potentially new packages.
+
+**rsample**:
+
+**caret**: Machine learning
+
+**glmnet**:
+
+---
+
+## Linear regression (one variable)
+ 
+Quick example of linear regression using machine learning process. 
+
+Want to model linear relationship between total above ground living space of a home (`Gr_Liv_Area`) and sale price (`Sale_Price`). 
+
+First, we construct our training sample.  
+
+```{r, cache=F, message=F}
+set.seed(123)
+ames <- AmesHousing::make_ames()
+split  <- initial_split(ames, prop = 0.7, strata = "Sale_Price")
+ames_train  <- training(split)
+ames_test   <- testing(split)
+```
+
+Second, we model on training data.  
+
+```{r, cache=F, message=F}
+model1 <- lm(Sale_Price ~ Gr_Liv_Area, data = ames_train)
+```
+
+In the next slide we show the results from this regression. 
+
+---
+
+```{r, regression_1, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+# Fitted regression line (full training data)
+p1 <- model1 %>%
+  broom::augment() %>%
+  ggplot(aes(Gr_Liv_Area, Sale_Price)) + 
+  geom_point(size = 1, alpha = 0.3) +
+  geom_smooth(se = FALSE, method = "lm") +
+  scale_y_continuous(labels = scales::dollar) +
+  ggtitle("Fitted regression line")
+
+# Fitted regression line (restricted range)
+
+
+# Side-by-side plots
+p1
+```
+---
+
+```{r, regression_2, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+p2 <- model1 %>%
+  broom::augment() %>%
+  ggplot(aes(Gr_Liv_Area, Sale_Price)) + 
+  geom_segment(aes(x = Gr_Liv_Area, y = Sale_Price,
+                   xend = Gr_Liv_Area, yend = .fitted), 
+               alpha = 0.3) +
+  geom_point(size = 1, alpha = 0.3) +
+  geom_smooth(se = FALSE, method = "lm") +
+  scale_y_continuous(labels = scales::dollar) +
+  ggtitle("Fitted regression line (with residuals)")
+p2
+```
+---
+
+## Evaluate results
+
+```{r, cache=F, message=F}
+summary(model1)
+```
+
+---
+
+## Multiple linear regression
+
+You can include more than one predictor, such as above ground square footage and year house was built. 
+
+```{r, cache=F, message=F}
+model2 <- lm(Sale_Price ~ Gr_Liv_Area + Year_Built, data = ames_train)
+```
+
+One could add as many predictors as you want. 
+```{r, cache=F, message=F}
+model3 <- lm(Sale_Price ~ ., data = ames_train) 
+```
+
+Let us now test the results from the models to see which one is the most accurate. 
+---
+
+## Linear regression
+
+```{r, cache=F, message=F}
+set.seed(123)  
+(cv_model1 <- train(form = Sale_Price ~ Gr_Liv_Area, 
+  data = ames_train, 
+  method = "lm",
+  trControl = trainControl(method = "cv", number = 10)
+))
+```
+
+---
+
+## Multiple linear regression
+
+```{r, cache=F, message=F}
+set.seed(123)  
+(cv_model2 <- train(form = Sale_Price ~ Gr_Liv_Area + Year_Built, 
+  data = ames_train, 
+  method = "lm",
+  trControl = trainControl(method = "cv", number = 10)
+))
+```
+
+---
+
+### Out of sample performance 
+
+```{r, cache=F, message=F, echo=FALSE}
+summary(resamples(list(
+  model1 = cv_model1, 
+  model2 = cv_model2
+)))
+```
+
+---
+
+## Regularised regression
+
+Data typically have large number of features. 
+
+As number of features grow models tend to **overfit the data**. 
+
+Regularisation methods provide a means to constrain / regularise the estimated coefficients. 
+
+Easiest way to understand is to see how and why it is applied to OLS. 
+
+Objective in OLS is to find *hyperplane* that minimises SSE between observed and predicted response values. 
+
+This means identifying hyperplane that minimises grey lines in next slide.
+
+---
+
+```{r, regression_3, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+ames_sub <- ames_train %>%
+  filter(Gr_Liv_Area > 1000 & Gr_Liv_Area < 3000) %>%
+  sample_frac(.5)
+model4 <- lm(Sale_Price ~ Gr_Liv_Area, data = ames_sub)
+
+model4 %>%
+  broom::augment() %>%
+  ggplot(aes(Gr_Liv_Area, Sale_Price)) + 
+  geom_segment(aes(x = Gr_Liv_Area, y = Sale_Price,
+                   xend = Gr_Liv_Area, yend = .fitted), 
+               alpha = 0.3) +
+  geom_point(size = 1, color = "red") +
+  geom_smooth(se = FALSE, method = "lm") +
+  scale_y_continuous(labels = scales::dollar)
+
+```
+---
+
+## Regularised regression
+
+OLS adheres to some specific assumptions
+
+- Linear relationship 
+- More observations (n) than features (p) - which means n > p
+- No or little multicollinearity
+
+However, for many datasets, such as those involved in text mining, we have more features than observations. 
+
+If we have that p > n there are many potential problems
+
+- Model is less interpretable
+- Infinite solutions to OLS problem
+
+Make an assumption that small subset of these features exhibit strongest effect
+
+This is called the **sparsity principle** 
+
+---
+
+## Regularised regression
+
+Objective function of regularised regression model includes penalty parameter $P$. 
+
+$$\min(\text{SSE + P})$$
+Penalty parameter constrains the size of coefficients.
+
+Coefficients can only increase is if we have decrease in SSE (i.e. the loss function).
+
+Generalises to other linear models as well (such as logistic regression).
+
+Three common penalty parameters
+
+1. Ridge
+2. Lasso [**think cowboys!**]
+3. Elastic net (combination of ridge and lasso)I
+
+---
+
+## Ridge regression
+
+Ridge regression controls coefficients by adding $\lambda \sum_{j=1}^{p}\beta^{2}_{j}$ to objective function:
+
+$$\min(\text{SSE} + \lambda \sum_{j=1}^{p}\beta^{2}_{j})$$
+Size of the penalty is referred to as the $L^2$ norm, or Euclidean norm. 
+
+This penalty can take on different values depending on the tuning parameter $\lambda$.
+
+If $\lambda = 0$, then we have OLS regression.
+
+As $\lambda \rightarrow \infty$ the penalty becomes large and forces coefficients to zero. 
+
+**Important to note**: Does not force all the way to zero, only asymptotically. 
+
+
+---
+
+
