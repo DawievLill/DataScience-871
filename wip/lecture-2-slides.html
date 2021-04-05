@@ -32,7 +32,7 @@ Here are the packages that we will be using for this session.
 
 ```r
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(dplyr, ggplot2, rsample, caret, glmnet, vip, tidyverse, AmesHousing)
+pacman::p_load(dplyr, ggplot2, rsample, caret, glmnet, vip, tidyverse, pdp, AmesHousing)
 ```
 
 Let us give quick rundown of some of the potentially new packages.
@@ -291,12 +291,223 @@ If `\(\lambda = 0\)`, then we have OLS regression.
 
 As `\(\lambda \rightarrow \infty\)` the penalty becomes large and forces coefficients to zero. 
 
-**Important to note**: Does not force all the way to zero, only asymptotically. 
+**Important to note**: Does not force all the way to zero, only asymptotically. Does not perform feature selection.
 
+The following slide illustrates dynamics for ridge regression coefficient values as the tuning parameter approaches zero. 
+
+---
+
+&lt;img src="lecture-2-slides_files/figure-html/regression_5-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Lasso
+
+Similar to ridge penalty. Swap out `\(L^2\)` norm for `\(L^{1}\)` norm: `\(\lambda \sum_{j=1}^{p}|\beta_{j}|\)` 
+
+`$$\min(\text{SSE} + \lambda \sum_{j=1}^{p}|\beta_{j}|)$$`
+
+Ridge penalty pushes variables to approximately zero. 
+
+Lasso actually pushes coefficients all the way to zero. 
+
+Automated **feature selection**!
+
+Look at the figure on the following slide, can you see the difference?
+
+---
+
+&lt;img src="lecture-2-slides_files/figure-html/regression_6-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Elastic nets
+
+Generalisation of ridge and lasso penalties:
+
+`$$\min(\text{SSE} + \lambda_1 \sum_{j=1}^{p}\beta^{2}_{j} + \lambda_2 \sum_{j=1}^{p}|\beta_{j}|)$$`
+
+Lasso performs feature selection, **but** when we have two strongly correlated features one may be pushed to zero and the other remains. 
+
+Ridge regression penalty more effective in handling correlated features. 
+
+Elastic net combines bits of both these methods. 
+
+If you are interested in these topics I suggest you read more on them in **ISLR**.
+
+Penalty models are easy to implement and results are surprisingly good. 
+ 
+---
+
+&lt;img src="lecture-2-slides_files/figure-html/regression_7-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+## glmnet
+
+We will be using `glmnet` to conduct our regularised regression analysis. 
+
+This package is extremely efficient and fast. It utilises Fortran code. 
+
+For those who like Python, one can use `Scikit-Learn` modules.
+
+There are also other R packages available (e.g. `h20`, `elasticnet` and `penalized`).
+
+We have to do some basic transformations to use this package. 
+
+
+```r
+# Create training  feature matrices
+# we use model.matrix(...)[, -1] to discard the intercept
+X &lt;- model.matrix(Sale_Price ~ ., ames_train)[, -1]
+
+# transform y with log transformation
+Y &lt;- log(ames_train$Sale_Price)
+```
+
+---
+
+## glmnet
+
+Let us become more familiar with the different components of this package. 
+
+`alpha` tells **glmnet** which method to implement. 
+
+- `alpha` = 0: ridge penalty
+- `alpha` = 1: lasso penalty
+- 0 &lt; `alpha` &lt; 1: elastic net model
+
+**glmnet** does two things that one needs to be aware of. 
+
+1. Standardises features
+2. Fits ridge models across wide range of `\(\lambda\)` values (automatically)
+
+---
+
+## Parameter tuning 
+
+`\(\lambda\)` is the tuning parameter and it helps prevent overfitting training data.
+
+To identify optimal `\(\lambda\)` value we can use `\(k\)`-fold cross validation.
+
+
+```r
+# Apply CV ridge regression to Ames data
+ridge &lt;- cv.glmnet(
+  x = X,
+  y = Y,
+  alpha = 0)
+
+# Apply CV lasso regression to Ames data
+lasso &lt;- cv.glmnet(
+  x = X,
+  y = Y,
+  alpha = 1)
+```
+
+Now let's plot the result...
+
+---
+
+&lt;img src="lecture-2-slides_files/figure-html/tuning-1.png" width="720" style="display: block; margin: auto;" /&gt;
 
 ---
 
 
+```r
+# Ridge model
+min(ridge$cvm)       # minimum MSE
+```
+
+```
+## [1] 0.01803344
+```
+
+```r
+ridge$lambda.min     # lambda for this min MSE
+```
+
+```
+## [1] 0.1389758
+```
+
+```r
+# Lasso model
+min(lasso$cvm)       # minimum MSE
+```
+
+```
+## [1] 0.01862178
+```
+
+```r
+lasso$lambda.min     # lambda for this min MSE
+```
+
+```
+## [1] 0.002264959
+```
+
+```r
+lasso$nzero[lasso$lambda == lasso$lambda.min] # No. of coef | Min MSE
+```
+
+```
+## s52 
+## 142
+```
+
+---
+
+&lt;img src="lecture-2-slides_files/figure-html/ridge_lasso-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+
+
+```r
+# model with lowest RMSE
+cv_glmnet$bestTune
+```
+
+```
+##   alpha     lambda
+## 7   0.1 0.02007035
+```
+
+```r
+# results for model with lowest RMSE
+cv_glmnet$results %&gt;%
+  filter(alpha == cv_glmnet$bestTune$alpha, lambda == cv_glmnet$bestTune$lambda)
+```
+
+```
+##   alpha     lambda      RMSE  Rsquared        MAE     RMSESD RsquaredSD
+## 1   0.1 0.02007035 0.1277585 0.9001487 0.08102427 0.02235901  0.0346677
+##         MAESD
+## 1 0.005667366
+```
+
+```r
+# predict sales price on training data
+pred &lt;- predict(cv_glmnet, X)
+
+# compute RMSE of transformed predicted
+RMSE(exp(pred), exp(Y))
+```
+
+```
+## [1] 19905.05
+```
+
+```r
+# RMSE of multiple linear regression was 26098.00
+```
+
+---
+
+&lt;img src="lecture-2-slides_files/figure-html/vip-1.png" width="720" style="display: block; margin: auto;" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

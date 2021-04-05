@@ -28,7 +28,7 @@ Here are the packages that we will be using for this session.
 
 ```{r, cache=F, message=F}
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(dplyr, ggplot2, rsample, caret, glmnet, vip, tidyverse, AmesHousing)
+pacman::p_load(dplyr, ggplot2, rsample, caret, glmnet, vip, tidyverse, pdp, AmesHousing)
 ```
 
 Let us give quick rundown of some of the potentially new packages.
@@ -249,9 +249,304 @@ If $\lambda = 0$, then we have OLS regression.
 
 As $\lambda \rightarrow \infty$ the penalty becomes large and forces coefficients to zero. 
 
-**Important to note**: Does not force all the way to zero, only asymptotically. 
+**Important to note**: Does not force all the way to zero, only asymptotically. Does not perform feature selection.
 
+The following slide illustrates dynamics for ridge regression coefficient values as the tuning parameter approaches zero. 
 
 ---
 
+```{r, regression_5, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+boston_train_x <- model.matrix(cmedv ~ ., pdp::boston)[, -1]
+boston_train_y <- pdp::boston$cmedv
 
+# model
+boston_ridge <- glmnet::glmnet(
+  x = boston_train_x,
+  y = boston_train_y,
+  alpha = 0
+)
+
+lam <- boston_ridge$lambda %>% 
+  as.data.frame() %>%
+  mutate(penalty = boston_ridge$a0 %>% names()) %>%
+  rename(lambda = ".")
+
+results <- boston_ridge$beta %>% 
+  as.matrix() %>% 
+  as.data.frame() %>%
+  rownames_to_column() %>%
+  gather(penalty, coefficients, -rowname) %>%
+  left_join(lam)
+
+result_labels <- results %>%
+  group_by(rowname) %>%
+  filter(lambda == min(lambda)) %>%
+  ungroup() %>%
+  top_n(5, wt = abs(coefficients)) %>%
+  mutate(var = paste0("x", 1:5))
+
+ggplot() +
+  geom_line(data = results, aes(lambda, coefficients, group = rowname, color = rowname), show.legend = FALSE) +
+  scale_x_log10() +
+  geom_text(data = result_labels, aes(lambda, coefficients, label = var, color = rowname), nudge_x = -.06, show.legend = FALSE)
+```
+
+---
+
+## Lasso
+
+Similar to ridge penalty. Swap out $L^2$ norm for $L^{1}$ norm: $\lambda \sum_{j=1}^{p}|\beta_{j}|$ 
+
+$$\min(\text{SSE} + \lambda \sum_{j=1}^{p}|\beta_{j}|)$$
+
+Ridge penalty pushes variables to approximately zero. 
+
+Lasso actually pushes coefficients all the way to zero. 
+
+Automated **feature selection**!
+
+Look at the figure on the following slide, can you see the difference?
+
+---
+
+```{r, regression_6, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+boston_train_x <- model.matrix(cmedv ~ ., pdp::boston)[, -1]
+boston_train_y <- pdp::boston$cmedv
+
+# model
+boston_lasso <- glmnet::glmnet(
+  x = boston_train_x,
+  y = boston_train_y,
+  alpha = 1
+)
+
+lam <- boston_lasso$lambda %>% 
+  as.data.frame() %>%
+  mutate(penalty = boston_lasso$a0 %>% names()) %>%
+  rename(lambda = ".")
+
+results <- boston_lasso$beta %>% 
+  as.matrix() %>% 
+  as.data.frame() %>%
+  rownames_to_column() %>%
+  gather(penalty, coefficients, -rowname) %>%
+  left_join(lam)
+
+result_labels <- results %>%
+  group_by(rowname) %>%
+  filter(lambda == min(lambda)) %>%
+  ungroup() %>%
+  top_n(5, wt = abs(coefficients)) %>%
+  mutate(var = paste0("x", 1:5))
+
+ggplot() +
+  geom_line(data = results, aes(lambda, coefficients, group = rowname, color = rowname), show.legend = FALSE) +
+  scale_x_log10() +
+  geom_text(data = result_labels, aes(lambda, coefficients, label = var, color = rowname), nudge_x = -.05, show.legend = FALSE)
+```
+
+---
+
+## Elastic nets
+
+Generalisation of ridge and lasso penalties:
+
+$$\min(\text{SSE} + \lambda_1 \sum_{j=1}^{p}\beta^{2}_{j} + \lambda_2 \sum_{j=1}^{p}|\beta_{j}|)$$
+
+Lasso performs feature selection, **but** when we have two strongly correlated features one may be pushed to zero and the other remains. 
+
+Ridge regression penalty more effective in handling correlated features. 
+
+Elastic net combines bits of both these methods. 
+
+If you are interested in these topics I suggest you read more on them in **ISLR**.
+
+Penalty models are easy to implement and results are surprisingly good. 
+ 
+---
+
+```{r, regression_7, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+# model
+boston_elastic <- glmnet::glmnet(
+  x = boston_train_x,
+  y = boston_train_y,
+  alpha = .2
+)
+
+lam <- boston_elastic$lambda %>% 
+  as.data.frame() %>%
+  mutate(penalty = boston_elastic$a0 %>% names()) %>%
+  rename(lambda = ".")
+
+results <- boston_elastic$beta %>% 
+  as.matrix() %>% 
+  as.data.frame() %>%
+  rownames_to_column() %>%
+  gather(penalty, coefficients, -rowname) %>%
+  left_join(lam)
+
+result_labels <- results %>%
+  group_by(rowname) %>%
+  filter(lambda == min(lambda)) %>%
+  ungroup() %>%
+  top_n(5, wt = abs(coefficients)) %>%
+  mutate(var = paste0("x", 1:5))
+
+ggplot() +
+  geom_line(data = results, aes(lambda, coefficients, group = rowname, color = rowname), show.legend = FALSE) +
+  scale_x_log10() +
+  geom_text(data = result_labels, aes(lambda, coefficients, label = var, color = rowname), nudge_x = -.05, show.legend = FALSE)
+```
+
+---
+
+## glmnet
+
+We will be using `glmnet` to conduct our regularised regression analysis. 
+
+This package is extremely efficient and fast. It utilises Fortran code. 
+
+For those who like Python, one can use `Scikit-Learn` modules.
+
+There are also other R packages available (e.g. `h20`, `elasticnet` and `penalized`).
+
+We have to do some basic transformations to use this package. 
+
+```{r, cache=F, message=F}
+# Create training  feature matrices
+# we use model.matrix(...)[, -1] to discard the intercept
+X <- model.matrix(Sale_Price ~ ., ames_train)[, -1]
+
+# transform y with log transformation
+Y <- log(ames_train$Sale_Price)
+```
+
+---
+
+## glmnet
+
+Let us become more familiar with the different components of this package. 
+
+`alpha` tells **glmnet** which method to implement. 
+
+- `alpha` = 0: ridge penalty
+- `alpha` = 1: lasso penalty
+- 0 < `alpha` < 1: elastic net model
+
+**glmnet** does two things that one needs to be aware of. 
+
+1. Standardises features
+2. Fits ridge models across wide range of $\lambda$ values (automatically)
+
+---
+
+## Parameter tuning 
+
+$\lambda$ is the tuning parameter and it helps prevent overfitting training data.
+
+To identify optimal $\lambda$ value we can use $k$-fold cross validation.
+
+```{r, cache=F, message=F}
+# Apply CV ridge regression to Ames data
+ridge <- cv.glmnet(
+  x = X,
+  y = Y,
+  alpha = 0)
+
+# Apply CV lasso regression to Ames data
+lasso <- cv.glmnet(
+  x = X,
+  y = Y,
+  alpha = 1)
+```
+
+Now let's plot the result...
+
+---
+
+```{r, tuning, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+# plot results
+par(mfrow = c(1, 2))
+plot(ridge, main = "Ridge penalty\n\n")
+plot(lasso, main = "Lasso penalty\n\n")
+```
+
+---
+
+```{r, cache=F, message=F}
+# Ridge model
+min(ridge$cvm)       # minimum MSE
+ridge$lambda.min     # lambda for this min MSE
+
+# Lasso model
+min(lasso$cvm)       # minimum MSE
+lasso$lambda.min     # lambda for this min MSE
+
+lasso$nzero[lasso$lambda == lasso$lambda.min] # No. of coef | Min MSE
+```
+
+---
+
+```{r, ridge_lasso, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+# Ridge model
+ridge_min <- glmnet(
+  x = X,
+  y = Y,
+  alpha = 0
+)
+
+# Lasso model
+lasso_min <- glmnet(
+  x = X,
+  y = Y,
+  alpha = 1
+)
+
+par(mfrow = c(1, 2))
+# plot ridge model
+plot(ridge_min, xvar = "lambda", main = "Ridge penalty\n\n")
+abline(v = log(ridge$lambda.min), col = "red", lty = "dashed")
+abline(v = log(ridge$lambda.1se), col = "blue", lty = "dashed")
+
+# plot lasso model
+plot(lasso_min, xvar = "lambda", main = "Lasso penalty\n\n")
+abline(v = log(lasso$lambda.min), col = "red", lty = "dashed")
+abline(v = log(lasso$lambda.1se), col = "blue", lty = "dashed")
+```
+
+---
+
+```{r, cache=F, message=F, echo = FALSE}
+set.seed(123)
+cv_glmnet <- train(
+  x = X,
+  y = Y,
+  method = "glmnet",
+  preProc = c("zv", "center", "scale"),
+  trControl = trainControl(method = "cv", number = 10),
+  tuneLength = 10
+)
+```
+
+```{r, cache=F, message=F}
+# model with lowest RMSE
+cv_glmnet$bestTune
+
+# results for model with lowest RMSE
+cv_glmnet$results %>%
+  filter(alpha == cv_glmnet$bestTune$alpha, lambda == cv_glmnet$bestTune$lambda)
+
+# predict sales price on training data
+pred <- predict(cv_glmnet, X)
+
+# compute RMSE of transformed predicted
+RMSE(exp(pred), exp(Y))
+
+# RMSE of multiple linear regression was 26098.00
+```
+
+---
+
+```{r, vip, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+vip(cv_glmnet, num_features = 20, geom = "point")
+```
