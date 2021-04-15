@@ -1,0 +1,219 @@
+---
+title: "Data Science for Economics"
+subtitle: "Lecture 3: Tree based methods"
+author: "Dawie van Lill"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(primary_color = "#035AA6", secondary_color = "#03A696")
+```
+
+## Packages and topics
+
+Here are the packages that we will be using for this session.  
+
+```{r, cache=F, message=F}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(dplyr, ggplot2, rpart, caret, rpart.plot, 
+               vip, pdp, doParallel, foreach, 
+               ipred, ranger, gbm, xgboost, AmesHousing)
+```
+
+Many new packages -> several new topics covered.
+
+1. Decision trees
+2. Bagging
+3. Random forests
+4. Gradient boosting
+
+We will probably take **two lecture slots** to get through all these topics. 
+
+Important that you go and read on these specific topics if they interest you. 
+
+Would like to cover *support vector machines*, but dependent on progress made. 
+
+---
+
+## Decision trees
+
+Partition feature space into smaller regions with similar response values. 
+
+Use a set of **splitting rules** to decide regions. 
+
+Referred to as divide-and-conquer methods. 
+
+Rules can be easily interpreted and visualised with *tree diagrams*.
+
+Decision trees become more powerful when combined with ensemble algorithms.
+
+We will first develop strong foundation in decision trees. 
+
+---
+
+## CART
+
+Classification and regression tree (**CART**) algorithm. 
+
+Decision tree partitions the training data into homogeneous subgroups and then fits a simple constant in each subgroup.
+
+The subgroups (also called *nodes*) are formed recursively using binary partitions formed by asking simple yes-or-no questions about each feature.
+
+Done a number of times until a suitable stopping criteria is satisfied.
+
+
+After partitioning, model predicts output based on 
+
+1. Average response values for all observations that fall in that subgroup
+2. Class that has majority representation
+
+First is regression problem, second is classification. 
+
+---
+
+```{r exemplar, echo=F, fig.align = 'center', out.width = "100%", fig.cap = "Figure 1: Decision tree depicting whether consumer will redeem a coupon."}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/exemplar-decision-tree.png")
+```
+
+
+```{r terminology, echo=F, fig.align = 'center', out.width = "90%", fig.cap = "Figure 2: Terminology of a decision tree."}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/decision-tree-terminology.png")
+```
+---
+
+## Partitioning
+
+CART uses binary recursive partitioning -- each split depends on the split above it. 
+
+Objective is to find the best feature to partition the remaining data into two regions ($R_1$ and $R_2$). 
+
+Want to minimise overall error between response and predicted constant.
+
+In regression problems, minimise total SSE as follows
+
+$$\text{SSE} =\sum_{i \in R_{1}}\left(y_{i}-c_{1}\right)^{2}+\sum_{i \in R_{2}}\left(y_{i}-c_{2}\right)^{2}$$
+
+Having found best feature/split combination, data are partitioned again into two regions and the splitting process is repeated. 
+
+Process is continued until stopping criterion is reached (max depth).
+
+---
+
+## Creating a dataset
+
+```{r, cache=F, message=F}
+# create data
+set.seed(1112)  # for reproducibility
+df <- tibble::tibble(
+  x = seq(from = 0, to = 2 * pi, length = 500),
+  y = sin(x) + rnorm(length(x), sd = 0.5),
+  truth = sin(x)
+)
+
+# run decision stump model
+ctrl <- list(cp = 0, minbucket = 5, maxdepth = 1)
+fit <- rpart(y ~ x, data = df, control = ctrl)
+```
+
+Here we have data generated from simple $\sin$ function with Gaussian noise. 
+
+---
+
+```{r stump-1, echo=F, fig.align = 'center', out.width = "150%"}
+knitr::include_graphics("stump-1.png")
+```
+
+```{r stump-2, echo=F, fig.align = 'center', out.width = "150%"}
+knitr::include_graphics("stump-2.png")
+```
+
+
+---
+
+## Classification problem
+
+Decision tree applied to iris data set.
+
+Species of flower predicted based on two features (sepal width and sepal length).
+
+Optimal decision tree with two splits in each feature.
+
+```{r stump-3, echo=F, fig.align = 'center', out.width = "150%"}
+knitr::include_graphics("stump-3.png")
+```
+
+Predicted value is response class with greatest proportion within enclosed region. 
+
+---
+
+## How complex should tree be?
+
+```{r stump-4, echo=F, fig.align = 'center', out.width = "150%"}
+knitr::include_graphics("stump-4.png")
+```
+
+Don't want to overfit the data, so there is some balance we need to maintain. 
+
+Two approaches to find this balance.
+
+1. Early stopping
+2. Pruning
+
+---
+
+## Early stopping
+
+Early stopping explicitly restricts the growth of the tree.
+
+Two most common approaches are 
+
+1. Restrict the tree depth to a certain level
+2. Restrict the minimum number of observations allowed in any terminal node
+
+Two methods can be operated independently or jointly (see figure on next slide). 
+
+---
+
+```{r stopping, echo=F, fig.align = 'center', out.width = "100%"}
+knitr::include_graphics("stopping.png")
+```
+
+---
+
+## Pruning
+
+Allow tree to grow large and then prune back to find optimal subtree.
+
+Penalises objective function for number of terminal nodes in the tree. 
+
+$$\min(\text{SSE} +\alpha |T|)$$
+Shares some similarity with the **lasso penalty** we discussed in the previous lecture. 
+
+```{r pruning, echo=F, fig.align = 'center', out.width = "100%"}
+knitr::include_graphics("pruning.png")
+```
+
+
+---
+
+
+
+## Bagging
+
+---
+
+## Random forests
+
+---
+
+## Gradient boosting
+
+---

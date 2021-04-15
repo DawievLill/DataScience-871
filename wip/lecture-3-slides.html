@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Science for Economics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dawie van Lill" />
+    <script src="libs/header-attrs-2.7/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Science for Economics
+## Lecture 3: Tree based methods
+### Dawie van Lill
+
+---
+
+
+
+
+## Packages and topics
+
+Here are the packages that we will be using for this session.  
+
+
+```r
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(dplyr, ggplot2, rpart, caret, rpart.plot, 
+               vip, pdp, doParallel, foreach, 
+               ipred, ranger, gbm, xgboost, AmesHousing)
+```
+
+Many new packages -&gt; several new topics covered.
+
+1. Decision trees
+2. Bagging
+3. Random forests
+4. Gradient boosting
+
+We will probably take **two lecture slots** to get through all these topics. 
+
+Important that you go and read on these specific topics if they interest you. 
+
+Would like to cover *support vector machines*, but dependent on progress made. 
+
+---
+
+## Decision trees
+
+Partition feature space into smaller regions with similar response values. 
+
+Use a set of **splitting rules** to decide regions. 
+
+Referred to as divide-and-conquer methods. 
+
+Rules can be easily interpreted and visualised with *tree diagrams*.
+
+Decision trees become more powerful when combined with ensemble algorithms.
+
+We will first develop strong foundation in decision trees. 
+
+---
+
+## CART
+
+Classification and regression tree (**CART**) algorithm. 
+
+Decision tree partitions the training data into homogeneous subgroups and then fits a simple constant in each subgroup.
+
+The subgroups (also called *nodes*) are formed recursively using binary partitions formed by asking simple yes-or-no questions about each feature.
+
+Done a number of times until a suitable stopping criteria is satisfied.
+
+
+After partitioning, model predicts output based on 
+
+1. Average response values for all observations that fall in that subgroup
+2. Class that has majority representation
+
+First is regression problem, second is classification. 
+
+---
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://bradleyboehmke.github.io/HOML/images/exemplar-decision-tree.png" alt="Figure 1: Decision tree depicting whether consumer will redeem a coupon." width="100%" /&gt;
+&lt;p class="caption"&gt;Figure 1: Decision tree depicting whether consumer will redeem a coupon.&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://bradleyboehmke.github.io/HOML/images/decision-tree-terminology.png" alt="Figure 2: Terminology of a decision tree." width="90%" /&gt;
+&lt;p class="caption"&gt;Figure 2: Terminology of a decision tree.&lt;/p&gt;
+&lt;/div&gt;
+---
+
+## Partitioning
+
+CART uses binary recursive partitioning -- each split depends on the split above it. 
+
+Objective is to find the best feature to partition the remaining data into two regions ($R_1$ and `\(R_2\)`). 
+
+Want to minimise overall error between response and predicted constant.
+
+In regression problems, minimise total SSE as follows
+
+`$$\text{SSE} =\sum_{i \in R_{1}}\left(y_{i}-c_{1}\right)^{2}+\sum_{i \in R_{2}}\left(y_{i}-c_{2}\right)^{2}$$`
+
+Having found best feature/split combination, data are partitioned again into two regions and the splitting process is repeated. 
+
+Process is continued until stopping criterion is reached (max depth).
+
+---
+
+## Creating a dataset
+
+
+```r
+# create data
+set.seed(1112)  # for reproducibility
+df &lt;- tibble::tibble(
+  x = seq(from = 0, to = 2 * pi, length = 500),
+  y = sin(x) + rnorm(length(x), sd = 0.5),
+  truth = sin(x)
+)
+
+# run decision stump model
+ctrl &lt;- list(cp = 0, minbucket = 5, maxdepth = 1)
+fit &lt;- rpart(y ~ x, data = df, control = ctrl)
+```
+
+Here we have data generated from simple `\(\sin\)` function with Gaussian noise. 
+
+---
+
+&lt;img src="stump-1.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="stump-2.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Classification problem
+
+Decision tree applied to iris data set.
+
+Species of flower predicted based on two features (sepal width and sepal length).
+
+Optimal decision tree with two splits in each feature.
+
+&lt;img src="stump-3.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+Predicted value is response class with greatest proportion within enclosed region. 
+
+---
+
+## How complex should tree be?
+
+&lt;img src="stump-4.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+Don't want to overfit the data, so there is some balance we need to maintain. 
+
+Two approaches to find this balance.
+
+1. Early stopping
+2. Pruning
+
+---
+
+## Early stopping
+
+Early stopping explicitly restricts the growth of the tree.
+
+Two most common approaches are 
+
+1. Restrict the tree depth to a certain level
+2. Restrict the minimum number of observations allowed in any terminal node
+
+Two methods can be operated independently or jointly (see figure on next slide). 
+
+---
+
+&lt;img src="stopping.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Pruning
+
+Allow tree to grow large and then prune back to find optimal subtree.
+
+Penalises objective function for number of terminal nodes in the tree. 
+
+`$$\min(\text{SSE} +\alpha |T|)$$`
+Shares some similarity with the **lasso penalty** we discussed in the previous lecture. 
+
+&lt;img src="pruning.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+
+## Bagging
+
+---
+
+## Random forests
+
+---
+
+## Gradient boosting
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
