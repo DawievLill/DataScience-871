@@ -1,0 +1,756 @@
+---
+title: "Data Science for Economics"
+subtitle: "Lecture 4: Decision Trees Contd."
+author: "Dawie van Lill"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(primary_color = "#035AA6", secondary_color = "#03A696")
+```
+
+## Packages and topics
+
+Here are the packages that we will be using for this session.  
+
+```{r, cache=F, message=F}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(dplyr, ggplot2, rpart, caret, rpart.plot, 
+               vip, pdp, doParallel, foreach, tidyr,  
+               ipred, ranger, gbm, xgboost, AmesHousing)
+```
+
+New topics for today
+
+1. Random forests
+2. Gradient boosting
+
+---
+
+## Random forests
+
+Random forests are a modification of bagged decision trees.
+
+Build large collection of de-correlated trees to improve predictive performance.
+
+When bagging trees, a problem still exists.
+
+Model building steps independent but trees in bagging are not independent.
+
+This characteristic is known as **tree correlation**.
+
+Random forests help to reduce tree correlation.
+
+Injects more randomness into the tree-growing process.
+  
+Uses **split-variable randomization**
+
+  - Each time split is performed, search for the split variable is limited to random subset of $m_{try}$ of original $p$ features
+  - Defaults values are $m_{try} = \frac{p}{3}$ (regression) and $m_{try} = \sqrt{p}$ (classification)
+
+---
+
+## Random forest algorithm 
+
+```{r, eval=FALSE}
+1.  Given a training data set
+2.  Select number of trees to build (n_trees)
+3.  for i = 1 to n_trees do
+4.  |  Generate a bootstrap sample of the original data
+5.  |  Grow a regression/classification tree to the bootstrapped data
+6.  |  for each split do
+7.  |  | Select m_try variables at random from all p variables
+8.  |  | Pick the best variable/split-point among the m_try
+9.  |  | Split the node into two child nodes
+10. |  end
+11. | Use typical tree model stopping criteria to determine when a 
+    | tree is complete (but do not prune)
+12. end
+13. Output ensemble of trees 
+```
+
+When $m_{try} = p$ we have bagging.
+
+Algorithm randomly selects bootstrap sample to train on **and** a random sample of features to use for each split. 
+
+Lessens tree correlation and increases predictive power. 
+
+---
+
+## Ames housing example (OOB)
+
+```{r, message=F}
+# Create training (70%) set for the Ames housing data.
+set.seed(123)
+ames <- AmesHousing::make_ames()
+split  <- rsample::initial_split(ames, prop = 0.7, 
+                                 strata = "Sale_Price")
+ames_train  <- rsample::training(split)
+
+# number of features
+n_features <- length(setdiff(names(ames_train), "Sale_Price"))
+
+# train a default random forest model
+ames_rf1 <- ranger(
+  Sale_Price ~ ., 
+  data = ames_train,
+  mtry = floor(n_features / 3),
+  respect.unordered.factors = "order",
+  seed = 123)
+
+# get OOB RMSE
+(default_rmse <- sqrt(ames_rf1$prediction.error))
+```
+
+---
+
+## Hyperparameters
+
+There are several tunable hyperparameters that we can consider in this model.
+
+The main hyperparameters to consider include:
+
+1. The number of trees in the forest
+2. The number of features to consider at any given split: $m_{try}$
+3. The complexity of each tree
+4. The sampling scheme
+5. The splitting rule to use during tree construction
+
+We will quickly discuss each of these hyperparameters. 
+
+Grid search can also be used to find best combination of hyperparameters. 
+
+We will briefly touch on grid search. 
+
+---
+
+## Number of trees
+
+Number of trees needs to be sufficiently large to stabilize the error rate
+
+```{r, hyper_1, eval=T,  cache=F, message=F, echo=F, fig.retina = 2, fig.width = 9, fig.height = 5, fig.align = 'center'}
+# number of features
+n_features <- ncol(ames_train) - 1
+
+# tuning grid
+tuning_grid <- expand.grid(
+  trees = seq(10, 1000, by = 20),
+  rmse  = NA
+)
+
+for(i in seq_len(nrow(tuning_grid))) {
+  
+  # Fit a random forest
+  fit <- ranger(
+    formula = Sale_Price ~ ., 
+    data = ames_train, 
+    num.trees = tuning_grid$trees[i],
+    mtry = floor(n_features / 3),
+    respect.unordered.factors = 'order',
+    verbose = FALSE,
+    seed = 123
+  )
+  
+  # Extract OOB RMSE
+  tuning_grid$rmse[i] <- sqrt(fit$prediction.error)
+  
+}
+
+ggplot(tuning_grid, aes(trees, rmse)) +
+  geom_line(size = 1) +
+  ylab("OOB Error (RMSE)") +
+  xlab("Number of trees")
+```
+
+
+Good rule of thumb is to start with 10 times number of features. 
+
+---
+
+## Split-variable randomization 
+
+Hyperparameter $m_{try}$ controls split-variable randomization.
+
+```{r, hyper_2, eval = T, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 9, fig.height = 5, fig.align = 'center'}
+tuning_grid <- expand.grid(
+  trees = seq(10, 1000, by = 20),
+  mtry  = floor(c(seq(2, 80, length.out = 5), 26)),
+  rmse  = NA
+)
+
+for(i in seq_len(nrow(tuning_grid))) {
+  fit <- ranger(
+    formula    = Sale_Price ~ ., 
+    data       = ames_train, 
+    num.trees  = tuning_grid$trees[i],
+    mtry       = tuning_grid$mtry[i],
+    respect.unordered.factors = 'order',
+    verbose    = FALSE,
+    seed       = 123
+  )
+  
+  tuning_grid$rmse[i] <- sqrt(fit$prediction.error)
+  
+}
+
+labels <- tuning_grid %>%
+  filter(trees == 990) %>%
+  mutate(mtry = as.factor(mtry))
+
+tuning_grid %>%
+  mutate(mtry = as.factor(mtry)) %>%
+  ggplot(aes(trees, rmse, color = mtry)) +
+  geom_line(size = 1, show.legend = FALSE) +
+  ggrepel::geom_text_repel(data = labels, aes(trees, rmse, label = mtry), nudge_x = 50, show.legend = FALSE) +
+  ylab("OOB Error (RMSE)") +
+  xlab("Number of trees")
+```
+
+Few (many) relevant predictors, higher (lower) $m_{try}$
+
+---
+
+## Tree complexity
+
+We can control depth and complexity of individual trees with **node size** the most common to control complexity. 
+
+```{r, hyper_3, eval = T, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 9, fig.height = 5, fig.align = 'center'}
+tuning_grid <- expand.grid(
+  min.node.size = 1:20,
+  run_time  = NA,
+  rmse = NA
+)
+
+for(i in seq_len(nrow(tuning_grid))) {
+  fit_time <- system.time({
+    fit <- ranger(
+    formula    = Sale_Price ~ ., 
+    data       = ames_train, 
+    num.trees  = 1000,
+    mtry       = 26,
+    min.node.size = tuning_grid$min.node.size[i],
+    respect.unordered.factors = 'order',
+    verbose    = FALSE,
+    seed       = 123
+  )
+})
+  
+  tuning_grid$run_time[i] <- fit_time[[3]]
+  tuning_grid$rmse[i] <- sqrt(fit$prediction.error)
+  
+}
+
+min_node_size <- tuning_grid %>% 
+  mutate(
+    error_first = first(rmse),
+    runtime_first = first(run_time),
+    `Error Growth` = (rmse / error_first) - 1,
+    `Run Time Reduction` = (run_time / runtime_first) - 1
+    )
+
+p1 <-  ggplot(min_node_size, aes(min.node.size, `Error Growth`)) +
+  geom_smooth(size = 1, se = FALSE, color = "black") +
+  scale_y_continuous("Percent growth in error estimate", labels = scales::percent) +
+  xlab("Minimum node size") +
+  ggtitle("A) Impact to error estimate")
+
+p2 <-  ggplot(min_node_size, aes(min.node.size, `Run Time Reduction`)) +
+  geom_smooth(size = 1, se = FALSE, color = "black") +
+  scale_y_continuous("Reduction in run time", labels = scales::percent) +
+  xlab("Minimum node size") +
+  ggtitle("B) Impact to run time")
+
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+```
+
+If computation time a concern then try increasing node size!
+
+---
+
+## Sampling schedule 
+
+Can also adjust sample size and decide on whether to sample with or without replacement. 
+
+```{r, hyper_4, eval = T, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 9, fig.height = 5, fig.align = 'center'}
+tuning_grid <- expand.grid(
+  sample.fraction = seq(.05, .95, by = .05),
+  replace  = c(TRUE, FALSE),
+  rmse = NA
+)
+
+for(i in seq_len(nrow(tuning_grid))) {
+  fit <- ranger(
+    formula    = Sale_Price ~ ., 
+    data       = ames_train, 
+    num.trees  = 1000,
+    mtry       = 26,
+    sample.fraction = tuning_grid$sample.fraction[i],
+    replace = tuning_grid$replace[i],
+    respect.unordered.factors = 'order',
+    verbose    = FALSE,
+    seed       = 123
+  )
+
+  tuning_grid$rmse[i] <- sqrt(fit$prediction.error)
+  
+}
+
+tuning_grid %>%
+  ggplot(aes(sample.fraction, rmse, color = replace)) +
+  geom_line(size = 1) +
+  scale_x_continuous("Sample Fraction", breaks = seq(.1, .9, by = .1), labels = scales::percent) +
+  ylab("OOB Error (RMSE)") +
+  scale_color_discrete("Sample with Replacement") +
+  theme(legend.position = c(0.8, 0.85),
+        legend.key = element_blank(),
+        legend.background = element_blank())
+```
+
+---
+
+## Gradient boosting
+
+
+GBMs build an ensemble of **shallow trees in sequence** with each tree learning and improving on the previous one.
+
+The main idea of boosting is to add new models to the ensemble **sequentially**.
+
+```{r terminology, echo=F, fig.align = 'center', out.width = "70%"}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/boosted-trees-process.png")
+```
+
+Boosting attacks bias-variance-tradeoff by starting with a *weak* model.
+
+Boosts the performance by building new trees.
+
+ - New tree in sequence tries to fix where previous one made biggest mistakes. 
+ - Focus on training rows with largest prediction errors. 
+ 
+---
+
+```{r, hyper_5, eval = T, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+# Simulate sine wave data
+set.seed(1112)  # for reproducibility
+df <- tibble::tibble(
+  x = seq(from = 0, to = 2 * pi, length = 1000),
+  y = sin(x) + rnorm(length(x), sd = 0.5),
+  truth = sin(x)
+)
+
+# Function to boost `rpart::rpart()` trees
+rpartBoost <- function(x, y, data, num_trees = 100, learn_rate = 0.1, tree_depth = 6) {
+  x <- data[[deparse(substitute(x))]]
+  y <- data[[deparse(substitute(y))]]
+  G_b_hat <- matrix(0, nrow = length(y), ncol = num_trees + 1)
+  r <- y
+  for(tree in seq_len(num_trees)) {
+    g_b_tilde <- rpart(r ~ x, control = list(cp = 0, maxdepth = tree_depth))
+    g_b_hat <- learn_rate * predict(g_b_tilde)
+    G_b_hat[, tree + 1] <- G_b_hat[, tree] + matrix(g_b_hat)
+    r <- r - g_b_hat
+    colnames(G_b_hat) <- paste0("tree_", c(0, seq_len(num_trees)))
+  }
+  cbind(df, as.data.frame(G_b_hat)) %>%
+    gather(tree, prediction, starts_with("tree")) %>%
+    mutate(tree = stringr::str_extract(tree, "\\d+") %>% as.numeric())
+}
+
+# Plot boosted tree sequence
+rpartBoost(x, y, data = df, num_trees = 2^10, learn_rate = 0.05, tree_depth = 1) %>%
+  filter(tree %in% c(0, 2^c(0:10))) %>%
+  ggplot(aes(x, prediction)) +
+    ylab("y") +
+    geom_point(data = df, aes(x, y), alpha = .1) +
+    geom_line(data = df, aes(x, truth), color = "blue") +
+    geom_line(colour = "red", size = 1) +
+    facet_wrap(~ tree, nrow = 3)
+```
+
+---
+
+## Gradient descent
+
+*Gradient* boosting machine comes from the fact that this procedure can be generalized to loss functions other than SSE.
+
+Gradient boosting is considered a **gradient descent** algorithm.
+
+Idea is to tweak parameter(s) iteratively to minimize a cost function.
+
+Gradient descent measures the local gradient of the loss (cost) function for a given set of parameters $\Theta$ and takes steps in the direction of the descending gradient.
+
+Once the gradient is zero, we have reached a minimum. 
+
+---
+
+```{r, grad_1, eval = T, warning = F, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+# create data to plot
+x <- seq(-5, 5, by = .05)
+y <- x^2 + 3
+df <- data.frame(x, y)
+step <- 5
+step_size <- .2
+for(i in seq_len(18)) {
+  next_step <- max(step) + round(diff(range(max(step), which.min(df$y))) * step_size, 0)
+  step <- c(step, next_step)
+  next
+}
+steps <- df[step, ] %>%
+  mutate(x2 = lag(x), y2 = lag(y)) %>%
+  dplyr::slice(1:18)
+# plot
+ggplot(df, aes(x, y)) +
+  geom_line(size = 1.5, alpha = .5) +
+  theme_classic() +
+  scale_y_continuous("Loss function", limits = c(0, 30)) +
+  xlab(expression(theta)) +
+  geom_segment(data = df[c(5, which.min(df$y)), ], aes(x = x, y = y, xend = x, yend = -Inf), lty = "dashed") +
+  geom_point(data = filter(df, y == min(y)), aes(x, y), size = 4, shape = 21, fill = "yellow") +
+  geom_point(data = steps, aes(x, y), size = 3, shape = 21, fill = "blue", alpha = .5) +
+  geom_curve(data = steps, aes(x = x, y = y, xend = x2, yend = y2), curvature = 1, lty = "dotted") +
+  theme(
+    axis.ticks = element_blank(),
+    axis.text = element_blank()
+  ) +
+  annotate("text", x = df[5, "x"], y = 1, label = "Initial value", hjust = -0.1, vjust = .8) +
+  annotate("text", x = df[which.min(df$y), "x"], y = 1, label = "Minimium", hjust = -0.1, vjust = .8) +
+  annotate("text", x = df[5, "x"], y = df[5, "y"], label = "Learning step", hjust = -.8, vjust = 0)
+```
+
+---
+
+## Gradient descent
+
+Gradient descent can be performed on any loss function that is differentiable.
+
+Allows GBMs to optimize different loss functions as desired.
+
+Important parameter in gradient descent is the size of the steps. 
+
+This is controlled by the **learning rate**.
+
+If the learning rate is too small, then the algorithm will take many iterations (steps) to find the minimum.
+
+On the other hand, if the learning rate is too high, you might jump across the minimum and end up further away than when you started.
+
+---
+```{r, grad_2, eval = T, warning = F, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+# create too small of a learning rate
+step <- 5
+step_size <- .05
+for(i in seq_len(10)) {
+  next_step <- max(step) + round(diff(range(max(step), which.min(df$y))) * step_size, 0)
+  step <- c(step, next_step)
+  next
+}
+too_small <- df[step, ] %>%
+  mutate(x2 = lag(x), y2 = lag(y))
+# plot
+p1 <- ggplot(df, aes(x, y)) +
+  geom_line(size = 1.5, alpha = .5) +
+  theme_classic() +
+  scale_y_continuous("Loss function", limits = c(0, 30)) +
+  xlab(expression(theta)) +
+  geom_segment(data = too_small[1, ], aes(x = x, y = y, xend = x, yend = -Inf), lty = "dashed") +
+  geom_point(data = too_small, aes(x, y), size = 3, shape = 21, fill = "blue", alpha = .5) +
+  geom_curve(data = too_small, aes(x = x, y = y, xend = x2, yend = y2), curvature = 1, lty = "dotted") +
+  theme(
+    axis.ticks = element_blank(),
+    axis.text = element_blank()
+  ) +
+  annotate("text", x = df[5, "x"], y = 1, label = "Start", hjust = -0.1, vjust = .8) +
+  ggtitle("b) too small")
+# create too large of a learning rate
+too_large <- df[round(which.min(df$y) * (1 + c(-.9, -.6, -.2, .3)), 0), ] %>%
+  mutate(x2 = lag(x), y2 = lag(y))
+# plot
+p2 <- ggplot(df, aes(x, y)) +
+  geom_line(size = 1.5, alpha = .5) +
+  theme_classic() +
+  scale_y_continuous("Loss function", limits = c(0, 30)) +
+  xlab(expression(theta)) +
+  geom_segment(data = too_large[1, ], aes(x = x, y = y, xend = x, yend = -Inf), lty = "dashed") +
+  geom_point(data = too_large, aes(x, y), size = 3, shape = 21, fill = "blue", alpha = .5) +
+  geom_curve(data = too_large, aes(x = x, y = y, xend = x2, yend = y2), curvature = 1, lty = "dotted") +
+  theme(
+    axis.ticks = element_blank(),
+    axis.text = element_blank()
+  ) +
+  annotate("text", x = too_large[1, "x"], y = 1, label = "Start", hjust = -0.1, vjust = .8) +
+  ggtitle("a) too big")
+gridExtra::grid.arrange(p2, p1, nrow = 1)
+```
+---
+
+## Gradient descent
+
+Not all cost functions are convex (i.e., bowl shaped).
+
+There may be local minimas, plateaus, and other irregular terrain of the loss function that makes finding the global minimum difficult.
+
+**Stochastic gradient descent** can help us address this problem.
+
+Sample fraction of training observations and grow next tree using the subsample.
+
+Several hyperparameter tuning options in stochastic gradient boosting. 
+
+  - Some control gradient descent, while others control tree growing process. 
+  
+If properly tuned (e.g., with k-fold CV) GBMs can lead to some of the most flexible and accurate predictive models you can build!
+
+---
+
+```{r, grad_3, eval = T, warning = F, cache=F, message=F, echo=F, fig.retina = 2, fig.width = 10, fig.height = 8, fig.align = 'center'}
+# create random walk data
+set.seed(123)
+x <- sample(seq(3, 5, by = .05), 10, replace = TRUE)
+set.seed(123)
+y <- seq(2, 28, length.out = 10)
+
+random_walk <- data.frame(
+  x = x,
+  y = y[order(y, decreasing = TRUE)]
+)
+
+optimal <- data.frame(x = 0, y = 0)
+
+# plot
+ggplot(df, aes(x, y)) + 
+  coord_polar() +
+  theme_minimal() +
+  theme(
+    axis.ticks = element_blank(),
+    axis.text = element_blank()
+  ) +
+  xlab(expression(theta[1])) +
+  ylab(expression(theta[2])) +
+  geom_point(data = random_walk, aes(x, y), size = 3, shape = 21, fill = "blue", alpha = .5) + 
+  geom_point(data = optimal, aes(x, y), size = 2, shape = 21, fill = "yellow") + 
+  geom_path(data = random_walk, aes(x, y), lty = "dotted") +
+  annotate("text", x = random_walk[1, "x"], y = random_walk[1, "y"], label = "Start", hjust = 1, vjust = -1) +
+  annotate("text", x = optimal[1, "x"], y = optimal[1, "y"], label = "Minimum", hjust = -.2, vjust = 1) +
+  ylim(c(0, 28)) + 
+  xlim(-5, 5)
+```
+
+---
+
+## Basic GBM
+
+Simple GBM model contains two categories of hyperparameters: *boosting hyperparameters* and *tree-specific hyperparameters*.
+
+Two main boosting hyperparameters are:
+
+1. Number of trees
+2. Learning rate (shrinkage)
+
+Two main tree hyperparameters are:
+
+1. Tree depth
+2. Minimum number of observations in terminal nodes
+
+---
+
+## Ames housing example (GBM)
+
+```{r, message=F, eval = F}
+# run a basic GBM model
+set.seed(123)  # for reproducibility
+ames_gbm1 <- gbm(
+  formula = Sale_Price ~ .,
+  data = ames_train,
+  distribution = "gaussian",  # SSE loss function
+  n.trees = 5000,
+  shrinkage = 0.1,
+  interaction.depth = 3,
+  n.minobsinnode = 10,
+  cv.folds = 10
+)
+
+# find index for number trees with minimum CV error
+best <- which.min(ames_gbm1$cv.error)
+
+# get MSE and compute RMSE
+sqrt(ames_gbm1$cv.error[best])
+```
+
+---
+
+## General tuning strategy
+
+Tuning can require much more strategy than a random forest model. A good approach is:
+
+1. Choose a relatively high learning rate. Generally the default value of 0.1 works.
+2. Determine the optimum number of trees for this learning rate.
+3. Fix tree hyperparameters. Tune learning rate and assess speed vs. performance.
+4. Tune tree-specific parameters for decided learning rate.
+5. Lower the learning rate to assess for any improvements in accuracy.
+6. Use final hyperparameter settings and increase CV procedures to get more robust estimates.
+
+This process is attempted in the textbook, see for reference. 
+
+---
+
+## Stochastic GBMs
+
+Few variants of stochastic gradient boosting
+
+All of these variants have additional hyperparameters.
+
+  - Subsample rows before creating each tree
+  - Subsample columns before creating each tree
+  - Subsample columns before considering each split in each tree
+
+When adding in a stochastic procedure, you can either include it in step 4 or step 6 of our general tuning strategy from before. 
+
+---
+
+## XGBoost
+
+**xgboost** provides the traditional boosting and tree-based hyperparameters. 
+
+However, **xgboost** also provides additional hyperparameters that can help reduce the chances of overfitting, leading to less prediction variability and, therefore, improved accuracy.
+
+See sections on *regularisation* and *dropout* with **xgboost**. 
+
+Our tuning strategy with **xgboost** is the following. 
+
+1. Increase number of trees and tune learning rate with early stopping
+2. Tune tree-specific hyperparameters
+3. Explore stochastic GBM attributes
+4. If substantial overfitting occurs explore regularization hyperparameters
+5. If you find hyperparameter values that are substantially different from default settings, be sure to retune the learning rate
+6. Obtain final “optimal” model
+
+---
+
+## XGBoost
+
+**xgboost** requires some additional data preparation. 
+
+Need to encode our categorical variables numerically.
+
+```{r, message=F, eval = F}
+library(recipes)
+xgb_prep <- recipe(Sale_Price ~ ., data = ames_train) %>%
+  step_integer(all_nominal()) %>%
+  prep(training = ames_train, retain = TRUE) %>%
+  juice()
+
+X <- as.matrix(xgb_prep[setdiff(names(xgb_prep), "Sale_Price")])
+Y <- xgb_prep$Sale_Price
+```
+
+Next we will go through a series of grid searches to find model hyperparameters.
+
+---
+
+## XGBoost
+
+```{r, message=F, eval = F}
+set.seed(123)
+ames_xgb <- xgb.cv(
+  data = X,
+  label = Y,
+  nrounds = 6000,
+  objective = "reg:linear",
+  early_stopping_rounds = 50, 
+  nfold = 10,
+  params = list(
+    eta = 0.1,
+    max_depth = 3,
+    min_child_weight = 3,
+    subsample = 0.8,
+    colsample_bytree = 1.0),
+  verbose = 0
+)  
+
+# minimum test CV RMSE
+min(ames_xgb$evaluation_log$test_rmse_mean)
+```
+
+Minimum test CV RMSE is about 20488. 
+
+---
+
+## XGBoost
+
+Next, we assess if overfitting is limiting our model’s performance by performing a grid search that examines various regularisation parameters.
+
+```{r, message=F, eval = F}
+# hyperparameter grid
+hyper_grid <- expand.grid(
+  eta = 0.01,
+  max_depth = 3, 
+  min_child_weight = 3,
+  subsample = 0.5, 
+  colsample_bytree = 0.5,
+  gamma = c(0, 1, 10, 100, 1000),
+  lambda = c(0, 1e-2, 0.1, 1, 100, 1000, 10000),
+  alpha = c(0, 1e-2, 0.1, 1, 100, 1000, 10000),
+  rmse = 0,          # a place to dump RMSE results
+  trees = 0          # a place to dump required number of trees
+)
+```
+
+---
+
+```{r, message=F, eval = F}
+# grid search
+for(i in seq_len(nrow(hyper_grid))) {
+  set.seed(123)
+  m <- xgb.cv(
+    data = X,
+    label = Y,
+    nrounds = 4000,
+    objective = "reg:linear",
+    early_stopping_rounds = 50, 
+    nfold = 10,
+    verbose = 0,
+    params = list( 
+      eta = hyper_grid$eta[i], 
+      max_depth = hyper_grid$max_depth[i],
+      min_child_weight = hyper_grid$min_child_weight[i],
+      subsample = hyper_grid$subsample[i],
+      colsample_bytree = hyper_grid$colsample_bytree[i],
+      gamma = hyper_grid$gamma[i], 
+      lambda = hyper_grid$lambda[i], 
+      alpha = hyper_grid$alpha[i]
+    ) 
+  )
+  hyper_grid$rmse[i] <- min(m$evaluation_log$test_rmse_mean)
+  hyper_grid$trees[i] <- m$best_iteration
+}
+```
+
+---
+
+## XGBoost final model
+
+```{r, message=F, eval = F}
+# optimal parameter list
+params <- list(
+  eta = 0.01,
+  max_depth = 3,
+  min_child_weight = 3,
+  subsample = 0.5,
+  colsample_bytree = 0.5
+)
+
+# train final model
+xgb.fit.final <- xgboost(
+  params = params,
+  data = X,
+  label = Y,
+  nrounds = 3944,
+  objective = "reg:linear",
+  verbose = 0
+)
+```
