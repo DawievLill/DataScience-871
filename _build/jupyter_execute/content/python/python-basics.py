@@ -3,7 +3,7 @@
 
 # # Getting started with Python
 # 
-# In this section we will be going over some of the basics of Python. There are several excellent resources to get a better understanding of the language and I will reference them when needed. The best way to learn a new language is to try and code up something that you care about. Think about a specific project and try to implement it using the new language. Along the way you will encounter many stumbling blocks, but it is through the process of repeatedly failing that we figure out how things work at a fundamental level.
+# In this section we will be going over some of the basics of Python. The work presented here is almost the bare minimum to get started. There are several excellent resources to get a better understanding of the language and I will reference them when needed. The best way to learn a new language is to try and code up something that you care about. Think about a specific project and try to implement it using the new language. Along the way you will encounter many stumbling blocks, but it is through the process of repeatedly failing that we figure out how things work at a fundamental level.
 # 
 # While there will be a fair bit of coding in this course, the goal of this portion of the module is not to focus on package development. Hopefully some of you will go on to develop packages of your own, but we will not try and turn you into software engineers just yet. The aim is to get you comfortable with basic expression in the language. At this stage in your career, it is best to use carefully crafted existing packages when the need arises. You are more than welcome to look at the source code of the packages that you are using to see how professional software engineers go about developing packages. 
 # 
@@ -47,6 +47,15 @@
 # 4^3
 # ```
 # ````
+# ````{tab} Julia
+# ```julia
+# 39 + 3
+# 55 - 13
+# 6 * 7
+# 84 / 2
+# 4^3
+# ```
+# ````
 # 
 # In Python one could execute the following combination of operations to arrive at a numerical answer, similar to what you would do with a calculator.
 
@@ -83,6 +92,11 @@ type(42.0)
 # ````
 # ````{tab} R
 # ```R
+# typeof(42.0)
+# ```
+# ````
+# ````{tab} Julia
+# ```julia
 # typeof(42.0)
 # ```
 # ````
@@ -178,6 +192,12 @@ print(x)
 # library(Example)
 # ```
 # ````
+# ````{tab} Julia
+# ```julia
+# add Example # Within the package manager
+# using Example
+# ```
+# ````
 # 
 # In Python if you were to import the `math` module you would be able to use all the functions and variables contained in that module object. You are bringing the functionality associated with that module into your session. One can now access any function or object from the package by the name of package together with the name of the function, separated by a dot. This **dot notation** has some benefits, but I much prefer the way in which R incorporates functions from modules. The main reason for this notation is to avoid potential naming conflicts, which we will discuss at the end of this section. Below is an example of the dot notation in action. 
 # 
@@ -193,6 +213,13 @@ print(x)
 # ````{tab} R
 # ```R
 # degrees = 45
+# radians = degrees / 180.0 * pi
+# sin(radians)
+# ```
+# ````
+# ````{tab} Julia
+# ```julia
+# degrees = 45.0
 # radians = degrees / 180.0 * pi
 # sin(radians)
 # ```
@@ -223,8 +250,18 @@ print(x)
 # }
 # ```
 # ````
+# ````{tab} Julia
+# ```julia
+# function function_name(inputs)
+#     # step 1
+#     # step 2
+#     # ...
+#     return outputs
+# end
+# ```
+# ````
 # 
-# The basic anatomy of the user defined function is the same across programming languages. In the case of Python `def` is used to tell Python that we are defining a new function. While in R we use the keyword `function` to indicate that a new function is being created. Within the body of the function we specify a `return` keyword to indicate the value that we would like the language to return. In some languages, like Julia, the `return` keyword is not strictly required, but it often makes the code more easily readable. 
+# The basic anatomy of the user defined function is the same across programming languages. In the case of Python `def` is used to tell Python that we are defining a new function. While in R we use the keyword `function` to indicate that a new function is being created. Within the body of the function we specify a `return` keyword to indicate the value that we would like the language to return. In some languages, like Julia, the `return` keyword is not strictly required, but it often makes the code easy to read. 
 # 
 # Note that the statements inside the defined function do not run until the function is called. We call functions in the following manner
 # 

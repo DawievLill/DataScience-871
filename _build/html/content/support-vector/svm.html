@@ -4,7 +4,8 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>1. Maximal margin classifier &#8212; Data Science 871</title>
     
   <link rel="stylesheet" href="../../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
@@ -25,8 +26,8 @@
     href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
@@ -37,7 +38,7 @@
     
   <link rel="preload" as="script" href="../../_static/js/index.3da636dd464baa7582d2.js">
 
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
@@ -45,12 +46,10 @@
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
     <script src="../../_static/tabs.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
-    <script >
+    <script>
         const thebe_selector = ".thebe"
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
@@ -58,7 +57,7 @@
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="1. Perceptron" href="../neural-net/neural.html" />
+    <link rel="next" title="1. Neural networks" href="../neural-net/neural.html" />
     <link rel="prev" title="1. Decision trees" href="../tree-methods/trees.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -90,11 +89,11 @@
     <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../../intro.html">
-   Data Science for Economics
+   Data Science for Economics and Finance
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Python
  </span>
@@ -121,7 +120,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Math for Machine Learning
  </span>
@@ -138,7 +137,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Linear models
  </span>
@@ -165,7 +164,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Non-linear models
  </span>
@@ -192,7 +191,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Classification basics
  </span>
@@ -200,26 +199,21 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../classification/neighbours.html">
-   1. Logistic regression
+   1. K-Nearest neighbours
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../classification/neighbours.html#logistic-regression">
+   2. Logistic regression
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../classification/neighbours.html#linear-discriminant-analysis">
-   2. Linear discriminant analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/neighbours.html#quadratic-discriminant-analysis">
-   3. Quadratic discriminant analysis
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../classification/neighbours.html#k-nearest-neighbours">
-   4. K-Nearest neighbours
+   3. Linear discriminant analysis
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Tree-based methods
  </span>
@@ -246,7 +240,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Support vector machines
  </span>
@@ -273,7 +267,7 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Neural networks
  </span>
@@ -281,16 +275,11 @@
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../neural-net/neural.html">
-   1. Perceptron
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../neural-net/neural.html#basic-neural-network">
-   2. Basic neural network
+   1. Neural networks
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p class="caption collapsible-parent" role="heading">
  <span class="caption-text">
   Databases
  </span>
@@ -422,18 +411,18 @@
         
               <div>
                 
-  <div class="section" id="maximal-margin-classifier">
+  <section id="maximal-margin-classifier">
 <h1><span class="section-number">1. </span>Maximal margin classifier<a class="headerlink" href="#maximal-margin-classifier" title="Permalink to this headline">¶</a></h1>
-</div>
-<div class="section" id="support-vector-classifier">
+</section>
+<section id="support-vector-classifier">
 <h1><span class="section-number">2. </span>Support vector classifier<a class="headerlink" href="#support-vector-classifier" title="Permalink to this headline">¶</a></h1>
-</div>
-<div class="section" id="support-vector-machines">
+</section>
+<section id="support-vector-machines">
 <h1><span class="section-number">3. </span>Support vector machines<a class="headerlink" href="#support-vector-machines" title="Permalink to this headline">¶</a></h1>
-</div>
-<div class="section" id="relationship-to-logistic-regression">
+</section>
+<section id="relationship-to-logistic-regression">
 <h1><span class="section-number">4. </span>Relationship to logistic regression<a class="headerlink" href="#relationship-to-logistic-regression" title="Permalink to this headline">¶</a></h1>
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -464,7 +453,7 @@
     <div class='prev-next-bottom'>
         
     <a class='left-prev' id="prev-link" href="../tree-methods/trees.html" title="previous page"><span class="section-number">1. </span>Decision trees</a>
-    <a class='right-next' id="next-link" href="../neural-net/neural.html" title="next page"><span class="section-number">1. </span>Perceptron</a>
+    <a class='right-next' id="next-link" href="../neural-net/neural.html" title="next page"><span class="section-number">1. </span>Neural networks</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
