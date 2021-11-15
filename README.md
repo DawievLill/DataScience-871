@@ -1,10 +1,10 @@
 # Data Science for Economics and Finance
 
-Additional notes for the Data Science 871 module. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. I believe it is a good language to know for the future. R and Python might dominate right now, but it does not mean this will always be the case.  
+Additional notes for the Data Science 871 module. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. I believe it is a good language to know for the future. Another good language to know in the data science space is Python. I can provide some resources for working in Python if anyone is interested. 
 
 ## Course outline
 
-First part focuses on data wrangling and machine learning
+For my part of the course we will be looking at the following topics. 
 
 - Basic Shell commands
 - Julia basics
@@ -15,9 +15,6 @@ First part focuses on data wrangling and machine learning
 - Decision trees
 - Random forests
 - Gradient boosting and bagging
-
-Second part of the course focuses on selection of topics
-
 - Introduction to SQL
 - Google BigQuery 
 - Parallel programming
