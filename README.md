@@ -6,15 +6,23 @@ Additional notes for the Data Science 871 module. We will be using R as our prim
 
 For my part of the course we will be looking at the following topics. 
 
+### Data science basics
+
 - Basic Shell commands
 - Julia basics
 - Data wrangling with Julia
+
+### Machine learning 
+
 - Fundamental concepts in machine learning
 - Linear and polynomial regression
 - Ridge regression and LASSO
 - Decision trees
 - Random forests
 - Gradient boosting and bagging
+
+### More advanced data science topics
+
 - Introduction to SQL
 - Google BigQuery 
 - Parallel programming
