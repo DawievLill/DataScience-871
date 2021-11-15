@@ -6,6 +6,7 @@ Additional notes for the Data Science 871 module. We will be using R as our prim
 
 First part focuses on data wrangling and machine learning
 
+- Basic Shell commands
 - Julia basics
 - Data wrangling with Julia
 - Fundamental concepts in machine learning
@@ -17,7 +18,6 @@ First part focuses on data wrangling and machine learning
 
 Second part of the course focuses on selection of topics
 
-- Basic Shell commands
 - Introduction to SQL
 - Google BigQuery 
 - Parallel programming
