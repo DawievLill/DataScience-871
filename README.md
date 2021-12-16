@@ -1,6 +1,6 @@
 # Data Science for Economics and Finance
 
-Additional notes for the Data Science 871 module. We will be using R as our primary language for this course. However, I would like to introduce you to the Python programming language. This is a another language that is often used in industry. 
+Additional notes for the Data Science 871 module. We will be using R as our primary language for this course. However, I would like to introduce you to the Python programming language. This is a another language that is often used in industry. Finally, some of you might be interested in learning more about Julia, I have provided resources below that will help you to get started. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. 
 
 ## Course outline
 
