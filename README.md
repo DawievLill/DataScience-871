@@ -1,6 +1,6 @@
 # Data Science for Economics and Finance
 
-Additional notes for the Data Science 871 module. We will be using R as our primary language for this course. However, I would like to introduce you to the Python programming language. This is a another language that is often used in industry. Finally, some of you might be interested in learning more about Julia, I have provided resources below that will help you to get started. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. 
+Additional notes for the Data Science 871 module. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. 
 
 ## Course outline
 
@@ -9,8 +9,8 @@ For my part of the course we will be looking at the following topics.
 ### Data science basics
 
 - Basic Shell commands
-- Python basics
-- Data wrangling with Python (Pandas)
+- Julia basics
+- Data wrangling with Julia
 
 ### Machine learning 
 
@@ -30,7 +30,7 @@ For my part of the course we will be looking at the following topics.
 
 ## Resources
 
-Another language that is gaining traction in Data Science is Julia. For a good introduction to Julia I would recommend, 
+For a good introduction to Julia I would recommend, 
 
 - [Julia] QuantEcon. Getting Started with Julia. https://julia.quantecon.org/getting_started_julia/index.html
 - [Julia] Paul Soderlind. Julia Tutorial. https://github.com/PaulSoderlind/JuliaTutorial
