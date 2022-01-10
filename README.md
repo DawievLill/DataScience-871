@@ -41,12 +41,14 @@ For my part of the course we will be looking at the following topics.
 
 In this part of the course there is no exam, only a final project. We will discuss this project in more detail during the semester. However, the basic idea is that you apply machine learning techniques to any type of data that you find interesting. The topic should ideally be related to economics. Please consult with me about your topics, so that we can talk about the availability of data and whether the project is feasible. 
 
-## Prelimanary course schedule 
+## Course schedule 
 
-| Date   | Day | Topic                                                         | Due                                                                                                                            |
+This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. 
+
+|  Lecture  | Theme | Topic                                                         | Due                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| Jan 18 | T   | What is data science / big data / why is it important?     |    |
-| Jan 20 | Th  | Git, GitHub, computing environment, and Coding best practices  | Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) |
+| #1 | DS Basics | Basics of data science    |    |
+| #2 | DS Basics | Git, GitHub, and coding best practices  | Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) |
 
 ## Resources
 
