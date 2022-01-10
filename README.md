@@ -2,6 +2,12 @@
 
 Additional notes for the Data Science 871 module. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. 
 
+|  | [Dawie van Lill](https://dawievanlill.netlify.app/) |
+|--------------|--------------------------------------------------------------|
+| Email | [dvanlill@sun.ac.za](mailto:dvanlill@sun.ac.za) |
+| Office | Schumann 511 |
+| GitHub | [DawievLill](https://github.com/DawievLill) |
+
 ## Course outline
 
 For my part of the course we will be looking at the following topics. 
