@@ -45,10 +45,15 @@ In this part of the course there is no exam, only a final project. We will discu
 
 This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. 
 
-|  Lecture  | Theme | Topic                                                         | Due                                                                                                                            |
+|  Lecture  | Theme | Topic + Notebook                                                         | Reading                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| #1 | DS Basics | Basics of data science    |    |
-| #2 | DS Basics | Git, GitHub, and coding best practices  | Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) |
+| #1 | DS Basics | Basics of data science    |  Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)  |
+| #2 | DS Basics | Learning to love the shell  |  |
+| #3 | DS Basics | Git and Github    |    |
+| #4 | Julia | Introduction to Julia    |    |
+| #5 | Julia | Data wrangling with Julia    |    |
+
+
 
 ## Resources
 
