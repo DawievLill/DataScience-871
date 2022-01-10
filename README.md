@@ -1,6 +1,8 @@
 # Data Science for Economics and Finance
 
-Additional notes for the Data Science 871 module. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. 
+On this page we have the course notes for the second part of the Data Science 871 module. The first part is taught by Nico Katzke and focuses on data wrangling and programming practives. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. 
+
+Below are my details. You can contact me via email. If I don't respond within a day or so, please remind me with a follow up email. 
 
 |  | [Dawie van Lill](https://dawievanlill.netlify.app/) |
 |--------------|--------------------------------------------------------------|
@@ -8,13 +10,14 @@ Additional notes for the Data Science 871 module. We will be using R as our prim
 | Office | Schumann 511 |
 | GitHub | [DawievLill](https://github.com/DawievLill) |
 
-## Course outline
+## Course outline 
 
 For my part of the course we will be looking at the following topics. 
 
 ### Data science basics
 
 - Basic Shell commands
+- Git and Github
 - Julia basics
 - Data wrangling with Julia
 
@@ -33,6 +36,17 @@ For my part of the course we will be looking at the following topics.
 - Google BigQuery 
 - Parallel programming
 - Cloud computing with Google Compute Engine
+
+## Final project
+
+In this part of the course there is no exam, only a final project. We will discuss this project in more detail during the semester. However, the basic idea is that you apply machine learning techniques to any type of data that you find interesting. The topic should ideally be related to economics. Please consult with me about your topics, so that we can talk about the availability of data and whether the project is feasible. 
+
+## Prelimanary course schedule 
+
+| Date   | Day | Topic                                                         | Due                                                                                                                            |
+|--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
+| Jan 18 | T   | What is data science / big data / why is it important?     |    |
+| Jan 20 | Th  | Git, GitHub, computing environment, and Coding best practices  | Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) |
 
 ## Resources
 
@@ -55,3 +69,11 @@ For the more advanced portion we will mostly use,
 - [SQL] Software Carpentry. Databases and SQL. https://swcarpentry.github.io/sql-novice-survey/
 
 We might use some other resources, but I will reference them as we continue. 
+
+
+
+
+
+
+
+
