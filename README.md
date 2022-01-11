@@ -1,6 +1,6 @@
 # Data Science for Economics and Finance
 
-On this page we have the course notes for the second part of the Data Science 871 module. The first part is taught by Nico Katzke and focuses on data wrangling and programming practives. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. 
+On this page we have the course notes for the second part of the Data Science 871 module. The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and programming practives. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. 
 
 Below are my details. You can contact me via email. If I don't respond within a day or so, please remind me with a follow up email. 
 
