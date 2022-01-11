@@ -10,37 +10,6 @@ Below are my details. You can contact me via email. If I don't respond within a 
 | Office | Schumann 511 |
 | GitHub | [DawievLill](https://github.com/DawievLill) |
 
-## Course outline 
-
-For my part of the course we will be looking at the following topics. 
-
-### Data science basics
-
-- Basic Shell commands
-- Git and Github
-- Julia basics
-- Data wrangling with Julia
-
-### Machine learning 
-
-- Fundamental concepts in machine learning
-- Linear and polynomial regression
-- Ridge regression and LASSO
-- Decision trees
-- Random forests
-- Gradient boosting and bagging
-
-### More advanced data science topics
-
-- Introduction to SQL
-- Google BigQuery 
-- Parallel programming
-- Cloud computing with Google Compute Engine
-
-## Final project
-
-In this part of the course there is no exam, only a final project. We will discuss this project in more detail during the semester. However, the basic idea is that you apply machine learning techniques to any type of data that you find interesting. The topic should ideally be related to economics. Please consult with me about your topics, so that we can talk about the availability of data and whether the project is feasible. 
-
 ## Course schedule 
 
 This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. 
@@ -60,6 +29,12 @@ This course schedule will be updated frequently, so please check before lecture 
 | #11 | Adv DS | Introduction to SQL    |    |
 | #12 | Adv DS | Cloud computing    |    |
 | #13 | Adv DS | Parallel programming    |    |
+
+## Final project
+
+In this part of the course there is no exam, only a final project. We will discuss this project in more detail during the semester. However, the basic idea is that you apply machine learning techniques to any type of data that you find interesting. The topic should ideally be related to economics. Please consult with me about your topics, so that we can talk about the availability of data and whether the project is feasible. 
+
+
 
 ## Resources
 
