@@ -47,13 +47,19 @@ This course schedule will be updated frequently, so please check before lecture 
 
 |  Lecture  | Theme | Topic + Notebook                                                         | Reading                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| #1 | DS Basics | Basics of data science    |  Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)  |
+| #1 | DS Basics | Good coding practices    |  Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)  |
 | #2 | DS Basics | Learning to love the shell  |  |
 | #3 | DS Basics | Git and Github    |    |
 | #4 | Julia | Introduction to Julia    |    |
 | #5 | Julia | Data wrangling with Julia    |    |
-
-
+| #6 | Machine Learning | Fundamentals of machine learning    |    |
+| #7 | Machine Learning | Regularisation    |    |
+| #8 | Machine Learning | Decision trees and random forests   |    |
+| #9 | Machine Learning | Gradient boosting and bagging   |    |
+| #10 | Adv DS | Workng with Big Data    |    |
+| #11 | Adv DS | Introduction to SQL    |    |
+| #12 | Adv DS | Cloud computing    |    |
+| #13 | Adv DS | Parallel programming    |    |
 
 ## Resources
 
