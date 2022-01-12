@@ -16,7 +16,7 @@ This course schedule will be updated frequently, so please check before lecture 
 
 |  Lecture  | Theme | Topic + Notebook                                                         | Reading                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| #1 | DS Basics | Good coding practices    |  Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf)  |
+| #1 | DS Basics | Good coding practices    |  Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) and the Tidyverse [style guide](https://style.tidyverse.org/) |
 | #2 | DS Basics | Learning to love the shell  |  |
 | #3 | DS Basics | Git and Github    |    |
 | #4 | Julia | Introduction to Julia    |    |
