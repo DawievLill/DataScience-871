@@ -14,7 +14,7 @@ Below are my details. You can contact me via email. If I don't respond within a 
 
 This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. 
 
-|  Lecture  | Topic | Notebook                                                        | Reading                                                                                                                            |
+|  Lecture  | Topic | Notebook / Slides                                                       | Reading                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
 | #1 | Good coding practices |     | Tidyverse [style guide](https://style.tidyverse.org/) |
 | #2 | Shell basics |   |  |
