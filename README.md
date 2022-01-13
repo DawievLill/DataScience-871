@@ -14,21 +14,21 @@ Below are my details. You can contact me via email. If I don't respond within a 
 
 This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. 
 
-|  Lecture  | Theme | Topic + Notebook                                                         | Reading                                                                                                                            |
+|  Lecture  | Topic | Notebook                                                        | Reading                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| #1 | DS Basics | Good coding practices    |  Read Gentzkow & Shapiro's [handbook](https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf) and the Tidyverse [style guide](https://style.tidyverse.org/) |
-| #2 | DS Basics | Learning to love the shell  |  |
-| #3 | DS Basics | Git and Github    |    |
-| #4 | Julia | Introduction to Julia    |    |
-| #5 | Julia | Data wrangling with Julia    |    |
-| #6 | Machine Learning | Fundamentals of machine learning    |    |
-| #7 | Machine Learning | Regularisation    |    |
-| #8 | Machine Learning | Decision trees and random forests   |    |
-| #9 | Machine Learning | Gradient boosting and bagging   |    |
-| #10 | Adv DS | Workng with Big Data    |    |
-| #11 | Adv DS | Introduction to SQL    |    |
-| #12 | Adv DS | Cloud computing    |    |
-| #13 | Adv DS | Parallel programming    |    |
+| #1 | Good coding practices |     | Tidyverse [style guide](https://style.tidyverse.org/) |
+| #2 | Shell basics |   |  |
+| #3 | Git and Github  |    |    |
+| #4 | Introduction to Julia |  [Notebook #4](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut1_introduction.ipynb)   |    |
+| #5 | Data wrangling with Julia |     |    |
+| #6 | Fundamentals of machine learning |     |    |
+| #7 | Regularisation  |    |    |
+| #8 | Decision trees and random forests|    |    |
+| #9 | Gradient boosting and bagging |    |    |
+| #10 | Parallel programming |     |    |
+| #11 | Working with Big Data |     |    |
+| #12 | Introduction to SQL |    |    |
+| #13 | Cloud computing  |     |    |
 
 ## Final project
 
