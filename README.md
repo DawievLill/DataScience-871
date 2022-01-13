@@ -19,9 +19,9 @@ This course schedule will be updated frequently, so please check before lecture 
 | #1 | Good coding practices |     | Tidyverse [style guide](https://style.tidyverse.org/) |
 | #2 | Shell basics |   |  |
 | #3 | Git and Github  |    |    |
-| #4 | Introduction to Julia |  [Notebook #4](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut1_introduction.ipynb)   |    |
+| #4 | Introduction to Julia |  [Notebook](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut1_introduction.ipynb)   |    |
 | #5 | Data wrangling with Julia |     |    |
-| #6 | Fundamentals of machine learning |     |    |
+| #6 | Fundamentals of machine learning | [Notebook](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/06_fundamentals_ml.ipynb) + [Slides](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/lecture-1.html)    |    |
 | #7 | Regularisation  |    |    |
 | #8 | Decision trees and random forests|    |    |
 | #9 | Gradient boosting and bagging |    |    |
