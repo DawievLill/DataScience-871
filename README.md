@@ -12,7 +12,7 @@ Below are my details. You can contact me via email. If I don't respond within a 
 
 ## Course schedule 
 
-This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. 
+This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. The noptebooks and slides that I provide are like brief summaries of the readings. If you want more information you should do the readings or look at the references below. 
 
 |  Lecture  | Topic | Notebook / Slides                                                       | Reading                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
