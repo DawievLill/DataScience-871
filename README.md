@@ -16,8 +16,8 @@ This course schedule will be updated frequently, so please check before lecture 
 
 |  Lecture  | Topic | Notebook / Slides                                                       | Reading                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| #1 | Good coding practices |     | Tidyverse [style guide](https://style.tidyverse.org/) |
-| #2 | Shell basics |   |  |
+| #1 | Good coding practices |     | Tidyverse [style guide](https://style.tidyverse.org/) + Merely Useful [Ch1](https://merely-useful.tech/py-rse/getting-started.html)|
+| #2 | Shell basics |   | Merely Useful [Ch2](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
 | #3 | Git and Github  |    |    |
 | #4 | Introduction to Julia |  [Notebook](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut1_introduction.ipynb)   |    |
 | #5 | Data wrangling with Julia |     |    |
