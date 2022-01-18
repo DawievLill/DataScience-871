@@ -16,7 +16,7 @@ This course schedule will be updated frequently, so please check before lecture 
 
 |  Lecture  | Topic | Notebook / Slides                                                       | Reading                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| #1 | Shell basics |   | Merely Useful [Ch2](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
+| #1 | Shell basics | [Notebook](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/01_shell_basics.ipynb)  | Merely Useful [Ch2](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
 | #2 | Git and Github  |    |    |
 | #3 | Introduction to Julia |  [Notebook](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut1_introduction.ipynb)   |    |
 | #4 | Data wrangling with Julia |     |    |
