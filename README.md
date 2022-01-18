@@ -37,25 +37,31 @@ In this part of the course there is no exam, only a final project. We will discu
 
 ## Resources
 
+An alternative to the shell notes that I linked would be the following
+
+- [Shell] Software Carpentry. The Unix Shell. https://swcarpentry.github.io/shell-novice/
+
 For a good introduction to Julia I would recommend, 
 
 - [Julia] QuantEcon. Getting Started with Julia. https://julia.quantecon.org/getting_started_julia/index.html
 - [Julia] Paul Soderlind. Julia Tutorial. https://github.com/PaulSoderlind/JuliaTutorial
 - [Julia] Ben Lauwens and Allen Downey (2018). Think Julia: How to Think Like a Computer Scientist. https://benlauwens.github.io/ThinkJulia.jl/latest/book.html
 
-For the data science basics and machine learning we will be using material from the following resources (I am providing some resources in R, Python and Julia)
-
-- [Shell] Software Carpentry. The Unix Shell. https://swcarpentry.github.io/shell-novice/
-- [R] Bradley Boehmke and Brandon Greenwell (2021). Hands-on Machine Learning with R. https://bradleyboehmke.github.io/HOML/
-- [Julia] Jose Storopoli, Rik Huijzer and Lazaro Alonso (2021). Julia Data Science. https://juliadatascience.io.
-- [Julia] Data Science Tutorials in Julia. https://juliaai.github.io/DataScienceTutorials.jl/
-
-For the more advanced portion we will mostly use, 
+For data science components in R and Julia we will use, 
 
 - [R] Grant McDermott (2021). Data Science for Economists and Other Animals. https://grantmcdermott.com/ds4e/index.html
+- [Julia] Jose Storopoli, Rik Huijzer and Lazaro Alonso (2021). Julia Data Science. https://juliadatascience.io.
+
+For the machine learning we will be using material from the following resources
+
+- [R] Bradley Boehmke and Brandon Greenwell (2021). Hands-on Machine Learning with R. https://bradleyboehmke.github.io/HOML/
+- [Julia] Data Science Tutorials in Julia. https://juliaai.github.io/DataScienceTutorials.jl/
+
+Finally, for the SQL component we will reference the following,
+
 - [SQL] Software Carpentry. Databases and SQL. https://swcarpentry.github.io/sql-novice-survey/
 
-We might use some other resources, but I will reference them as we continue. 
+Other resources might also be used, check the reading list for each of the lectures. 
 
 
 
