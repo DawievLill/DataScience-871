@@ -1,6 +1,13 @@
 # Data Science for Economics and Finance
 
-On this page we have the course notes for the second part of the Data Science 871 module. The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and programming practives. We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. Another really popular language for data science is Python. We will quickly talk about the differences between these languages throughout the course. We hope that you realise after this course that the choice of language is not important to your success. Most languages are very similar and you should be able to switch pretty easily between languages once you know the basic principles of programming. My advice for the beginner is to pick the language you can most easily express yourself in when attempting new projects. Become comfortable with that language and then you can look to expand your portfolio. 
+On this page we have the course notes for the second part of the Data Science 871 module. 
+
+The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and programming practives. 
+
+We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future.
+
+Probably the most popular language for data science at this stage is **Python**. We will quickly talk about the differences between these languages throughout the course. We hope that you realise after this course that the choice of language is not important to your success. Most languages are very similar and you should be able to switch pretty easily between languages once you know the basic principles of programming. My advice for the beginner is to pick the language you can most easily express yourself in when attempting new projects. Become comfortable with that language and then you can look to expand your portfolio.
+
 
 Below are my details. You can contact me via email. If I don't respond within a day or so, please remind me with a follow up email. 
 
