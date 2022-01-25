@@ -2,12 +2,15 @@
 
 On this page we have the course notes for the second part of the Data Science 871 module. 
 
-The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and programming practives. 
+The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and good programming practices. 
 
-We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future.
+In this part of the course we will cover many different topics. The idea is to give you a whirlwind tour of many of the important ideas in Data Science. 
 
-Probably the most popular language for data science at this stage is **Python**. We will quickly talk about the differences between these languages throughout the course. We hope that you realise after this course that the choice of language is not important to your success. Most languages are very similar and you should be able to switch pretty easily between languages once you know the basic principles of programming. My advice for the beginner is to pick the language you can most easily express yourself in when attempting new projects. Become comfortable with that language and then you can look to expand your portfolio.
+We will be using R as our primary language for this course. However, I would like to introduce you to the Julia programming language. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. The syntax of the language feels like a combination of Matlab and Python. 
 
+The most popular language for data science at this stage is **Python**. We will quickly talk about the differences between these languages throughout the course. We hope that you realise after this course that the choice of language is *not important to your success*. Most languages are very similar and you should be able to switch pretty easily between languages once you know the basic principles of programming. 
+
+My advice for the beginner is to pick the language you can most easily express yourself in when attempting new projects. Become comfortable with that language and then you can look to expand your portfolio after you feel like you can code in that one language. The reason for showing Julia in this course is so that you can compare it with R (and any other language you know) and decide which language you prefer. 
 
 Below are my details. You can contact me via email. If I don't respond within a day or so, please remind me with a follow up email. 
 
