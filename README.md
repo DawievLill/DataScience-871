@@ -32,7 +32,7 @@ This course schedule will be updated frequently, so please check before lecture 
 | #2 | Git and Github  |    |    |
 | #3 | SQL basics |    |    |
 | #4 | Introduction to Python |    | [Python Fundamentals](https://datascience.quantecon.org/python_fundamentals/index.html)   |
-| #5 | Working with Pandas |     | [Pandas](https://datascience.quantecon.org/pandas/index.html)   |
+| #5 | Data wrangling with Pandas |     | [Pandas](https://datascience.quantecon.org/pandas/index.html)   |
 | #6 | Fundamentals of machine learning | [Notebook](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/06_fundamentals_ml.ipynb)    |    |
 | #7 | Regularisation  |    |    |
 | #8 | Decision trees and random forests|    |    |
