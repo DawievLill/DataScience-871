@@ -6,11 +6,11 @@ The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses
 
 In this part of the course we will cover many different topics. The idea is to give you a whirlwind tour of many of the important ideas in Data Science. 
 
-We will be using R as our primary language for this course. However, I would like to introduce you to the basics of Python. 
-
-The most popular language for machine learning is **Python**. We will quickly talk about the differences between languages throughout the course. We hope that you realise after this course that the choice of language is *not important to your success*. Most languages are very similar and you should be able to switch pretty easily between languages once you know the basic principles of programming. I have found that a lot of people in industry use Python, especially engineers, applied mathematicians, computer scientists, etc. So getting a basic introduction to the language is good for employability. 
+We will be using R as our primary language for this course. However, I would like to introduce you to the basics of Julia. 
 
 Another excellent language to learn is **Julia**. Julia is used more in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. The syntax of the language feels like a combination of Matlab and Python. If you are thinking of taking the advanced time series course then you might want to get acquainted with the basics of Julia after the course, since we will use it there. Julia is not used as much in industry. It is used more at research institutions such as Universities. It is my preferred language to use if I have a choice. 
+
+The most popular language for machine learning is **Python**. We will quickly talk about the differences between languages throughout the course. We hope that you realise after this course that the choice of language is *not important to your success*. Most languages are very similar and you should be able to switch pretty easily between languages once you know the basic principles of programming. I have found that a lot of people in industry use Python, especially engineers, applied mathematicians, computer scientists, etc. So getting a basic introduction to the language is good for employability. 
 
 My advice for the beginner is to pick the language you can most easily express yourself in when attempting new projects. Become comfortable with that language and then you can look to expand your portfolio after you feel like you can code in that one language. The reason for showing Python in this course is so that you can compare it with R (and any other language you know) and decide which language you prefer. If you enjoy programming in a language you will do more of it, so it is worthwhile figuring out what you like. 
 
@@ -31,8 +31,8 @@ This course schedule will be updated frequently, so please check before lecture 
 | #1 | Shell and Make | [Notebook](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/01_shell_basics.ipynb)  | Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
 | #2 | Git and Github  |    |    |
 | #3 | SQL basics |    |    |
-| #4 | Introduction to Python |    | [Python Fundamentals](https://datascience.quantecon.org/python_fundamentals/index.html)   |
-| #5 | Data wrangling with Pandas |     | [Pandas](https://datascience.quantecon.org/pandas/index.html)   |
+| #4 | Introduction to Julia |  [Notebook](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut1_introduction.ipynb)  | Also read QE Python [notes](https://datascience.quantecon.org/python_fundamentals/index.html)   |
+| #5 | Data basics with Julia | [Notebook](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut2_data_analysis.ipynb)    | Also read QE pandas [notes](https://datascience.quantecon.org/pandas/index.html)   |
 | #6 | Fundamentals of machine learning | [Notebook](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/06_fundamentals_ml.ipynb)    |    |
 | #7 | Regularisation  |    |    |
 | #8 | Decision trees and random forests|    |    |
