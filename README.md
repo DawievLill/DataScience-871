@@ -26,7 +26,7 @@ Below are my details. You can contact me via email. If I don't respond within a 
 
 This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. The noptebooks and slides that I provide are like brief summaries of the readings. If you want more information you should do the readings or look at the references below. 
 
-|  Lecture  | Topic | Notebook / Slides                                                       | Reading                                                                                                                            |
+|  Lecture  | Topic | Notebook / Slides                                                       | Readings                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
 | #1 | Shell and Make | [Notebook](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/01_shell_basics.ipynb)  | Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
 | #2 | Git and Github  |    |    |
