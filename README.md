@@ -31,7 +31,7 @@ This course schedule will be updated frequently, so please check before lecture 
 | #1 | Shell and Make | [Notebook](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/01_shell_basics.ipynb)  | Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) + Makefile [Tut](https://makefiletutorial.com/) |
 | #2 | Git and Github  |    |    |
 | #3 | SQL basics |    |    |
-| #4 | Introduction to Julia |  [Notebook](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut1_introduction.ipynb)  | Also read QE Python [notes](https://datascience.quantecon.org/python_fundamentals/index.html)   |
+| #4 | Introduction to Julia and Computing |  [Notebook](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut1_introduction.ipynb)  | Also read QE Python [notes](https://datascience.quantecon.org/python_fundamentals/index.html)   |
 | #5 | Data basics with Julia | [Notebook](https://github.com/DawievLill/Macro-318/blob/main/notebooks/tut2_data_analysis.ipynb)    | Also read QE pandas [notes](https://datascience.quantecon.org/pandas/index.html)   |
 | #6 | Fundamentals of machine learning | [Notebook](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/06_fundamentals_ml.ipynb)    |    |
 | #7 | Regularisation  |    |    |
