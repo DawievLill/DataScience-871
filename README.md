@@ -2,7 +2,7 @@
 
 On this page we have the course notes for the second part of the Data Science 871 module. 
 
-The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and good programming practices. 
+The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and good programming practices. You can find his notes [here](https://datsci.nfkatzke.com/) 
 
 In this part of the course we will cover many different topics. The idea is to give you a whirlwind tour of many of the important ideas in Data Science. 
 
