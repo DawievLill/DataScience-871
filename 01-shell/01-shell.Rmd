@@ -17,94 +17,233 @@ monofont: Fira Code
 
 <style type="text/css">
   body{
-  font-size: 13pt;
+  font-size: 14pt;
 }
 </style>
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE,
-  cache = TRUE,
-  dpi=300, 
-  fig.align = "center",
-  message = FALSE,
-  warning = FALSE,
-  collapse = TRUE,
-  cache = FALSE
+
+options(htmltools.dir.version = FALSE)
+
+library(knitr)
+opts_chunk$set(
+  prompt = T, ## See hook below. I basically want a "$" prompt for every bash command in this lecture.
+  fig.align="center", #fig.width=6, fig.height=4.5, 
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=F#, echo=F, warning=F, message=F
   )
+
+## Next hook based on this SO answer: https://stackoverflow.com/a/39025054
+knit_hooks$set(
+  prompt = function(before, options, envir) {
+    options(
+      prompt = if (options$engine %in% c('sh','bash')) '$ ' else 'R> ',
+      continue = if (options$engine %in% c('sh','bash')) '$ ' else '+ '
+      )
+})
 ```
 
-## Packages
+# Table of contents
 
-```{r, cache=F, message=F}
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(dplyr, ggplot2, rsample, caret, AmesHousing)
+1. [Introduction](#intro)
+
+## Introduction 
+
+Before we start with the shell basics we will quickly run through how to install everything for different operating systems. We will do this in class so that I can see if there are any potential problems. We had some issues last year with the installation process. 
+
+Today is about working with a command line interface. There are many shell variants, and we will be working with **Bash** (**B**ourne **a**gain **sh**ell). This is the default for Linux and MacOS and needs to be installed for Windows. It is easiest to work with a Unix based operating system when coding, such as Linux or MacOS. However, I do realise that many of you will be working with Windows. 
+
+If you want to know more about Linux then you are welcome to come and speak to me about it. I do most of my work in a Linux environment and I think programming is much easier in Linux and MacOS. I use [Manjaro](https://manjaro.org/), but I think that [PopOS](https://pop.system76.com/) is a good Linux distribution to start with. It is quite similar to MacOS and you don't need to use the command line as frequently as with other Linux distributions. 
+
+In this section we will look at how to setup a project as well as how to work with the command line. You might be used to working with graphical user interfaces for most of your coding career, but it is useful to know how to work through the shell. This is not something that is often taught in economics programs, but if you are looking at a career in data science this might be very useful. [Here](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#14) are some of the reasons why we might be interested in using the shell. We will start with looking at the basic file structures within a computer. The key points are the following, 
+
+1. Power
+2. Reproducibility
+3. Interacting with servers and super computers
+4. Automating workflow and analysis pipelines
+
+The primary references for this section are the notes from [Merely Useful](https://merely-useful.tech/py-rse/) and the slides from [Grant McDermott](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) 
+
+**Note**: The output displayed will be for the file structure on my computer. For your PC things will obviously be different.
+
+## Some things we can use the shell for
+
+Let us quickly talk about some things that we can use the shell for. 
+
+- renaming and moving files **en masse**
+- finding things on the computer
+- combining and manipulating PDFs
+- installing and updating software
+- scheduling tasks
+- monitoring resources on your system
+- connecting to cloud environments
+- running jobs on super computers
+
+There are many more examples, but these are some of the fundamental things that make the command line useful. 
+
+## Listing files and their properties
+
+The first thing that you want to do is open up the Bash shell. You can do this through the [built-in terminal](https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal) in **RStudio** if you prefer. I will quickly demonstrate this in class. 
+
+Our first shell commands will let us explore our folders and files,
+and will also introduce us to several conventions that most Unix tools follow.
+To start, when Bash runs it presents us with a \gref{prompt}{prompt}\index{prompt (in Unix shell)} to indicate that it is waiting for us to type something.
+This prompt is a simple dollar sign by default:
+
+```bash
+$
+```
+
+The first thing I normally do is check my current working directory and list the files located in this directory. You have encountered the idea of a current working directory in R, so this should be familiar. We can do this by running the following command, which is for **p**rint **w**orking **d**irectory. (Notice that we only run the command, there are no options and arguments).
+
+```{bash}
+pwd
+```
+
+On my computer the **pwd** is the `01-shell` folder. 
+
+It is important to note that all Bash commands have the same basic syntax -- command, option(s), argument(s)
+
+An example would be `ls -lh ~/dawie/`. We will see what these components mean soon. The options and arguments are not always needed, but you will need a command (such as `ls`). The options start with a dash and are usually one letter. Arguments tell the command what to operate on, so this is usually a file, path or set of files and folders. 
+
+In order to see the files **l**i**s**ted in the current working directory we use the `ls` command to list the files. We use the `-a`, `-l` and `-h` options to show `all` the folders and files. The `-l` is for long format and the `-h` is for human readable.
+
+```{bash}
+ls -l -a -h 
+```
+
+You might notice that there is a lot of information here. Let us analyse this one piece at a time. 
+
+The first column indicates the object type. It can either be a (`d`) directory / folder, (`l`) link or (`-`) file. In the case of the first line, we see that this is a directory. 
+
+The following nine columns indicate the permissions associated with the objects user types. In this case we have `r` (read), `w` (write) or `x` (execute) access. The `-` indicates missing permissions. 
+
+The remaining columns represent the hard links to the object, the identity of the owner's of the object and then descriptive elements about the object. 
+
+In terms of the first row, the output shows a special directory called `.`, which is the current working directory. In the second row, we have `..` which means the directory that contains the current one. This is referred to as the **parent** directory. 
+
+Beyond the first two columns, the rest of the objects are files. We can see the files listed here are Jupyter notebooks, `html` files and some `RMarkdown` files. 
+
+## Moving between directories
+
+Now let's navigate to the `research project` folder. In order to this we will use the `cd` command to **c**hange **d**irectory. In this case I know that the `research-project` folder is located higher up in the file structure (in the parent directory). In order to go back one level in the directory, we can use the following command,
+
+```{bash}
+cd .. 
+pwd
 ```
 
 
-## References
 
-The primary reference for the first four lectures is `Boehmke and Greenwell` and can be found [here](https://bradleyboehmke.github.io/HOML/index.html). I will follow this book quite closely, with most of the notes simply being a summary of what can be found in the book. I recommend you read the referenced text if you want the full detail. There are also some sections in the book that I have skipped due to time constraints. 
+If you wanted to move up higher than the parent directory, you could use `cd ../..`, which moves up two directories. 
 
-If you want to look at a textbook for the first part of the course  it can be found [here](https://www.statlearning.com/) -- a second edition is coming soon! We do not follow the content of the book closely in these notes, but you can read the book for a more theoretical discussion. 
+The parent directory in our case is called `DataScience-871`. Once again, list the folders and files to get an idea of directory structure. 
 
-We will also be looking at [this](https://mdsr-book.github.io/mdsr2e/ch-foundations.html) and [this](https://online.stat.psu.edu/stat508/lesson/2) set of notes from time to time. 
-
-# Introduction to machine learning
-
-<br/><br/>
-
-```{r model-process, echo=F, fig.align = 'center', out.width = "85%", fig.cap = "Figure 1: General predictive machine learning process"}
-knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/modeling_process.png")
+```{bash}
+cd ..
+ls -a # you can use whichever options you prefer
 ```
 
-<br/>
+We can see the folder we are `research-project` folder we are looking for and can easily access it by using the `cd research-project` command. 
 
-## Data splitting
-
-```{r, cache=F, message=F}
-ames <- AmesHousing::make_ames()  # Ames housing data
+```{bash}
+cd ..
+cd research-project ## Move into the "research-project" sub-directory of this lecture directory.
+pwd
 ```
 
+However, let us go to the **home** directory and navigate to the `research-project` folder from there. This is a good exercise that you can follow on your computer at home. We start with just typing `cd`. This will navigate us to the home directory for the current user. 
 
-```{r, cache=F, message=F}
-# Using base R
-
-set.seed(123)  # Set the seed for reproducibility
-index_1 <- sample(1:nrow(ames), round(nrow(ames) * 0.7))  # Use the sample function
-train_1 <- ames[index_1, ]  # Select the first 70% of data for training set
-test_1  <- ames[-index_1, ]  # The rest of the data is for the test set
+```{bash}
+cd
+pwd
 ```
 
+Let us quickly analyse the directory output above. The first component is the **root** directory and this holds everything. This refers to the slash character `/` on its own. Next we have the **home** directory, which contains the directory for the current user, which in this case is `dawie`. The second slash operator is a separator. In Windows this would have been two backslashes (`\\`) instead of a forward slash. Also, in Windows the **home** directory is usually called `Users`. 
 
-```{r, cache=F, message=F}
-# Using rsample package
+Another shortcut to get to the **home** directory is to use the command `cd ~`, where the `~` is a special shortcut for **home**. 
 
-set.seed(123)  # Set the seed for reproducibility
-split_1  <- initial_split(ames, prop = 0.7)  # Split the dataset 
-train_2  <- training(split_1)  # Training set
-test_2   <- testing(split_1)  # Test set
+From this point I am going to navigate to my `DataScience-871` folder. From above you can see the absolute location of the folder. In my case I first need to change the directory to the `Dropbox` folder.  
+
+```{bash}
+cd ~/Dropbox
+pwd
 ```
 
+Now that I am in the Dropbox folder I want to go to my `2022` folder. I can do this as follows, 
 
-```{r, cache=F, message=F, echo=F}
-p1 <- ggplot(train_1, aes(x = Sale_Price)) + 
-    geom_density(trim = TRUE) + 
-    geom_density(data = test_1, trim = TRUE, col = "dodgerblue") +
-  ggtitle("Base R")
-
-p2 <- ggplot(train_2, aes(x = Sale_Price)) + 
-    geom_density(trim = TRUE) + 
-    geom_density(data = test_2, trim = TRUE, col = "dodgerblue") +
-    theme(axis.title.y = element_blank(),
-          axis.ticks.y = element_blank(),
-          axis.text.y = element_blank()) +
-    ggtitle("rsample")
-
-gridExtra::grid.arrange(p1, p2, nrow = 1)
+```{bash}
+cd ~/Dropbox/2022
+pwd
 ```
 
+Now let's take a quick look at the folders that are located in my 2022 folder. 
 
+```{bash}
+cd ~/Dropbox/2022
+ls -a
+```
+
+If we try and move to a folder that doesn't exist in this directory we will receive an error message. 
+
+```{bash}
+cd ~/Dropbox/2022/comp
+pwd
+```
+
+The relevant folder seems to be te `871-data-science` folder. So we change the directory once again. We keep doing this till we get to the `DataScience-871` folder. Obviously on your system this will be saved in a different location. You should know where the folder is located on your computer. We can briefly discuss this in class. There are slight differences for different operating systems. 
+
+```{bash}
+cd ~/Dropbox/2022/871-data-science/DataScience-871
+ls
+```
+
+We see that one of the folders is called `research-project`. That is where we want to navigate, so we use the `cd` command along with the folder name as follows. 
+
+```{bash}
+cd ~/Dropbox/2022/871-data-science/DataScience-871/research-project
+pwd
+```
+
+You can now see that the **pwd** is the `research-project` folder. Let us explore this folder to see what it contains. 
+
+```{bash}
+cd ..
+cd research-project
+ls -l -h
+```
+
+In this folder structure you can see a broad template for organising a small project. 
+
+For this project you see that here is a `README.md` file that gives us the basic information of the project. You might often see `licence`, `conduct` and `citation` files in projects, but we won't be dealing with those in detail in this course. The only boilerplate file that you need to concern yourself with is the `README.md` document, which we will talk about a bit more when we deal with **version control**. You will notice that this has the `.md` extension, which indicates that this is a Markdown file. This entire notebook was written in Markdown and I will talk about the format briefly in the lecture.  
+
+The directories for this project are organised by purpose. 
+
+Some runnable programs are located in the `bin` folder. 
+
+One normally keeps source files in a folder named the `src` folder, which includes your shell scripts and R / Julia scripts.
+
+`src` folders normally contain human readable code and `bin` the computer readable codes. This is not an important distinction for our purposes. We will mostly work with source code. 
+
+Our raw data goes into the `data` folder and the data in this folder is never modified. This is the original raw data. 
+
+Results are put in the `results` folder. This includes the cleaned data, figures and other components that are created from the `bin`, `src` and `data` folders. 
+
+## Creating new files and directories
+
+In the next part we will be creating some files and directories that relate to our research project. In order to do this we use the command `mkdir`, which is short for **m**ake **d**irectory.
+
+```{bash}
+cd ..
+cd research-project
+rmdir new_dir # remove in case it already exists
+mkdir new_dir
+ls
+```
+
+You should now be able to see the `new_dir` directory that we have created with this command. This is similar to creating a new folder, as you would with a graphical file explorer in your operating system of choice. 
 
 
 

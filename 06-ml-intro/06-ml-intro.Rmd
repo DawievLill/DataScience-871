@@ -17,7 +17,7 @@ monofont: Fira Code
 
 <style type="text/css">
   body{
-  font-size: 13pt;
+  font-size: 14pt;
 }
 </style>
 
