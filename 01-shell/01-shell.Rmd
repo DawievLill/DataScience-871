@@ -428,7 +428,7 @@ cd ../research-project
 head -n 18 data/frankenstein.txt
 ```
 
-If we want to find specific patterns in the text, we can use regular expressions typee matching with `grep`. 
+If we want to find specific patterns in the text, we can use regular expressions type matching with `grep`. This stands for "global regular expression print".
 
 What if we wanted to find some famous line in `Frankenstein`. One such line is,  
 
@@ -438,8 +438,23 @@ We can search for the first part of the sentence as follows,
 
 ```{bash}
 cd ../research-project
-grep -n "I was benevolent" data/frankenstein.txt
+grep -n "I was benevolent" data/frankenstein.txt 
 ```
+
+We can look for specific words as well, such as *fear*. 
+
+```{bash}
+cd ../research-project
+grep -n "fear" data/frankenstein.txt | head -n 5
+```
+
+It seems there is a lot of fear related words in the book! However, what if we are looking just for `fear` and not words like `fearful` that contain `fear`. In this case we can use the `-w` flag. It indicates we are looking to match the whole word. 
+
+```{bash}
+cd ../research-project
+grep -n -w "fear" data/frankenstein.txt | head -n 5
+```
+
 
 We can use `grep` to find patterns in a group of files as well. Say we want to find the word *benevolent* across all the books in the directory, 
 
@@ -572,7 +587,22 @@ We could have also used the brace expansion `{1..n}` instead of writing out all 
 for i in {1..5}; do echo $i; done
 ```
 
-## Scripting
+A loop might be useful if we wanted to repeat a certain set of command for each item in a list. Let us go back to our Project Gutenberg example. Suppose we wanted to take the first 8 lines out of each book whose name starts with an `s` (after the initial 9 lines of preamble). We then want code to take 8 lines after the first 9 lines. We actually did something similar to this before, 
+
+```{bash repeat_1}
+cd ../research-project
+head -n 17 data/frankenstein.txt | tail -n 8
+```
+
+We can use wildcards to find all the books that start with `s`,  
+
+```{bash repeat_2}
+cd ../research-project
+for filename in data/s*.txt; do head -n 17 $filename | tail -n 8; done
+```
+
+
+## Shell scripting
 
 We can explore data and file structure with the shell, but we can also write shell scripts that combine commands. These scripts normally have a `.sh` extension. 
 
@@ -594,6 +624,25 @@ If we want to run this script then we can simply type the filename.
 cd ../research-project
 bash examples/hello.sh
 ```
+
+The directory for runnable programs is normally the `bin/` directory. We have one of these in our file structure. Within that directory we also have a file called `book_summary.sh`, which is an empty shell script that we can fill from the shell. 
+
+We start by writing to the empty shell script with the following command,  
+
+```{bash shell_script_3}
+cd ../research-project/bin
+echo "head -n 17 ../data/moby_dick.txt | tail -n 8 | grep Author" > book_summary.sh
+```
+
+Can you make sense of what is happening here? If you are following along with these commands then you are starting to understand shell commands. 
+
+We can run the shell script as before, 
+
+```{bash shell_script_4}
+cd ../research-project/bin
+bash book_summary.sh
+```
+
 
 ## Conclusion
 
