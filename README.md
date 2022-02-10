@@ -31,12 +31,12 @@ This course schedule will be updated frequently, so please check before lecture 
 
 |  Lecture  | Topic | Notebook / Slides                                                       | Readings                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| #1 | Shell and Make | [Notebook #1](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/01_shell_basics.ipynb)  | Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) + Makefile [Tut](https://makefiletutorial.com/) |
+| #1 | Shell and Make | [Notebook #1]()  | Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) + Makefile [Tut](https://makefiletutorial.com/) |
 | #2 | Git and Github  |  [Notebook #2]()  |    |
 | #3 | SQL basics |  [Notebook #3]()  | |
 | #4 | Introduction to Julia |  [Basics](https://juliadatascience.io/julia_basics) | QE [notes](https://julia.quantecon.org/intro.html) and some more in depth [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
 | #5 | Data basics with Julia | [DataFrames.jl](https://juliadatascience.io/dataframes) | Official documentation [here](https://dataframes.juliadata.org/stable/)  |
-| #6 | Fundamentals of machine learning | [Notebook #4](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/06_fundamentals_ml.ipynb)    |    |
+| #6 | Fundamentals of machine learning | [Notebook #4]()    |    |
 | #7 | Regularisation  |  [Notebook #5]()  |    |
 | #8 | Decision trees and random forests|  [Notebook #6]()  |    |
 | #9 | Gradient boosting and bagging | [Notebook #7]()   |    |
