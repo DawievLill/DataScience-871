@@ -1,0 +1,377 @@
+---
+title: "Data Science for Economics and Finance"
+subtitle: "Lecture 6: Important concepts for machine learning"
+author:
+  name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
+  date: Lecture 1  "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    theme: cosmo
+    highlight: pygments
+always_allow_html: true
+urlcolor: blue
+mainfont: cochineal
+sansfont: Fira Sans
+monofont: Fira Code 
+---
+
+<style type="text/css">
+  body{
+  font-size: 13pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  cache = TRUE,
+  dpi=300, 
+  fig.align = "center",
+  message = FALSE,
+  warning = FALSE,
+  collapse = TRUE,
+  cache = FALSE
+  )
+```
+
+## Packages
+
+```{r, cache=F, message=F}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(dplyr, ggplot2, rsample, caret, AmesHousing)
+```
+
+
+## References
+
+The primary reference for the first four lectures is `Boehmke and Greenwell` and can be found [here](https://bradleyboehmke.github.io/HOML/index.html). I will follow this book quite closely, with most of the notes simply being a summary of what can be found in the book. I recommend you read the referenced text if you want the full detail. There are also some sections in the book that I have skipped due to time constraints. 
+
+If you want to look at a textbook for the first part of the course  it can be found [here](https://www.statlearning.com/) -- a second edition is coming soon! We do not follow the content of the book closely in these notes, but you can read the book for a more theoretical discussion. 
+
+We will also be looking at [this](https://mdsr-book.github.io/mdsr2e/ch-foundations.html) and [this](https://online.stat.psu.edu/stat508/lesson/2) set of notes from time to time. 
+
+# Introduction to machine learning
+
+These notes are a concise summary of some of the material in the reference section. They are also provided as a code supplement to the more theoretical textbook that we cover in this course. The goal of the module is to be practical and focus more on the application than deeper theory. The theory is vitally important to understanding application to its fullest extent, but we see this course as an opportunity to introduce students to different topics and from there they can pursue the underlying theoretical structures. In essence, we don't want to make this just another course that is laden with theory. We want it to have practical value for you in the workplace. 
+
+*Note: Our discussion below (and for the rest of my part of the module) focuses only on **supervised learning**. Nico will cover aspects of unsupervised learning.*
+
+Machine learning is all about learning from data. The main idea is that we have some type of outcome measurement and we wish to use a set of features to train learners and make predictions. In order for us to train the learners we need a training set. In supervised learning the training data includes the indicated target. Using this training data we construct a statistical learner which will enable us to predict outcomes for new unseen objects. We can also say that in this process we are generating a prediction model. A good model / learner is one that accurately predicts the outcome. 
+
+**Side note:** To make things a bit easier, when we talk about predictor, feature or attribute this is the same as independent variable in the context of econometrics. Likewise, when we use target, outcome or response this is in line with the idea of dependent variable.  
+
+Let us use a basic example to try and understand what this conceptual overview means. If you are starting our with machine learning one of the things you can try and do is to participate in [Kaggle](https://www.kaggle.com/) competitions. This is basically a website where you can go and participate in fun machine learning competitions. One of the most famous competitions is based on data from the Titanic shipwreck. The goal of this prediction competition is to use machine learning to create a model that predicts which passengers survived this famous shipwreck. The outcome measurement in this example is passenger survival, while and the features are all the attributes of the people on board the ship. These attributes include things like name, age, gender, socio-economic class, etc. In this example we have a well-defined learning task, we intend to use specific attributes to predict some outcome measurement. 
+
+## Supervised learning
+
+Let us quickly mention what is meant by supervised learning. Supervision refers to the fact that the outcome provides a supervisory role. The learner in this type of setting attempts to optimise a function to find the combination of attributes that results in the predicted value being as close to the actual target output as possible. Supervised learning problems can be categorised as either regression or classification. We will discuss both regression and classification problems in greater detail in the lectures to come. 
+
+# The modelling process
+
+Since we often work with large datasets in machine learning we will normally have a checklist of operations that we need to perform before we can truly decide which model will work best. Even in the case of small datasets, it is worthwhile undergoing the described routine. Performing this process provides confidence that we have covered all our bases and that the outcomes of the model are as accurate as possible. 
+
+As succinctly stated in `Boehmke and Greenwell`, "[a]pproaching ML modeling correctly means approaching it strategically by spending our data wisely on learning and validation procedures, properly pre-processing the feature and target variables, minimizing data leakage, tuning hyperparameters, and assessing model performance."
+
+The concepts mentioned in this quote don't carry significant value for you at this moment, but I can guarantee that each of these items are crucial to the construction and evaluation of a machine learning model. So before we start with the machine learning algorithms, let us find out what these things mean and why they are important. The general predictive machine learning process that we will follow is illustrated in the figure below, taken from `Boehmke and Greenwell`. 
+
+<br/><br/>
+
+```{r model-process, echo=F, fig.align = 'center', out.width = "85%", fig.cap = "Figure 1: General predictive machine learning process"}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/modeling_process.png")
+```
+
+<br/>
+
+## Data splitting
+
+The illustrate the modeling process we are going to be using a housing dataset called `Ames Housing`. 
+
+```{r, cache=F, message=F}
+ames <- AmesHousing::make_ames()  # Ames housing data
+```
+
+It is important that our algorithm is able to not only fit the data well, but also new data that might become available. We want our algorithm to generalise to unseen data. In order to determine how well our model might do in a new environment we can split the data that we have into training and test data sets (as depicted in the figure above). A training set is used to determine the attributes of our final model and once we have this final model we can evaluate the performance of the model against the test data set. This is akin to in-sample and out of sample forecasting in time series econometrics. There are two common ways to split the data, namely simple random sampling and stratified sampling. We will only look at simple random sampling for now, but you can refer to the textbook for notes on stratified sampling. 
+
+### Simple random sampling
+
+The easiest way to split the data is using a simple random sample. There are multiple ways that you can do this. You can use base R, but there are also more specialised packages available. One way to do simple random sampling, with a 70-30 split in the data, would be the following.
+
+```{r, cache=F, message=F}
+# Using base R
+
+set.seed(123)  # Set the seed for reproducibility
+index_1 <- sample(1:nrow(ames), round(nrow(ames) * 0.7))  # Use the sample function
+train_1 <- ames[index_1, ]  # Select the first 70% of data for training set
+test_1  <- ames[-index_1, ]  # The rest of the data is for the test set
+```
+
+This seems somewhat complicated and requires you to think much too hard about the problem. Remember that we are trying to be as efficient as possible here! It turns out that there is already a package in `R` that allows us to construct a training and test set with simple random sampling, namely the `rsample` package. 
+
+```{r, cache=F, message=F}
+# Using rsample package
+
+set.seed(123)  # Set the seed for reproducibility
+split_1  <- initial_split(ames, prop = 0.7)  # Split the dataset 
+train_2  <- training(split_1)  # Training set
+test_2   <- testing(split_1)  # Test set
+```
+
+This is much easier to implement and understand. We will often have to write our own functions to perform customised tasks, but when we can rely on packages that have been designed by professional software engineers we make the most of it.  
+
+```{r, cache=F, message=F, echo=F}
+p1 <- ggplot(train_1, aes(x = Sale_Price)) + 
+    geom_density(trim = TRUE) + 
+    geom_density(data = test_1, trim = TRUE, col = "dodgerblue") +
+  ggtitle("Base R")
+
+p2 <- ggplot(train_2, aes(x = Sale_Price)) + 
+    geom_density(trim = TRUE) + 
+    geom_density(data = test_2, trim = TRUE, col = "dodgerblue") +
+    theme(axis.title.y = element_blank(),
+          axis.ticks.y = element_blank(),
+          axis.text.y = element_blank()) +
+    ggtitle("rsample")
+
+gridExtra::grid.arrange(p1, p2, nrow = 1)
+```
+
+As you can see in the figure above the sampling approach that we used resulted in a similar distribution for the response variable (in our example this variable is `Sale_Price`) between test and training sets.
+
+## Resampling methods
+
+How do we assess performance of our model once we have split our dataset? We could use some form of metric that is focused on the training data, but this would lead to a result that is biased. In other words, our model would fit well to the training data, but not necessarily to new incoming data.
+
+Alternatively, we could use some form of **validation** based approach. This process involves splitting the training set even further to create a new training set and a *validation set*. Now we can train our model on the newly created training set and test performance against the validation set. This method can be unreliable if you are only using a single validation set, so we can use **resampling methods** to repeatedly fit our model to different parts of the training data and then test against different validation sets. There are two resampling methods that are used frequently in machine learning, namely $k$-fold cross validation and bootstrapping. The ideas are very simple, but incredibly powerful.    
+
+### $k$-fold cross validation
+
+This resampling method randomly divides our training data into $k$-groups, which are referred to as folds. The model can then be fit on $k-1$ folds with the remaining folds used to compute model performance. We repeat this procedure $k$ times, with a different fold used as validation set in each iteration. 
+
+From this procedure we then have $k$ estimates of the potential error $\rightarrow (\epsilon_1, \ldots \epsilon_k)$. Our $k$-fold cross validation estimate is then computed by taking the average of the test errors. 
+
+<br/><br/>
+
+```{r k-fold, echo=F, fig.align = 'center', out.width = "75%", fig.cap = "Figure 2: $k$-fold cross validation"}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/cv.png")
+```
+
+<br/>
+
+There are several ways to use cross-validation, depending on the specific model application. One simple way to implement this resampling method is to use the `rsample` package as illustrated below.  
+
+
+```{r, cache=F, message=F}
+# Using the rsample package
+
+vfold_cv(ames, v = 10)
+```
+
+### Bootstrapping
+
+Bootstrapping is something that you might have encountered in Econometrics. This is a simple and powerful technique that is used in many disciplines. A bootstrap sample is a random sample of data that is taken *with replacement*. As this sampling is done with replacement, one can sample a data point more than once in each bootstrap sample. The bootstrap samples are the same size as the original dataset. The figure below provides a schematic of bootstrap sampling where each sample contains 12 data points (observations). The really interesting thing here is that with bootstrap sampling, the samples will approximately have the same distribution of values as the original dataset.  
+
+<br/>
+
+```{r boot, echo=F, fig.align = 'center', out.width = "70%", fig.cap = "Figure 3: The bootstraping process."}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/bootstrap-scheme.png")
+```
+
+<br/>
+
+We will talk about bootstrap sampling in further detail later in the module, for now it is good enough for you to simply know what is meant when we mention this resampling method. As before, we can easily create bootstrap samples with the `rsample` package. In particular we will have to use `rsample::bootstraps()` as shown below. 
+
+```{r, cache=F, message=F}
+# Using the rsample package
+
+bootstraps(ames, times = 10)
+```
+
+There are other resampling methods out there, but for the purpose of this course we will only focus on these two. If this is something that you find interesting, you are more than welcome to come and ask questions or even read further on the topic. 
+
+## Bias variance trade-off
+
+One of the most important parts of modelling is determining how much error is present in our predition. Prediction errors can be decomposed into two subcomponents: error as a result of `bias` and error due to `variance`. We will find that there is often a trade-off in terms of these two types of errors. This means that decreasing bias will almost always lead to greater variance. Ideally we would like to find some way to derive some sort of balance between these two types of error. Constructing a metric that deals with both of these components is part of our discussion in the section on model evaluation. 
+
+### Bias
+
+`Bias` is defined as the difference between expected prediction and correct value. In other words, it can be thought of as the distance from the correct answer. In the figure below we see that the polynomial does not fit the nature of the non-linear, non-monotonic data structure. In general we will see that linear model in particular exhibit high levels of bias, since they are not as flexible as non-linear alternatives. 
+
+
+```{r bias, cache=F, message=F, fig.align = 'center', out.width = "70%"}
+# Simulate some nonlinear, non-monotonic data
+set.seed(123)  # Set seed for reproducibility
+x <- seq(from = 0, to = 2 * pi, length = 500)
+y <- sin(x) + rnorm(length(x), sd = 0.3)
+df <- data.frame(x, y) %>%
+  filter(x < 4.5)
+
+# Single model fit
+bias_model <- lm(y ~ I(x^3), data = df)  # Fit a third degree polynomial (nonlinear in variables)
+
+df$predictions <- predict(bias_model, df)
+
+p3 <- ggplot(df, aes(x, y)) +
+  geom_point(alpha = .3) +
+  geom_line(aes(x, predictions), size = 1.5, color = "dodgerblue") +
+  scale_y_continuous("Response", limits = c(-1.75, 1.75), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(0, 4.5), expand = c(0, 0)) +
+  ggtitle("Single biased model fit")  # Generate the plot
+
+p3  # Show the plot
+```
+
+### Variance
+
+In contrast to error that results from bias, the error due to variance is defined as the variability of a model prediction for a given data point. Many of the models that we will encounter in this module will have very high degrees of flexibility and can fit almost any conceivable data pattern. The big problem is that these types of models can potentially **overfit** the training data in question. This means that you will receive excellent results measured against your training data, but almost surely have poor performance against the test data. The following figure shows the result from a $k$-nearest neighbours model, which is much more flexible than the polynomial specification from before. 
+
+```{r variance, cache=F, message=F, fig.align = 'center', out.width = "70%"}
+# Single model fit
+variance_model <- knnreg(y ~ x, k = 3, data = df) # Fit k-nearest neighbours model
+
+df$predictions <- predict(variance_model, df)
+
+p4 <- ggplot(df, aes(x, y)) +
+  geom_point(alpha = .3) +
+  geom_line(aes(x, predictions), size = 1.5, color = "dodgerblue") +
+  scale_y_continuous("Response", limits = c(-1.75, 1.75), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(0, 4.5), expand = c(0, 0)) +
+  ggtitle("Single high variance model fit")  # Generate the plot
+
+p4  # Show the plot
+```
+
+We mentioned before that there is a trade-off between bias and variance. Many of the models that we will use have certain **hyperparameters** that can be adjusted in order to achieve the best mix of bias and variance in for the relationship that you are trying to model.  
+
+### Hyperparameter tuning
+
+Hyperparameters are tuning parameters. They are basically parameters that you can adjust to change the nature of the learner (machine learning algorithm) and by extension the bias-variance trade-off. We don't have hyperparameters for all learners, but most models have some that you can adjust. Ordinary least squares is an example of an algorithm that does not have hyperparameters, which is why the idea of hyperparameters might be foreign to you at first. 
+
+Let us illustrate how hyperparameter tuning works with an example. In the previous section we used a $k$-nearest neighbours framework to model the data. The hyperparameter in the case of this model is $k$. This means that we have one hyperparameter $k$ that we can adjust to get a better mix between bias and variance. We will get into the detail of this type of model at a later stage. It suffices to say that for low values of $k$ we get higher variance, but also better fit to the training data (lower bias). Larger values for $k$ will deliver the opposite result, with high bias and low variance. The optimal value for $k$ will lie between the extremes of high variance and high bias. In the following figure we see the depictions of the model for different values for $k$. It seems that a value for $k$ in the range of 20-50 might be most acceptable. However, how do we determine which value of $k$ to choose?
+
+```{r hyperp, cache=F, message=F, fig.align = 'center', out.width = "80%", echo = F}
+
+k_results <- NULL
+k <- c(2, 5, 10, 20, 50, 150)
+
+# Fit many different models
+for(i in seq_along(k)) {
+  df_sim <- df
+  fit <- knnreg(y ~ x, k = k[i], data = df_sim)
+  df_sim$predictions <- predict(fit, df_sim)
+  df_sim$model <- paste0("k = ", stringr::str_pad(k[i], 3, pad = " "))
+  k_results <- rbind(k_results, df_sim)
+}
+
+ggplot() +
+  geom_point(data = df, aes(x, y), alpha = .3) +
+  geom_line(data = k_results, aes(x, predictions), color = "dodgerblue", size = 1.5) +
+  scale_y_continuous("Response", limits = c(-1.75, 1.75), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(0, 4.5), expand = c(0, 0)) +
+  facet_wrap(~ model)
+```
+
+The most basic way to find the best hyperparameter is to play around with it manually until you find some combination that has high predictive accuracy as measured through some resampling procedure. This is not the easiest, especially if you have many hyperparameters that need tuning. Another approach is brute force through grid search. You allow the computer to search across a range of predefined values and find the best combination. In the case of our example, we would have to search across a list of possible value for $k$ and perform resampling to estimate which $k$ value would generalise the best to unseen data. In the figure below we perform this procedure and see that on average $k = 46$ is the optimal hyperparameter to minimise our error on the unseen test data. 
+
+
+```{r grid, cache=F, message=F, fig.align = 'center', out.width = "80%", echo = F}
+cv <- trainControl(method = "repeatedcv", number = 10, repeats = 10, returnResamp = "all")
+hyper_grid <- expand.grid(k = seq(2, 150, by = 2))
+knn_fit <- train(x ~ y, data = df, method = "knn", trControl = cv, tuneGrid = hyper_grid)
+
+ggplot() +
+  geom_line(data = knn_fit$results, aes(k, RMSE)) +
+  geom_point(data = knn_fit$results, aes(k, RMSE)) +
+  geom_point(data = filter(knn_fit$results, k == as.numeric(knn_fit$bestTune)),
+             aes(k, RMSE),
+             shape = 21,
+             fill = "yellow",
+             color = "black",
+             stroke = 1,
+             size = 2) +
+  scale_y_continuous("Error (RMSE)")
+```
+
+This type of grid search (called full cartesian grid search) is not very efficient and we will introduce several other methods throughout this course that are better to suited to problems with higher dimensional hyperparameter tuning problems. 
+
+At this stage you might be wondering, what error are we using to assess the performance? We have mentioned the idea of error, but were quite vague about what it entails. In the figure above we used the Root Mean Square Error (RMSE). This is a very common error type used to evaluate goodness-of-fit in machine learning. In the following section we discuss some of the most common error measures. 
+
+## Model evaluation
+
+As you might know, much of statistics and econometrics revolves around the idea of goodness-of-fit and assessing the residuals from models. While these notions are important, the norm in machine learning to assess predictive accuracy is through so called **loss functions**. In this case we compare the predicted to actual value and the output of the loss function is referred to as the *error*.
+
+There are several loss function that one could choose from to assess performance of our predictive model. The choice over how the loss function is computed can lead to drastically different results with respect to what we consider the optimal model. This means that we need to consider the context of the problem before implementing a performance metric. We can broadly divide our models into either regression or classification models. Within this distinction we will provide a brief rundown of some of the most frequently used loss functions utilised in regression models. Refer to the textbook for a discussion on classification models. We will cover performance metrics in classification models as they arise, but for now we simply want to consider the most basic and frequently used metrics.  
+
+### Regression models
+
+In this section we focus on two related performance metrics. Read `section 2.6` in the textbook to see a comparison to other metrics. 
+
+**MSE**: Mean squared error is the average of the squared error. The squared component results in larger errors having larger penalties. This (along with RMSE) is the most common error metric to use. Our objective is to minimize this error. 
+
+**RMSE**: Root mean squared error. This simply takes the square root of the MSE metric so that your error is in the same units as your response variable. If your response variable units are dollars, the units of MSE are dollars-squared, but the RMSE will be in dollars. Once again, our objective is to minimize this error.
+
+Most software packages will report a whole list of different performance metrics, so it is worthwhile knowing what they are. However, the two metrics mentioned above are the ones that we will refer to most often. 
+
+# Putting it all together
+
+How can we now combine all the knowledge that we have acquired to construct a simple model based on the `ames` housing dataset? 
+
+First, perform simple random sampling to break the data into training vs test data. In this case stratified sampling might have been the better option, but let's keep things basic for now. 
+
+```{r, cache=F, message=F}
+# Using rsample package
+split <- initial_split(ames, prop = 0.7)  # Split the dataset 
+ames_train <- training(split)  # Training set
+ames_test <- testing(split)  # Test set
+```
+
+Next we have decided to use a $k$-nearest neighbour regressor. In order to make our life a bit easier, we will use the `caret` package, since it allows for specification of different parts of the learning algorithm. In particular, we can define the our choice of resampling method, how grid search is applied across hyperparameters and which loss function to use. 
+
+The resampling method applied is 10-fold cross validation, which is repeated 5 times. For the grid search we employ our basic method, with values for $k$ ranging from 2 to 25. The loss function of our procedure is RMSE. Given this information we can now run the KNN model and see which value for $k$ will deliver the best result. 
+
+```{r, cache=F, message=F}
+# Specify resampling strategy
+cv <- trainControl(
+  method = "repeatedcv", 
+  number = 10, 
+  repeats = 5
+)
+
+# Create grid of hyperparameter values
+hyper_grid <- expand.grid(k = seq(2, 25, by = 1))
+
+# Tune a knn model using grid search
+knn_fit <- train(
+  Sale_Price ~ ., 
+  data = ames_train, 
+  method = "knn", 
+  trControl = cv, 
+  tuneGrid = hyper_grid,
+  metric = "RMSE"
+)
+```
+
+We can see from the results below that the best model is the one with $k = 7$, which has a RMSE of 43434.07. In our case this means that the model is off by about $43,439 on average in the prediction of the expected sale price of a home.  
+
+```{r, cache=F, message=F}
+# Print the results
+knn_fit
+```
+
+In the figure below we see the result across the different hyperparameter values more clearly. 
+
+```{r, cache=F, message=F}
+# Plot the results
+ggplot(knn_fit)
+```
+
+Our model is most likely not the optimal model. We have identified the optimal $k$-nearest neighbour model, but there are many other types of models that we could have specified. In addition we haven't even really taken a good look at the data to see if there are inconsistencies. The rest of the course will help you to develop effective habits to eventually come up with a good approximation to the true model. However, there is still a long way to go. So let's get started! 
+
+# Final thoughts
+
+In the book there is an entire section on `Feature and Target Engineering` -- Chapter 3 of the book. If you have the time I think it is worthwhile to read this section. I won't have time in class to go though it. However, some of these data wrangling methods are incredibly useful. I am currently working on a project for a research institution where we have to utilise some of these methods. Advanced methods are nice for some projects, but most of the time you will do pretty basic work and it is required to know the fundamentals well. 
+
+<br/><br/>
+
+
+
+
