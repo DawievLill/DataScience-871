@@ -32,7 +32,7 @@ This course schedule will be updated frequently, so please check before lecture 
 |  Lecture  | Topic | Notebook / Slides                                                       | Readings                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
 | #1 | Git and Github  | [[.rmd]() / [.html]()]  | EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1) |
-| #2 | Shell and Make  |  [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) / [.html]()]  |  Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) + Makefile [Tut](https://makefiletutorial.com/)  |
+| #2 | Shell |  [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) / [.html]()]  |  Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
 | #3 | SQL basics | | |
 | #4 | Introduction to Julia |  [Basics](https://juliadatascience.io/julia_basics) | QE [notes](https://julia.quantecon.org/intro.html) and some more in depth [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
 | #5 | Data basics with Julia | [DataFrames.jl](https://juliadatascience.io/dataframes) | Official documentation [here](https://dataframes.juliadata.org/stable/)  |
