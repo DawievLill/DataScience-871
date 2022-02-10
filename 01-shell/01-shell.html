@@ -247,7 +247,7 @@ pre code {
 
 
 <h1 class="title toc-ignore">Data Science for Economics and Finance</h1>
-<h3 class="subtitle">Lecture 1: Shell and Make</h3>
+<h3 class="subtitle">Lecture 1: Shell</h3>
 <h4 class="author">Dawie van Lill (<a href="mailto:dvanlill@sun.ac.za" class="email">dvanlill@sun.ac.za</a>) | <a href="https://github.com/DawievLill">Github</a></h4>
 
 </div>
@@ -306,11 +306,11 @@ pre code {
 <p>An example would be <code>ls -lh ~/dawie/</code>. We will see what these components mean soon. The options and arguments are not always needed, but you will need a command (such as <code>ls</code>). The options start with a dash and are usually one letter. Arguments tell the command what to operate on, so this is usually a file, path or set of files and folders.</p>
 <p>In order to see the files <strong>l</strong>i<strong>s</strong>ted in the current working directory we use the <code>ls</code> command to list the files. We use the <code>-a</code>, <code>-l</code> and <code>-h</code> options to show <code>all</code> the folders and files. The <code>-l</code> is for long format and the <code>-h</code> is for human readable.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> <span class="at">-a</span> <span class="at">-h</span> </span></code></pre></div>
-<pre><code>## total 868K
-## drwxr-xr-x  2 dawie dawie 4.0K Feb 10 15:12 .
-## drwxr-xr-x 17 dawie dawie 4.0K Feb 10 13:05 ..
-## -rw-r--r--  1 dawie dawie 837K Feb 10 15:12 01-shell.html
-## -rw-r--r--  1 dawie dawie  18K Feb 10 15:14 01-shell.Rmd</code></pre>
+<pre><code>## total 888K
+## drwxr-xr-x  2 dawie dawie 4.0K Feb 10 21:35 .
+## drwxr-xr-x 17 dawie dawie 4.0K Feb 10 20:23 ..
+## -rw-r--r--  1 dawie dawie 853K Feb 10 21:35 01-shell.html
+## -rw-r--r--  1 dawie dawie  24K Feb 10 21:37 01-shell.Rmd</code></pre>
 <p>You might notice that there is a lot of information here. Let us analyse this one piece at a time.</p>
 <p>The first column indicates the object type. It can either be a (<code>d</code>) directory / folder, (<code>l</code>) link or (<code>-</code>) file. In the case of the first line, we see that this is a directory.</p>
 <p>The following nine columns indicate the permissions associated with the objects user types. In this case we have <code>r</code> (read), <code>w</code> (write) or <code>x</code> (execute) access. The <code>-</code> indicates missing permissions.</p>
@@ -409,11 +409,11 @@ pre code {
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> <span class="at">-h</span></span></code></pre></div>
 <pre><code>## total 28K
 ## drwxr-xr-x 2 dawie dawie 4.0K Jan 14 12:55 bin
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 10 14:27 data
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 10 15:12 docs
-## -rw-r--r-- 1 dawie dawie    0 Feb 10 13:13 example1.txt
-## -rw-r--r-- 1 dawie dawie    0 Feb 10 13:13 example2.txt
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 10 15:12 examples
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 10 15:15 data
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 10 21:35 docs
+## -rw-r--r-- 1 dawie dawie    0 Feb 10 15:15 example1.txt
+## -rw-r--r-- 1 dawie dawie    0 Feb 10 15:15 example2.txt
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 10 21:35 examples
 ## -rw-r--r-- 1 dawie dawie    4 Jan 14 13:28 README.md
 ## drwxr-xr-x 2 dawie dawie 4.0K Jan 14 12:55 results
 ## drwxr-xr-x 2 dawie dawie 4.0K Jan 18 10:07 src</code></pre>
@@ -544,13 +544,19 @@ pre code {
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> rename txt csv examples/<span class="pp">*</span> <span class="co"># the star represents the wild card expression here</span></span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls examples</span></code></pre></div>
 <pre><code>## example1.csv
-## example2.csv</code></pre>
+## example2.csv
+## example3.csv
+## hello.sh
+## nursery.csv</code></pre>
 <p>We can then just as easily change it back, with a similar command. Make sure you understand what is happening here.</p>
 <div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> rename csv txt examples/<span class="pp">*</span> </span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls examples</span></code></pre></div>
 <pre><code>## example1.txt
-## example2.txt</code></pre>
+## example2.txt
+## example3.txt
+## hello.sh
+## nursery.txt</code></pre>
 <p>Wildcards are special characters that can be used as a replacement for other characters. The two most important ones are the <code>*</code> and <code>?</code>.</p>
 </div>
 <div id="working-with-text-files-project-gutenberg" class="section level2">
@@ -588,9 +594,20 @@ pre code {
 ##   13053  107536  581903 data/sherlock_holmes.txt
 ##    3582   35527  200928 data/time_machine.txt
 ##   96855  911477 5089321 total</code></pre>
-<p>The easiest way to read text is with the <code>cat</code> command, which stands for “concatenate”. <code>cat</code> will read in <em>all</em> of the text. We don’t want all the text, we simply want the first few lines. For this we can use the <code>head</code> command. This is similar to the <code>head</code> command in R.</p>
+<p>We could also just show the number of lines in each file,</p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> head <span class="at">-n</span> 18 data/frankenstein.txt</span></code></pre></div>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wc <span class="at">-l</span> data/<span class="pp">*</span>.txt</span></code></pre></div>
+<pre><code>##   15975 data/dracula.txt
+##    7832 data/frankenstein.txt
+##   21054 data/jane_eyre.txt
+##   22331 data/moby_dick.txt
+##   13028 data/sense_and_sensibility.txt
+##   13053 data/sherlock_holmes.txt
+##    3582 data/time_machine.txt
+##   96855 total</code></pre>
+<p>The easiest way to read text is with the <code>cat</code> command, which stands for “concatenate”. <code>cat</code> will read in <em>all</em> of the text. We don’t want all the text, we simply want the first few lines. For this we can use the <code>head</code> command. This is similar to the <code>head</code> command in R.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> head <span class="at">-n</span> 18 data/frankenstein.txt</span></code></pre></div>
 <pre><code>## ﻿Project Gutenberg&#39;s Frankenstein, by Mary Wollstonecraft (Godwin) Shelley
 ## 
 ## This eBook is for the use of anyone anywhere at no cost and with
@@ -613,17 +630,165 @@ pre code {
 <p>What if we wanted to find some famous line in <code>Frankenstein</code>. One such line is,</p>
 <p><em>I was benevolent and good; misery made me a fiend.</em></p>
 <p>We can search for the first part of the sentence as follows,</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-n</span> <span class="st">&quot;I was benevolent&quot;</span> data/frankenstein.txt</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-n</span> <span class="st">&quot;I was benevolent&quot;</span> data/frankenstein.txt</span></code></pre></div>
 <pre><code>## 3119:alone am irrevocably excluded.  I was benevolent and good; misery made
 ## 3128:compassion?  Believe me, Frankenstein, I was benevolent; my soul glowed</code></pre>
 <p>We can use <code>grep</code> to find patterns in a group of files as well. Say we want to find the word <em>benevolent</em> across all the books in the directory,</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-R</span> <span class="at">-l</span> <span class="st">&quot;benevolent&quot;</span> data/</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="at">-R</span> <span class="at">-l</span> <span class="st">&quot;benevolent&quot;</span> data/</span></code></pre></div>
 <pre><code>## data/sherlock_holmes.txt
 ## data/moby_dick.txt
 ## data/frankenstein.txt
 ## data/jane_eyre.txt</code></pre>
+<p>It seems that only four books in our list contain the word.</p>
+<p>Let us continue on our route of manipulating text in the shell. We encounter two more tools, <code>sed</code> and <code>awk</code>.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat examples/nursery.txt</span></code></pre></div>
+<pre><code>## Jack and Jill
+## Went up the hill</code></pre>
+<p>Let us now change “Jack” to “Bill”.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="at">-i</span> <span class="st">&#39;s/Jack/Bill/g&#39;</span> examples/nursery.txt</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat examples/nursery.txt</span></code></pre></div>
+<pre><code>## Bill and Jill
+## Went up the hill</code></pre>
+<p>And then change is back.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="at">-i</span> <span class="st">&#39;s/Bill/Jack/g&#39;</span> examples/nursery.txt</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat examples/nursery.txt</span></code></pre></div>
+<pre><code>## Jack and Jill
+## Went up the hill</code></pre>
+<p>In this next example we are going to count the 10 most commonly used words in <code>Frakenstein</code>. We are going to be using a pipe operator <code>|</code>, similar to the one that you have used in R, to chain some commands together. We will also use the redirect operator <code>&lt;</code>.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sed <span class="at">-e</span> <span class="st">&#39;s/\s/\n/g&#39;</span> <span class="op">&lt;</span> data/frankenstein.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="at">-r</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-10</span></span></code></pre></div>
+<pre><code>##    4056 the
+##    3102 
+##    2971 and
+##    2741 of
+##    2719 I
+##    2142 to
+##    1631 my
+##    1394 a
+##    1125 in
+##     993 was</code></pre>
+<p>Let us talk a bit more about the pipe and redirect operator.</p>
+</div>
+</div>
+<div id="pipes-and-redirect" class="section level1">
+<h1>Pipes and redirect</h1>
+<p>You can send output from the shell to a file using the redirect operator <code>&gt;</code>. We can print a message to the shell using the <code>echo</code> command.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">&quot;The shell really isn&#39;t all that scary. Or is it?&quot;</span></span></code></pre></div>
+<pre><code>## The shell really isn&#39;t all that scary. Or is it?</code></pre>
+<p>You could also save this output to a file, just send it to a particular filename.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/examples</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">&quot;Some text for the example file&quot;</span> <span class="op">&gt;</span> example3.txt</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-a</span></span></code></pre></div>
+<pre><code>## .
+## ..
+## example1.txt
+## example2.txt
+## example3.txt
+## hello.sh
+## nursery.txt</code></pre>
+<p>You can see that <code>example3.txt</code> has now been created and if you open the file you will see the text located in that file. You can append the text in an existing file if you use <code>&gt;&gt;</code>.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/examples</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">&quot;Some more text for the example file! We appended!&quot;</span> <span class="op">&gt;&gt;</span> example3.txt</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat example3.txt</span></code></pre></div>
+<pre><code>## Some text for the example file
+## Some more text for the example file! We appended!</code></pre>
+<p>A nice operation that you can do with the shell, when working with <code>git</code>, is to issue the following command, <code>echo &quot;*.csv&quot; &gt;&gt; .gitignore</code>. Can you figure out what this is going to do and why it is useful?</p>
+<p>Next we discuss the pipe operator in a bit more detail. You should be familiar with how this works in R by now, but is also a really cool feature that can be used in the shell.</p>
+<p>We can easily chain together a string of simple operations and make it something quite complex. See the following example,</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat <span class="at">-n</span> data/frankenstein.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n1002</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n10</span></span></code></pre></div>
+<pre><code>##    993   When I returned home my first care was to procure the whole works of this
+##    994   author, and afterwards of Paracelsus and Albertus Magnus. I read and
+##    995   studied the wild fancies of these writers with delight; they appeared to me
+##    996   treasures known to few besides myself. I have described myself as always
+##    997   having been imbued with a fervent longing to penetrate the secrets of
+##    998   nature. In spite of the intense labour and wonderful discoveries of modern
+##    999   philosophers, I always came from my studies discontented and unsatisfied.
+##   1000   Sir Isaac Newton is said to have avowed that he felt like a child picking
+##   1001   up shells beside the great and unexplored ocean of truth. Those of his
+##   1002   successors in each branch of natural philosophy with whom I was acquainted</code></pre>
+<p>If we wanted to check which of the books is the longest in this list we could do the following. First, we use the redirect operator <code>&gt;</code> to send the list of line lengths to a text document, instead of printing it to the shell. Second, we use the <code>sort</code> command to sort the lines in the file. We use the <code>-n</code> flag to sort numerically.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wc <span class="at">-l</span> data/<span class="pp">*</span>.txt <span class="op">&gt;</span> examples/lengths.txt</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sort <span class="at">-n</span> examples/lengths.txt</span></code></pre></div>
+<pre><code>##    3582 data/time_machine.txt
+##    7832 data/frankenstein.txt
+##   13028 data/sense_and_sensibility.txt
+##   13053 data/sherlock_holmes.txt
+##   15975 data/dracula.txt
+##   21054 data/jane_eyre.txt
+##   22331 data/moby_dick.txt
+##   96855 total</code></pre>
+<p>It seems that Moby Dick is the longest book and Time Machine the shortest. See, I told you it was a quick read. Frankenstein is second shortest, also a really good book, so it is worthwhile reading.</p>
+<div class="sourceCode" id="cb87"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> rm examples/lengths.txt</span></code></pre></div>
+<p>We remove the lengths file since we aren’t going to be using it further.</p>
+<p>A much easier way to have done the same operation above uses a pipe operator.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/data</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> wc <span class="at">-l</span> <span class="pp">*</span>.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span></span></code></pre></div>
+<pre><code>##    3582 time_machine.txt
+##    7832 frankenstein.txt
+##   13028 sense_and_sensibility.txt
+##   13053 sherlock_holmes.txt
+##   15975 dracula.txt
+##   21054 jane_eyre.txt
+##   22331 moby_dick.txt
+##   96855 total</code></pre>
+<p>Next lets move on to an interesting topic that you would have encountered in R. The usage of <code>for loops</code>.</p>
+<div id="iteration-for-loops" class="section level2">
+<h2>Iteration (for loops)</h2>
+<p>These loops work similar to those in other programming languages. The basic syntax is the following,</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> LIST</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span> </span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">OPERATION</span> <span class="va">$i</span> <span class="co">## the $ sign indicates a variable in bash</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>We can also condense things into a single line by using “;” appropriately.</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> LIST<span class="kw">;</span> <span class="cf">do</span> <span class="ex">OPERATION</span> <span class="va">$i</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<p>The second method is more compact and perhaps better to use in the shell. The semicolons indicate line endings. Let us show an example of a for loop in the shell.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> for i in 1 2 3 4 5<span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="va">$i</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<pre><code>## 1
+## 2
+## 3
+## 4
+## 5</code></pre>
+<p>We could have also used the brace expansion <code>{1..n}</code> instead of writing out all the numbers from <code>1</code> to <code>n</code>.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> for i in <span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">5</span><span class="dt">}</span><span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="va">$i</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<pre><code>## 1
+## 2
+## 3
+## 4
+## 5</code></pre>
+</div>
+<div id="scripting" class="section level2">
+<h2>Scripting</h2>
+<p>We can explore data and file structure with the shell, but we can also write shell scripts that combine commands. These scripts normally have a <code>.sh</code> extension.</p>
+<p>I have written a short shell script called <code>hello.sh</code>. You can probably guess what the script is going to say / do?</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat examples/hello.sh</span></code></pre></div>
+<pre><code>## #!/bin/sh
+## echo -e &quot;\nHello World!\n&quot;</code></pre>
+<p>From reading this you might be able to figure out what is does, but let us unpack it.</p>
+<ul>
+<li><code>#!/bin/sh</code> is a <em>shebang</em>. This indicates which program should be used to run the command.</li>
+<li><code>echo -e &quot;\nHello World!\n&quot;</code> is the actual command that we would like to run. The <code>-e</code> flag tells <code>bash</code> to evaluate an expression.</li>
+</ul>
+<p>If we want to run this script then we can simply type the filename.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> bash examples/hello.sh</span></code></pre></div>
+<pre><code>## 
+## Hello World!</code></pre>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>This has been a lot of information to process. Hopefully you found it useful. We will be seeing more on shell commands in some of our other lectures, so this work will not go to waste.</p>
+<p>There are many topics that we did not cover, in particular SSH, but we will perhaps have time to look at some more ideas as we continue the course. Especially toward the end of the course when we talk about cloud computing.</p>
+<p>There is so much you can do with the command line, that there is even a book called “Data Science at the Command Line”. It is worth checking out if you are interested.</p>
+<p>Another important thing to mention is the usage of <code>Make</code> for project management. If we have time left at the end of the course I will tell you more about good project management practice. This is a really useful session if you want to do effective research, with loads of automation.</p>
 </div>
 </div>
 

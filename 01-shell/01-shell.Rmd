@@ -412,6 +412,15 @@ cd ../research-project
 wc data/*.txt
 ```
 
+We could also just show the number of lines in each file,
+
+```{bash}
+cd ../research-project
+wc -l data/*.txt
+```
+
+
+
 The easiest way to read text is with the `cat` command, which stands for "concatenate". `cat` will read in *all* of the text. We don't want all the text, we simply want the first few lines. For this we can use the `head` command. This is similar to the `head` command in R.  
  
 ```{bash}
@@ -441,29 +450,159 @@ grep -R -l "benevolent" data/
 
 It seems that only four books in our list contain the word. 
 
+Let us continue on our route of manipulating text in the shell. We encounter two more tools, `sed` and `awk`. 
 
+```{bash}
+cd ../research-project
+cat examples/nursery.txt
+```
 
+Let us now change "Jack" to "Bill". 
 
+```{bash}
+cd ../research-project
+sed -i 's/Jack/Bill/g' examples/nursery.txt
+cat examples/nursery.txt
+```
 
+And then change is back. 
 
+```{bash}
+cd ../research-project
+sed -i 's/Bill/Jack/g' examples/nursery.txt
+cat examples/nursery.txt
+```
 
+In this next example we are going to count the 10 most commonly used words in `Frakenstein`. We are going to be using a pipe operator `|`, similar to the one that you have used in R, to chain some commands together. We will also use the redirect operator `<`. 
 
+```{bash}
+cd ../research-project
+sed -e 's/\s/\n/g' < data/frankenstein.txt | sort | uniq -c | sort -n -r | head -10
+```
 
+Let us talk a bit more about the pipe and redirect operator.
 
+# Pipes and redirect
 
+You can send output from the shell to a file using the redirect operator `>`. We can print a message to the shell using the `echo` command. 
 
+```{bash echo_1}
+echo "The shell really isn't all that scary. Or is it?"
+```
 
+You could also save this output to a file, just send it to a particular filename. 
 
+```{bash redirect_1}
+cd ../research-project/examples
+echo "Some text for the example file" > example3.txt
+ls -a
+```
 
+You can see that `example3.txt` has now been created and if you open the file you will see the text located in that file. You can append the text in an existing file if you use `>>`.
 
+```{bash redirect_2}
+cd ../research-project/examples
+echo "Some more text for the example file! We appended!" >> example3.txt
+cat example3.txt
+```
 
+A nice operation that you can do with the shell, when working with `git`, is to issue the following command, `echo "*.csv" >> .gitignore`. Can you figure out what this is going to do and why it is useful?
 
+Next we discuss the pipe operator in a bit more detail. You should be familiar with how this works in R by now, but is also a really cool feature that can be used in the shell. 
 
+We can easily chain together a string of simple operations and make it something quite complex. See the following example, 
 
+```{bash pipe_1}
+cd ../research-project
+cat -n data/frankenstein.txt | head -n1002 | tail -n10
+```
 
+If we wanted to check which of the books is the longest in this list we could do the following. First, we use the redirect operator `>` to send the list of line lengths to a text document, instead of printing it to the shell. Second, we use the `sort` command to sort the lines in the file. We use the `-n` flag to sort numerically.
 
+```{bash}
+cd ../research-project
+wc -l data/*.txt > examples/lengths.txt
+sort -n examples/lengths.txt
+```
 
+It seems that Moby Dick is the longest book and Time Machine the shortest. See, I told you it was a quick read. Frankenstein is second shortest, also a really good book, so it is worthwhile reading. 
 
+```{bash}
+cd ../research-project
+rm examples/lengths.txt
+```
 
+We remove the lengths file since we aren't going to be using it further.
+
+A much easier way to have done the same operation above uses a pipe operator.  
+
+```{bash}
+cd ../research-project/data
+wc -l *.txt | sort -n
+```
+
+Next lets move on to an interesting topic that you would have encountered in R. The usage of `for loops`.
+
+## Iteration (for loops)
+
+These loops work similar to those in other programming languages. The basic syntax is the following, 
+
+```bash
+for i in LIST
+do 
+  OPERATION $i ## the $ sign indicates a variable in bash
+done
+```
+
+We can also condense things into a single line by using ";" appropriately. 
+
+```bash
+for i in LIST; do OPERATION $i; done
+```
+
+The second method is more compact and perhaps better to use in the shell. The semicolons indicate line endings. Let us show an example of a for loop in the shell. 
+
+```{bash for1a}
+for i in 1 2 3 4 5; do echo $i; done
+```
+
+We could have also used the brace expansion `{1..n}` instead of writing out all the numbers from `1` to `n`.
+
+```{bash for1b}
+for i in {1..5}; do echo $i; done
+```
+
+## Scripting
+
+We can explore data and file structure with the shell, but we can also write shell scripts that combine commands. These scripts normally have a `.sh` extension. 
+
+I have written a short shell script called `hello.sh`. You can probably guess what the script is going to say / do?
+
+```{bash shell_script_1}
+cd ../research-project
+cat examples/hello.sh
+```
+
+From reading this you might be able to figure out what is does, but let us unpack it. 
+
+- `#!/bin/sh` is a *shebang*. This indicates which program should be used to run the command. 
+- `echo -e "\nHello World!\n"` is the actual command that we would like to run. The `-e` flag tells `bash` to evaluate an expression. 
+
+If we want to run this script then we can simply type the filename. 
+
+```{bash shell_script_2}
+cd ../research-project
+bash examples/hello.sh
+```
+
+## Conclusion
+
+This has been a lot of information to process. Hopefully you found it useful. We will be seeing more on shell commands in some of our other lectures, so this work will not go to waste. 
+
+There are many topics that we did not cover, in particular SSH, but we will perhaps have time to look at some more ideas as we continue the course. Especially toward the end of the course when we talk about cloud computing. 
+
+There is so much you can do with the command line, that there is even a book called "Data Science at the Command Line". It is worth checking out if you are interested. 
+
+Another important thing to mention is the usage of `Make` for project management. If we have time left at the end of the course I will tell you more about good project management practice. This is a really useful session if you want to do effective research, with loads of automation. 
 
 

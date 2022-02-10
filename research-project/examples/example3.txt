@@ -1,0 +1,2 @@
+Some text for the example file
+Some more text for the example file! We appended!
