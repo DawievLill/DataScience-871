@@ -32,7 +32,7 @@ This course schedule will be updated frequently, so please check before lecture 
 | #2 | Git and Github  |  [Notebook #2]()  |    |
 | #3 | SQL basics |  [Notebook #3]()  | |
 | #4 | Introduction to Julia |  [Basics](https://juliadatascience.io/julia_basics) + [QE](https://julia.quantecon.org/intro.html) | More in depth [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
-| #5 | Data basics with Julia | [Notes](https://juliadatascience.io/dataframes) + [QE](https://julia.quantecon.org/intro.html) |   |
+| #5 | Data basics with Julia | [DataFrames.jl](https://juliadatascience.io/dataframes) + [QE](https://julia.quantecon.org/intro.html) | Official documentation [here](https://dataframes.juliadata.org/stable/)  |
 | #6 | Fundamentals of machine learning | [Notebook #4](https://github.com/DawievLill/DataScience-871/blob/master/notebooks/06_fundamentals_ml.ipynb)    |    |
 | #7 | Regularisation  |  [Notebook #5]()  |    |
 | #8 | Decision trees and random forests|  [Notebook #6]()  |    |
