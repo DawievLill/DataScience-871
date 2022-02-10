@@ -2,7 +2,7 @@
 
 On this page we have the course notes for the second part of the Data Science 871 module. 
 
-The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and good programming practices. You can find his notes [here](https://datsci.nfkatzke.com/) 
+The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and good programming practices. You can find his notes [here](https://datsci.nfkatzke.com/).
 
 In this part of the course we will cover many different topics. The idea is to give you a whirlwind tour of many of the important ideas in Data Science. 
 
@@ -10,9 +10,9 @@ We will be using R as our primary language for this course. However, I would lik
 
 I really enjoy coding in **Julia**, which is one of the main reasons I like to share it with others. Julia is used primarily in scientific computing, but recently there has been a shift toward using Julia for application in Data Science. This will definitely be a language to keep an eye out for in the future. The syntax of the language feels like a combination of Matlab and Python. If you are thinking of taking the advanced time series course then you might want to pay careful attention to the Julia component of the course, since we will use it there. Julia is not used as much in industry. It is used more at research institutions such as Universities.  
 
-The most popular language for machine learning is **Python**. I provide some nice links to resources for getting started with Python. We will quickly talk about the differences between languages throughout the course. We hope that you realise after this course that the choice of language is *not important to your success*. Most languages are very similar and you should be able to switch pretty easily between languages once you know the basic principles of programming. I have found that a lot of people in industry use Python, especially engineers, applied mathematicians, computer scientists, etc. So a basic introduction to the language is good for employability. 
+The most popular language for machine learning is **Python**. I will provide some nice links to resources for getting started with Python. We will quickly talk about the differences between languages throughout the course. We hope that you realise after this course that the choice of language is *not important to your success*. Most languages are very similar and you should be able to switch pretty easily between languages once you know the basic principles of programming. I have found that a lot of people in industry use Python, especially engineers, applied mathematicians, computer scientists, etc. So a getting to know some Python in the future is not a bad idea. 
 
-My advice for the beginner is to pick the language you can most easily express yourself in when attempting new projects. Become comfortable with that language and then you can look to expand your portfolio after you feel like you can code in that one language. The reason for showing Python in this course is so that you can compare it with R (and any other language you know) and decide which language you prefer. If you enjoy programming in a language you will do more of it, so it is worthwhile figuring out what you like. 
+My advice for the beginner is to pick the language you can most easily express yourself in when attempting new projects (try and start with R). Become comfortable with that language and then you can look to expand your portfolio after you feel like you can code in that one language. The reason for showing Julia in this course is so that you can compare it with R (and any other language you know) and decide which language you prefer. If you enjoy programming in a language you will do more of it, so it is worthwhile figuring out what you like. I mostly use Julia and Python, but you might find your niche somewhere else. 
 
 Below are my details. You can contact me via email. If I don't respond within a day or so, please remind me with a follow up email. 
 
