@@ -31,7 +31,7 @@ This course schedule will be updated frequently, so please check before lecture 
 
 |  Lecture  | Topic | Notebook / Slides                                                       | Readings                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
-| #1 | Shell and Make | Notebook #1 -- [.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd)  | Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) + Makefile [Tut](https://makefiletutorial.com/) |
+| #1 | Shell and Make | Notebook #1 [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) | [.html]()]  | Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) + Makefile [Tut](https://makefiletutorial.com/) |
 | #2 | Git and Github  |  [Notebook #2]()  |    |
 | #3 | SQL basics |  [Notebook #3]()  | |
 | #4 | Introduction to Julia |  [Basics](https://juliadatascience.io/julia_basics) | QE [notes](https://julia.quantecon.org/intro.html) and some more in depth [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
