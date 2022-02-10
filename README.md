@@ -33,16 +33,16 @@ This course schedule will be updated frequently, so please check before lecture 
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
 | #1 | Git and Github  | [[.rmd]() / [.html]()]  | EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1) |
 | #2 | Shell |  [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) / [.html]()]  |  Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
-| #3 | SQL basics | | |
+| #3 | SQL basics | [[.rmd]() / [.html]()]  | |
 | #4 | Introduction to Julia |  [Basics](https://juliadatascience.io/julia_basics) | QE [notes](https://julia.quantecon.org/intro.html) and some more in depth [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
 | #5 | Data basics with Julia | [DataFrames.jl](https://juliadatascience.io/dataframes) | Official documentation [here](https://dataframes.juliadata.org/stable/)  |
-| #6 | Fundamentals of machine learning |     |    |
-| #7 | Regularisation  |    |    |
-| #8 | Decision trees and random forests|   |    |
-| #9 | Gradient boosting and bagging |    |    |
-| #10 | Parallel programming |     |    |
-| #11 | Cloud computing  |     |    |
-| #12 | Working with Big Data |     |    |
+| #6 | Fundamentals of machine learning | [[.rmd]() / [.html]()]      |    |
+| #7 | Regularisation  | [[.rmd]() / [.html]()]    |    |
+| #8 | Decision trees and random forests| [[.rmd]() / [.html]()]   |    |
+| #9 | Gradient boosting and bagging | [[.rmd]() / [.html]()]    |    |
+| #10 | Parallel programming | [[.rmd]() / [.html]()]     |    |
+| #11 | Cloud computing  |  [[.rmd]() / [.html]()]    |    |
+| #12 | Working with Big Data |  [[.rmd]() / [.html]()]    |    |
 
 ## Project
 
