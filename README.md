@@ -1,5 +1,8 @@
 # Data Science for Economics and Finance
 
+[`Schedule`](#schedule) | [`Project`](#project) |
+[`Resources`](#resources) 
+
 On this page we have the course notes for the second part of the Data Science 871 module. 
 
 The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and good programming practices. You can find his notes [here](https://datsci.nfkatzke.com/).
@@ -22,7 +25,7 @@ Below are my details. You can contact me via email. If I don't respond within a 
 | Office | Schumann 511 |
 | GitHub | [DawievLill](https://github.com/DawievLill) |
 
-## Course schedule 
+## Schedule 
 
 This course schedule will be updated frequently, so please check before lecture for the requisite readings and lecture notes. The notebooks and slides that I provide are like brief summaries of the readings. If you want more information you should do the readings or look at the references below. 
 
@@ -41,7 +44,7 @@ This course schedule will be updated frequently, so please check before lecture 
 | #11 | Cloud computing  |   [Notebook #9]()  |    |
 | #12 | Working with Big Data |  [Notebook #10]()   |    |
 
-## Final project
+## Project
 
 In this part of the course there is no exam, only a final project. We will discuss this project in more detail during the semester. However, the basic idea is that you apply machine learning techniques to any type of data that you find interesting. The topic should ideally be related to economics. Please consult with me or Nico about your topics, so that we can talk about the availability of data and whether the project is feasible. We prefer that you code in R, but for those that want to code in Python or Julia please come and have a chat. 
 
