@@ -40,7 +40,7 @@ This course schedule will be updated frequently, so please check before lecture 
 | #7 | Regularisation  | [[.rmd]() / [.html]()]    |    |
 | #8 | Decision trees and random forests| [[.rmd]() / [.html]()]   |    |
 | #9 | Gradient boosting and bagging | [[.rmd]() / [.html]()]    |    |
-| #10 | Parallel programming | [[.rmd]() / [.html]()]     |    |
+| #10 | Functions and parallel programming | [[.rmd]() / [.html]()]     |    |
 | #11 | Cloud computing  |  [[.rmd]() / [.html]()]    |    |
 | #12 | Working with Big Data |  [[.rmd]() / [.html]()]    |    |
 
