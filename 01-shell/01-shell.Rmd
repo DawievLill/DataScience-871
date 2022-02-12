@@ -83,7 +83,9 @@ Let us quickly talk about some things that we can use the shell for.
 -   connecting to cloud environments
 -   running jobs on super computers
 
-There are many more examples, but these are some of the fundamental things that make the command line useful.
+There are many more examples, but these are some of the fundamental things that make the command line useful. I think the following quite encapsulates my thoughts on the command line, 
+
+> As data scientists, we work with a lot of data. This data is often stored in files. It is important to know how to work with files (and the directories they live in) on the command line. Every action that you can do using a GUI, you can do with command-line tools (and much more).
 
 # Hello World!
 
@@ -130,7 +132,11 @@ The first thing I normally do is check my current working directory and list the
 pwd
 ```
 
-On my computer the **pwd** is the `01-shell` folder.
+```{bash}
+type pwd
+```
+
+On my computer the **pwd** is the `01-shell` folder. We can also see that it is a built-in command for the shell. 
 
 It is important to note that all Bash commands have the same basic syntax -- command, option(s), argument(s). Below is a picture to illustrate the point, 
 
@@ -364,6 +370,11 @@ rm draft.txt
 ls
 ```
 
+
+## Exercise
+
+What happens when we execute `rm -i new_dir/draft.txt`? Why would we want this protection when using `rm`?
+
 If you wanted to delete the entire directory then you would have to use `rmdir`. If there are files in the directory you will get a warning telling you that this might not be the best idea. If there are files and you want to remove the directory, then you can use the recursive option `-r`.
 
 ```{bash}
@@ -461,6 +472,8 @@ ls examples
 
 Wildcards are special characters that can be used as a replacement for other characters. The two most important ones are the `*` and `?`. 
 
+We havent mentioned the `?` wildcard yet. It matches any single character in a filename, so `?.txt` matches `a.txt` but not `any.txt`.
+
 # Working with text files
 
 ---
@@ -473,13 +486,14 @@ ls data
 ```
 
 There are some really interesting books in this folder. I recommend reading all of them if you have the time (especially `Frankenstein`!). If you don't have a lot of time read `Time Machine`, it is quite short.  
+
 ## The word count command `wc`
 
 Moving on, we can use the `wc` command, which is short for **w**ord **c**ount, which will tell us how many lines, words and letters there are in a file.  
 
 ```{bash}
-cd ../research-project
-wc data/moby_dick.txt
+cd ../research-project/data
+wc moby_dick.txt
 ```
 
 We can't actually run the `wc` command on the entire directory. 
@@ -490,25 +504,32 @@ wc data
 pwd
 ```
 
-If we wanted to know the word counts for all the books in the folder we could use wildcards. 
+What if we wanted to get the wordcount for two books, well then we would just specify the filenames of both books as inputs, 
 
 ```{bash}
-cd ../research-project
-wc data/*.txt
+cd ../research-project/data
+wc moby_dick.txt frankenstein.txt
+```
+
+If we wanted to know the word counts for **all** the books in the folder we could use wildcards. 
+
+```{bash}
+cd ../research-project/data
+wc *.txt
 ```
 
 We could also just show the number of lines in each file,
 
 ```{bash}
-cd ../research-project
-wc -l data/*.txt
+cd ../research-project/data
+wc -l *.txt
 ```
 
 The easiest way to read text is with the `cat` command, which stands for "concatenate". `cat` will read in *all* of the text. We don't want all the text, we simply want the first few lines. For this we can use the `head` command. This is similar to the `head` command in R.  
  
 ```{bash}
-cd ../research-project
-head -n 18 data/frankenstein.txt
+cd ../research-project/data
+head -n 18 frankenstein.txt
 ```
 
 ## Regular expressions
@@ -522,22 +543,22 @@ What if we wanted to find some famous line in `Frankenstein`. One such line is,
 We can search for the first part of the sentence as follows, 
 
 ```{bash}
-cd ../research-project
-grep -n "I was benevolent" data/frankenstein.txt 
+cd ../research-project/data
+grep -n "I was benevolent" frankenstein.txt 
 ```
 
 We can look for specific words as well, such as *fear*. 
 
 ```{bash}
-cd ../research-project
-grep -n "fear" data/frankenstein.txt | head -n 5
+cd ../research-project/data
+grep -n "fear" frankenstein.txt | head -n 5
 ```
 
 It seems there is a lot of fear related words in the book! However, what if we are looking just for `fear` and not words like `fearful` that contain `fear`. In this case we can use the `-w` flag. It indicates we are looking to match the whole word. 
 
 ```{bash}
-cd ../research-project
-grep -n -w "fear" data/frankenstein.txt | head -n 5
+cd ../research-project/data
+grep -n -w "fear" frankenstein.txt | head -n 5
 ```
 
 We can use `grep` to find patterns in a group of files as well. Say we want to find the word *benevolent* across all the books in the directory, 
@@ -717,7 +738,45 @@ cd ../research-project/data
 wc -l *.txt | sort -n
 ```
 
+Below is a graphical illustration of the operations we performed. The code is not exactly the same, but it performs a very similar function.
+
+
+![](images/redirects-and-pipes.svg)
+
+## Exercise
+
+In our `research-project/data` directory, we want to find the 3 files which have the least number of lines. Which command listed below would work?
+
+1. `wc -l *.txt > sort -n > head -n 3`
+2. `wc -l *.txt | sort -n | head -n 1-3`
+3. `wc -l *.txt | head -n 3 | sort -n`
+4. `wc -l *.txt | sort -n | head -n 3`
+
 Next lets move on to an interesting topic that you would have encountered in R. The usage of `for loops`.
+
+# Using `curl`
+
+One thing that I have not mentioned is how to download files from the internet using the command line. I often use this command to download software or some text file from a website. Say that we wanted to include a new book in our `data` folder from the Project Gutenberg website, we could do the following, 
+
+```{bash}
+cd ../research-project/data
+curl -s "https://www.gutenberg.org/files/11/11-0.txt" > alice_in_wonderland.txt
+ls -a -h
+```
+
+We could also perform operations on the file without having to store it on our computer. 
+
+```{bash}
+curl -s "https://www.gutenberg.org/files/11/11-0.txt" | grep " CHAPTER"
+```
+
+Let us clean up the directory. 
+
+```{bash}
+cd ../research-project/data
+rm alice_in_wonderland.txt
+```
+
 
 # Iteration (for loops)
 
@@ -764,6 +823,19 @@ cd ../research-project
 for filename in data/s*.txt; do head -n 17 $filename | tail -n 8; done
 ```
 
+# Functions
+
+We can also write functions, similar to that in R and other scripting languages. The following function computes the factorial of some integer that we input. Don't be too concerned about how this works for now, it is simply nice to know that this can be done. 
+
+```{bash}
+fac() { (echo 1; seq $1) | paste -s -d\* - | bc; }
+type -a fac
+```
+
+```{bash}
+fac() { (echo 1; seq $1) | paste -s -d\* - | bc; }
+fac 5
+```
 
 # Shell scripting
 
