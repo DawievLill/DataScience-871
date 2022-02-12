@@ -31,6 +31,8 @@ This course schedule will be updated frequently, so please check before lecture 
 
 The R notebooks are mostly complete and form the basis of this course. However, I am currently working on porting over some of the code for the Julia and Python sections, so that students can see what the code would look like in other languages. This is still a work in progress though. The Julia port is happening first and then I will move to Python when I have the time. 
 
+### Extra marks
+
 If students are interested in extra credit (marks) and some recognition, they can make fork this repository and submit pull requests or open issues. I am especially interested in ports of the current code base, so that will count even more heavily in your favour. 
 
 | Topic | R Notebooks | Julia Notebooks 🚧 | Python Notebooks 🚧 | Readings
