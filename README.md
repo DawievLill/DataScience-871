@@ -40,16 +40,16 @@ If students are interested in extra credit (marks) and some recognition, they ca
 | Shell |  [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) / [.html]()]  | | |  Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
 | Git, Github and Make  | [[.rmd]() / [.html]()]  | | | EC 607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1) |
 | SQL basics | [[.rmd]() / [.html]()]  | | | EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) + Software Carpentry [notes](https://swcarpentry.github.io/sql-novice-survey/) |
-| Introduction to Julia | | [.ipynb]()  | [[.rmd]() / [.html]()] | [Basics](https://juliadatascience.io/julia_basics) + QE [notes](https://julia.quantecon.org/intro.html) + CTU [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
-| Data basics with Julia | | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()] | [DataFrames.jl](https://juliadatascience.io/dataframes) + official documentation [here](https://dataframes.juliadata.org/stable/)  |
-| Fundamentals of machine learning | [[.rmd]() / [.html]()]      | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()] |BB [notes](https://bradleyboehmke.github.io/HOML/intro.html)   |
-| Regularized regression  | [[.rmd]() / [.html]()]    | [[.rmd]() / [.html]()]   | [[.rmd]() / [.html]()] | BB [notes](https://bradleyboehmke.github.io/HOML/regularized-regression.html)  |
-| Decision trees and bagging | [[.rmd]() / [.html]()]   | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()] | BB [notes](https://bradleyboehmke.github.io/HOML/DT.html)   |
-| Random forests and gradient boosting | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()] | BB [notes](https://bradleyboehmke.github.io/HOML/gbm.html)  |
-| Functions | [[.rmd]() / [.html]()]     | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()] | EC 607 [notes # 1](https://raw.githack.com/uo-ec607/lectures/master/10-funcs-intro/10-funcs-intro.html) + EC607 [notes #2](https://raw.githack.com/uo-ec607/lectures/master/11-funcs-adv/11-funcs-adv.html)   |
-| Parallel programming | [[.rmd]() / [.html]()]     | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()] | EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/12-parallel/12-parallel.html)  |
-| Cloud computing  |  [[.rmd]() / [.html]()]    | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()] | EC 607 [notes # 1](https://raw.githack.com/uo-ec607/lectures/master/14-gce-i/14-gce-i.html) + EC607 [notes #2](https://raw.githack.com/uo-ec607/lectures/master/14-gce-ii/14-gce-ii.html)   |
-| Working with Big Data |  [[.rmd]() / [.html]()]    | [[.rmd]() / [.html]()]  | [[.rmd]() / [.html]()] | EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/17-spark/17-spark.html)   |
+| Introduction to Julia | | [[.ipynb]()]  | [[.ipynb]()] | [Basics](https://juliadatascience.io/julia_basics) + QE [notes](https://julia.quantecon.org/intro.html) + CTU [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
+| Data basics with Julia | | [[.ipynb]()]  | [[.ipynb]()] | [DataFrames.jl](https://juliadatascience.io/dataframes) + official documentation [here](https://dataframes.juliadata.org/stable/)  |
+| Fundamentals of machine learning | [[.rmd]() / [.html]()]      | [[.ipynb]()]  | [[.ipynb]()] |BB [notes](https://bradleyboehmke.github.io/HOML/intro.html)   |
+| Regularized regression  | [[.rmd]() / [.html]()]    | [[.ipynb]()]  | [[.ipynb]()] | BB [notes](https://bradleyboehmke.github.io/HOML/regularized-regression.html)  |
+| Decision trees and bagging | [[.rmd]() / [.html]()]   | [[.ipynb]()]  | [[.ipynb]()] | BB [notes](https://bradleyboehmke.github.io/HOML/DT.html)   |
+| Random forests and gradient boosting | [[.rmd]() / [.html]()]  | [[.ipynb]()]  | [[.ipynb]()] | BB [notes](https://bradleyboehmke.github.io/HOML/gbm.html)  |
+| Functions | [[.rmd]() / [.html]()]     | [[.ipynb]()]  | [[.ipynb]()] | EC 607 [notes # 1](https://raw.githack.com/uo-ec607/lectures/master/10-funcs-intro/10-funcs-intro.html) + EC607 [notes #2](https://raw.githack.com/uo-ec607/lectures/master/11-funcs-adv/11-funcs-adv.html)   |
+| Parallel programming | [[.rmd]() / [.html]()]     | [[.ipynb]()]  | [[.ipynb]()] | EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/12-parallel/12-parallel.html)  |
+| Cloud computing  |  [[.rmd]() / [.html]()]    | [[.ipynb]()]  | [[.ipynb]()] | EC 607 [notes # 1](https://raw.githack.com/uo-ec607/lectures/master/14-gce-i/14-gce-i.html) + EC607 [notes #2](https://raw.githack.com/uo-ec607/lectures/master/14-gce-ii/14-gce-ii.html)   |
+| Working with Big Data |  [[.rmd]() / [.html]()]    | [[.ipynb]()]  | [[.ipynb]()] | EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/17-spark/17-spark.html)   |
 
 ## Project
 
