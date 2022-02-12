@@ -132,11 +132,23 @@ pwd
 
 On my computer the **pwd** is the `01-shell` folder.
 
-It is important to note that all Bash commands have the same basic syntax -- command, option(s), argument(s)
+It is important to note that all Bash commands have the same basic syntax -- command, option(s), argument(s). Below is a picture to illustrate the point, 
 
-An example would be `ls -l -h ~/dawie/`. We will see what these components mean soon. The options and arguments are not always needed, but you will need a command (such as `ls`). The options start with a dash and are usually one letter. Arguments tell the command what to operate on, so this is usually a file, path or set of files and folders.
+![](images/shell_command_syntax.svg)
 
-In order to see the files **l**i**s**ted in the current working directory we use the `ls` command to list the files. We use the `-a`, `-l` and `-h` options to show `all` the folders and files. The `-l` is for long format and the `-h` is for human readable.
+The options and arguments are not always needed, but you will need a command (such as `ls`). The options start with a dash and are usually one letter. Options are sometimes referred to as **switches** or **flags**. Arguments tell the command what to operate on, so this is usually a file, path or set of files and folders.
+
+Let us see what happens if we type the command and option from above into the shell, 
+
+```{bash}
+ls -F 
+```
+
+The `ls` command gives the files  **l**i**s**ted in the current working directory, while the `-F` option provides a classification of the types of files. 
+
+> **Note**: Directory names in a path are separated with `/` on Unix, but `\` on Windows.
+
+We could use other options like `-a`, `-l` and `-h` to show `all` the folders and files. The `-l` is for long format and the `-h` is for human readable.
 
 ```{bash}
 ls -l -a -h 
@@ -268,6 +280,20 @@ Our raw data goes into the `data` folder and the data in this folder is never mo
 
 Results are put in the `results` folder. This includes the cleaned data, figures and other components that are created from the `bin`, `src` and `data` folders.
 
+## Exercise 
+
+Starting from `home/dawie/Dropbox`, which of the following commands could I use to navigate to my home directory, which is `/home/dawie`?
+
+1. `cd .`
+2. `cd /`
+3. `cd /home/dawie`
+4. `cd ../..`
+5. `cd ~`
+6. `cd home`
+7. `cd ~/data/..`
+8. `cd`
+9. `cd ..`
+
 # Creating directories
 
 ---
@@ -329,7 +355,7 @@ ls
 
 We can also delete the objects that we created with the `rm` command.
 
-**NB** Please note that there is no **undo** option with the shell. If you remove something it is permanently deleted. So make very sure about your actions before commiting. This is one of the reasons why version control is so important, which we will discuss in the next lecture. 
+> **NB**: Please note that there is no **undo** option with the shell. If you remove something it is permanently deleted. So make very sure about your actions before commiting. This is one of the reasons why version control is so important, which we will discuss in the next lecture. 
 
 
 ```{bash}
