@@ -32,8 +32,8 @@ This course schedule will be updated frequently, so please check before lecture 
 |  Lecture  | Topic | Notebook / Slides                                                       | Readings                                                                                                                            |
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
 | #1 | Shell |  [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) / [.html]()]  |  Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
-| #2 | Git, Github and Make  | [[.rmd]() / [.html]()]  | EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1) |
-| #3 | SQL basics | [[.rmd]() / [.html]()]  |  EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) |
+| #2 | Git, Github and Make  | [[.rmd]() / [.html]()]  | EC 607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1) |
+| #3 | SQL basics | [[.rmd]() / [.html]()]  |  EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) + Software Carpentry [notes](https://swcarpentry.github.io/sql-novice-survey/) |
 | #4 | Introduction to Julia |  [[.rmd]() / [.html]()]  | [Basics](https://juliadatascience.io/julia_basics) + QE [notes](https://julia.quantecon.org/intro.html) + CTU [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
 | #5 | Data basics with Julia | [[.rmd]() / [.html]()]  | [DataFrames.jl](https://juliadatascience.io/dataframes) + official documentation [here](https://dataframes.juliadata.org/stable/)  |
 | #6 | Fundamentals of machine learning | [[.rmd]() / [.html]()]      | BB [notes](https://bradleyboehmke.github.io/HOML/intro.html)   |
