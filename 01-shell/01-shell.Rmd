@@ -6,6 +6,9 @@ author:
   date: Lecture 1  "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
     theme: cosmo
     highlight: pygments
 always_allow_html: true
@@ -46,11 +49,9 @@ knit_hooks$set(
 })
 ```
 
-# Table of contents
+# Introduction
 
-1.  [Introduction](#intro)
-
-## Introduction
+---
 
 Before we start with the shell basics we will quickly run through how to install everything for different operating systems. We will do this in class so that I can see if there are any potential problems. We had some issues last year with the installation process.
 
@@ -60,7 +61,7 @@ If you want to know more about Linux then you are welcome to come and speak to m
 
 In this section we will look at how to setup a project as well as how to work with the command line. You might be used to working with graphical user interfaces for most of your coding career, but it is useful to know how to work through the shell. This is not something that is often taught in economics programs, but if you are looking at a career in data science this might be very useful. [Here](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#14) are some of the reasons why we might be interested in using the shell. We will start with looking at the basic file structures within a computer. The key points are the following,
 
-1.  Power
+1.  Power 
 2.  Reproducibility
 3.  Interacting with servers and super computers
 4.  Automating workflow and analysis pipelines
@@ -69,7 +70,7 @@ The primary references for this section are the notes from [Merely Useful](https
 
 **Note**: The output displayed will be for the file structure on my computer. For your PC things will obviously be different.
 
-## Some things we can use the shell for
+## Motivation
 
 Let us quickly talk about some things that we can use the shell for.
 
@@ -84,15 +85,44 @@ Let us quickly talk about some things that we can use the shell for.
 
 There are many more examples, but these are some of the fundamental things that make the command line useful.
 
-## Listing files and their properties
+# Hello World!
+
+---
+
+Once you have opened your terminal it should look something like this, 
+
+![](images/shell-1.png)
+
+I am using Linux, so obviously my terminal is going to look different from yours. Mine is customised to look the way I like it. If you are using Windows it will probably look something more along the lines of this, 
+
+![](images/shell-2.png)
 
 The first thing that you want to do is open up the Bash shell. You can do this through the [built-in terminal](https://support.rstudio.com/hc/en-us/articles/115010737148-Using-the-RStudio-Terminal) in **RStudio** if you prefer. I will quickly demonstrate this in class.
 
-Our first shell commands will let us explore our folders and files, and will also introduce us to several conventions that most Unix tools follow. To start, when Bash runs it presents us with a \gref{prompt}{prompt}\index{prompt (in Unix shell)} to indicate that it is waiting for us to type something. This prompt is a simple dollar sign by default:
+To start, when Bash runs it presents us with a \gref{prompt}{prompt}\index{prompt (in Unix shell)} to indicate that it is waiting for us to type something. This prompt is a simple dollar sign by default:
 
 ``` bash
 $
 ```
+
+For our very first command in the terminal we will enter `echo 'Hellow World!'` in the command line and see what happens. 
+
+```{bash hello}
+echo 'Hello World!'
+```
+
+You will see the syntax above for the rest of the notes. The first part is the command that I have entered and below we will see the output from issuing that command. 
+
+## Exercise 
+
+1. Try and print your own name to the terminal.
+2. Clear your terminal using the `clear` command.
+
+# Listing files
+
+---
+
+Now that we have that pesky first command out of the way, let us continue our journey with shell commands. The following commands will let us explore our folders and files, and will also introduce us to several conventions that most Unix tools follow. 
 
 The first thing I normally do is check my current working directory and list the files located in this directory. You have encountered the idea of a current working directory in R, so this should be familiar. We can do this by running the following command, which is for **p**rint **w**orking **d**irectory. (Notice that we only run the command, there are no options and arguments).
 
@@ -104,7 +134,7 @@ On my computer the **pwd** is the `01-shell` folder.
 
 It is important to note that all Bash commands have the same basic syntax -- command, option(s), argument(s)
 
-An example would be `ls -lh ~/dawie/`. We will see what these components mean soon. The options and arguments are not always needed, but you will need a command (such as `ls`). The options start with a dash and are usually one letter. Arguments tell the command what to operate on, so this is usually a file, path or set of files and folders.
+An example would be `ls -l -h ~/dawie/`. We will see what these components mean soon. The options and arguments are not always needed, but you will need a command (such as `ls`). The options start with a dash and are usually one letter. Arguments tell the command what to operate on, so this is usually a file, path or set of files and folders.
 
 In order to see the files **l**i**s**ted in the current working directory we use the `ls` command to list the files. We use the `-a`, `-l` and `-h` options to show `all` the folders and files. The `-l` is for long format and the `-h` is for human readable.
 
@@ -124,7 +154,19 @@ In terms of the first row, the output shows a special directory called `.`, whic
 
 Beyond the first two columns, the rest of the objects are files. We can see the files listed here are Jupyter notebooks, `html` files and some `RMarkdown` files.
 
-## Moving between directories
+# The manual
+
+---
+
+It is worth noting that options for many of the commands, such as `ls`, is contained in the manual. We can access the manual for the command in the following way, 
+
+```{bash}
+man ls | head -n 30 # head lets us look at the first 30 lines here
+```
+
+# Navigating directories
+
+---
 
 Now let's navigate to the `research project` folder. In order to this we will use the `cd` command to **c**hange **d**irectory. In this case I know that the `research-project` folder is located higher up in the file structure (in the parent directory). In order to go back one level in the directory, we can use the following command,
 
@@ -161,7 +203,7 @@ Let us quickly analyse the directory output above. The first component is the **
 
 Another shortcut to get to the **home** directory is to use the command `cd ~`, where the `~` is a special shortcut for **home**.
 
-From this point I am going to navigate to my `DataScience-871` folder. From above you can see the absolute location of the folder. In my case I first need to change the directory to the `Dropbox` folder.
+From this point I am going to navigate to my `DataScience-871` folder. From above you can see the absolute path of the folder. In my case I first need to change the directory to the `Dropbox` folder.
 
 ```{bash}
 cd ~/Dropbox
@@ -226,7 +268,9 @@ Our raw data goes into the `data` folder and the data in this folder is never mo
 
 Results are put in the `results` folder. This includes the cleaned data, figures and other components that are created from the `bin`, `src` and `data` folders.
 
-## Creating new files and directories
+# Creating directories
+
+---
 
 In the next part we will be creating some files and directories that relate to our research project. In order to do this we use the command `mkdir`, which is short for **m**ake **d**irectory.
 
@@ -239,7 +283,9 @@ ls
 
 You should now be able to see the `new_dir` directory that we have created with this command. This is similar to creating a new folder, as you would with a graphical file explorer in your operating system of choice.
 
-### Naming directories (detour)
+# Naming directories
+
+---
 
 There are a few "rules" about naming directories that we can quickly mention. 
 
@@ -260,7 +306,11 @@ Examples of "good" names
 - datascience-871
 - data_science_871
 
-I generally stick to lowercase with dashes, but that is a preference. It is simply easier to type. 
+I generally stick to lowercase with dashes, but that is a preference. It is simply easier to type.
+
+# Using `touch` and `rm`
+
+---
 
 Getting back to our example with the new directory we just created. 
 
@@ -277,7 +327,9 @@ touch draft.txt
 ls
 ```
 
-We can also delete the objects that we created with the `rm` command. 
+We can also delete the objects that we created with the `rm` command.
+
+**NB** Please note that there is no **undo** option with the shell. If you remove something it is permanently deleted. So make very sure about your actions before commiting. This is one of the reasons why version control is so important, which we will discuss in the next lecture. 
 
 
 ```{bash}
@@ -296,7 +348,9 @@ ls
 
 You will note that `new_dir` is now gone from the list. 
 
-## Copying and renaming
+# Copying and renaming
+
+---
 
 Another important command is copy. Let us make a new sub-directory with copies and then copy across files from another folder. 
 
@@ -357,7 +411,9 @@ mv docs/doc_new.txt docs/doc1.txt
 ls docs
 ```
 
-## Wildcards
+# Wildcards `*` and `?`
+
+---
 
 The place where `rename` is super useful is when we can use it in combination with regular expressions and **wildcards**. You would have dealt with the concept of regular expressions in the first part of the course. 
 
@@ -379,7 +435,9 @@ ls examples
 
 Wildcards are special characters that can be used as a replacement for other characters. The two most important ones are the `*` and `?`. 
 
-## Working with text files: Project Gutenberg
+# Working with text files
+
+---
 
 Next we will take a look at some data from the Project Gutenberg website. We have some full ebooks in our data folder. 
 
@@ -389,6 +447,7 @@ ls data
 ```
 
 There are some really interesting books in this folder. I recommend reading all of them if you have the time (especially `Frankenstein`!). If you don't have a lot of time read `Time Machine`, it is quite short.  
+## The word count command `wc`
 
 Moving on, we can use the `wc` command, which is short for **w**ord **c**ount, which will tell us how many lines, words and letters there are in a file.  
 
@@ -419,8 +478,6 @@ cd ../research-project
 wc -l data/*.txt
 ```
 
-
-
 The easiest way to read text is with the `cat` command, which stands for "concatenate". `cat` will read in *all* of the text. We don't want all the text, we simply want the first few lines. For this we can use the `head` command. This is similar to the `head` command in R.  
  
 ```{bash}
@@ -428,11 +485,13 @@ cd ../research-project
 head -n 18 data/frankenstein.txt
 ```
 
+## Regular expressions
+
 If we want to find specific patterns in the text, we can use regular expressions type matching with `grep`. This stands for "global regular expression print".
 
 What if we wanted to find some famous line in `Frankenstein`. One such line is,  
 
-*I was benevolent and good; misery made me a fiend.*
+> I was benevolent and good; misery made me a fiend.
 
 We can search for the first part of the sentence as follows, 
 
@@ -455,7 +514,6 @@ cd ../research-project
 grep -n -w "fear" data/frankenstein.txt | head -n 5
 ```
 
-
 We can use `grep` to find patterns in a group of files as well. Say we want to find the word *benevolent* across all the books in the directory, 
 
 ```{bash}
@@ -463,7 +521,82 @@ cd ../research-project
 grep -R -l "benevolent" data/
 ```
 
-It seems that only four books in our list contain the word. 
+It seems that only four books in our list contain the word. It should be noted that there are many options for `grep`. If you want to find out what functions are available you can consult the manual for the command by the `man` command. 
+
+One of the things that we could do is figure out how many lines in the books in our list contain the word *benevolent*. 
+
+```{bash}
+cd ../research-project
+grep -w -r "benevolent" data | wc -l
+```
+
+It looks like there are 23 lines in all of the books that contain this specific word. 
+
+One of the real powers of regular expressions is the fact that we aren't limited to characters and strings when defining our search, we can also use **metacharacters**.
+
+Metacharacters are characters that can be used to represent other characters. As an example, the period `"."` is a metacharacter, which represents *any* character. If we wanted to search `Frankenstein` for the character `"a"` followed by any character and then followed by the character `"x"` we could use the following command, 
+
+```{bash}
+cd ../research-project/data
+grep -P "a.x" frankenstein.txt
+```
+
+You see some nice words here like **a**n**x**ious or **a**n**x**iety. Besides metacharacters that represent other characters, we also have quantifiers which allow you to specify the number of times a particular regex should appear in a string. The most basic quantifiers are `+` and `*`. The plus represents one or more occurrences of the preceding expression. This means an expression like `s+as` would mean, one or more `s` followed by `as`. Let us illustrate with an example, 
+
+```{bash}
+cd ../research-project/data
+grep -P "s+as" frankenstein.txt
+```
+
+Some examples here are di**sas**ter and a**s**s**as**in. 
+
+It is not possible to go through all the cool things you can do with regular expressions in our lecture, so you can go and read more on it [here](https://seankross.com/the-unix-workbench/working-with-unix.html) if you find this interesting. 
+
+## Finding files
+
+While the `grep` command helps us to find things in files, we can use `find` to find files themselves. We can use `find .` to find and list everything in a directory. 
+
+```{bash}
+cd ../research-project
+find .
+```
+
+If we only wanted to find directories then we could do, 
+
+```{bash}
+cd ../research-project
+find . -type d
+```
+
+What about finding the files?
+
+```{bash}
+cd ../research-project
+find . -type f
+```
+
+We could also find files of a certain type using the `*` wildcard. 
+
+```{bash}
+cd ../research-project
+find . -name "*.txt"
+```
+
+We can combine some of the knowledge we have accumulated thus far to see how large the files are in terms of number of lines, 
+
+```{bash}
+cd ../research-project
+wc -l $(find . -name "*.txt")
+```
+
+You will often have `find` and `grep` used together. The following is a nice way to show the author of each of the books in the `data/` directory,
+
+```{bash}
+cd ../research-project/data
+grep "Author:" $(find . -name "*.txt")
+```
+
+## Using `awk` and `sed`
 
 Let us continue on our route of manipulating text in the shell. We encounter two more tools, `sed` and `awk`. 
 
@@ -498,6 +631,8 @@ sed -e 's/\s/\n/g' < data/frankenstein.txt | sort | uniq -c | sort -n -r | head 
 Let us talk a bit more about the pipe and redirect operator.
 
 # Pipes and redirect
+
+---
 
 You can send output from the shell to a file using the redirect operator `>`. We can print a message to the shell using the `echo` command. 
 
@@ -558,7 +693,9 @@ wc -l *.txt | sort -n
 
 Next lets move on to an interesting topic that you would have encountered in R. The usage of `for loops`.
 
-## Iteration (for loops)
+# Iteration (for loops)
+
+---
 
 These loops work similar to those in other programming languages. The basic syntax is the following, 
 
@@ -602,7 +739,9 @@ for filename in data/s*.txt; do head -n 17 $filename | tail -n 8; done
 ```
 
 
-## Shell scripting
+# Shell scripting
+
+---
 
 We can explore data and file structure with the shell, but we can also write shell scripts that combine commands. These scripts normally have a `.sh` extension. 
 
@@ -643,15 +782,155 @@ cd ../research-project/bin
 bash book_summary.sh
 ```
 
+# Editing text files
 
-## Conclusion
+---
+
+I will say a few words in class about editing text files and text editors that you could potentially use. This is an important topic, but we do not have the scope to fully cover it in this lecture. I mostly use [VS Code](https://code.visualstudio.com/) to edit text documents. However, there are other options like [nano](https://www.nano-editor.org/), [vim](https://www.vim.org/) and [Emacs](https://www.gnu.org/software/emacs/) for those that are interested. You can also use `RStudio`, but I wouldn't really recommend it. There are better text editors with much more functionality. 
+
+As always, find what works best for you. Find the space that best fits your style and you will enjoy the journey so much more.   
+
+# Make
+
+---
+
+In the early days of computing there were not nice user interfaces that we saw today. Most of the work was done on the command line. This is exactly why the tools on the command line are so well developed. One of the primary things computer scientists wanted to do was to share software, but it was always a bit tricky to install software across different systems. This is where `make` comes in. The idea behind `make` is the following, 
+
+1. Download files required for installation into a certain directory.
+2. `cd` into that directory.
+3. Run the `make` command.
+
+In order to do this one had to construct a `makefile` that contains all the instructions on how different parts of the downloaded components need to interact with each other. The nice thing about `make` is that it allows for a process whereby we can create documents **automatically**. This is amazing for reproducibility in projects! You are essentially writing down the steps whereby things should be executed in order to get to a finished product. 
+
+We will show a very easy example of constructing our own `makefile` and in the next lecture we will go into version control and project management in a bit more detail.  
+
+We created a `makefile` file in the `journal` directory of the `research-project` folder, using a text editor (in this case VS Code). In the makefile we have the following text, 
+
+```bash
+draft_journal_entry.txt:
+  touch draft_journal_entry.txt
+```
+
+The general format for `makefile` entries are the following, 
+
+```bash
+[target]: [dependencies...]
+  [commands...]
+```
+
+The indent in the second line is important. It should be done with the `tab` key. If this whitespace is not used then the command will not execute. 
+
+In our simple example above, the **target** is the text file `draft_journal_entry.txt`. This file is created with the `touch` **command** in the second line. We can check the `journal` folder to see the contents. 
+
+```{bash}
+cd ../research-project/journal
+ls
+```
+
+Let us know use the `make` command to see if the `makefile` is properly executed. 
+
+```{bash}
+cd ../research-project/journal
+make draft_journal_entry.txt
+```
+
+It seems like this has worked properly. We have created a new file with our command in the `makefile`. Let us try running it again and see what happens. 
+
+```{bash}
+cd ../research-project/journal
+make draft_journal_entry.txt
+```
+
+Interesting, it tells us that the commands are up to date. This means that there is nothing to be done. 
+
+Now let us do something more complex. Let us add a table of contents to our journal, 
+
+```{bash}
+cd ../research-project/journal
+echo "1. 2022-02-11-Lecture-Stellenbosch" > toc.txt
+ls
+```
+
+Next, let us edit our `makefile` in VS Code to include the following lines, 
+
+```bash
+readme.txt: toc.txt
+  echo "This journal contains the following number of entries:" > readme.txt
+  wc -l toc.txt | grep -P -o "[0-9]+" >> readme.txt
+```
+
+Now let us run `make` with the `readme.txt` as the target. 
+
+```{bash}
+cd ../research-project/journal
+make readme.txt
+```
+
+To see that this works, let us look at the contents of `readme.txt`.
+
+```{bash}
+cd ../research-project/journal
+cat readme.txt
+```
+
+Now let’s modify `toc.txt` then we’ll try running `make` again.
+
+```{bash}
+cd ../research-project/journal
+echo "2. 2022-02-12-Chilling-SomersetWest" >> toc.txt
+make readme.txt
+cat readme.txt
+```
+
+In order to simplify the `make` experience, we can create a rule at the top of our `makefile` called `all` where we can list all of the files that are built by the `makefile`. By adding the `all` target we can simply run `make` without any arguments in order to build all of the targets in the `makefile`.
+
+Let us edit our `makefile` in VS Code so that it looks as follows, 
+
+```bash
+all: draft_journal_entry.txt readme.txt
+
+draft_journal_entry.txt:
+  touch draft_journal_entry.txt
+  
+readme.txt: toc.txt
+  echo "This journal contains the following number of entries:" > readme.txt
+  wc -l toc.txt | egrep -o "[0-9]+" >> readme.txt
+
+clean:
+  rm draft_journal_entry.txt
+  rm readme.txt
+```
+
+We add the `clean` rule to destroy the files created in our `makefile`. Normally you wouldn't do this, but for the purpose of the lecture it helps to keep the folder empty if we want to repeat the process from the start.   
+
+Let’s save and close our `makefile` then let’s test it out. First let’s clean up our repository:
+
+```{bash}
+cd ../research-project/journal
+make clean
+ls
+```
+
+The `clean` command works like expected. Now let us simply run the `makefile` and check that it executes the correct commands. 
+
+```{bash}
+cd ../research-project/journal
+make
+ls
+```
+
+It does exactly what we wanted it to do. Success! 
+
+In the next lecture we will be looking at some examples that include `R` scripts, so that we can show how powerful `make` really can be. However, even if you didn't understand it all fully, you might already feel like this is something that could be useful in automating a lot of processes.  
+
+# Conclusion
+
+---
 
 This has been a lot of information to process. Hopefully you found it useful. We will be seeing more on shell commands in some of our other lectures, so this work will not go to waste. 
 
 There are many topics that we did not cover, in particular SSH, but we will perhaps have time to look at some more ideas as we continue the course. Especially toward the end of the course when we talk about cloud computing. 
 
 There is so much you can do with the command line, that there is even a book called "Data Science at the Command Line". It is worth checking out if you are interested. 
-
-Another important thing to mention is the usage of `Make` for project management. If we have time left at the end of the course I will tell you more about good project management practice. This is a really useful session if you want to do effective research, with loads of automation. 
 
 
