@@ -33,17 +33,17 @@ This course schedule will be updated frequently, so please check before lecture 
 |--------|-----|-------------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------|
 | #1 | Shell |  [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) / [.html]()]  |  Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
 | #2 | Git, Github and Make  | [[.rmd]() / [.html]()]  | EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1) |
-| #3 | SQL basics | [[.rmd]() / [.html]()]  | |
-| #4 | Introduction to Julia |  [Basics](https://juliadatascience.io/julia_basics) | QE [notes](https://julia.quantecon.org/intro.html) and some more in depth [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
-| #5 | Data basics with Julia | [DataFrames.jl](https://juliadatascience.io/dataframes) | Official documentation [here](https://dataframes.juliadata.org/stable/)  |
-| #6 | Fundamentals of machine learning | [[.rmd]() / [.html]()]      |    |
-| #7 | Regularisation  | [[.rmd]() / [.html]()]    |    |
-| #8 | Decision trees and random forests| [[.rmd]() / [.html]()]   |    |
-| #9 | Gradient boosting and bagging | [[.rmd]() / [.html]()]    |    |
-| #10 | Functions | [[.rmd]() / [.html]()]     |    |
-| #11 | Parallel programming | [[.rmd]() / [.html]()]     |    |
-| #12 | Cloud computing  |  [[.rmd]() / [.html]()]    |    |
-| #13 | Working with Big Data |  [[.rmd]() / [.html]()]    |    |
+| #3 | SQL basics | [[.rmd]() / [.html]()]  |  EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) |
+| #4 | Introduction to Julia |  [[.rmd]() / [.html]()]  | [Basics](https://juliadatascience.io/julia_basics) + QE [notes](https://julia.quantecon.org/intro.html) + CTU [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
+| #5 | Data basics with Julia | [[.rmd]() / [.html]()]  | [DataFrames.jl](https://juliadatascience.io/dataframes) + official documentation [here](https://dataframes.juliadata.org/stable/)  |
+| #6 | Fundamentals of machine learning | [[.rmd]() / [.html]()]      | BB [notes](https://bradleyboehmke.github.io/HOML/intro.html)   |
+| #7 | Regularized regression  | [[.rmd]() / [.html]()]    |  BB [notes](https://bradleyboehmke.github.io/HOML/regularized-regression.html)  |
+| #8 | Decision trees and bagging | [[.rmd]() / [.html]()]   | BB [notes](https://bradleyboehmke.github.io/HOML/DT.html)   |
+| #9 | Random forests and gradient boosting | [[.rmd]() / [.html]()]  |  BB [notes](https://bradleyboehmke.github.io/HOML/gbm.html)  |
+| #10 | Functions | [[.rmd]() / [.html]()]     | EC 607 [notes # 1](https://raw.githack.com/uo-ec607/lectures/master/10-funcs-intro/10-funcs-intro.html) + EC607 [notes #2](https://raw.githack.com/uo-ec607/lectures/master/11-funcs-adv/11-funcs-adv.html)   |
+| #11 | Parallel programming | [[.rmd]() / [.html]()]     |  EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/12-parallel/12-parallel.html)  |
+| #12 | Cloud computing  |  [[.rmd]() / [.html]()]    |  EC 607 [notes # 1](https://raw.githack.com/uo-ec607/lectures/master/14-gce-i/14-gce-i.html) + EC607 [notes #2](https://raw.githack.com/uo-ec607/lectures/master/14-gce-ii/14-gce-ii.html)   |
+| #13 | Working with Big Data |  [[.rmd]() / [.html]()]    | EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/17-spark/17-spark.html)   |
 
 ## Project
 
