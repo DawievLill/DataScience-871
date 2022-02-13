@@ -415,10 +415,10 @@ div.tocify {
 <p>We could use other options like <code>-a</code>, <code>-l</code> and <code>-h</code> to show <code>all</code> the folders and files. The <code>-l</code> is for long format and the <code>-h</code> is for human readable.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> <span class="at">-a</span> <span class="at">-h</span> </span></code></pre></div>
 <pre><code>## total 1.5M
-## drwxr-xr-x  3 dawie dawie 4.0K Feb 12 22:19 .
-## drwxr-xr-x 17 dawie dawie 4.0K Feb 12 20:00 ..
-## -rw-r--r--  1 dawie dawie 1.5M Feb 12 22:19 01-shell.html
-## -rw-r--r--  1 dawie dawie  38K Feb 12 22:20 01-shell.Rmd
+## drwxr-xr-x  3 dawie dawie 4.0K Feb 13 13:10 .
+## drwxr-xr-x 17 dawie dawie 4.0K Feb 13 11:58 ..
+## -rw-r--r--  1 dawie dawie 1.5M Feb 13 13:10 01-shell.html
+## -rw-r--r--  1 dawie dawie  39K Feb 13 13:10 01-shell.Rmd
 ## drwxr-xr-x  2 dawie dawie 4.0K Feb 12 21:12 images</code></pre>
 <p>You might notice that there is a lot of information here. Let us analyse this one piece at a time.</p>
 <p>The first column indicates the object type. It can either be a (<code>d</code>) directory / folder, (<code>l</code>) link or (<code>-</code>) file. In the case of the first line, we see that this is a directory.</p>
@@ -554,16 +554,16 @@ div.tocify {
 <div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> <span class="at">-h</span></span></code></pre></div>
 <pre><code>## total 32K
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 10 22:16 bin
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 12 22:19 data
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 12 22:19 docs
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:01 bin
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:10 data
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:10 docs
 ## -rw-r--r-- 1 dawie dawie    0 Feb 10 15:15 example1.txt
 ## -rw-r--r-- 1 dawie dawie    0 Feb 10 15:15 example2.txt
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 12 22:19 examples
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 12 22:19 journal
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:10 examples
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:10 journal
 ## -rw-r--r-- 1 dawie dawie    4 Jan 14 13:28 README.md
 ## drwxr-xr-x 2 dawie dawie 4.0K Jan 14 12:55 results
-## drwxr-xr-x 2 dawie dawie 4.0K Jan 18 10:07 src</code></pre>
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 12:52 src</code></pre>
 <p>In this folder structure you can see a broad template for organising a small project.</p>
 <p>For this project you see that here is a <code>README.md</code> file that gives us the basic information of the project. You might often see <code>licence</code>, <code>conduct</code> and <code>citation</code> files in projects, but we won’t be dealing with those in detail in this course. The only boilerplate file that you need to concern yourself with is the <code>README.md</code> document, which we will talk about a bit more when we deal with <strong>version control</strong>. You will notice that this has the <code>.md</code> extension, which indicates that this is a Markdown file. This entire notebook was written in Markdown and I will talk about the format briefly in the lecture.</p>
 <p>The directories for this project are organised by purpose.</p>
@@ -794,7 +794,7 @@ div.tocify {
 ##   13053 sherlock_holmes.txt
 ##    3582 time_machine.txt
 ##   96855 total</code></pre>
-<p>The easiest way to read text is with the <code>cat</code> command, which stands for “concatenate”. <code>cat</code> will read in <em>all</em> of the text. We don’t want all the text, we simply want the first few lines. For this we can use the <code>head</code> command. This is similar to the <code>head</code> command in R.</p>
+<p>The easiest way to read text is with the <code>cat</code> command, which stands for “concatenate”. <code>cat</code> will read in <em>all</em> of the text. We don’t want all the text, we simply want the first few lines, so we use the <code>head</code> command. This is similar to the <code>head</code> command in R.</p>
 <div class="sourceCode" id="cb73"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/data</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> head <span class="at">-n</span> 18 frankenstein.txt</span></code></pre></div>
 <pre><code>## ﻿Project Gutenberg&#39;s Frankenstein, by Mary Wollstonecraft (Godwin) Shelley
@@ -907,7 +907,9 @@ div.tocify {
 ## ./data/jane_eyre.txt
 ## ./example1.txt
 ## ./bin
+## ./bin/top_words.sh
 ## ./bin/book_summary.sh
+## ./bin/alice.txt
 ## ./README.md
 ## ./docs
 ## ./docs/doc1.txt
@@ -919,6 +921,7 @@ div.tocify {
 ## ./journal/makefile
 ## ./example2.txt
 ## ./src
+## ./src/top-words.R
 ## ./examples
 ## ./examples/example1.txt
 ## ./examples/example2.txt
@@ -947,7 +950,9 @@ div.tocify {
 ## ./data/frankenstein.txt
 ## ./data/jane_eyre.txt
 ## ./example1.txt
+## ./bin/top_words.sh
 ## ./bin/book_summary.sh
+## ./bin/alice.txt
 ## ./README.md
 ## ./docs/doc1.txt
 ## ./journal/toc.txt
@@ -955,6 +960,7 @@ div.tocify {
 ## ./journal/readme.txt
 ## ./journal/makefile
 ## ./example2.txt
+## ./src/top-words.R
 ## ./examples/example1.txt
 ## ./examples/example2.txt
 ## ./examples/nursery.txt
@@ -971,6 +977,7 @@ div.tocify {
 ## ./data/frankenstein.txt
 ## ./data/jane_eyre.txt
 ## ./example1.txt
+## ./bin/alice.txt
 ## ./docs/doc1.txt
 ## ./journal/toc.txt
 ## ./journal/draft_journal_entry.txt
@@ -991,6 +998,7 @@ div.tocify {
 ##    7832 ./data/frankenstein.txt
 ##   21054 ./data/jane_eyre.txt
 ##       0 ./example1.txt
+##    3761 ./bin/alice.txt
 ##       0 ./docs/doc1.txt
 ##       2 ./journal/toc.txt
 ##       0 ./journal/draft_journal_entry.txt
@@ -1000,7 +1008,7 @@ div.tocify {
 ##       0 ./examples/example2.txt
 ##       2 ./examples/nursery.txt
 ##       2 ./examples/example3.txt
-##   96863 total</code></pre>
+##  100624 total</code></pre>
 <p>You will often have <code>find</code> and <code>grep</code> used together. The following is a nice way to show the author of each of the books in the <code>data/</code> directory,</p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/data</span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="st">&quot;Author:&quot;</span> <span class="va">$(</span><span class="fu">find</span> . <span class="at">-name</span> <span class="st">&quot;*.txt&quot;</span><span class="va">)</span></span></code></pre></div>
@@ -1159,6 +1167,7 @@ div.tocify {
 <p>Let us clean up the directory.</p>
 <div class="sourceCode" id="cb126"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/data</span>
 <span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> rm alice_in_wonderland.txt</span></code></pre></div>
+<p>If you want to explore other ways in which data can be downloaded and transformed, then the following <a href="https://datascienceatthecommandline.com/2e/chapter-3-obtaining-data.html">link</a> provides is a great read.</p>
 </div>
 <div id="iteration-for-loops" class="section level1">
 <h1>Iteration (for loops)</h1>
@@ -1258,6 +1267,27 @@ div.tocify {
 <div class="sourceCode" id="cb146"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/bin</span>
 <span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> bash book_summary.sh</span></code></pre></div>
 <pre><code>## Author: Herman Melville</code></pre>
+<p>Shell scripts are especially useful if you have a long list of commands that you want to pipe together. The following is quite unwieldy in the terminal and work much better in a shell script,</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sL</span> <span class="st">&quot;https://www.gutenberg.org/files/11/11-0.txt&quot;</span> <span class="kw">|</span></span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span> <span class="kw">|</span></span>
+<span id="cb148-3"><a href="#cb148-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-oE</span> <span class="st">&quot;[a-z\&#39;]{2,}&quot;</span> <span class="kw">|</span></span>
+<span id="cb148-4"><a href="#cb148-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="kw">|</span></span>
+<span id="cb148-5"><a href="#cb148-5" aria-hidden="true" tabindex="-1"></a><span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span></span>
+<span id="cb148-6"><a href="#cb148-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span> <span class="at">-nr</span> <span class="kw">|</span></span>
+<span id="cb148-7"><a href="#cb148-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 10</span></code></pre></div>
+<p>Then we can easily call the shell script (in this case <code>top_words.sh</code>) and see the result, without having to do all the typing,</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/bin</span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> bash top_words.sh</span></code></pre></div>
+<pre><code>##    1839 the
+##     942 and
+##     811 to
+##     638 of
+##     610 it
+##     553 she
+##     486 you
+##     462 said
+##     435 in
+##     403 alice</code></pre>
 </div>
 <div id="editing-text-files" class="section level1">
 <h1>Editing text files</h1>
@@ -1277,86 +1307,86 @@ div.tocify {
 <p>In order to do this one had to construct a <code>makefile</code> that contains all the instructions on how different parts of the downloaded components need to interact with each other. The nice thing about <code>make</code> is that it allows for a process whereby we can create documents <strong>automatically</strong>. This is amazing for reproducibility in projects! You are essentially writing down the steps whereby things should be executed in order to get to a finished product.</p>
 <p>We will show a very easy example of constructing our own <code>makefile</code> and in the next lecture we will go into version control and project management in a bit more detail.</p>
 <p>We created a <code>makefile</code> file in the <code>journal</code> directory of the <code>research-project</code> folder, using a text editor (in this case VS Code). In the makefile we have the following text,</p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="ex">draft_journal_entry.txt:</span></span>
-<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">touch</span> draft_journal_entry.txt</span></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="ex">draft_journal_entry.txt:</span></span>
+<span id="cb151-2"><a href="#cb151-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">touch</span> draft_journal_entry.txt</span></code></pre></div>
 <p>The general format for <code>makefile</code> entries are the following,</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[target]:</span> [dependencies...]</span>
-<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">[commands...]</span></span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[target]:</span> [dependencies...]</span>
+<span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">[commands...]</span></span></code></pre></div>
 <p>The indent in the second line is important. It should be done with the <code>tab</code> key. If this whitespace is not used then the command will not execute.</p>
 <p>In our simple example above, the <strong>target</strong> is the text file <code>draft_journal_entry.txt</code>. This file is created with the <code>touch</code> <strong>command</strong> in the second line. We can check the <code>journal</code> folder to see the contents.</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
 <pre><code>## draft_journal_entry.txt
 ## makefile
 ## readme.txt
 ## toc.txt</code></pre>
 <p>Let us know use the <code>make</code> command to see if the <code>makefile</code> is properly executed.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make draft_journal_entry.txt</span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make draft_journal_entry.txt</span></code></pre></div>
 <pre><code>## make: &#39;draft_journal_entry.txt&#39; is up to date.</code></pre>
 <p>It seems like this has worked properly. We have created a new file with our command in the <code>makefile</code>. Let us try running it again and see what happens.</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make draft_journal_entry.txt</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make draft_journal_entry.txt</span></code></pre></div>
 <pre><code>## make: &#39;draft_journal_entry.txt&#39; is up to date.</code></pre>
 <p>Interesting, it tells us that the commands are up to date. This means that there is nothing to be done.</p>
 <p>Now let us do something more complex. Let us add a table of contents to our journal,</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">&quot;1. 2022-02-11-Lecture-Stellenbosch&quot;</span> <span class="op">&gt;</span> toc.txt</span>
-<span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">&quot;1. 2022-02-11-Lecture-Stellenbosch&quot;</span> <span class="op">&gt;</span> toc.txt</span>
+<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
 <pre><code>## draft_journal_entry.txt
 ## makefile
 ## readme.txt
 ## toc.txt</code></pre>
 <p>Next, let us edit our <code>makefile</code> in VS Code to include the following lines,</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="ex">readme.txt:</span> toc.txt</span>
-<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;This journal contains the following number of entries:&quot;</span> <span class="op">&gt;</span> readme.txt</span>
-<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wc</span> <span class="at">-l</span> toc.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-P</span> <span class="at">-o</span> <span class="st">&quot;[0-9]+&quot;</span> <span class="op">&gt;&gt;</span> readme.txt</span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="ex">readme.txt:</span> toc.txt</span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;This journal contains the following number of entries:&quot;</span> <span class="op">&gt;</span> readme.txt</span>
+<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wc</span> <span class="at">-l</span> toc.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-P</span> <span class="at">-o</span> <span class="st">&quot;[0-9]+&quot;</span> <span class="op">&gt;&gt;</span> readme.txt</span></code></pre></div>
 <p>Now let us run <code>make</code> with the <code>readme.txt</code> as the target.</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make readme.txt</span></code></pre></div>
+<div class="sourceCode" id="cb162"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make readme.txt</span></code></pre></div>
 <pre><code>## echo &quot;This journal contains the following number of entries:&quot; &gt; readme.txt
 ## wc -l toc.txt | egrep -o &quot;[0-9]+&quot; &gt;&gt; readme.txt</code></pre>
 <p>To see that this works, let us look at the contents of <code>readme.txt</code>.</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat readme.txt</span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat readme.txt</span></code></pre></div>
 <pre><code>## This journal contains the following number of entries:
 ## 1</code></pre>
 <p>Now let’s modify <code>toc.txt</code> then we’ll try running <code>make</code> again.</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">&quot;2. 2022-02-12-Chilling-SomersetWest&quot;</span> <span class="op">&gt;&gt;</span> toc.txt</span>
-<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make readme.txt</span>
-<span id="cb163-4"><a href="#cb163-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat readme.txt</span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> echo <span class="st">&quot;2. 2022-02-12-Chilling-SomersetWest&quot;</span> <span class="op">&gt;&gt;</span> toc.txt</span>
+<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make readme.txt</span>
+<span id="cb166-4"><a href="#cb166-4" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cat readme.txt</span></code></pre></div>
 <pre><code>## echo &quot;This journal contains the following number of entries:&quot; &gt; readme.txt
 ## wc -l toc.txt | egrep -o &quot;[0-9]+&quot; &gt;&gt; readme.txt
 ## This journal contains the following number of entries:
 ## 2</code></pre>
 <p>In order to simplify the <code>make</code> experience, we can create a rule at the top of our <code>makefile</code> called <code>all</code> where we can list all of the files that are built by the <code>makefile</code>. By adding the <code>all</code> target we can simply run <code>make</code> without any arguments in order to build all of the targets in the <code>makefile</code>.</p>
 <p>Let us edit our <code>makefile</code> in VS Code so that it looks as follows,</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="ex">all:</span> draft_journal_entry.txt readme.txt</span>
-<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a><span class="ex">draft_journal_entry.txt:</span></span>
-<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">touch</span> draft_journal_entry.txt</span>
-<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb165-6"><a href="#cb165-6" aria-hidden="true" tabindex="-1"></a><span class="ex">readme.txt:</span> toc.txt</span>
-<span id="cb165-7"><a href="#cb165-7" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;This journal contains the following number of entries:&quot;</span> <span class="op">&gt;</span> readme.txt</span>
-<span id="cb165-8"><a href="#cb165-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wc</span> <span class="at">-l</span> toc.txt <span class="kw">|</span> <span class="fu">egrep</span> <span class="at">-o</span> <span class="st">&quot;[0-9]+&quot;</span> <span class="op">&gt;&gt;</span> readme.txt</span>
-<span id="cb165-9"><a href="#cb165-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb165-10"><a href="#cb165-10" aria-hidden="true" tabindex="-1"></a><span class="ex">clean:</span></span>
-<span id="cb165-11"><a href="#cb165-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span> draft_journal_entry.txt</span>
-<span id="cb165-12"><a href="#cb165-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span> readme.txt</span></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="ex">all:</span> draft_journal_entry.txt readme.txt</span>
+<span id="cb168-2"><a href="#cb168-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb168-3"><a href="#cb168-3" aria-hidden="true" tabindex="-1"></a><span class="ex">draft_journal_entry.txt:</span></span>
+<span id="cb168-4"><a href="#cb168-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">touch</span> draft_journal_entry.txt</span>
+<span id="cb168-5"><a href="#cb168-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb168-6"><a href="#cb168-6" aria-hidden="true" tabindex="-1"></a><span class="ex">readme.txt:</span> toc.txt</span>
+<span id="cb168-7"><a href="#cb168-7" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;This journal contains the following number of entries:&quot;</span> <span class="op">&gt;</span> readme.txt</span>
+<span id="cb168-8"><a href="#cb168-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wc</span> <span class="at">-l</span> toc.txt <span class="kw">|</span> <span class="fu">egrep</span> <span class="at">-o</span> <span class="st">&quot;[0-9]+&quot;</span> <span class="op">&gt;&gt;</span> readme.txt</span>
+<span id="cb168-9"><a href="#cb168-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb168-10"><a href="#cb168-10" aria-hidden="true" tabindex="-1"></a><span class="ex">clean:</span></span>
+<span id="cb168-11"><a href="#cb168-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span> draft_journal_entry.txt</span>
+<span id="cb168-12"><a href="#cb168-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span> readme.txt</span></code></pre></div>
 <p>We add the <code>clean</code> rule to destroy the files created in our <code>makefile</code>. Normally you wouldn’t do this, but for the purpose of the lecture it helps to keep the folder empty if we want to repeat the process from the start.</p>
 <p>Let’s save and close our <code>makefile</code> then let’s test it out. First let’s clean up our repository:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make clean</span>
-<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make clean</span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
 <pre><code>## rm draft_journal_entry.txt
 ## rm readme.txt
 ## makefile
 ## toc.txt</code></pre>
 <p>The <code>clean</code> command works like expected. Now let us simply run the <code>makefile</code> and check that it executes the correct commands.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
-<span id="cb168-2"><a href="#cb168-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make</span>
-<span id="cb168-3"><a href="#cb168-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make</span>
+<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
 <pre><code>## touch draft_journal_entry.txt
 ## echo &quot;This journal contains the following number of entries:&quot; &gt; readme.txt
 ## wc -l toc.txt | egrep -o &quot;[0-9]+&quot; &gt;&gt; readme.txt

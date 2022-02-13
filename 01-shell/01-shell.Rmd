@@ -525,12 +525,13 @@ cd ../research-project/data
 wc -l *.txt
 ```
 
-The easiest way to read text is with the `cat` command, which stands for "concatenate". `cat` will read in *all* of the text. We don't want all the text, we simply want the first few lines. For this we can use the `head` command. This is similar to the `head` command in R.  
+The easiest way to read text is with the `cat` command, which stands for "concatenate". `cat` will read in *all* of the text. We don't want all the text, we simply want the first few lines, so we use the `head` command. This is similar to the `head` command in R.  
  
 ```{bash}
 cd ../research-project/data
 head -n 18 frankenstein.txt
 ```
+
 
 ## Regular expressions
 
@@ -777,6 +778,7 @@ cd ../research-project/data
 rm alice_in_wonderland.txt
 ```
 
+If you want to explore other ways in which data can be downloaded and transformed, then the following [link](https://datascienceatthecommandline.com/2e/chapter-3-obtaining-data.html) provides is a great read.
 
 # Iteration (for loops)
 
@@ -879,6 +881,26 @@ We can run the shell script as before,
 cd ../research-project/bin
 bash book_summary.sh
 ```
+
+Shell scripts are especially useful if you have a long list of commands that you want to pipe together. The following is quite unwieldy in the terminal and work much better in a shell script, 
+
+```bash
+curl -sL "https://www.gutenberg.org/files/11/11-0.txt" |
+tr '[:upper:]' '[:lower:]' |
+grep -oE "[a-z\']{2,}" |
+sort |
+uniq -c |
+sort -nr |
+head -n 10
+```
+
+Then we can easily call the shell script (in this case `top_words.sh`) and see the result, without having to do all the typing, 
+
+```{bash shell_script_5}
+cd ../research-project/bin
+bash top_words.sh
+```
+
 
 # Editing text files
 
