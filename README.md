@@ -59,7 +59,7 @@ If students are interested in extra credit (marks) and some recognition, they ca
 
 | Topic | R Notebooks | Julia Notebooks 🚧 | Python Notebooks 🚧 | Readings
 |---|---|---|---|---|
-| Shell |  [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) / [.html]()]  | | |  Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
+| Shell |  [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/01-shell/01-shell.Rmd) / [.html](https://raw.githack.com/DawievLill/DataScience-871/master/01-shell/01-shell.html)]  | | |  Merely Useful [Ch2-5](https://merely-useful.tech/py-rse/bash-basics.html) + EC607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1) |
 | Git, Github and Make  | [[.rmd]() / [.html]()]  | | | EC 607 [Slides](https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1) |
 | SQL basics | [[.rmd]() / [.html]()]  | | | EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) + Software Carpentry [notes](https://swcarpentry.github.io/sql-novice-survey/) |
 | Introduction to Julia | | [[.ipynb]()]  | [[.ipynb]()] | [Basics](https://juliadatascience.io/julia_basics) + QE [notes](https://julia.quantecon.org/intro.html) + CTU [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
