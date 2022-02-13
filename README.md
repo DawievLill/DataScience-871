@@ -1,6 +1,6 @@
 # Data Science for Economics and Finance
 
-[`Schedule`](#schedule) | [`Project`](#project) |
+[`Software`](#software) | [`Schedule`](#schedule) | [`Project`](#project) |
 [`Resources`](#resources) 
 
 On this page we have the course notes for the second part of the Data Science 871 module. 
@@ -24,6 +24,25 @@ Below are my details. You can contact me via email. If I don't respond within a 
 | Email | [dvanlill@sun.ac.za](mailto:dvanlill@sun.ac.za) |
 | Office | Schumann 511 |
 | GitHub | [DawievLill](https://github.com/DawievLill) |
+
+## Software
+
+If you are using Windows, please go the following [link](https://ubc-mds.github.io/resources_pages/install_ds_stack_windows/) and install all the software indicated on that page. This will all be useful for a data scientist. This is the most detailed guide I have yet seen. 
+
+The list of software that you need to have installed for this course is,
+ 
+1. Visual Studio Code (and its extensions)
+2. Git (Bash)
+3. Windows Terminal (ony for Windows)
+4. Python (via Anaconda)
+5. JupyterLab
+6. R (which includes IRkernel, Rtools, and RStudio)
+7. Julia (not on that page, but can be downloaded [here](https://julialang.org/downloads/))
+8. Make
+9. PostgreSQL
+10. Docker (not super important for now)
+
+If you are using another operating system than Windows, many of these programs will already be installed. If you are struggling to install something in another OS, please come and speak to me during the first lecture. 
 
 ## Schedule 
 
