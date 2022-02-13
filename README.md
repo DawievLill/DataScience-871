@@ -64,7 +64,7 @@ If students are interested in extra credit (marks) and some recognition, they ca
 | SQL basics | [[.rmd]() / [.html]()]  | | | EC 607 [notes](https://raw.githack.com/uo-ec607/lectures/master/16-databases/16-databases.html) + Software Carpentry [notes](https://swcarpentry.github.io/sql-novice-survey/) |
 | Introduction to Julia | | [[.ipynb]()]  | [[.ipynb]()] | [Basics](https://juliadatascience.io/julia_basics) + QE [notes](https://julia.quantecon.org/intro.html) + CTU [notes](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)   |
 | Data basics with Julia | | [[.ipynb]()]  | [[.ipynb]()] | [DataFrames.jl](https://juliadatascience.io/dataframes) + official documentation [here](https://dataframes.juliadata.org/stable/)  |
-| Fundamentals of machine learning | [[.rmd]() / [.html]()]      | [[.ipynb]()]  | [[.ipynb]()] |BB [notes](https://bradleyboehmke.github.io/HOML/intro.html)   |
+| Fundamentals of machine learning | [[.rmd](https://github.com/DawievLill/DataScience-871/blob/master/06-ml-intro/06-ml-intro.Rmd) / [.html](https://raw.githack.com/DawievLill/DataScience-871/master/06-ml-intro/06-ml-intro.html)]      | [[.ipynb]()]  | [[.ipynb]()] |BB [notes](https://bradleyboehmke.github.io/HOML/intro.html)   |
 | Regularized regression  | [[.rmd]() / [.html]()]    | [[.ipynb]()]  | [[.ipynb]()] | BB [notes](https://bradleyboehmke.github.io/HOML/regularized-regression.html)  |
 | Decision trees and bagging | [[.rmd]() / [.html]()]   | [[.ipynb]()]  | [[.ipynb]()] | BB [notes](https://bradleyboehmke.github.io/HOML/DT.html)   |
 | Random forests and gradient boosting | [[.rmd]() / [.html]()]  | [[.ipynb]()]  | [[.ipynb]()] | BB [notes](https://bradleyboehmke.github.io/HOML/gbm.html)  |
