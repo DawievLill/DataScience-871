@@ -27,16 +27,19 @@ Below are my details. You can contact me via email. If I don't respond within a 
 
 ## Software
 
-If you are using Windows, please go the following [link](https://ubc-mds.github.io/resources_pages/install_ds_stack_windows/) and install all the software indicated on that page. This will all be useful for a data scientist. This is the most detailed guide I have yet seen. 
+If you are using Windows, please go the following [link](https://ubc-mds.github.io/resources_pages/install_ds_stack_windows/) and install all the software indicated on that page. This will all be useful for a data scientist. 
+
+If you are using MacOS you can go [here](https://ubc-mds.github.io/resources_pages/install_ds_stack_mac/)
+
+If you are using Ubuntu or some Linux distribution, you can go [here](https://ubc-mds.github.io/resources_pages/install_ds_stack_ubuntu/) 
 
 The list of software that you need to have installed for this course is,
  
 1. Visual Studio Code (and its extensions)
-2. Git (Bash)
-3. Windows Terminal (ony for Windows)
+2. Git (for Windows we will use Git Bash -- **NB** to install!)
 4. Python (via Anaconda)
 5. JupyterLab
-6. R (which includes IRkernel, Rtools, and RStudio)
+6. R (and associated tools per OS such as IRKernel and Rstudio)
 7. Julia (not on that page, but can be downloaded [here](https://julialang.org/downloads/))
 8. Make
 9. PostgreSQL
