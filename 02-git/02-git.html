@@ -251,7 +251,13 @@ div.tocify {
 <li>Created a <code>Github</code> account</li>
 <li>Installed <code>make</code></li>
 </ol>
-<p>We are going to be only covering the bare essentials for <code>git</code> today. If you want some really good resources to learn more about interaction between <code>git</code>, <code>Github</code> and <code>R</code> I highly recommend the following book by Jenny Bryan – <a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></p>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<hr />
+<p>The notebook for the lecture today follows the slides by Grant McDermott, which can be found <a href="https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1">here</a>.</p>
+<p>We are going to be only covering the bare essentials for <code>git</code> today. If you want a <strong>really good book</strong> to learn more about interaction between <code>git</code>, <code>Github</code> and <code>R</code> I highly recommend the following by Jenny Bryan – <a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></p>
+<p>I have also made use of the following notes <a href="https://seankross.com/the-unix-workbench/git-and-github.html">here</a> and <a href="https://merely-useful.tech/py-rse/git-cmdline.html">here</a>.</p>
 </div>
 <div id="why-version-control" class="section level1">
 <h1>Why version control?</h1>
@@ -269,8 +275,7 @@ div.tocify {
 <p>If you are guilty of this terrible renaming of the same document then off to the gallows!</p>
 <p>Don’t worry, I work with many people who do this. However, while working on my PhD I realised that I couldn’t save a million different versions of the same document with similar names. I was asking myself, which document is the right one? What changes did I make to my document? Why is my PhD folder 15GB in size?!?</p>
 <p>The easiest form of version control if you are working on a project on your own is to use Dropbox / Google Drive / OneDrive / Box , etc. I don’t think it is always required to use <code>git</code> for every project, especially if you are working on your own. These online backup systems have their own built-in ways of providing version control.</p>
-<p>I think <code>git</code> really starts to shine when you are working on projects with other people. I remember that things became quite problematic after my PhD when I was trying to work with other people! Collaboration without <code>git</code> was really painful.</p>
-<p>I started using <code>git</code> in 2014 and I believe it is one of the best investments I have made.</p>
+<p>I think <code>git</code> really starts to shine when you are working on projects with other people. I remember that things became quite problematic after my PhD when I was trying to work with other people! Collaboration without <code>git</code> was really painful. I started using <code>git</code> in 2014 and I believe it is one of the best investments I have made.</p>
 <p>Like I mentioned above, the original goal of <code>git</code> was for collaboration on big projects. You start with a respository and then everyone gets to work on the repository, where “track changes” are recorded.</p>
 <p>In the data science space <code>git</code> is also used to store more than source code. Normally a data science project will contain, data, figures, reports and source code.</p>
 <p>In this lecture we are going to try and establish one way in which you can introduce <code>git</code> into your normal workflow. Initially it might seem strange, but after a while it will be second nature.</p>
@@ -278,13 +283,22 @@ div.tocify {
 <div id="project-setup" class="section level1">
 <h1>Project setup</h1>
 <blockquote>
-<p>Note: We are working with an <code>R</code> project here. The same should be applicable to other languages like <code>Julia</code> or <code>Python</code>.</p>
+<p><strong>Note</strong>: We are working with an <code>R</code> project here. The same should be applicable to other languages like <code>Julia</code> or <code>Python</code>.</p>
 </blockquote>
 <p>In order to get properly setup for a project you are going to have to do the following,</p>
 <ol style="list-style-type: decimal">
 <li>Dedicate a directory to the project</li>
 <li>Make it an <code>Rstudio</code> project</li>
+<li>Make it a <code>git</code> repository</li>
+<li>Periodically <strong>commit</strong> changes to your project</li>
+<li>Push the <strong>commits</strong> to Github periodically</li>
 </ol>
+<p>All of my projects have this basic structure. There are many details and nuances related to these steps, but this are the basic principles. At the end of the day working with <code>git</code> is going to be no different than saving your project and sending it to Github every now and then.</p>
+</div>
+<div id="github-rstudio" class="section level1">
+<h1>Github + Rstudio</h1>
+<p>If you are going to be coding in <code>R</code>, then <code>RStudio</code> offers some really nice integration with <code>Github</code>. The same is true for <code>VS Code</code> and <code>Github</code>, if you are thinking about programming in other languages.</p>
+<p>We are going to start by linking an <code>RStudio</code> project to a <code>Github</code> repository. The steps are going to be as follows,</p>
 </div>
 
 

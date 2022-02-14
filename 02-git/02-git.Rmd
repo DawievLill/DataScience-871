@@ -53,7 +53,16 @@ First, we need to do a quick check to see if all the relevant software has been 
 4. Created a `Github` account
 5. Installed `make`
 
-We are going to be only covering the bare essentials for `git` today. If you want some really good resources to learn more about interaction between `git`, `Github` and `R` I highly recommend the following book by Jenny Bryan -- https://happygitwithr.com/
+
+# Resources
+
+---
+
+The notebook for the lecture today follows the slides by Grant McDermott, which can be found [here](https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1).
+
+We are going to be only covering the bare essentials for `git` today. If you want a **really good book** to learn more about interaction between `git`, `Github` and `R` I highly recommend the following by Jenny Bryan -- https://happygitwithr.com/
+
+I have also made use of the following notes [here](https://seankross.com/the-unix-workbench/git-and-github.html) and  [here](https://merely-useful.tech/py-rse/git-cmdline.html).
 
 # Why version control?
 
@@ -76,7 +85,6 @@ Don't worry, I work with many people who do this. However, while working on my P
 The easiest form of version control if you are working on a project on your own is to use Dropbox / Google Drive / OneDrive / Box , etc. I don't think it is always required to use `git` for every project, especially if you are working on your own. These online backup systems have their own built-in ways of providing version control. 
 
 I think `git` really starts to shine when you are working on projects with other people. I remember that things became quite problematic after my PhD when I was trying to work with other people! Collaboration without `git` was really painful. 
-
 I started using `git` in 2014 and I believe it is one of the best investments I have made. 
 
 Like I mentioned above, the original goal of `git` was for collaboration on big projects. You start with a respository and then everyone gets to work on the repository, where "track changes" are recorded. 
@@ -93,8 +101,17 @@ In order to get properly setup for a project you are going to have to do the fol
 
 1. Dedicate a directory to the project
 2. Make it an `Rstudio` project
+3. Make it a `git` repository
+4. Periodically **commit** changes to your project
+5. Push the **commits** to Github periodically
 
+All of my projects have this basic structure. There are many details and nuances related to these steps, but this are the basic principles. At the end of the day working with `git` is going to be no different than saving your project and sending it to Github every now and then. 
 
+# Github + Rstudio
+
+If you are going to be coding in `R`, then `RStudio` offers some really nice integration with `Github`. The same is true for `VS Code` and `Github`, if you are thinking about programming in other languages. 
+
+We are going to start by linking an `RStudio` project to a `Github` repository. The steps are going to be as follows, 
 
 
 
