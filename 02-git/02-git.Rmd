@@ -111,11 +111,18 @@ All of my projects have this basic structure. There are many details and nuances
 
 If you are going to be coding in `R`, then `RStudio` offers some really nice integration with `Github`. The same is true for `VS Code` and `Github`, if you are thinking about programming in other languages. 
 
+> **Note**: Before you follow the steps above you need to setup the connection between `Github` and `RStudio` through a personal access token. Please read the instructions on how to do this [here](https://happygitwithr.com/https-pat.html)
+
 We are going to start by linking an `RStudio` project to a `Github` repository. The steps are going to be as follows, 
 
+1. Create a repository on `Github` and initialise with a README. 
+2. Copy the HTTPS/SSH link 
+3. Open up `RStudio`
+4. Navigate to **File -> New Project -> Version Control -> Git**
+5. Paste the copied link into "Repository URL:"
+6. Choose the project path and click **Create Project**
 
-
-
+We will do this practically in class so that you can see how it works. 
 
 
 
