@@ -242,6 +242,49 @@ div.tocify {
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <hr />
+<p>In today’s lecture we will be going through version control and at the end we will talk a bit more about <code>make</code>. In particular we are going to talk about how you can automate an <code>R</code> project with <code>make</code>.</p>
+<p>First, we need to do a quick check to see if all the relevant software has been installed. Make sure you have,</p>
+<ol style="list-style-type: decimal">
+<li>Installed <code>R</code></li>
+<li>Installed <code>RStudio</code></li>
+<li>Installed <code>git</code></li>
+<li>Created a <code>Github</code> account</li>
+<li>Installed <code>make</code></li>
+</ol>
+<p>We are going to be only covering the bare essentials for <code>git</code> today. If you want some really good resources to learn more about interaction between <code>git</code>, <code>Github</code> and <code>R</code> I highly recommend the following book by Jenny Bryan – <a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></p>
+</div>
+<div id="why-version-control" class="section level1">
+<h1>Why version control?</h1>
+<hr />
+<p>Most of you probably use a horribly inefficient naming convention as a makeshift version control system. Does the following look familiar,</p>
+<ul>
+<li><code>Final Draft.docx</code></li>
+<li><code>Final Draft 1.docx</code></li>
+<li><code>Final Draft 22 Nov.docx</code></li>
+<li><code>Final Draft 22 Nov Comments.doc</code></li>
+<li><code>Final Draft 22 Nov Supervisor Feedback.docx</code></li>
+<li><code>Final Final Draft.docx</code></li>
+<li><code>Final Final Draft 1.docx</code></li>
+</ul>
+<p>If you are guilty of this terrible renaming of the same document then off to the gallows!</p>
+<p>Don’t worry, I work with many people who do this. However, while working on my PhD I realised that I couldn’t save a million different versions of the same document with similar names. I was asking myself, which document is the right one? What changes did I make to my document? Why is my PhD folder 15GB in size?!?</p>
+<p>The easiest form of version control if you are working on a project on your own is to use Dropbox / Google Drive / OneDrive / Box , etc. I don’t think it is always required to use <code>git</code> for every project, especially if you are working on your own. These online backup systems have their own built-in ways of providing version control.</p>
+<p>I think <code>git</code> really starts to shine when you are working on projects with other people. I remember that things became quite problematic after my PhD when I was trying to work with other people! Collaboration without <code>git</code> was really painful.</p>
+<p>I started using <code>git</code> in 2014 and I believe it is one of the best investments I have made.</p>
+<p>Like I mentioned above, the original goal of <code>git</code> was for collaboration on big projects. You start with a respository and then everyone gets to work on the repository, where “track changes” are recorded.</p>
+<p>In the data science space <code>git</code> is also used to store more than source code. Normally a data science project will contain, data, figures, reports and source code.</p>
+<p>In this lecture we are going to try and establish one way in which you can introduce <code>git</code> into your normal workflow. Initially it might seem strange, but after a while it will be second nature.</p>
+</div>
+<div id="project-setup" class="section level1">
+<h1>Project setup</h1>
+<blockquote>
+<p>Note: We are working with an <code>R</code> project here. The same should be applicable to other languages like <code>Julia</code> or <code>Python</code>.</p>
+</blockquote>
+<p>In order to get properly setup for a project you are going to have to do the following,</p>
+<ol style="list-style-type: decimal">
+<li>Dedicate a directory to the project</li>
+<li>Make it an <code>Rstudio</code> project</li>
+</ol>
 </div>
 
 

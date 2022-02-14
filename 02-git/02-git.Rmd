@@ -37,19 +37,75 @@ opts_chunk$set(
   cache=F#, echo=F, warning=F, message=F
   )
 
-## Next hook based on this SO answer: https://stackoverflow.com/a/39025054
-knit_hooks$set(
-  prompt = function(before, options, envir) {
-    options(
-      prompt = if (options$engine %in% c('sh','bash')) '$ ' else 'R> ',
-      continue = if (options$engine %in% c('sh','bash')) '$ ' else '+ '
-      )
-})
 ```
 
 # Introduction
 
 ---
+
+In today's lecture we will be going through version control and at the end we will talk a bit more about `make`. In particular we are going to talk about how you can automate an `R` project with `make`. 
+
+First, we need to do a quick check to see if all the relevant software has been installed. Make sure you have, 
+
+1. Installed `R`
+2. Installed `RStudio`
+3. Installed `git`
+4. Created a `Github` account
+5. Installed `make`
+
+We are going to be only covering the bare essentials for `git` today. If you want some really good resources to learn more about interaction between `git`, `Github` and `R` I highly recommend the following book by Jenny Bryan -- https://happygitwithr.com/
+
+# Why version control?
+
+---
+
+Most of you probably use a horribly inefficient naming convention as a makeshift version control system. Does the following look familiar, 
+
+- `Final Draft.docx`
+- `Final Draft 1.docx`
+- `Final Draft 22 Nov.docx`
+- `Final Draft 22 Nov Comments.doc`
+- `Final Draft 22 Nov Supervisor Feedback.docx`
+- `Final Final Draft.docx`
+- `Final Final Draft 1.docx`
+
+If you are guilty of this terrible renaming of the same document then off to the gallows!
+
+Don't worry, I work with many people who do this. However, while working on my PhD I realised that I couldn't save a million different versions of the same document with similar names. I was asking myself, which document is the right one? What changes did I make to my document? Why is my PhD folder 15GB in size?!? 
+
+The easiest form of version control if you are working on a project on your own is to use Dropbox / Google Drive / OneDrive / Box , etc. I don't think it is always required to use `git` for every project, especially if you are working on your own. These online backup systems have their own built-in ways of providing version control. 
+
+I think `git` really starts to shine when you are working on projects with other people. I remember that things became quite problematic after my PhD when I was trying to work with other people! Collaboration without `git` was really painful. 
+
+I started using `git` in 2014 and I believe it is one of the best investments I have made. 
+
+Like I mentioned above, the original goal of `git` was for collaboration on big projects. You start with a respository and then everyone gets to work on the repository, where "track changes" are recorded. 
+
+In the data science space `git` is also used to store more than source code. Normally a data science project will contain, data, figures, reports and source code.
+
+In this lecture we are going to try and establish one way in which you can introduce `git` into your normal workflow. Initially it might seem strange, but after a while it will be second nature. 
+
+# Project setup
+
+> **Note**: We are working with an `R` project here. The same should be applicable to other languages like `Julia` or `Python`. 
+
+In order to get properly setup for a project you are going to have to do the following, 
+
+1. Dedicate a directory to the project
+2. Make it an `Rstudio` project
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
