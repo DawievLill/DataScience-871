@@ -338,8 +338,8 @@ div.tocify {
 <h1>Introduction</h1>
 <hr />
 <p>Let us start by saying that the session for today is going to contain much less information, but is perhaps more difficult to internalise. It will take you some time to get used to <code>Git</code>. Don’t worry, this is new for most people.</p>
-<p>For today’s lecture we will be going through version control and at the end we will talk a bit more about <code>make</code>. In particular we are going to talk about how you can automate an <code>R</code> project with <code>make</code>.</p>
-<p>The lecture will be quite hands on and will help you get started with <code>Git</code>. Please note that this is a very basic introduction and does not constitute a deep dive into <code>Git</code>. I will link some resources below to further explore the magic of <code>Git</code>.</p>
+<p>We will start by going through version control and at the end we will talk a bit more about <code>make</code>. In particular we are going to talk about how you can automate an <code>R</code> project with <code>make</code>.</p>
+<p>The lecture will be quite hands on and will help you get started with <code>Git</code>. Please note that this is a <strong>very basic introduction</strong> and does not constitute a deep dive into <code>Git</code>.</p>
 <p>First, we need to do a quick check to see if all the relevant software has been installed. Make sure you have,</p>
 <ol style="list-style-type: decimal">
 <li>Installed <code>R</code></li>
@@ -353,8 +353,8 @@ div.tocify {
 <div id="resources" class="section level1">
 <h1>Resources</h1>
 <hr />
-<p>The notebook for the lecture today follows the slides by Grant McDermott, which can be found <a href="https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1">here</a>.</p>
-<p>We are going to be only covering the bare essentials for <code>git</code> today. If you want a <strong>really good book</strong> to learn more about interaction between <code>git</code>, <code>Github</code> and <code>R</code> I highly recommend the following by Jenny Bryan – <a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></p>
+<p>The notebook for the lecture today follows the slides by Grant McDermott, which can be found <a href="https://raw.githack.com/uo-ec607/lectures/master/02-git/02-Git.html#1">here</a>. Some of these notes are directly copied from his slides with Grant’s permission. I recommend you go and check out his notes. He has some really good material.</p>
+<p>We are going to be only covering the bare essentials for <code>Git</code> today. If you want a <strong>really good book</strong> to learn more about interaction between <code>Git</code>, <code>Github</code> and <code>R</code> I highly recommend the following by Jenny Bryan – <a href="https://happygitwithr.com/" class="uri">https://happygitwithr.com/</a></p>
 <p>I have also made use of the following notes <a href="https://seankross.com/the-unix-workbench/git-and-github.html">here</a> and <a href="https://merely-useful.tech/py-rse/git-cmdline.html">here</a>.</p>
 </div>
 <div id="why-version-control" class="section level1">
@@ -380,6 +380,7 @@ div.tocify {
 </div>
 <div id="project-setup" class="section level1">
 <h1>Project setup</h1>
+<hr />
 <blockquote>
 <p><strong>Note</strong>: We are working with an <code>R</code> project here. The same should be applicable to other languages like <code>Julia</code> or <code>Python</code>.</p>
 </blockquote>
@@ -395,6 +396,7 @@ div.tocify {
 </div>
 <div id="github-rstudio" class="section level1">
 <h1>Github + Rstudio</h1>
+<hr />
 <p>If you are going to be coding in <code>R</code>, then <code>RStudio</code> offers some really nice integration with <code>Github</code>. The same is true for <code>VS Code</code> and <code>Github</code>, if you are thinking about programming in other languages.</p>
 <blockquote>
 <p><strong>Note</strong>: Before you follow the steps above you need to setup the connection between <code>Github</code> and <code>RStudio</code> through a personal access token. Please read the instructions on how to do this <a href="https://happygitwithr.com/https-pat.html">here</a>. You could also set up keys for <code>SSH</code>, which is actually the preferred method, but perhaps a bit more complex. Instructions can be found <a href="https://happygitwithr.com/ssh-keys.html">here</a>.</p>
@@ -412,8 +414,15 @@ div.tocify {
 <p>If you have done everything properly then you should be able to see a <code>Git</code> tab to the right of the <code>Environment</code> tab.</p>
 <p>Open the README file that you created when initialising the repo and type something in there. You should see some changes in the <code>Git</code> panel.</p>
 </div>
-<div id="important-git-operations" class="section level1">
-<h1>Important <code>Git</code> operations</h1>
+<div id="gitkraken-github-desktop" class="section level1">
+<h1>GitKraken + GitHub Desktop</h1>
+<hr />
+<p>There are many graphical user interfaces that you can work with instead of relying on <code>RStudio</code>. I prefer to work with <code>GitKraken</code>, since there are many features that are useful when working on big projects with other people. There is a free version, but the <code>Pro</code> version has some really cool draws.</p>
+<p>In my opinion GitHub Desktop is the easiest to get started with for the beginner. You can slowly migrate to other software packages once you understand <code>Git</code> a bit better.</p>
+</div>
+<div id="basics-of-git" class="section level1">
+<h1>Basics of <code>Git</code></h1>
+<hr />
 <p>There are four main <code>Git</code> operations,</p>
 <ol style="list-style-type: decimal">
 <li><strong>Stage</strong>: Changes to the repo history</li>
@@ -426,30 +435,42 @@ div.tocify {
 <blockquote>
 <p><strong>NB</strong> Always <code>pull</code> from the upstream repo <em>before</em> you push any changes. This makes sure the local repo is up to date.</p>
 </blockquote>
-</div>
-<div id="gitkraken-github-desktop" class="section level1">
-<h1>GitKraken + GitHub Desktop</h1>
-<p>There are many graphical user interfaces that you can work with instead of relying on <code>RStudio</code>. I prefer to work with <code>GitKraken</code>, since there are many features that are useful when working on big projects with other people. There is a free version, but the <code>Pro</code> version has some really cool draws.</p>
-<p>In my opinion GitHub Desktop is the easiest to get started with for the beginner. You can slowly migrate to other software packages once you understand <code>Git</code> a bit better.</p>
-</div>
-<div id="git-at-the-command-line" class="section level1">
-<h1><code>Git</code> at the command line</h1>
+<div id="git-at-the-command-line" class="section level2">
+<h2><code>Git</code> at the command line</h2>
 <p>There is always the option to forgo GUIs entirely and operate everything through the terminal. While GitHub and Rstudio is ideal for new users there is a case to be made for knowing shell commands. There are some things that you can easily do through the shell that is not possible with the <code>RStudio</code> Git GUI.</p>
-<p>In addition, you might be working with projects that don’t focus primarily on <code>R</code>.</p>
-<p>I only use a handful of shell commands in my daily workflow, so I won’t burden you with too many.</p>
-</div>
-<div id="git-shell-commands" class="section level1">
-<h1><code>Git</code> shell commands</h1>
-<p>The easiest command is to clone a repo. I use this a lot.</p>
+<p>In addition, you might be working with projects that don’t focus primarily on <code>R</code>. I only use a handful of shell commands in my daily workflow, so I won’t burden you with too many. The easiest command is to clone a repo. I use this a lot.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git clone REPOSITORY-URL</span></code></pre></div>
 <p>We can see the commit history with the following command,</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git log</span></code></pre></div>
 <p>We can also check which files have changes with the following,</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git status</span></code></pre></div>
 <p>We can stage a file, or group of files, as follows</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git add NAME-OF-FILE-OR-FOLDER</span></code></pre></div>
+<p>You can use wildcard characters to stage a group of files (e.g. sharing a common prefix). There are a bunch of useful flag options too:</p>
+<p>Stage all files.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git add <span class="at">-A</span></span></code></pre></div>
+<p>Stage updated files only (modified or deleted, but not new).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git add <span class="at">-u</span></span></code></pre></div>
+<p>Stage new files only (not updated).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git add .</span></code></pre></div>
+<p>Commit your changes.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git commit <span class="at">-m</span> <span class="st">&quot;Helpful message&quot;</span></span></code></pre></div>
+<p>Pull from the upstream repository (i.e. GitHub).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git pull</span></code></pre></div>
+<p>Push any local changes that you’ve committed to the upstream repo (i.e. GitHub).</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push</span></code></pre></div>
 </div>
-<div id="reproducible-research-with-make" class="section level1">
-<h1>Reproducible research with <code>make</code></h1>
+<div id="branches-and-forking" class="section level2">
+<h2>Branches and forking</h2>
+<p>Branches are an important feature of <code>Git</code> and you will make use of it when you work on collaborative projects. A branch allows you to take a snapshot of the repo and then try out some new ideas without afffecting the main branch. Once you are satisfied with your changes you can try and merge back into the main branch.</p>
+<p>You can create a new branch in many ways. You can use <code>Rstudio</code>, <code>VS Code</code>, <code>GitKraken</code>, the command line, etc. We will quickly show how to do this with <code>RStudio</code> in the lecture. However, if you wanted to do this with a shell command you could do create a new branch on your local machine and switch to it:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git checkout <span class="at">-b</span> NAME-OF-YOUR-NEW-BRANCH</span></code></pre></div>
+<p>Push the new branch to <code>GitHub</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> git push origin NAME-OF-YOUR-NEW-BRANCH</span></code></pre></div>
+</div>
+</div>
+<div id="reproducible-research" class="section level1">
+<h1>Reproducible research</h1>
 <p>Now we return to <code>make</code>, one of the most important tools for reproducible research.</p>
 </div>
 
