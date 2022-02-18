@@ -139,13 +139,35 @@ We are going to start by linking an `RStudio` project to a `Github` repository. 
 5. Paste the copied link into "Repository URL:"
 6. Choose the project path and click **Create Project**
 
-We will do this practically in class so that you can see how it works. You can just call your repo `DataScienceTest`. If everyone has the same name for the repo it will make things easier down the line. 
+We will do this practically in class so that you can see how it works. 
 
-If you have done everything properly then you should be able to see a `Git` tab to the right of the `Environment` tab.
+Below is an animated guide (gif) to see how to do Steps 1 and 2.
+
+---
+
+<details><summary> **Steps 1 and 2 animation** </summary><p>
+
+![](media/create_repo.gif)
+</p></details>
+
+---
+
+For the first step, you can just call your repo `DataScienceTest`. If everyone has the same name for the repo it will make things easier down the line.
+
+For Step 3, 4, 5 consider the animated guide below. 
+
+---
+
+<details><summary> **Steps 3, 4, 5 animation** </summary><p>
+
+![](media/create_repo.gif)
+</p></details>
+
+---
+
+If you have done everything properly then you should be able to see a `Git` tab to the right of the `Connections` tab in `RStudio`.
 
 Open the README file that you created when initialising the repo and type something in there. You should see some changes in the `Git` panel. 
-
-At this stage you should check on `GitHub` whether the repo has been created. We are going to be making changes to the repo throughout the lecture. 
 
 # GitKraken + GitHub Desktop
 
@@ -168,13 +190,13 @@ There are four main `Git` operations,
 
 Stage and commit normally occur together. So does pushing and pulling. 
 
-Let us stage and commit our changes to the README file. Then we push our local changes to the GitHub repo. 
+Let us stage and commit changes to our README file. Then we can push our local changes to the GitHub repo. 
 
 > **NB** Always `pull` from the upstream repo *before* you push any changes. This makes sure the local repo is up to date. 
 
 ## `Git` at the command line
 
-There is always the option to forgo GUIs entirely and operate everything through the terminal. While GitHub and Rstudio is ideal for new users there is a case to be made for knowing shell commands. There are some things that you can easily do through the shell that is not possible with the `RStudio` Git GUI. 
+There is always the option to forgo GUIs entirely and operate everything through the terminal. While `GitHub` and `Rstudio` is ideal for new users there is a case to be made for knowing shell commands. There are some things that you can easily do through the shell that is not possible with the `RStudio` Git GUI. 
 
 In addition, you might be working with projects that don't focus primarily on `R`. I only use a handful of shell commands in my daily workflow, so I won't burden you with too many. The easiest command is to clone a repo. I use this a lot. 
 
@@ -182,9 +204,13 @@ In addition, you might be working with projects that don't focus primarily on `R
 $ git clone REPOSITORY-URL
 ```
 
-You can test this out by cloning the `DataScience-871` repo for this course. 
+You can test this out by cloning the `DataScience-871` repo for this course. If you wanted do this, you can `cd` into the appropriate directory where you want to save the content of the repo and issue the following command. 
 
-Now switch back to your test repo that you created before. 
+```bash
+$ git clone https://github.com/DawievLill/DataScience-871
+```
+
+Now switch back to your test repo, `DataScienceTest`, that you created before. You must `cd` back to the location of this repo on your computer. Let me know if you are struggling with this. 
 
 We can see the commit history with the following command, 
 
