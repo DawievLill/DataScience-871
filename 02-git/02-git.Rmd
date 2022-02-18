@@ -160,7 +160,7 @@ For Step 3, 4, 5 consider the animated guide below.
 
 <details><summary> **Steps 3, 4, 5 animation** </summary><p>
 
-![](media/create_repo.gif)
+![](media/open_git.gif)
 </p></details>
 
 ---
