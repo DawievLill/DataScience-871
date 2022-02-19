@@ -1,6 +1,6 @@
 ---
 title: "Data Science for Economics and Finance"
-subtitle: "Lecture 2: Git and Make"
+subtitle: "Lecture 2: `git`, GitHub and `make`"
 author:
   name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
   date: Lecture 2 "`r format(Sys.time(), '%d %B %Y')`"
@@ -309,22 +309,157 @@ Another important topic for collaboration is forking. If you create a fork of a 
 
 ## Merging branches + Pull requests
 
-You have two options for merging branches / forks:
+You have two options for merging branches:
 
 You can merge **locally**. Commit changes to a new branch. You can switch between main and new branch using the `checkout` command. Merge the new branch using the `merge` command. 
 
 ```bash
-$ git merge new-idea
+$ git merge NAME-OF-YOUR-NEW-BRANCH
 ```
 
-You can merge **remotely** (normally by creating a fork of the original repository). Merging remotely via *pull requests* is a way to notify collaborators that you have completed some feature. You provide a neat summary of all the changes that you made in your branch. Normally the pulled request is then reviewed and can then be approved. Once approved you will the pull request will be incorporated / merged on `GitHub`. 
+You can merge **remotely** (sometimes by creating a fork of the original repository). Merging remotely via *pull requests* is a way to notify collaborators that you have completed some feature. You provide a neat summary of all the changes that you made in your branch. Normally the pulled request is then reviewed and can then be approved. Once approved you will the pull request will be incorporated / merged on `GitHub`. 
 
-We are going to try and practice this in class by forking the `DataScience-871-Exercise` module and then making some changes to a document. For this exercise you will create your own branch with your name attached and then we will see what the *pull-request* process looks like.  
+We are going to try and practice this in class by making changes to our test repository and then attempting a pull request. 
 
+First we need to create a new branch called `new-idea`. 
+
+```bash
+$ git checkout -b new-idea
+```
+
+Make some local changes and then commit and push them to `GitHub`. You could change something in the README file, as an example. 
+
+After you have pushed the changes, go to the `GitHub` repo online. There should be a new green button that states: "Compare and pull request". Click this button. 
+
+Add a description of what this pull request does. Then click on "Create pull request". 
+Since you are the owner of the repository you can simply click the "Merge pull request" button to merge the changes. 
+
+If you were contributing to someone elses repository, then they would normally review the changes that you want to make. 
+
+## Forks 
+
+If you for a repo then you are basically creating a copy of it. To do this, just click the `Fork` button in the top-right corner of the repo you want to copy. 
+
+This creates an independent copy of the repo under **your Github** account. 
+
+Once you fork a repo you can do anything you like and it won't affect the original repo. However, if you want to contribute to the original repo you can make changes in your fork and then send an upstream pull request. The person who owns the original repo is notified of the changes you want to make and can accept them or not. 
+
+For this course you will need to submit your final project by forking the repo and then submitting a pull request with your project! 
+
+This will help you to understand how to contribute to open source projects. Even if it is something simple like fixing small bugs or correcting spelling errors. One of the most important contributions you can make is to help write documentation for packages that you enjoy using that are hosted on `GitHub`. 
+
+## GitHub Issues
+
+GitHub Issues are another great way to interact with your collaborators and/or package maintainers.
+
+If you spot any problems with these lecture notes, please file an issue [here](https://github.com/DawievLill/DataScience-871/issues)!
 
 # Reproducible research
 
-Now we return to `make`, one of the most important tools for reproducible research. 
+Now we turn to `make` and `makepipe`. These are important tools for reproducible research. We will show how you can take a small project that utilises `R` code and automate the process. This provides a nice way for you to replicate your work in the future. It is almost like writing down a recipe for how you got to your results in the first place. 
+
+We will be using the notes from Jenny Bryan, which can be found [here](https://stat545.com/automating-pipeline.html). In addition we will be using the `makepipe` version of the notes which can be found [here](https://github.com/kinto-b/makepipe_example).
+
+We have seen `make` before, `makepipe` is an `R` package that is very similar to `make`. It is a more modern alternative that is worth looking into. 
+
+The goal of our research **project** is to create a pipeline that will…
+
+- Obtain a large file of English words.
+- Calculate a histogram of word lengths.
+- Determine the most common word length.
+- Generate a figure of this histogram.
+- Render a R Markdown report in HTML and PDF.
+
+You will automate this pipeline using `make` and then afterwards we will look at `makepipe`.
+
+## Creating the `Makefile`
+
+Within our test repo we will now include a `Makefile`. You can run a `Makefile` directly from `RStudio`, but I prefer to use the shell. If you look at the notes [here](https://stat545.com/automating-pipeline.html) from Jenny Bryan, she shows how to do this in `RStudio`. 
+
+## Download a file
+
+The first rule for the `Makefile` will download a speech that the Governor of the South African Reserve Bank gave at Stellenbosch in 2021. Remember from the first lecture that we can use `curl` to download this speech as follows:
+
+
+```bash
+$ cd docs
+$ curl -s "https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf" > stellies-speech.pdf
+```
+
+Alternatively you can use the `R` function `download.file()` to achieve the same thing. For arguments sake, let us use the `R` function in this instance. The code would look something like this, 
+
+```r
+download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "/02-git/docs/stellies-speech.pdf", quiet = TRUE)
+```
+
+In terms of the `Makefile` we want to include the following line to so that we can start to automate the process. 
+
+```make
+stellies-speech.pdf:
+    Rscript -e 'download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "/02-git/docs/stellies-speech.pdf", quiet = TRUE)'
+```
+
+To make sure this works we can now enter the following command in the shell, 
+
+```bash
+$ cd bin
+$ make stellies-speech.pdf
+```
+
+This should, at this stage, download the file and place it in the appropriate folder. Please adjust the directory to fit with your test repository that you have created!
+
+## Create rules for all and clean
+
+The next thing we want to do is create some rules for `all` and `clean`. These are some of the more general commands that you find in almost every `Makefile`. 
+
+The code will be something like this, 
+
+```make
+all: stellies-speech.pdf
+
+clean:
+    rm -f stellies-speech.pdf
+    
+stellies-speech.pdf:
+    Rscript -e 'download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "/02-git/docs/stellies-speech.pdf", quiet = TRUE)'    
+    
+```
+
+This allows you to now execute all of the commands in the `Makefile` and also remove any files you want. You can use `make all` from the shell to download the PDF. You can then also remove the PDF if you enter `make clean`. 
+
+## Converting the PDF to text
+
+The next thing we might want to do is to convert the PDF to text. There are packages in `R` that can do this for us. However, this is also relatively easy to do with the `pdftotext` command in the shell. 
+
+```{bash}
+cd docs
+pdftotext stellies-speech.pdf
+ls -a -h
+```
+
+We see that there is now a `stellies-speech.txt` file, which has been generated by our `pdftotext` command. If you want to do this with `R` you need to install a package such as `pdftools` and issue the following command. 
+
+```r
+stellies_speech_text <- pdf_text("stellies-speech.pdf")
+```
+
+It doesn't really matter which one you use. I prefer to use the shell, but you might prefer to use `R` for this. This is mostly a matter of preference. There are also some really nice packages in `Python` that extract text from PDFs using machine learning methods. At the end of the day, you should use the tool that best fits your goal. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
