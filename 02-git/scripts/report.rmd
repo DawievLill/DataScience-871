@@ -1,0 +1,9 @@
+---
+title: "Wordcloud of Governor Speech"
+author: "Piet Pompies"
+date: "2022-03-03"
+---
+  
+This is the wordcloud that we have generated! Hopefully this works.  
+  
+![](../figures/wordcloud.pdf)
