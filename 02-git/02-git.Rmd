@@ -379,27 +379,26 @@ The first rule for the `Makefile` will download a speech that the Governor of th
 
 
 ```bash
-$ cd docs
+$ cd data
 $ curl -s "https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf" > stellies-speech.pdf
 ```
 
 Alternatively you can use the `R` function `download.file()` to achieve the same thing. For arguments sake, let us use the `R` function in this instance. The code would look something like this, 
 
 ```r
-download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "/02-git/docs/stellies-speech.pdf", quiet = TRUE)
+download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "data/stellies-speech.pdf", quiet = TRUE)
 ```
 
 In terms of the `Makefile` we want to include the following line to so that we can start to automate the process. 
 
 ```make
 stellies-speech.pdf:
-    Rscript -e 'download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "/02-git/docs/stellies-speech.pdf", quiet = TRUE)'
+    Rscript -e 'download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "data/stellies-speech.pdf", quiet = TRUE)'
 ```
 
 To make sure this works we can now enter the following command in the shell, 
 
 ```bash
-$ cd bin
 $ make stellies-speech.pdf
 ```
 
@@ -418,7 +417,7 @@ clean:
     rm -f stellies-speech.pdf
     
 stellies-speech.pdf:
-    Rscript -e 'download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "/02-git/docs/stellies-speech.pdf", quiet = TRUE)'    
+    Rscript -e 'download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "data/stellies-speech.pdf", quiet = TRUE)'    
     
 ```
 
@@ -429,7 +428,7 @@ This allows you to now execute all of the commands in the `Makefile` and also re
 The next thing we might want to do is to convert the PDF to text. There are packages in `R` that can do this for us. However, this is also relatively easy to do with the `pdftotext` command in the shell. 
 
 ```{bash}
-cd docs
+cd data
 pdftotext stellies-speech.pdf
 ls -a -h
 ```
@@ -450,18 +449,18 @@ In order to generate a wordcloud we are now going to make use an `R` script that
 all: move_plot
 
 clean:
-	rm -f ./docs/stellies-speech.pdf
-	rm -f ./docs/stellies-speech.txt
+	rm -f ./data/stellies-speech.pdf
+	rm -f ./data/stellies-speech.txt
 	rm -f ./figures/wordcloud.pdf
 	rm -f ./scripts/report.html
 	
 stellies-speech.pdf:
-	curl -s "https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf" > ./docs/stellies-speech.pdf   
+	curl -s "https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf" > ./data/stellies-speech.pdf   
 
 pdf_to_text: stellies_speech.pdf
-	pdftotext ./docs/stellies-speech.pdf
+	pdftotext ./data/stellies-speech.pdf
 	
-wordcloud: ./scripts/wordcloud.R ./docs/stellies-speech.txt
+wordcloud: ./scripts/wordcloud.R ./data/stellies-speech.txt
 	Rscript $<
 	
 move_plot: wordcloud
@@ -487,18 +486,18 @@ The final `Makefile` should look something like this,
 all: report.html
 
 clean:
-	rm -f ./docs/stellies-speech.pdf
-	rm -f ./docs/stellies-speech.txt
+	rm -f ./data/stellies-speech.pdf
+	rm -f ./data/stellies-speech.txt
 	rm -f ./figures/wordcloud.pdf
 	rm -f ./scripts/report.html
 	
 stellies-speech.pdf:
-	curl -s "https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf" > ./docs/stellies-speech.pdf   
+	curl -s "https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf" > ./data/stellies-speech.pdf   
 
 pdf_to_text: stellies_speech.pdf
-	pdftotext ./docs/stellies-speech.pdf
+	pdftotext ./data/stellies-speech.pdf
 	
-wordcloud: ./scripts/wordcloud.R ./docs/stellies-speech.txt
+wordcloud: ./scripts/wordcloud.R ./data/stellies-speech.txt
 	Rscript $<
 	
 move_plot: wordcloud
@@ -516,7 +515,7 @@ If you type in `make all` you should get a report a generated report that includ
 There is an alternative to `make` that is probably more in line with the way you think about coding in `R`, it is called `makepipe`. If you want to see how this works you can look [here](https://github.com/kinto-b/makepipe_example). As a quick overview, if we wanted to perform our task using `makepipe` instead of `make`, the code would look as follows, 
 
 ```r
-if (!file.exists("docs/stellies-speech.pdf")) download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "docs/stellies-speech.pdf", quiet = TRUE)
+if (!file.exists("docs/stellies-speech.pdf")) download.file("https://www.resbank.co.za/content/dam/sarb/publications/speeches/speeches-by-governors/2021/gov-kganyago/A%20public%20lecture%20by%20Lesetja%20Kganyago%20Governor%20of%20the%20South%20African%20Reserve%20Bank%20at%20Stellenbosch%20University.pdf", destfile = "data/stellies-speech.pdf", quiet = TRUE)
 
 makepipe::make_with_source(
     source = "data_prep.R",
