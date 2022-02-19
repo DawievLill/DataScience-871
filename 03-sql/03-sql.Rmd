@@ -1,11 +1,14 @@
 ---
 title: "Data Science for Economics and Finance"
-subtitle: "Lecture 1: Shell and Make"
+subtitle: "Lecture 3: SQL and `dbplyr`"
 author:
   name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
-  date: Lecture 1  "`r format(Sys.time(), '%d %B %Y')`"
+  date: Lecture 3 "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
     theme: cosmo
     highlight: pygments
 always_allow_html: true
@@ -17,95 +20,35 @@ monofont: Fira Code
 
 <style type="text/css">
   body{
-  font-size: 13pt;
+  font-size: 14pt;
 }
 </style>
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  echo = TRUE,
-  cache = TRUE,
-  dpi=300, 
-  fig.align = "center",
-  message = FALSE,
-  warning = FALSE,
-  collapse = TRUE,
-  cache = FALSE
+
+options(htmltools.dir.version = FALSE)
+
+library(knitr)
+opts_chunk$set(
+  prompt = T, ## See hook below. I basically want a "$" prompt for every bash command in this lecture.
+  fig.align="center", #fig.width=6, fig.height=4.5, 
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=F#, echo=F, warning=F, message=F
   )
-```
 
-## Packages
-
-```{r, cache=F, message=F}
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(dplyr, ggplot2, rsample, caret, AmesHousing)
-```
-
-
-## References
-
-The primary reference for the first four lectures is `Boehmke and Greenwell` and can be found [here](https://bradleyboehmke.github.io/HOML/index.html). I will follow this book quite closely, with most of the notes simply being a summary of what can be found in the book. I recommend you read the referenced text if you want the full detail. There are also some sections in the book that I have skipped due to time constraints. 
-
-If you want to look at a textbook for the first part of the course  it can be found [here](https://www.statlearning.com/) -- a second edition is coming soon! We do not follow the content of the book closely in these notes, but you can read the book for a more theoretical discussion. 
-
-We will also be looking at [this](https://mdsr-book.github.io/mdsr2e/ch-foundations.html) and [this](https://online.stat.psu.edu/stat508/lesson/2) set of notes from time to time. 
-
-# Introduction to machine learning
-
-<br/><br/>
-
-```{r model-process, echo=F, fig.align = 'center', out.width = "85%", fig.cap = "Figure 1: General predictive machine learning process"}
-knitr::include_graphics("https://bradleyboehmke.github.io/HOML/images/modeling_process.png")
-```
-
-<br/>
-
-## Data splitting
-
-```{r, cache=F, message=F}
-ames <- AmesHousing::make_ames()  # Ames housing data
+## Next hook based on this SO answer: https://stackoverflow.com/a/39025054
+knit_hooks$set(
+  prompt = function(before, options, envir) {
+    options(
+      prompt = if (options$engine %in% c('sh','bash')) '$ ' else 'R> ',
+      continue = if (options$engine %in% c('sh','bash')) '$ ' else '+ '
+      )
+})
 ```
 
 
-```{r, cache=F, message=F}
-# Using base R
-
-set.seed(123)  # Set the seed for reproducibility
-index_1 <- sample(1:nrow(ames), round(nrow(ames) * 0.7))  # Use the sample function
-train_1 <- ames[index_1, ]  # Select the first 70% of data for training set
-test_1  <- ames[-index_1, ]  # The rest of the data is for the test set
-```
-
-
-```{r, cache=F, message=F}
-# Using rsample package
-
-set.seed(123)  # Set the seed for reproducibility
-split_1  <- initial_split(ames, prop = 0.7)  # Split the dataset 
-train_2  <- training(split_1)  # Training set
-test_2   <- testing(split_1)  # Test set
-```
-
-
-```{r, cache=F, message=F, echo=F}
-p1 <- ggplot(train_1, aes(x = Sale_Price)) + 
-    geom_density(trim = TRUE) + 
-    geom_density(data = test_1, trim = TRUE, col = "dodgerblue") +
-  ggtitle("Base R")
-
-p2 <- ggplot(train_2, aes(x = Sale_Price)) + 
-    geom_density(trim = TRUE) + 
-    geom_density(data = test_2, trim = TRUE, col = "dodgerblue") +
-    theme(axis.title.y = element_blank(),
-          axis.ticks.y = element_blank(),
-          axis.text.y = element_blank()) +
-    ggtitle("rsample")
-
-gridExtra::grid.arrange(p1, p2, nrow = 1)
-```
-
-
-
+# Introduction
 
 
 
