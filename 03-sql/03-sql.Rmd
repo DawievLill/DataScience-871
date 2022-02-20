@@ -126,7 +126,7 @@ Our goal for this section is to create a makeshift database on our local compute
 
 # Connecting to a local database
 
-Start by opening an (empty) database connection via the `DBI::dbConnect()` function, which we’ll call `con`. Note that we are calling the **duckdb** package in the background for the DuckDB backend and telling `R` that this is a local connection that exists in memory.
+Start by opening an (empty) database connection via the `DBI::dbConnect()` function, which we’ll call `con`.
 
 ```{r}
 library(DBI) ## Already loaded

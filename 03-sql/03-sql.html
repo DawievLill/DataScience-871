@@ -393,7 +393,7 @@ div.tocify {
 </div>
 <div id="connecting-to-a-local-database" class="section level1">
 <h1>Connecting to a local database</h1>
-<p>Start by opening an (empty) database connection via the <code>DBI::dbConnect()</code> function, which we’ll call <code>con</code>. Note that we are calling the <strong>duckdb</strong> package in the background for the DuckDB backend and telling <code>R</code> that this is a local connection that exists in memory.</p>
+<p>Start by opening an (empty) database connection via the <code>DBI::dbConnect()</code> function, which we’ll call <code>con</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">library</span>(DBI) <span class="do">## Already loaded</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> con <span class="ot">=</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</span>
