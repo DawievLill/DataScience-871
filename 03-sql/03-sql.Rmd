@@ -57,9 +57,18 @@ Once again, most of the material that we will cover for the next few weeks is **
 
 # Packages
 
-```{r, cache=FALSE, eval=FALSE}
+General packages for SQL and R.
+
+```{r, cache=FALSE}
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse, DBI, dbplyr, RSQLite, bigrquery, hrbrthemes, nycflights13, glue)
+```
+
+For the world inequality database. 
+
+```{r, cache=FALSE, eval = FALSE}
+install.packages("devtools")
+devtools::install_github("WIDworld/wid-r-tool")
 ```
 
 # Introduction to databases
@@ -71,6 +80,28 @@ Relational databases (or databases) exist either on your local computer, or on s
 # Databases and the tidyverse
 
 We can use `R` to connect to almost any existing database type. Most of the common database types have packages that allow to interface directly through `R`. In addition, the `dplyr` package that you used in Nico's section of the course supports most open-source databases such as `sqlite`, `mysql` and my favourite `postgresql`. At some later stage in the course after we have done some work on establishing a cloud workflow on the Google Cloud platform we will also work with Google's `BigQuery`. 
+
+# World inequality database
+
+We are going to import some data from the WID database and then insert that into a SQLite database for us to work with. We could also work with the data in memory, but we want to showcase some of the SQL commands. We are going to use the command line to interface with the SQLite database at first and then we will use the `dbplyr` package to work directly through `RStudio`. 
+
+## `wid` package
+
+There is a package that allows you to directly interface with the WID database. If you want to download some data from there you could use the following code as an example, 
+
+```r
+R> data <- download_wid(
+    indicators = "tptinc", # Thresholds of pre-tax national income
+    areas = c("US", "ZA"), # United States and South Africa
+    perc = c("p10p100", "p50p100", "p90p100", "p99p100", "p99.9p100")
+)
+
+R> df <- tibble(data)
+```
+
+## CSV to SQLite
+
+We could also access the full dataset for South Africa by downloading it from the website in CSV format. The CSV file is in the `data` directory for this lecture, so you don't have to download it. It is called `wid-data-za.csv`. In this section we will show you how to utilise the command line to convert the CSV to an SQLite database. 
 
 
 

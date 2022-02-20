@@ -341,8 +341,13 @@ div.tocify {
 </div>
 <div id="packages" class="section level1">
 <h1>Packages</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;pacman&quot;</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;pacman&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, DBI, dbplyr, RSQLite, bigrquery, hrbrthemes, nycflights13, glue)</span></code></pre></div>
+<p>General packages for SQL and R.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;pacman&quot;</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;pacman&quot;</span>)</span></code></pre></div>
+<pre><code>## Loading required package: pacman</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, DBI, dbplyr, RSQLite, bigrquery, hrbrthemes, nycflights13, glue)</span></code></pre></div>
+<p>For the world inequality database.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;WIDworld/wid-r-tool&quot;</span>)</span></code></pre></div>
 </div>
 <div id="introduction-to-databases" class="section level1">
 <h1>Introduction to databases</h1>
@@ -352,6 +357,25 @@ div.tocify {
 <div id="databases-and-the-tidyverse" class="section level1">
 <h1>Databases and the tidyverse</h1>
 <p>We can use <code>R</code> to connect to almost any existing database type. Most of the common database types have packages that allow to interface directly through <code>R</code>. In addition, the <code>dplyr</code> package that you used in Nico’s section of the course supports most open-source databases such as <code>sqlite</code>, <code>mysql</code> and my favourite <code>postgresql</code>. At some later stage in the course after we have done some work on establishing a cloud workflow on the Google Cloud platform we will also work with Google’s <code>BigQuery</code>.</p>
+</div>
+<div id="world-inequality-database" class="section level1">
+<h1>World inequality database</h1>
+<p>We are going to import some data from the WID database and then insert that into a SQLite database for us to work with. We could also work with the data in memory, but we want to showcase some of the SQL commands. We are going to use the command line to interface with the SQLite database at first and then we will use the <code>dbplyr</code> package to work directly through <code>RStudio</code>.</p>
+<div id="wid-package" class="section level2">
+<h2><code>wid</code> package</h2>
+<p>There is a package that allows you to directly interface with the WID database. If you want to download some data from there you could use the following code as an example,</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> data <span class="ot">&lt;-</span> <span class="fu">download_wid</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">indicators =</span> <span class="st">&quot;tptinc&quot;</span>, <span class="co"># Thresholds of pre-tax national income</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">areas =</span> <span class="fu">c</span>(<span class="st">&quot;US&quot;</span>, <span class="st">&quot;ZA&quot;</span>), <span class="co"># United States and South Africa</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">perc =</span> <span class="fu">c</span>(<span class="st">&quot;p10p100&quot;</span>, <span class="st">&quot;p50p100&quot;</span>, <span class="st">&quot;p90p100&quot;</span>, <span class="st">&quot;p99p100&quot;</span>, <span class="st">&quot;p99.9p100&quot;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(data)</span></code></pre></div>
+</div>
+<div id="csv-to-sqlite" class="section level2">
+<h2>CSV to SQLite</h2>
+<p>We could also access the full dataset for South Africa by downloading it from the website in CSV format. The CSV file is in the <code>data</code> directory for this lecture, so you don’t have to download it. It is called <code>wid-data-za.csv</code>. In this section we will show you how to utilise the command line to convert the CSV to an SQLite database.</p>
+</div>
 </div>
 
 
