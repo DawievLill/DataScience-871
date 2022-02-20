@@ -344,7 +344,7 @@ div.tocify {
 <p>General packages for SQL and R.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;pacman&quot;</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;pacman&quot;</span>)</span></code></pre></div>
 <pre><code>## Loading required package: pacman</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, DBI, dbplyr, RSQLite, bigrquery, hrbrthemes, nycflights13, glue)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> pacman<span class="sc">::</span><span class="fu">p_load</span>(tidyverse, DBI, dbplyr, RSQLite, bigrquery, hrbrthemes, glue)</span></code></pre></div>
 <p>For the world inequality database.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;WIDworld/wid-r-tool&quot;</span>)</span></code></pre></div>
@@ -354,13 +354,13 @@ div.tocify {
 <p>The session from this week is going to be about databases and a quick introduction to the basics of the SQL programming language. I am assuming that most of you have only worked with data that can easily fit in into your computer’s memory, since <code>R</code> (by default) takes all data that you import and places it in your Random Access Memory (RAM) The benefit of doing this is that RAM is very fast and this makes operations on data fast. The downside is that most of you don’t have massive amounts of RAM on your computers so it easy for data manipulations to overwhelm your RAM capacity. You will most surely encounter a situation, in your not so distant future, where you will have to deal with large datasets that are outside of the scope of the memory contained in your laptop or desktop PC. If this happens you might want to look into storing the data in a <strong>relational database</strong>.</p>
 <p>Relational databases (or databases) exist either on your local computer, or on some remote server (storage). Generally, in the world of “big data”, we will access data remotely. This means that the data won’t be found on your physical drive on the computer. It is important to note that with large datasets, we are often not concerned with the entire dataset itself, but simply a small subset of a larger dataset. What we will focus on this class is connecting with a database to retrieve the chunks of data that you need for your analysis. Getting information that we want is referred to as submitting a <code>query</code> to the database. This means that if you have access to a really large dataset that is available in a public or private database then you can submit a query without having to download the entire dataset onto your computer. A query is our way of telling the database that we want to work with a subset of the data, which we can then draw into the memory on our computer. Once again, we don’t have to download the data directly on the computer in the case of remote servers, we simply connect to these servers and then once that connection is established we submit our query and the selected data is drawn into our computer memory.</p>
 </div>
-<div id="databases-and-the-tidyverse" class="section level1">
-<h1>Databases and the tidyverse</h1>
-<p>We can use <code>R</code> to connect to almost any existing database type. Most of the common database types have packages that allow to interface directly through <code>R</code>. In addition, the <code>dplyr</code> package that you used in Nico’s section of the course supports most open-source databases such as <code>sqlite</code>, <code>mysql</code> and my favourite <code>postgresql</code>. At some later stage in the course after we have done some work on establishing a cloud workflow on the Google Cloud platform we will also work with Google’s <code>BigQuery</code>.</p>
-</div>
-<div id="world-inequality-database" class="section level1">
-<h1>World inequality database</h1>
+<div id="using-sql-directly" class="section level1">
+<h1>Using SQL directly</h1>
+<p>In the next session we will be working directly with a SQLite database. We will some SQL commands directly on the database. In the following section we will show how to work with databases in R through the usage of <code>dbplyr</code>.</p>
+<div id="world-inequality-database" class="section level2">
+<h2>World inequality database</h2>
 <p>We are going to import some data from the WID database and then insert that into a SQLite database for us to work with. We could also work with the data in memory, but we want to showcase some of the SQL commands. We are going to use the command line to interface with the SQLite database at first and then we will use the <code>dbplyr</code> package to work directly through <code>RStudio</code>.</p>
+</div>
 <div id="wid-package" class="section level2">
 <h2><code>wid</code> package</h2>
 <p>There is a package that allows you to directly interface with the WID database. If you want to download some data from there you could use the following code as an example,</p>
@@ -371,11 +371,65 @@ div.tocify {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(data)</span></code></pre></div>
+<p>We will not use this functionality for this lecture though.</p>
 </div>
 <div id="csv-to-sqlite" class="section level2">
 <h2>CSV to SQLite</h2>
-<p>We could also access the full dataset for South Africa by downloading it from the website in CSV format. The CSV file is in the <code>data</code> directory for this lecture, so you don’t have to download it. It is called <code>wid-data-za.csv</code>. In this section we will show you how to utilise the command line to convert the CSV to an SQLite database.</p>
+<p>We could also access the full dataset for South Africa by downloading it from the website in CSV format. There are many ways to get data from websites, but in this case I just downloaded it directly by clicking on the appropriate link and storing it on my computer. The CSV file is in the <code>data</code> directory for this lecture, so you don’t have to download it if you have cloned the repository. It is called <code>wid-data-za.csv</code>.</p>
+<p>In this section we will show you how to utilise the command line to convert the CSV to an SQLite database. We can use the <code>sqlite3</code> command to do this as follows,</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ./data</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sqlite3 <span class="at">-separator</span> <span class="st">&#39;;&#39;</span> wid_table_za.db <span class="st">&quot;.import wid-data-za.csv wid_za_table&quot;</span></span></code></pre></div>
 </div>
+</div>
+<div id="databases-and-r" class="section level1">
+<h1>Databases and R</h1>
+<p>After some experience with SQL you will agree that it is a bit of an archaic language that is much less intuitive than the <code>R</code> tools that we have using thus far in the course. There is some good news: Even if you aren’t comfortable with SQL you already have all the programming skills you need to start working with databases. This is because the <code>tidyverse</code> — through <code>dplyr</code> — allows for direct communication with databases from your local <code>R</code> environment.</p>
+<p>This means that you can interact with the vast datasets that are stored in relational databases using the same <code>tidyverse</code> verbs and syntax that we already know. All of this is possible thanks to the <code>dbplyr</code> package, which provides a database backend to <code>dplyr</code>. What’s happening even further behind the scenes is that, upon installation, <code>dbplyr</code> suggests the <code>DBI</code> package as a dependency. <code>DBI</code> provides a common interface that allows <code>dplyr</code> to work with many different databases using exactly the same code. You don’t even need to leave your <code>RStudio</code> session or learn SQL!</p>
+<blockquote>
+<p>Aside: You will probably want to learn SQL eventually! Luckily, <code>dplyr</code> and <code>dbplyr</code> come with several features that can really help to speed up the learning and translation process. We’ll get to these later in the lecture.</p>
+</blockquote>
+<p>While <code>DBI</code> is automatically bundled with <code>dbplyr</code>, you’ll need to install a specific backend package for the type of database that you want to connect to. There are many backends to use. We have worked with SQLite since it is quite lightweight and installed on most operating systems already. We will talk later about <code>bigrquery</code> which connects to Google BigQuery when we have our session on cloud computing and big data.</p>
+<p>Our goal for this section is to create a makeshift database on our local computers — using the excellent SQLite backend — and then connect to it from <code>R</code>. I’ll use this to demonstrate the ease with which we can execute queries from <code>R</code>, as well as underscore some principles for working with databases in general. The lessons that we learn here will carry over to more complicated cases and much larger datasets.</p>
+</div>
+<div id="connecting-to-a-local-database" class="section level1">
+<h1>Connecting to a local database</h1>
+<p>Start by opening an (empty) database connection via the <code>DBI::dbConnect()</code> function, which we’ll call <code>con</code>. Note that we are calling the <strong>duckdb</strong> package in the background for the DuckDB backend and telling <code>R</code> that this is a local connection that exists in memory.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">library</span>(DBI) <span class="do">## Already loaded</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> con <span class="ot">=</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbListTables</span>(con)</span></code></pre></div>
+<pre><code>## character(0)</code></pre>
+<p>The arguments to <code>DBI::dbConnect()</code> vary from database to database. However, the first argument is always the database backend, i.e. <code>RSQLite::SQLite()</code> in this case since we’re using SQLite. Again, while this differs depending on the database type that you’re connecting with, SQLite only needs one other argument: the path to the database. Here we use the special string, “:memory:”, which causes SQLite to make a temporary in-memory database. We’ll explore more complicated connections later on that will involve things like password prompts for remote databases.</p>
+<p>Our makeshift database connection con is currently empty. So let’s copy across the world inequality dataset that we worked with before. There are a couple of ways to do this, but here I’ll use the <code>dplyr::copy_to()</code> convenience function. Note that we are specifying the table name (“wid_za”) that will exist within this database.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&#39;data/wid-data-za.csv&#39;</span>, <span class="at">sep =</span> <span class="st">&#39;;&#39;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">copy_to</span>(con, wid_za)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;wid_za&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">head</span>(wid_za_tbl)</span></code></pre></div>
+<pre><code>## # Source:   lazy query [?? x 7]
+## # Database: sqlite 3.37.2 [:memory:]
+##   country variable   percentile  year  value   age pop  
+##   &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;int&gt;  &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;
+## 1 ZA      rhweal992j p0p100      1993 -357.    992 j    
+## 2 ZA      rhweal992j p0p100      1994 -204.    992 j    
+## 3 ZA      rhweal992j p0p100      1995  -84.8   992 j    
+## 4 ZA      rhweal992j p0p100      1996  -85.8   992 j    
+## 5 ZA      rhweal992j p0p100      1997  -99.0   992 j    
+## 6 ZA      rhweal992j p0p100      1998 -120.    992 j</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbDisconnect</span>(con)</span></code></pre></div>
+<p>You can also see that we’re passing a list of indexes to the <code>copy_to()</code> function. Indexes are what enable efficient database performance, since they specify how the data should be laid out for very quick search and aggregation. At the same time, I don’t want you to worry too much about this right now. Indexes will be set by the database host platform or maintainer in normal applications.</p>
+</div>
+<div id="connecting-to-an-online-database" class="section level1">
+<h1>Connecting to an online database</h1>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="st">&quot;relational.fit.cvut.cz&quot;</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">port =</span> <span class="dv">3306</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">&quot;guest&quot;</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">&quot;relational&quot;</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">&quot;ConsumerExpenditures&quot;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 
 

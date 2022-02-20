@@ -61,7 +61,7 @@ General packages for SQL and R.
 
 ```{r, cache=FALSE}
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(tidyverse, DBI, dbplyr, RSQLite, bigrquery, hrbrthemes, nycflights13, glue)
+pacman::p_load(tidyverse, DBI, dbplyr, RSQLite, bigrquery, hrbrthemes, glue)
 ```
 
 For the world inequality database. 
@@ -77,11 +77,11 @@ The session from this week is going to be about databases and a quick introducti
 
 Relational databases (or databases) exist either on your local computer, or on some remote server (storage). Generally, in the world of "big data", we will access data remotely. This means that the data won't be found on your physical drive on the computer. It is important to note that with large datasets, we are often not concerned with the entire dataset itself, but simply a small subset of a larger dataset. What we will focus on this class is connecting with a database to retrieve the chunks of data that you need for your analysis. Getting information that we want is referred to as submitting a `query` to the database. This means that if you have access to a really large dataset that is available in a public or private database then you can submit a query without having to download the entire dataset onto your computer. A query is our way of telling the database that we want to work with a subset of the data, which we can then draw into the memory on our computer. Once again, we don't have to download the data directly on the computer in the case of remote servers, we simply connect to these servers and then once that connection is established we submit our query and the selected data is drawn into our computer memory. 
 
-# Databases and the tidyverse
+# Using SQL directly 
 
-We can use `R` to connect to almost any existing database type. Most of the common database types have packages that allow to interface directly through `R`. In addition, the `dplyr` package that you used in Nico's section of the course supports most open-source databases such as `sqlite`, `mysql` and my favourite `postgresql`. At some later stage in the course after we have done some work on establishing a cloud workflow on the Google Cloud platform we will also work with Google's `BigQuery`. 
+In the next session we will be working directly with a SQLite database. We will some SQL commands directly on the database. In the following section we will show how to work with databases in R through the usage of `dbplyr`. 
 
-# World inequality database
+## World inequality database
 
 We are going to import some data from the WID database and then insert that into a SQLite database for us to work with. We could also work with the data in memory, but we want to showcase some of the SQL commands. We are going to use the command line to interface with the SQLite database at first and then we will use the `dbplyr` package to work directly through `RStudio`. 
 
@@ -99,9 +99,77 @@ R> data <- download_wid(
 R> df <- tibble(data)
 ```
 
+We will not use this functionality for this lecture though. 
+
 ## CSV to SQLite
 
-We could also access the full dataset for South Africa by downloading it from the website in CSV format. The CSV file is in the `data` directory for this lecture, so you don't have to download it. It is called `wid-data-za.csv`. In this section we will show you how to utilise the command line to convert the CSV to an SQLite database. 
+We could also access the full dataset for South Africa by downloading it from the website in CSV format. There are many ways to get data from websites, but in this case I just downloaded it directly by clicking on the appropriate link and storing it on my computer. The CSV file is in the `data` directory for this lecture, so you don't have to download it if you have cloned the repository. It is called `wid-data-za.csv`.
+
+In this section we will show you how to utilise the command line to convert the CSV to an SQLite database. We can use the `sqlite3` command to do this as follows, 
+
+```bash
+$ cd ./data
+$ sqlite3 -separator ';' wid_table_za.db ".import wid-data-za.csv wid_za_table"
+```
+
+# Databases and R
+
+After some experience with SQL you will agree that it is a bit of an archaic language that is much less intuitive than the `R` tools that we have using thus far in the course. There is some good news: Even if you aren't comfortable with SQL you already have all the programming skills you need to start working with databases. This is because the `tidyverse` — through `dplyr` — allows for direct communication with databases from your local `R` environment.
+
+This means that you can interact with the vast datasets that are stored in relational databases using the same `tidyverse` verbs and syntax that we already know. All of this is possible thanks to the `dbplyr` package, which provides a database backend to `dplyr`. What’s happening even further behind the scenes is that, upon installation, `dbplyr` suggests the `DBI` package as a dependency. `DBI` provides a common interface that allows `dplyr` to work with many different databases using exactly the same code. You don’t even need to leave your `RStudio` session or learn SQL!
+
+> Aside: You will probably want to learn SQL eventually! Luckily, `dplyr` and `dbplyr` come with several features that can really help to speed up the learning and translation process. We’ll get to these later in the lecture.
+
+While `DBI` is automatically bundled with `dbplyr`, you’ll need to install a specific backend package for the type of database that you want to connect to. There are many backends to use. We have worked with SQLite since it is quite lightweight and installed on most operating systems already. We will talk later about `bigrquery` which connects to Google BigQuery when we have our session on cloud computing and big data.
+
+Our goal for this section is to create a makeshift database on our local computers — using the excellent SQLite backend — and then connect to it from `R`. I’ll use this to demonstrate the ease with which we can execute queries from `R`, as well as underscore some principles for working with databases in general. The lessons that we learn here will carry over to more complicated cases and much larger datasets.
+
+# Connecting to a local database
+
+Start by opening an (empty) database connection via the `DBI::dbConnect()` function, which we’ll call `con`. Note that we are calling the **duckdb** package in the background for the DuckDB backend and telling `R` that this is a local connection that exists in memory.
+
+```{r}
+library(DBI) ## Already loaded
+
+con = DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+
+dbListTables(con)
+```
+
+The arguments to `DBI::dbConnect()` vary from database to database. However, the first argument is always the database backend, i.e. `RSQLite::SQLite()` in this case since we’re using SQLite. Again, while this differs depending on the database type that you’re connecting with, SQLite only needs one other argument: the path to the database. Here we use the special string, “:memory:”, which causes SQLite  to make a temporary in-memory database. We’ll explore more complicated connections later on that will involve things like password prompts for remote databases.
+
+Our makeshift database connection con is currently empty. So let’s copy across the world inequality dataset that we worked with before. There are a couple of ways to do this, but here I’ll use the `dplyr::copy_to()` convenience function. Note that we are specifying the table name (“wid_za”) that will exist within this database. 
+
+```{r}
+wid_za <- read.csv(file = 'data/wid-data-za.csv', sep = ';')
+copy_to(con, wid_za)
+wid_za_tbl <- tbl(con, "wid_za")
+
+head(wid_za_tbl)
+```
+
+
+```{r}
+dbDisconnect(con)
+```
+
+
+You can also see that we’re passing a list of indexes to the `copy_to()` function. Indexes are what enable efficient database performance, since they specify how the data should be laid out for very quick search and aggregation. At the same time, I don’t want you to worry too much about this right now. Indexes will be set by the database host platform or maintainer in normal applications.
+
+# Connecting to an online database
+
+```r
+con <- dbConnect(
+  RMariaDB::MariaDB(),
+  host = "relational.fit.cvut.cz",
+  port = 3306,
+  username = "guest",
+  password = "relational",
+  dbname = "ConsumerExpenditures"
+)
+```
+
+
 
 
 
