@@ -5,6 +5,8 @@
 
 On this page we have the course notes for the second part of the Data Science 871 module. 
 
+Firstly, I want to thank Grant McDermott for making his data science notes freely available. Many of the notes here are just amended versions of his material. I have copied certain portions of his notes directly (with his permission). Make sure you go and check out his new book, [ata Science for Economists and Other Animals](https://grantmcdermott.com/ds4e/index.html).  
+
 The first part is taught by [Nico Katzke](https://github.com/nicktz) and focuses on data wrangling and good programming practices. You can find his notes [here](https://datsci.nfkatzke.com/).
 
 In this part of the course we will cover many different topics. The idea is to give you a whirlwind tour of many of the important ideas in Data Science. 
