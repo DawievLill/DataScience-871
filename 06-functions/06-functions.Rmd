@@ -1,0 +1,193 @@
+---
+title: "Data Science for Economics and Finance"
+subtitle: "Lecture 6: Functions"
+author:
+  name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
+  date: Lecture 3 "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    theme: cosmo
+    highlight: pygments
+always_allow_html: true
+urlcolor: blue
+mainfont: cochineal
+sansfont: Fira Sans
+monofont: Fira Code 
+---
+
+<style type="text/css">
+  body{
+  font-size: 14pt;
+}
+</style>
+
+```{r setup, include=FALSE}
+
+options(htmltools.dir.version = FALSE)
+
+library(knitr)
+opts_chunk$set(
+  prompt = T, ## See hook below. I basically want a "$" prompt for every bash command in this lecture.
+  fig.align="center", #fig.width=6, fig.height=4.5, 
+  # out.width="748px", #out.length="520.75px",
+  dpi=300, #fig.path='Figs/',
+  cache=F#, echo=F, warning=F, message=F
+  )
+
+## Next hook based on this SO answer: https://stackoverflow.com/a/39025054
+knit_hooks$set(
+  prompt = function(before, options, envir) {
+    options(
+      prompt = if (options$engine %in% c('sh','bash')) '$ ' else 'R> ',
+      continue = if (options$engine %in% c('sh','bash')) '$ ' else '+ '
+      )
+})
+```
+
+
+# References
+
+The primary references for today's discussion can be found [here](),  [here](), [here]().
+
+
+Once again, most of the material that we will cover for the next few weeks is **heavily** influenced by the amazing lecture notes by Grant McDermott. You can visit his [Github page](https://github.com/uo-ec607/lectures) for more information.  
+
+# Packages
+
+Run this piece of code to ensure that you have the appropriate packages installed for the session to follow. 
+
+```{r, cache=F, message=F}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(pbapply, data.table, tidyverse, gapminder)
+```
+
+# Introduction
+
+You have covered the ideas of functions and functional programming with Nico in the first part of the course. The idea behind this section is an extension of the functionality that Nico introduced and also a precursor to the parallel programming lecture that follows this one. We focus our attention on how to write functions and the related ideas in functional programming (especially as it applies to iteration).
+
+This section also serves as a review of user-built functions, an important topic in its own right. Powerful packages such as `dplyr`, `purrr`, and the `apply` famlily of functions are ready and waiting to apply your purpose-built functions to various components of your data. It is important that you are able to express yourself through functions, since these tools will provide great power. 
+
+
+# Functions
+
+You have already dealt with several functions in R. Some of them come pre-packaged with base R (e.g. `mean()`), while others are from external packages (e.g. `dplyr::filter()`). Functions in R all have the same basic syntax:
+
+```r
+function_name(ARGUMENTS)
+```
+Most of the time we use functions written by other people. However, as you know by now, you can write your own functions too. This is easy to do with the generic **`function()`** function. The syntax will again look familiar to you:
+
+```r
+function(ARGUMENTS) {
+  OPERATIONS
+  return(VALUE)
+}
+```
+
+While we can write anonymous functions like the one above, we typically write functions because we want to reuse code. For this typical use-case it makes sense to name our functions. You can use either `=` or `<-` when assigning the function name. Try to give functions names that make sense to other people reading your code. 
+
+```r
+my_func =
+  function(ARGUMENTS) {
+    OPERATIONS
+    return(VALUE)
+  }
+```
+
+This function can be written across multiple lines as above, or it can be stated in a single line. We will illustrate with some examples below. 
+
+## Example: Gapminder data
+
+We can write functions to more easily work with data. We might have some interactive code that we want to wrap in a function. My general advice is that you always want to wrap your code in functions if you can. 
+
+
+
+## Example: The cube
+
+You should already have written some of your own functions, but as a quick reminder. Let us write a function that returns the cube of some input number.
+
+```{r cube1}
+cube =              ## Our function name
+  function(x) {     ## The argument(s) that our function takes as an input
+    x^3             ## The operation(s) that our function performs
+  }
+```
+
+We can test whether this function works. Fingers crossed!
+
+```{r cube 1a}
+cube(3)
+```
+
+If my math is correct, it should be the case that $3^3$ is equal to $27$. So the function seems to be doing its job. In general we wouldn't write functions as simple as these, since they most likely already exist in base `R` (just look at the arithmetic functions in `R`) and will be more efficiently coded. However, in some cases we will need to write our own functions. 
+
+In our example above we didn't specify the `return` value in the code block. This is because `R`, like many other programming languages, automatically returns the final object in that you created with the function. However, it is good practice to always assign return objects.
+
+```{r cube2}
+cube =              
+  function(x) {     
+    x_cub = x^3     ## Create an intermediary object (that will be returned)
+    return(x_cub)   ## The value(s) or object(s) that we want returned.    
+  }
+```
+
+Specifying a return value is also helpful when we want to return more than one object. For example, let's say that we want to remind our user what variable they used as an argument in our function:
+
+```{r cube3}
+cube = 
+  function(x) {     ## The argument(s) that our function takes as an input
+    x_cub = x^3     ## The operation(s) that our function performs
+    return(list(value = x, value_cubed = x_cub)) ## The list of object(s) that we want returned.
+  }
+```
+
+If we have multiple return objects we have to combine them in a list.  Remember that many objects in R contain multiple elements (vectors, data frames, and lists are all good examples of this). So we can also specify one of these "array"-type objects within the function itself if that provides a more convenient form of output. For example, we could combine the input and output values into a data frame:
+
+```{r cube4}
+cube = 
+  function(x) { 
+    x_cub = x^3 
+    df = tibble(value = x, value_cubed = x_cub) ## Bundle up our input and output values into a convenient dataframe.
+    return(df)
+  }
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
