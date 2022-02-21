@@ -1,9 +1,9 @@
 ---
 title: "Data Science for Economics and Finance"
-subtitle: "Lecture 6: Important concepts for machine learning"
+subtitle: "Lecture 10: Important concepts for machine learning"
 author:
   name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
-  date: Lecture 6  "`r format(Sys.time(), '%d %B %Y')`"
+  date: Lecture 10  "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document:
     toc: true

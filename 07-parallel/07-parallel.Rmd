@@ -50,9 +50,7 @@ knit_hooks$set(
 
 # References
 
-The primary references for today's discussion can be found [here](https://stat545.com/functions-part1.html) and  [here](https://style.tidyverse.org/functions.html). The latter reference provides a more advanced walkthrough on functions than we are exploring here. It is the natural next place to go to learn more about functions. 
-
-Once again, most of the material that we will cover for the next few weeks is **heavily** influenced by the amazing lecture notes by Grant McDermott. Some of the portions have been directly copied from his notes (with his permission). You can visit his [Github page](https://github.com/uo-ec607/lectures) for more information.  
+The lecture today is directly copied from the notes by Grant McDermott. I have made small amendments to fit the lecture. You can visit his [Github page](https://github.com/uo-ec607/lectures) for more information.  
 
 # Packages
 
@@ -60,530 +58,287 @@ Run this piece of code to ensure that you have the appropriate packages installe
 
 ```{r, cache=F, message=F}
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(pbapply, tidyverse, gapminder, assertthat)
+pacman::p_load(tictoc, parallel, pbapply, future, future.apply, tidyverse, 
+               hrbrthemes, furrr, RhpcBLASctl, memoise, here)
+
+## Set future::plan() resolution strategy
+plan(multisession)
 ```
 
 # Introduction
 
-We have covered a lot of work with the `shell` and `Julia`. Now it is time to get back to using `R`. We will be covering some topics that you have encountered with Nico and some that overlap with the `Julia` lectures. You can see this lecture as a bit of revision, to refocus your attention on `R`. 
+Parallel programming is a big and complex topic, with many potential pitfalls. However, software innovations and some amazing new(ish) packages have made it much easier and safer to program in parallel.
 
-The ideas behind functions and functional programming were covered with Nico in the first part of the course. This section is an extension (revision) of the functionality that Nico introduced and also a precursor to the parallel programming lecture that follows this one. We focus our attention on how to write functions and the related ideas in functional programming (especially as it applies to iteration).
+With that in mind, I’m going to structure today’s lecture back-to-front. In particular, I’m going to start with some motivating examples. My primary goal is to demonstrate both the ease and immediate payoff of “going parallel”. Only after convincing you of these facts will we get into some of the technical details that were abstracted away behind the scenes. The latter part of the lecture will go over parallel programming in more general terms (i.e. not `R`-specific) and highlight potential pitfalls that you should be aware of.
 
-This section also serves as a review of user-built functions, an important topic in its own right. Powerful packages such as `dplyr`, `purrr`, and the `apply` famlily of functions are ready and waiting to apply your purpose-built functions to various components of your data. It is important that you are able to express yourself through functions, since these tools will provide great power. 
+Ready? Let’s go.
 
+# Example: `slow_square()`
 
-# Functions
+Let’s start by creating a “slow” version of a simple `square` function — that waits for two seconds before doing anything — which I’ll creatively call `slow_square()`. Of course, this is just meant to emulate a computationally-expensive operation, but the basic principles will carry through intact. Our first motivating example is going to involve this `slow_square()` function. 
 
-You have already dealt with several functions in R. Some of them come pre-packaged with base R (e.g. `mean()`), while others are from external packages (e.g. `dplyr::filter()`). Functions in R all have the same basic syntax:
-
-```r
-function_name(ARGUMENTS)
-```
-Most of the time we use functions written by other people. However, as you know by now, you can write your own functions too. This is easy to do with the generic **`function()`** function. The syntax will again look familiar to you:
-
-```r
-function(ARGUMENTS) {
-  OPERATIONS
-  return(VALUE)
-}
-```
-
-While we can write anonymous functions like the one above, we typically write functions because we want to reuse code. For this typical use-case it makes sense to name our functions. You can use either `=` or `<-` when assigning the function name. Try to give functions names that make sense to other people reading your code. 
-
-```r
-my_func =
-  function(ARGUMENTS) {
-    OPERATIONS
-    return(VALUE)
-  }
-```
-
-This function can be written across multiple lines as above, or it can be stated in a single line as follows, 
-
-```r
-my_short_func = function(ARGUMENTS) OPERATION
-```
-
-We will illustrate with some examples below. 
-
-## Example: Gapminder data
-
-We can write functions to more easily work with data. We might have some interactive code that we want to wrap in a function. My general advice is that you always want to wrap your code in functions if you can. 
-
-Say that we have the following interactive code that we input into our console, 
-
-
-```{r gap_1}
-min(gapminder$lifeExp)
-```
-
-```{r gap_2}
-max(gapminder$lifeExp)
-```
-
-We want to calculate the difference between the maximum and minimum life expectancy in the Gapminder dataset. 
-
-```{r gap_3}
-max(gapminder$lifeExp) - min(gapminder$lifeExp)
-```
-
-One nice thing to do is to wrap this in a function, so that we can perhaps use this difference operator for other variables as well. We can write the function on one line as follows, 
-
-```{r gap_4}
-max_minus_min <- function(x) max(x) - min(x)
-```
-
-We can test this function on our Gapminder data, but also on other inputs. 
-
-```{r gap_5}
-max_minus_min(gapminder$lifeExp)
-```
-
-```{r gap_6}
-max_minus_min(gapminder$gdpPercap)
-```
-
-```{r gap_7}
-max_minus_min(1:10)
-```
-
-```{r gap_8}
-max_minus_min(runif(1000))
-```
-
-This function will only work for certain types of inputs where `max()` and `min()` make sense. If we were to try the following it wouldn't work, 
-
-```r
-R> max_minus_min(gapminder$country) # What is the max() and min() of the country variable?
-```
-
-```
-## [1] Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, : 'max' not meaningful for factors
-```
-
-The function provides us the power to apply a general method to many different inputs. Remember, computer scientists are a lazy bunch, they don't want to write out the same piece of code multiple times! We don't want to repeat ourselves and create more effort than necessary. So when you are writing code, always think about wrapping it in a function. There are obviously many other benefits to writing in terms of functions, such as retaining local scope instead of working with global variables. I am sure that Nico covered some of the basic ideas of why function are so important.  
-
-In `R` it is often useful to write a function in its own script. This is generally good programming practice. In other languages like `Julia` this is not necessarily the same. If we have time I can go over how efficient `Julia` code looks. 
-
-### **Warning**: Type stability 
-
-There are going to be some cases where the function works, but it isn't what we intended. This means that we have to be careful to consider potential fringe cases and the types of variables that can be input into the function.  
-
-```{r gap_9}
-max_minus_min(c(TRUE, TRUE, FALSE, TRUE, TRUE))
-```
-
-> **Note**: This is where `Julia` really shines, it's type annotation system allows you to finely control which types of variables are acceptable as inputs into the function. 
-
-As far as I am aware, since `R` is a dynamically typed language (the type is inferred by the compiler), you can get some weird results sometimes when writing functions. For example, what does the following function do?
-
-```{r gap_10}
-do_magic <- 
-  function(a, b) {
-	a + b
-}
-```
-
-If we are summing two numbers then this makes sense. However, this will also add two Booleans! Is this what we intended the function to do? In Julia you could write a function as follows, 
-
-```julia
-function do_magic(a::Number, b::Number)
-  return a + b
-end
-```
-
-In this case the function will not work with something other than a `Number`, since we declared that the inputs into the function should be of a certain abstract type. This is perhaps a bit more technical of a topic, but writing type stable code is important in production. In the case of `R` your code should be well documented and should make people aware of the possibility of potential output conflicts for specific inputs. I am not aware of an elegant solution to resolve the issues with a dynamically typed language such as `R`, but maybe someone who is more of an expert in the language such as Nico might have a good answer. 
-
-One solution that I have found is to call a `stopifnot()` function inside of your function
-
-```{r gap_11}
-do_magic_type_stable <- 
-  function(a, b) {
-  stopifnot(is.numeric(a))
-  stopifnot(is.numeric(b))
-	a + b
-}
-```
-
-```{r gap_13}
-do_magic(1, 2)
-```
-
-```{r gap_14}
-do_magic(TRUE, FALSE)
-```
-
-```{r gap_15}
-do_magic_type_stable(1, 2)
-```
-
-```r
-do_magic_type_stable(TRUE, FALSE)
-```
-
-```
-## [1] Error in do_magic_type_stable(TRUE, FALSE) : is.numeric(a) is not TRUE
-```
-
-If you want a clearer error message you can use the `assertthat` package instead of `stopifnot()`.
-
-```{r gap_16}
-do_magic_assert <- 
-  function(a, b) {
-  assert_that(is.numeric(a))
-  assert_that(is.numeric(b))
-	a + b
-}
-```
-
-```r
-do_magic_assert(TRUE, FALSE)
-```
-
-```
-## [1] Error: a is not a numeric or integer vector
-```
-
-However, this is not a natural solution and is not as flexible as `Julia` when it comes to type specification. If you want to know more about how to protect the functions you wrote from providing nonsense output I recommend you read the section on **defensive programming** by Hadley Wickham in his textbook called *Advanced R*. You can find a link to the chapter [here](http://adv-r.had.co.nz/Exceptions-Debugging.html#defensive-programming). 
-
-## Example: The cube
-
-You should already have written some of your own functions, but as a quick reminder. Let us write a function that returns the cube of some input number.
-
-```{r cube1}
-cube =              ## Our function name
-  function(x) {     ## The argument(s) that our function takes as an input
-    x^3             ## The operation(s) that our function performs
-  }
-```
-
-We can test whether this function works. Fingers crossed!
-
-```{r cube 1a}
-cube(3)
-```
-
-If my math is correct, it should be the case that $3^3$ is equal to $27$. So the function seems to be doing its job. In general we wouldn't write functions as simple as these, since they most likely already exist in base `R` (just look at the arithmetic functions in `R`) and will be more efficiently coded. However, in some cases we will need to write our own functions. 
-
-In our example above we didn't specify the `return` value in the code block. This is because `R`, like many other programming languages, automatically returns the final object in that you created with the function. However, I believe it is good practice to always assign return objects (as opposed to what Hadley Wickham says about `return` functions [here](https://style.tidyverse.org/functions.html)).
-
-```{r cube2}
-cube =              
-  function(x) {     
-    x_cub = x^3     ## Create an intermediary object (that will be returned)
-    return(x_cub)   ## The value(s) or object(s) that we want returned.    
-  }
-```
-
-Specifying a return value is also helpful when we want to return more than one object. For example, let's say that we want to remind our user what variable they used as an argument in our function:
-
-```{r cube3}
-cube = 
-  function(x) {     ## The argument(s) that our function takes as an input
-    x_cub = x^3     ## The operation(s) that our function performs
-    return(list(value = x, value_cubed = x_cub)) ## The list of object(s) that we want returned.
-  }
-```
-
-If we have multiple return objects we have to combine them in a list.  Remember that many objects in `R` `contain multiple elements (vectors, data frames, and lists are all good examples of this). So we can also specify one of these "array"-type objects within the function itself if that provides a more convenient form of output. For example, we could combine the input and output values into a data frame:
-
-```{r cube4}
-cube = 
-  function(x) { 
-    x_cub = x^3 
-    df = tibble(value = x, value_cubed = x_cub) ## Bundle up our input and output values into a convenient dataframe.
-    return(df)
-  }
-```
-
-### Default argument values
-
-Another thing worth noting about R functions is that you can assign default argument values.
-
-```{r cube5}
-cube = 
-  function(x = 1) { ## Setting the default argument value 
-    x_cub = x^3 
-    df = tibble(value=x, value_cubed = x_cub)
-    return(df)
-  }
-```
-
-```{r cube6}
-cube() ## Will take the deafult value of 1
-```
-
-```{r cube7}
-cube(2) ## Now takes the explicit value that we give it.
-```
-
-## Lexical scoping
-
-An important concept to understand in the discussion of functions is the idea of lexical scoping. If you enter the code for this session into the console you will see that the functions will have entered the global enironment. However, the variables such as `x` inside of the function haven't creeped into the global environment. These variables can only be accessed within the function itself (locallly). 
-
-You can think of a function as its own environment. They only return objects to the global environment when they are forced to, normally with a `return()` command. The function will also only look outside of its own scope for a variable if it isn't defined in the function body. We will talk about this a bit more in the section on functional programming. I am sure Nico has mentioned this before, I just want to reiterate the point here. 
-
-# Control flow
-
-Now that we’ve got a good sense of the basic function syntax, it’s time to learn control flow. That is, we want to control the order (or “flow”) of statements and operations that our functions evaluate.
-
-We’ve already encountered conditional statements like `if()` and `ifelse()` numerous times in the course thus far. However, let’s see how they can work in our own bespoke functions by slightly modifying our previous cube function. This time, instead of specifying a default input value of 1 in the function argument itself, we’ll specify a value of `NULL`. Then we’ll use an `if()` statement to reassign this default to one.
-
-```{r cube8}
-cube = 
-  function(x = NULL) {  ## Default value of NULL
-    if (is.null(x)) x=1 ## Re-assign default to 1
-    x_cub = x^3 
-    df = tibble(value = x, value_cubed = x_cub)
-    return(df)
-  }
-cube()
-```
-
-Why go through the rigmarole of specifying a NULL default inpute if we’re going to change it to 1 anyway? Admittedly, this is a pretty silly thing to do in the above example. However, consider what it buys us in the next code chunk:
-
-```{r cube9}
-cube = 
-  function(x = NULL) {
-    if (is.null(x)) { ## Start multiline if statement with `{`
-      x = 1
-      message("No input value provided. Using default value of 1.") ## Message to users
-      } ## Close multiline if statement with `}`
-    x_cub = x^3 
-    df = tibble(value = x, value_cubed = x_cub)
-    return(df)
-  }
-cube()
-```
-
-This time, by specifying `NULL` in the argument — alongside the expanded `if()` statement — our function now both takes a default value and generates a helpful message. Note too the use of curly brackets for conditional operations that span multiple lines after an `if()` statement. This provides a nice segue to `ifelse()` statements. As we’ve already seen , these be written as a single conditional call where the format is:
-
-```
-ifelse(CONDITION, DO IF TRUE, DO IF FALSE)
-```
-
-Within our own functions, though we’re more likely to write them over several lines. Consider, for example a new function that evaluates whether our `cube()` function is doing its job properly.
-
-```{r cube10}
-eval_cube =
-  function(x) {
-    if (cube(x)$value_cubed == x*x*x) { ## condition
-      ## What to do if the condition is TRUE 
-      message("Nailed it.")
-    } else {
-      ## What to do if the condition is FALSE
-      message("Dude, your function sucks.")
+```{r slow1}
+## Emulate slow function
+slow_square = 
+  function(x = 1) {
+    x_sq = x^2 
+    d = tibble(value = x, value_squared = x_sq)
+    Sys.sleep(2)
+    return(d)
     }
-  }
-eval_cube(8)
 ```
 
-As you may have guessed, it’s certainly possible to write nested ifelse() statements. For example,
+Let’s iterate over this function using the standard `lapply()` method that we’re all familiar with by now. Note that this iteration will be executed in serial. I’ll use the `tictoc` package to record timing.
 
-```
-ifelse(CONDITION1, DO IF TRUE, ifelse(CONDITION2, DO IF TRUE, ifelse(...)))
-```
-
-However, these nested statements quickly become difficult to read and troubleshoot. A better solution was originally developed in `SQL` with the `CASE WHEN` statement. We see that `dplyr` provides a `case_when()` implementation, as seen below,
-
-```{r case1}
-x = 1:10
-## dplyr::case_when()
-case_when(
-  x <= 3 ~ "small",
-  x <= 7 ~ "medium",
-  TRUE ~ "big" ## Default value. Could also write `x > 7 ~ "big"` here.
-  )
+```{r slow2, eval = FALSE}
+tic()
+serial_ex = lapply(1:12, slow_square) %>% bind_rows()
+toc()
 ```
 
-Not to belabour the point, but you can easily use these case when implementations inside of data frames/tables too.
+As expected, the iteration took about 24 seconds to run because of the enforced break after every sequential iteration (i.e. `Sys.sleep(2)`). On the other hand, this means that we can easily speed things up by iterating in parallel.
 
-```{r case2}
-## dplyr::case_when()
-tibble(x = 1:10) %>%
-    mutate(grp = case_when(x <= 3 ~ "small",
-                           x <= 7 ~ "medium",
-                           TRUE ~ "big"))
+Before continuing, it’s worth pointing out that our ability to go parallel hinges on the number of CPU cores available to us. The simplest way to obtain this information from R is with the `parallel::detectCores()` function:
+
+```{r slow3}
+# future::availableCores() ## Another option
+detectCores()
 ```
 
-# Iteration
+So, I have 16 cores to play with on my PC. Adjust expectations for you own system accordingly. Okay, back to our example. I’m going to implement the parallel iteration using the `future.apply` package — more on this later. Note that the parameters of the problem are otherwise unchanged.
 
-Alongside control flow, the most important early programming skill to master is iteration. In particular, we want to write functions that can iterate — or map — over a set of inputs. By far the most common way to iterate across different programming languages is `for loops`. Indeed, we already saw some examples of `for loops` back in the shell lecture. However, while `R` certainly accepts standard `for loops`, I’m going to advocate that you adopt what is known as a “functional programming” approach to writing loops. Let’s dive into the reasons why and how these approaches differ.
+```{r slow4}
+# library(future.apply)  ## Already loaded
+# plan(multisession)     ## Already set above
 
-
-## Vectorisation
-
-The first question you need to ask is: “Do I need to iterate at all?” Here we will discuss the concept of vectorisation, which is to say that you can apply a function to every element of a vector at once, rather than one at a time. Let’s demonstrate this property with our `cube` function:
-
-```{r cube11}
-cube(1:5)
+tic()
+future_ex = future_lapply(1:12, slow_square) %>% bind_rows()
+toc(log = TRUE)
 ```
 
-```{r cube12}
-cube(c(2, 4))
-```
-So you may not need to worry about explicit iteration at all. That being said, there are certainly cases where you will need to worry about it. Let’s explore with some simple examples (some of which are already vectorised) that provide a mental springboard for thinking about more complex cases.
+Look at at that: A significant speedup! Even more impressively, consider how little the syntax changed. I basically just had to tell `R` that I wanted to implement the iteration in parallel (i.e. `plan(multisession)`) and slightly amend my `lapply()` call (i.e. `future_lapply()`).
 
-## For loops
+For those of you who prefer the `purrr::map()` family of functions for iteration and are feeling left out; don’t worry. The `furrr` package has you covered. Once again, the syntax for these parallel functions will be very little changed from their serial versions. We simply have to tell `R` that we want to run things in parallel with `plan(multisession)` and then slightly amend our map call to `future_map_dfr()`.
 
-In `R`, standard `for loops` take a pretty intuitive form. For example:
+```{r slow5}
+# library(furrr)      ## Already loaded
+# plan(multisession)  ## Already set above
 
-```{r loop1}
-for(i in 1:10) print(LETTERS[i])
-```
-
-Note that in cases where we want to “grow” an object via a `for loop`, we first have to create an empty (or `NULL`) object.
-
-```{r loop2}
-kelvin = 300:305
-fahrenheit = NULL
-# fahrenheit = vector("double", length(kelvin)) ## Better than the above. Why?
-for(k in 1:length(kelvin)) {
-  fahrenheit[k] = kelvin[k] * 9/5 - 459.67
-}
-fahrenheit
+tic()
+furrr_ex = future_map_dfr(1:12, slow_square)
+toc()
 ```
 
-Unfortunately, basic `for loops` in `R` also come with some downsides. Historically, they used to be significantly slower and memory consumptive than alternative methods. This has largely been resolved, but I’ve still run into cases where an inconspicuous `for loop` has brought an entire analysis crashing to its knees. The bigger problem with `for loops`, however, is that they deviate from the norms and best practices of **functional programming**.
+How easy was that? We hardly had to change our original code and didn’t have to pay a cent for all that extra performance. Congratulate yourself on already being such an expert at parallel programming.
 
-## Functional programming
+# The `future` ecosystem
 
-The concept of functional programming (FP) is arguably the most important thing that you can take away from today’s lecture. In his excellent book, *Advanced R*, Hadley Wickham explains the core idea as follows. 
+All of the parallel programming that we’ve been doing so far is built on top of Henrik Bengtsson’s amazing `future` package. A “future” is basically a very flexible way of evaluating code and output. Among other things, this allows you to switch effortlessly between evaluating code in serial or asynchronously (i.e. in parallel). You simply have to set your resolution plan — “sequential”, “multisession”, “cluster”, etc. — and let future handle the implementation for you.
 
-> R, at its heart, is a functional programming (FP) language. This means that it provides many tools for the creation and manipulation of functions. In particular, R has what’s known as first class functions. You can do anything with functions that you can do with vectors: you can assign them to variables, store them in lists, pass them as arguments to other functions, create them inside functions, and even return them as the result of a function.
+Here’s Henrik describing the core idea in more technical terms:
 
-The problem is that `for loops` tend to emphasise the objects that we’re working with (say, a vector of numbers) rather than the operations that we want to apply to them (say, get the mean or median or whatever). This is inefficient because it requires us to continually write out the `for loops` by hand rather than getting an `R` function to create the for-loop for us.
+> In programming, a future is an abstraction for a value that may be available at some point in the future. The state of a future can either be unresolved or resolved... Exactly how and when futures are resolved depends on what strategy is used to evaluate them. For instance, a future can be resolved using a sequential strategy, which means it is resolved in the current R session. Other strategies may be to resolve futures asynchronously, for instance, by evaluating expressions in parallel on the current machine or concurrently on a compute cluster.
 
-As a corollary, `for loops` also pollute our global environment with the variables that are used as counting variables. Take a look at your “Environment” pane in RStudio. What do you see? In addition to the `kelvin` and `fahrenheit` vectors that we created, we also see two variables `i` and `k` (equal to the last value of their respective loops). Creating these auxiliary variables is almost certainly not an intended outcome when your write a `for loop`. More worringly, they can cause programming errors when we inadvertently refer to a similarly-named variable elsewhere in our script. So we best remove them manually as soon as we’re finished with a loop.
+As I’ve tried to emphasise, `future` is relatively new on the scene. It is certainly not the first or only way to implement parallel processes in `R`. However, I think that it provides a simple and unified framework that makes it the preeminent choice. What’s more, the same commands that we use here will carry over very neatly to more complicated settings involving high-performance computing clusters. We’ll experience this first hand when we get to the big data section of the course.
 
-Another annoyance arrived in cases where we want to “grow” an object as we iterate over it (e.g. the fahrenheit object in our second example). In order to do this with a `for loop`, we had to go through the rigmarole of creating an empty object first.
+You’ve probably also noted that keep referring to the “future ecosystem”. This is because future provides the framework for other packages to implement parallel versions of their functions. The two that I am focusing on today are
 
-FP allows to avoid the explicit use of loop constructs and its associated downsides. In practice, there are two ways to implement FP in R:
+1. the `future.apply` package, also by Henrik, and
+2. the `furrr` package, an implementation for `purrr` by Davis Vaughan.
 
-1. The `*apply` family of functions in base `R`.
-2. The `map*()` family of functions from the `purrr`.
+In both cases, we start by setting the plan for resolving the future evaluation (here: `plan(multisession)`). We then call our functions — which involve minor modifications of their serial equivalents — and let future magic take care of everything else.
 
-Let’s explore these in more depth.
+# Parallel programming topics
 
-### `lapply` and friends
+Motivating examples out of the way, let's take a look underneath the hood. I want to emphasise that this section is more "good to know" than "need to know". Even if you take nothing else away from rest of this lecture, you are already well placed to begin implementing parallel functions at a much larger scale.
 
-Base `R` contains a very useful family of `*apply` functions. I won’t go through all of these here — see ?apply — but they all follow a similar philosophy and syntax. The good news is that this syntax very closely mimics the syntax of basic `for loops`. For example, consider the code below, which is analgous to our first for loop above, but now invokes a `base::lapply()` call instead.
+And yet... while you don't *need* to know the next section in order to program in parallel in `R`, getting a solid grasp of the basics is valuable. It will give you a better understanding of how parallel programming works in general and help you to appreciate how much **future** and co. are doing behind the scenes for you. It will also help you to understand why the same code runs faster on some systems than others, and avoid some common pitfalls.
 
-```{r loop3}
-# for(i in 1:10) print(LETTERS[i]) ## Our original for loop (for comparison)
-lapply(1:10, function(i) LETTERS[i])
+## Terminology
+
+I'll start by clearing up some terminology.
+
+- **Socket:** The physical connection on your computer that houses the processor. Most work and home computers --- even very high-end ones --- only have one socket and, thus, one processor. However, they can have multiple cores. Speaking of which...
+- **Core:** The part of the processor that actually performs the computation. Back in the day, processors were limited to a single core. However, most modern processors now house multiple cores. Each of these cores can perform entirely separate and independent computational processes.
+- **Process:** A single instance of a running task or program (R, Dropbox, etc). A single core can only run one process at a time. However, it may give the appearance of doing more than that by efficiently scheduling between them. Speaking of which...
+- **Thread:** A component or subset of a process that can, inter alia, share memory and resources with other threads. We'll return to this idea as it applies to *hyperthreading* in a few paragraphs.
+- **Cluster:** A collection of objects that are capable of hosting cores. This could range from a single socket (on your home computer) to an array of servers (on a high-performance computing network).
+
+You may wondering where the much-referenced **CPU** (i.e. central processing unit) fits into all of this. Truth be told, the meaning of CPU has evolved with the advent of new technology like multicore processors. For the purposes of this lecture I will use the following definition: 
+
+$$\text{No. of CPUs} = \text{No. of sockets} \times \text{No. of physcial cores} \times \text{No. of threads per core}$$
+
+If nothing else, this is consistent with the way that my Linux system records information about CPU architecure via the [lscpu](https://linux.die.net/man/1/lscpu) shell command: 
+
+```{bash lscpu, error=T, prompt=T}
+## Only works on Linux
+lscpu | grep -E '^Thread|^Core|^Socket|^CPU\('
 ```
 
-There are s couple of things to notice.
+Note that the headline "CPU(s)" number is the same that I got from running `parallel::detectCores()` earlier (i.e. `r parallel::detectCores()`). 
 
-First, check your “Environment” pane in `RStudio`. Do you see an object called “i” in the Global Environment? (The answer should be “no”.) Again, this is because of `R`’s lexical scoping rules, which mean that any object created and invoked by a function is evaluated in a sandboxed environment outside of your global environment.
+## A bit more about logical cores and hyperthreading
 
-Second, notice how little the basic syntax changed when switching over from `for()` to `lapply()`. Yes, there are some differences, but the essential structure remains the same: We first provide the iteration list `(1:10)` and then specify the desired function or operation (`LETTERS[i]`).
+Logical cores extend or emulate the ability of physical cores to perform additional tasks. The most famous example is Intel's [**hyperthreading**](https://en.wikipedia.org/wiki/Hyper-threading) technology, which allows a single core to switch very rapidly between two different tasks. This mimics the appearance and performance (albeit to a lesser extent) of an extra physical core. You may find [this YouTube video](https://www.youtube.com/watch?v=mSZpDF-zUoI&) helpful for understanding the difference in more depth, including a nice analogy involving airport security lines.
 
-Third, notice that the returned object is a *list*. The `lapply()` function can take various input types as arguments — vectors, data frames, lists — but always returns a list, where each element of the returned list is the result from one iteration of the loop. (So now you know where the “l” in “lapply” comes from.)
+Taking a step back, you don't have to worry too much about the difference between physical and logical (hyperthreaded) cores for the purpose of this lecture. `R` doesn't care whether you run a function on a physical core or a logical one. Both will work equally well. (Okay, the latter will be a little slower.) Still, if you are interested in determining the number of physical cores versus logical cores on your system, then there are several ways to this from `R`. For example, you can use the **RhpcBLASctl** package ([link](https://cran.r-project.org/web/packages/RhpcBLASctl/index.html)).
 
-Okay, but what if you don’t want the output in list form? There several options here. However, the method that I use most commonly is to bind the different list elements into a single data frame with `dplyr::bind_rows()`. For example, here’s a a slightly modified version of our function that now yields a data frame:
+```{r cores_vs_procs}
+# library(RhpcBLASctl) ## Already loaded
 
-```{r loop4}
-lapply(1:10, function(i) {
-  df = tibble(num = i, let = LETTERS[i])
-  return(df)
-  }) %>%
-  bind_rows()
+get_num_procs() ## No. of all cores (including logical/hyperthreaded)
+get_num_cores() ## No. of physical cores only
 ```
 
-Taking a step back, while the default list-return behaviour may not sound ideal at first, I’ve found that I use `lapply()` more frequently than any of the other apply family members. A key reason is that my functions normally return multiple objects of different type (which makes lists the only sensible format) or a single data frame (which is where `dplyr::bind_rows()` come in).
+## Forking vs Sockets
 
-### `purrr` package 
+As I keep saying, it's now incredibly easy to run parallel programs in `R`. The truth is that it has actually been easy to do so for a long time, but the implementation used to vary by operating system. In particular, simple parallel implementations that worked perfectly well on Linux or Mac didn't work on Windows (which required a lot more overhead). For example, take a look at the [help documentation](https://stat.ethz.ch/R-manual/R-devel/library/parallel/html/mclapply.html) for the `parallel::mclapply()` function, which has been around since 2011. If you did so, you would see a warning that `mclapply()` *"relies on forking and hence is not available on Windows"*.
 
-The tidyverse offers its own enhanced implementation of the base `*apply()` functions through the `purrr` package. The key function to remember here is `purrr::map()`. And, indeed, the syntax and output of this command are effectively identical to `base::lapply()`:
+Now, we clearly didn't encounter any OS-specific problems when we ran the parallel versions of our motivating examples above. The same code worked for everyone, including anyone using Windows. ~~*Loud booing.*~~ What was happening behind the scenes is that the **future** packages automatically handled any complications for us. The parallel functions were being executed in a way that was optimised for each person's OS and `R` environment.
 
-```{r loop5}
-map(1:10, function(i) { ## only need to swap `lapply` for `map`
-  df = tibble(num = i, let = LETTERS[i])
-  return(df)
-  })
+But what is "forking" and why does it matter what OS I am using anyway? Those are good questions that relate to the method of parallelization (i.e. type of cluster) that your system supports. The short version is that there are basically two ways that code can be parallelized:
+
+- **Forking** works by cloning your entire `R` environment to each separate core. This includes your data, loaded packages, functions, and any other objects in your current session. This is very efficient because you don't have to worry about reproducing your "master" environment in each "worker" node. Everything is already linked, which means that you aren't duplicating objects in memory. However, forking is not supported on Windows and can also cause problems in an IDE or GUI like RStudio. Combined with the fact that the shared memory is *read only*, there is a risk of "cross-contamination" where any modification made to a shared object by one of the worker nodes can propagates to the system.]
+- **Parallel sockets** (aka "PSOCKs") work by launching a new `R` session in each core. This means that your master environment has to be copied over and instantiated separately in each parallel node. This requires greater overhead and causes everything to run slower, since objects will be duplicated across each core. Technically, a PSOCK works by establishing a network (e.g. as if you were connected to a remote cluster), but everything is self-contained on your computer. This approach can be implemented on every system, including Windows, and doesn't create problems for IDEs like RStudio. 
+
+I've summarised the differences between the two approaches in the table below. 
+
+Forking                                           PSOCKs
+---------                                         --------
+✓ Fast and memory efficient.                      × Slower and more memory-intensive (than forking).
+× Only available for Unix-based systems.          ✓ Works on every operating system, incl. Windows.
+× Potentially unstable in an IDE like RStudio.    ✓ Fine to use in an IDE like RStudio.
+
+The general rule of thumb is PSOCKs are safer and more universal than forking. This makes them a good default, even if they do come with a potential performance/memory penalty. And, indeed, this is exactly what we did by selecting the **`plan(multisession)`** resolution strategy. So, now you know where that choice came from.
+
+At the same time, however, I recommend that you consider forking if it is available to you (i.e. you're on Linux or Mac) and you want to maximise performance. In these cases, the solution requires two simple tweaks: 
+
+1. Change your resolution plan to **`plan(multicore)`**, and
+2. Run your R script from the terminal using, say, `$ Rscript -e 'rmarkdown::render("mydoc.Rmd", "all")'` or `$ Rscript myfile.R`.
+
+Here's a very simple illustration, using the same setup as our example from earlier.
+
+```{r future_ex_multiprocess, eval = FALSE}
+plan(multicore) ## NB: Only works on Unix!
+
+tic()
+future_ex_mc = future_lapply(1:12, slow_square) %>% bind_rows()
+toc(log = TRUE)
 ```
 
-Given these similarities, I won’t spend much time on `purrr`. Although, I do think it will be the optimal entry point for many you when it comes to programming and iteration. You have already learned the syntax, so it should be very easy to switch over. However, one additional thing I wanted to flag for today is that `map()` also comes with its own variants, which are useful for returning objects of a desired type. For example, we can use `purrr::map_df()` to return a data frame.
-
-```{r loop6}
-map_df(1:10, function(i) { ## don't need bind_rows with `map_df`
-  df = tibble(num = i, let = LETTERS[i])
-  return(df)
-  })
+```{r future_ex_mc_timing, echo = FALSE, eval = FALSE}
+t_f_ex_mc = as.numeric(gsub(" sec elapsed", "", (tic.log()[[1]])))
 ```
 
-Note that this is more efficient (i.e. involves less typing) than the lapply() version, since we don’t have to go through the extra step of binding rows at the end.
+For more on forks vs PSOCKS, take a look at the [relevant section](https://github.com/HenrikBengtsson/future#asynchronous-futures) of the **future** README.
 
-## Iterate over multiple inputs
+# Explicit vs implicit parallelization
 
-Thus far, we have only been working with functions that take a single input when iterating. For example, we feed them a single vector (even though that vector contains many elements that drive the iteration process). But what if we want to iterate over multiple inputs? Consider the following function, which takes two separate variables `x` and `y` as inputs, combines them in a data frame, and then uses them to create a third variable `z`.
+Thus far we have only been concerned with *explicit* parallelization. As in, we explicitly told `R` to run a particular set of commands in parallel. But there is another form of *implicit* parallelization that is equally important to be aware of. In this case, certain low-level functions and operations are automatically run in parallel regardless of whether we "told" `R` to do so or not. Implicit parallelization can make a big difference to performance, but is not the default behaviour in `R`. So it has to be enabled first (for example, by the package that you're using). Moreover, combining explicit and implicit parallelization can cause problems if you don't take certain precautions. Let's take a look at where implicit parallelization enters the fray.
 
-```{r loop7}
-## Create a named function
-multi_func = 
-  function(x, y) {
-  df = 
-    tibble(x = x, y = y) %>%
-    mutate(z = (x + y)/sqrt(x))
-  return(df)
-  }
+## BLAS/LAPACK
+
+Did you ever wonder how R and other programming languages perform their calculations? For example, how does R actually do things like vector addition, or scalar and matrix multiplication? The answer is [**BLAS**](http://www.netlib.org/blas/) (**B**asic **L**inear **A**lgebra **S**ubprograms). BLAS are a collection of low-level routines that provide standard building blocks for performing basic vector and matrix operations. These routines are then incoporated in related libraries like [**LAPACK**](http://www.netlib.org/lapack/) (**L**inear **A**lgebra **Pack**age), which provide their own routines for solving systems of linear equations and linear least squares, calculating eigenvalues, etc. In other words, BLAS and LAPACK provide the linear algebra framework that supports virtually all of statistical and computational programming 
+
+`R` ships with its own BLAS/LAPACK libraries by default. These libraries place a premium on stablility (e.g. common user experience across operating systems). While the default works well enough, you can get *significant* speedups by switching to more optimized libraries such as the [Intel Math Kernel Library (MKL)](https://software.intel.com/en-us/mkl) or [OpenBLAS](https://www.openblas.net/). Among other things, these optimised BLAS libraries support multi-threading. So now you are using all your available computer power to, say, solve a matrix.
+
+You can use the `sessionInfo()` command to see which BLAS/LAPACK library you are using. For example, I am using OpenBLAS on this computer:
+
+```{r blas_info}
+sessionInfo()[c("BLAS", "LAPACK")]
 ```
 
-Before continuing, quickly test that it works using non-iterated inputs.
+## Beware resource competition
 
-```{r loop8}
-multi_func(1, 6)
+While this all sounds great --- and I certainly recommend taking a look at MKL or OpenBLAS --- there is a potential downside. In particular, you risk competing with yourself for computational resources (i.e. memory) if you mix explicit and implicit parallel calls. For instance, if you run explicit multicore functions from within R on a system that has been configured with an optimised BLAS. As [Dirk Eddelbuettel](http://dirk.eddelbuettel.com/) succinctly puts it in [this Stack Overflow thread](https://stackoverflow.com/a/18291826):
+
+> There is one situation you want to avoid: (1) spreading a task over all _N_ cores and (2) having each core work on the task using something like OpenBLAS or MKL with all cores. Because now you have an _N_ by _N_ contention: each of the N task wants to farm its linear algebra work out to all _N_ cores.
+
+Now, I want to emphasise that this conflict rarely matters in my own experience. I use optimised BLAS libraries and run explicit parallel calls all the time in my `R` scripts. Despite this, I have hardly ever run into a problem. Moreover, when these slowdowns have occured, I've found the effect to be relatively modest. Still, I have read of cases where the effect can be quite dramatic (e.g. [here](https://stat.ethz.ch/pipermail/r-sig-hpc/2014-February/001846.html)) and so I wanted you to be aware of it all the same.
+
+Luckily, there's also an easy and relatively costless solution: Simply turn off BLAS multi-threading. It turns out this has a negligible impact on performance, since most of the gains from optimised BLAS are actually coming from improved math vectorisation, not multi-threading. (See [this post](https://blog.revolutionanalytics.com/2015/10/edge-cases-in-using-the-intel-mkl-and-parallel-programming.html) for a detailed discussion.) You can turn off BLAS multi-threading for the current R session via the `RhpcBLASctl::blas_set_num_threads()` function. For example, I sometimes include the following line at the top of an R script:
+```{r eval=F}
+# blas_get_num_procs() ## If you want to find the existing number of BLAS threads
+RhpcBLASctl::blas_set_num_threads(1) ## Set BLAS threads to 1 (i.e. turn off multithreading)
 ```
 
-Great, it works. Now let’s imagine that we want to iterate over various levels of both `x` and `y`. There are two basics approaches that we can follow to achieve this, use `base::mapply()` or `purrr::pmap()`.
+Since this is only in effect for the current `R` session, BLAS multithreading will be restored when I restart R. You can turn off multithreading as the default mode by altering the configuration file when you first build/install your preferred BLAS library. However, that's both complicated and unnecessarily restrictive in my view.
 
-I’ll quickly review both approaches, continuing with the `multi_func()` function that we just created above.
+## Library source code
 
-### Use `mapply()` or `pmap()`
+Very briefly, I want to point out that implicit parallelization is automatically invoked by many of the external libraries that we use in R. The good news is that package developers normally take pains to avoid potential resource competition. For instance, consider the message that **data.table** greets us with at load time.
 
-Both base `R` — through `mapply()` — and `purrr` — through `pmap` — can handle multiple input cases for iteration. The latter is easier to work with in my opinion, since the syntax is closer (nearly identical) to the single input case. Still, I’ll demonstrate using both versions below.
-
-First, `base::mapply()`:
-
-```{r loop9}
-## Note that the inputs are now moved to the *end* of the call. 
-## Also, mapply() is based on sapply(), so we also have to tell it not to 
-## simplify if we want to keep the list structure.
-mapply(
-  multi_func,
-  x = 1:5,         ## Our "x" vector input
-  y = 6:10,        ## Our "y" vector input
-  SIMPLIFY = FALSE ## Tell it not to simplify to keep the list structure
-  ) %>%
-  bind_rows()
+```{r dt}
+library(data.table, warn.conflicts = FALSE)
 ```
 
-Second, `purrr::pmap()`:
-
-```{r loop10}
-## Note that the inputs are combined in a list.
-pmap_df(list(x=1:5, y=6:10), multi_func)
+```
+## data.table 1.13.6 using 6 threads (see ?getDTthreads).  Latest news: r-datatable.com
 ```
 
-There is a third method, which you can view [here](https://raw.githack.com/uo-ec607/lectures/master/10-funcs-intro/10-funcs-intro.html#Control_flow). Most of the notes from the this section are directly copied from the reading. 
+If you follow the suggestion and look at the `?getDTthreads` help documentation, you'll find an informative (and reassuring) discussion of its approach here:
 
-There are some more notes advanced notes on functions that we will not have time to cover. These notes can be found [here](https://raw.githack.com/uo-ec607/lectures/master/11-funcs-adv/11-funcs-adv.html). Please take the time to try and read these notes. They provide some really useful software engineering constructions. 
+> `data.table` automatically switches to single threaded mode upon fork (the mechanism used by `parallel::mclapply` and the `foreach` package). Otherwise, nested parallelism would very likely overload your CPUs and result in much slower execution. As data.table becomes more parallel internally, we expect explicit user parallelism to be needed less often...
 
-
-
-
+A final point on this topic, riffing off the quoted text, is that packages like **data.table** implement their parallel operations at the source-code level, i.e. in C(++) and other compiled languages. So they are likely to be more efficient than the equivalent explicit parallel calls that you might make. It's not that you can't combine, say, **future** and **data.table** (I do this often). But you should know that trying to do better than the latter's default operations may be a fool's errand.
 
 
+# Miscellaneous
 
+## When should I go parallel?
 
+The short answer is that you want to invoke the multicore option whenever you are faced with a so-called "[embarrassingly parallel](https://en.wikipedia.org/wiki/Embarrassingly_parallel)" problem. You can click on that link for a longer description, but the key idea is that these computational problems are easy to break up into smaller chunks. You likely have such a case if the potential code chunks are independent and do not need to communicate in any way. Classic examples include bootstrapping (since each regression or resampling iteration is drawn independently) and Markov chain Monte Carlo (i.e. [MCMC](https://en.wikipedia.org/wiki/Markov_chain_Monte_Carlo)).
 
+Having said that, there are limitations to the gains that can be had from parallelization. Most obviously, there is the [computational overhead](https://en.wikipedia.org/wiki/Overhead_(computing)) associated with splitting up the problem, tracking the individual nodes, and then bringing everything back into a single result. This can be regarded as an issue largely affecting shorter and smaller computations. In other words, the overhead component of the problem tends to diminish in relative size as the overall computation time increases. 
 
+On the opposite end of the spectrum, there is [Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law) (generalised as [Gustafson's law](https://en.wikipedia.org/wiki/Gustafson%27s_law)). This formalises the intuitive idea that there are diminishing returns to parallelization, depending on the proportion of your code that can be run in parallel. A case in point is Bayesian MCMC routines, which typically include a fixed "burn-in" period regardless of how many parallel chains are being run in parallel.
 
+```{r amdahl, echo=F}
+expand.grid(num_cores=1:2048, par_prop=c(0.5,0.75,0.9,0.95)) %>%
+  mutate(
+    speed_up = 1/(1 - par_prop + par_prop/num_cores),
+    par_prop = scales::percent(par_prop, accuracy=1)
+    ) %>%
+  ggplot(aes(x = num_cores, y = speed_up, col = par_prop, group = par_prop)) +
+  geom_line() +
+  scale_x_continuous(trans = scales::log_trans(2), breaks = 2^c(0:11)) +
+  scale_color_brewer(name = "Parallel proportion", palette = "Set1") +
+  labs(
+    title = "Amdahl's law",
+    x = "No. of cores", y = "Theoretical speedup"
+    ) +
+  guides(colour = guide_legend(reverse=T))
+```
 
+## How many cores should I use?
 
+If you look this question up online, you'll find that most people recommend using `detectCores()-1`. This advice stems from the idea that you probably want to reserve one core for other tasks, such as running your web browser or word processor. While I don't disagree, I typically use all available cores for my parallel computations. For one thing, I do most of my heavy computational work in the cloud (i.e. on a server or virtual machine). So keeping some computational power in reserve doesn't make sense. Second, when I am working locally, I've gotten into the habit of closing all other applications while a parallel function is running. Your mileage may vary, though. (And remember the possible diminishing returns brought on by Amdahl's law).  FWIW, calling `plan(multisession)` or `plan(multicore)` automatically default to using all your cores. You can change that by running, say, `plan(multisession(workers = detectCores()-1))`.
 
+## Fault tolerance (error catching, caching, etc.)
+
+In my experience, the worst thing about parallel computation is that it is very sensitive to failure in any one of its nodes. An especially frustrating example is the tendency of parallel functions to ignore/hide critical errors up until the very end when they are supposed to return output. ("Oh, so you encountered a critical error several hours ago, but just decided to continue for fun anyway? Thanks!") Luckily, all of the defensive programming tools that we practiced in the [previous lecture](https://raw.githack.com/uo-ec607/lectures/master/11-funcs-adv/11-funcs-adv.html) --- catching user errors and caching intermediate results --- carry over perfectly to their parallel equivalents. Just make sure that you use a persistent cache.
+
+**Challenge:** Prove this to yourself by running a parallel version of the cached iteration that we practiced last time. Specifically, you should [recreate](https://raw.githack.com/uo-ec607/lectures/master/11-funcs-adv/11-funcs-adv.html#Aside_1:_Caching_across_R_sessions) the `mem_square_verbose()` function, which in turn relies on the `mem_square_persistent()` function.^[To clarify: The verbose option simply provides helpful real-time feedback to us. However, the underlying persistent cache location --- provided in this case by `mem_square_persistent()` --- is necessary whenever you want to use a memoised function in the futures framework.] You should then be able to run `future_map_dfr(1:10, mem_square_verbose)` and it will automatically return the previously cached results. After that, try `future_map_dfr(1:24, mem_square_verbose)` and see what happens.
+
+## Random number generation
+
+Random number generation (RNG) can become problematic in parallel computations (whether trying to ensure the same of different RNG across processes). R has various safeguards against this and future [automatically handles](https://www.jottr.org/2017/02/19/future-rng/) RNG via the `future.seed` argument. We saw an explicit example of this in Example 2 above.
+
+## Parallel regression
+
+A number of regression packages in R are optimised to run in parallel. For example, the superb **fixest** package ([link](https://lrberge.github.io/fixest/)) that we saw in the lecture on regression analysis will automatically invoke multicore capabilities when fitting high dimensional fixed effects models. The many Bayesian packages in R are also all capable of --- and, indeed, expected to --- fit regression models by running their MCMC chains in parallel. For example, **RStan** ([link](https://mc-stan.org/rstan/articles/rstan.html#running-multiple-chains-in-parallel)). Finally, you may be interested in the **partools** package ([link](https://cran.r-project.org/web/packages/partools/index.html)), which provides convenient aliases for running a variety of statistical models and algorithms in parallel.
+
+## CPUs vs GPUs
+
+Graphical Processing Units, or GPUs, are specialised chipsets that were originaly built to perform the heavy lifting associated with rendering graphics. It's important to realise that not all computers have GPUs. Most laptops come with so-called [integrated graphics](https://www.laptopmag.com/articles/intel-hd-graphics-comparison), which basically means that the same processor is performing both regular and graphic-rendering tasks. However, gaming and other high-end laptops (and many desktop computers) include a dedicated GPU card. For example, the Dell Precision 5530 that I'm writing these lecture notes on has a [hybrid graphics](https://wiki.archlinux.org/index.php/hybrid_graphics) setup with two cards: 1) an integrated Intel GPU (UHD 630) and 2) a discrete NVIDIA Quadro P2000.
+
+So why am I telling you this? Well, it turns out that GPUs also excel at non-graphic computation tasks. The same processing power needed to perform the millions of parallel calculations for rendering 3-D games or architectural software, can be put to use on scientific problems. How exactly this was discovered involves an interesting backstory of supercomputers being built with Playstations. (Google it.) But the short version is that modern GPUs comprise *thousands* of cores that can be run in parallel. Or, as my colleague [David Evans](http://econevans.com/) once memorably described it to me: "GPUs are basically just really, really good at doing linear algebra."
+
+Still, that's about as much as I want to say about GPUs for now. Installing and maintaining a working GPU setup for scientific purposes is a much more complex task. (And, frankly, overkill for the vast majority of econometric or data science needs.) We may revisit the topic when we get to the machine learning section of the course in a few weeks.^[Advanced machine learning techniques like [deep learning](https://blog.rstudio.com/2018/09/12/getting-started-with-deep-learning-in-r/) are particularly performance-dependent on GPUs.] Thus, and while the general concepts carry over, everything that we've covered today is limited to CPUs.
+
+## Monitoring multicore performance
+
+Bash-compatible shells should come with the built-in `top` command, which provides a real-time view of running processes and resource consumption. (Pro-tip: Hit "1" to view processes across individual cores and "q" to quit.) An enhanced alternative that I really like and use all the time is [**htop**](https://hisham.hm/htop/), which is available on both Linux and Mac. (Windows users can install `htop` on the WSL that we covered way back in the [shell lecture](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#windows).). It's entirely up to you whether you want to install it. Your operating system almost certainly provides built-in tools for monitoring processes and resource usage (e.g. [System Monitor](https://wiki.gnome.org/Apps/SystemMonitor)). However, I wanted to flag `htop` before we get to the big data section of the course. We'll all be connecting to remote Linux servers at that point and a shell-based (i.e. non-GUI) process monitor will prove very handy for tracking resource use.
 
 
 
