@@ -325,6 +325,60 @@ You can think of a function as its own environment. They only return objects to 
 
 # Control flow
 
+Now that we’ve got a good sense of the basic function syntax, it’s time to learn control flow. That is, we want to control the order (or “flow”) of statements and operations that our functions evaluate.
+
+We’ve already encountered conditional statements like `if()` and `ifelse()` numerous times in the course thus far. However, let’s see how they can work in our own bespoke functions by slightly modifying our previous cube function. This time, instead of specifying a default input value of 1 in the function argument itself, we’ll specify a value of `NULL`. Then we’ll use an `if()` statement to reassign this default to one.
+
+```{r cube8}
+cube = 
+  function(x = NULL) {  ## Default value of NULL
+    if (is.null(x)) x=1 ## Re-assign default to 1
+    x_cub = x^3 
+    df = tibble(value = x, value_cubed = x_cub)
+    return(df)
+  }
+cube()
+```
+
+Why go through the rigmarole of specifying a NULL default inpute if we’re going to change it to 1 anyway? Admittedly, this is a pretty silly thing to do in the above example. However, consider what it buys us in the next code chunk:
+
+```{r cube9}
+cube = 
+  function(x = NULL) {
+    if (is.null(x)) { ## Start multiline if statement with `{`
+      x = 1
+      message("No input value provided. Using default value of 1.") ## Message to users
+      } ## Close multiline if statement with `}`
+    x_cub = x^3 
+    df = tibble(value = x, value_cubed = x_cub)
+    return(df)
+  }
+cube()
+```
+
+This time, by specifying `NULL` in the argument — alongside the expanded `if()` statement — our function now both takes a default value and generates a helpful message. Note too the use of curly brackets for conditional operations that span multiple lines after an `if()` statement. This provides a nice segue to `ifelse()` statements. As we’ve already seen , these be written as a single conditional call where the format is:
+
+```
+ifelse(CONDITION, DO IF TRUE, DO IF FALSE)
+```
+
+Within our own functions, though we’re more likely to write them over several lines. Consider, for example a new function that evaluates whether our `cube()` function is doing its job properly.
+
+```{r cube10}
+eval_cube =
+  function(x) {
+    if (cube(x)$value_cubed == x*x*x) { ## condition
+      ## What to do if the condition is TRUE 
+      message("Nailed it.")
+    } else {
+      ## What to do if the condition is FALSE
+      message("Dude, your function sucks.")
+    }
+  }
+eval_cube(8)
+```
+
+
 # Iteration
 
 # Functional programming
