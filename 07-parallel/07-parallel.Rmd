@@ -1,9 +1,9 @@
 ---
 title: "Data Science for Economics and Finance"
-subtitle: "Lecture 6: Functions and more"
+subtitle: "Lecture 7: Parallel programming"
 author:
   name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
-  date: Lecture 6 "`r format(Sys.time(), '%d %B %Y')`"
+  date: Lecture 7 "`r format(Sys.time(), '%d %B %Y')`"
 output: 
   html_document:
     toc: true
