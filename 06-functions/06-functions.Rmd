@@ -1,6 +1,6 @@
 ---
 title: "Data Science for Economics and Finance"
-subtitle: "Lecture 6: Functions"
+subtitle: "Lecture 6: Functions and more"
 author:
   name: Dawie van Lill (dvanlill@sun.ac.za) | [Github](https://github.com/DawievLill)
   date: Lecture 3 "`r format(Sys.time(), '%d %B %Y')`"
@@ -50,8 +50,7 @@ knit_hooks$set(
 
 # References
 
-The primary references for today's discussion can be found [here](https://stat545.com/functions-part1.html) and  [here](https://style.tidyverse.org/functions.html).
-
+The primary references for today's discussion can be found [here](https://stat545.com/functions-part1.html) and  [here](https://style.tidyverse.org/functions.html). The latter reference provides a more advanced walkthrough on functions than we are exploring here. It is the natural next place to go to learn more about functions. 
 
 Once again, most of the material that we will cover for the next few weeks is **heavily** influenced by the amazing lecture notes by Grant McDermott. You can visit his [Github page](https://github.com/uo-ec607/lectures) for more information.  
 
@@ -61,12 +60,14 @@ Run this piece of code to ensure that you have the appropriate packages installe
 
 ```{r, cache=F, message=F}
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(pbapply, data.table, tidyverse, gapminder, assertthat)
+pacman::p_load(pbapply, tidyverse, gapminder, assertthat)
 ```
 
 # Introduction
 
-You have covered the ideas of functions and functional programming with Nico in the first part of the course. The idea behind this section is an extension of the functionality that Nico introduced and also a precursor to the parallel programming lecture that follows this one. We focus our attention on how to write functions and the related ideas in functional programming (especially as it applies to iteration).
+We have covered a lot of work with the `shell` and `Julia`. Now it is time to get back to using `R`. We will be covering some topics that you have encountered with Nico and some that overlap with the `Julia` lectures. You can see this lecture as a bit of revision, to refocus your attention on `R`. 
+
+The ideas behind functions and functional programming were covered with Nico in the first part of the course. This section is an extension (revision) of the functionality that Nico introduced and also a precursor to the parallel programming lecture that follows this one. We focus our attention on how to write functions and the related ideas in functional programming (especially as it applies to iteration).
 
 This section also serves as a review of user-built functions, an important topic in its own right. Powerful packages such as `dplyr`, `purrr`, and the `apply` famlily of functions are ready and waiting to apply your purpose-built functions to various components of your data. It is important that you are able to express yourself through functions, since these tools will provide great power. 
 
@@ -97,7 +98,13 @@ my_func =
   }
 ```
 
-This function can be written across multiple lines as above, or it can be stated in a single line. We will illustrate with some examples below. 
+This function can be written across multiple lines as above, or it can be stated in a single line as follows, 
+
+```r
+my_short_func = function(ARGUMENTS) OPERATION
+```
+
+We will illustrate with some examples below. 
 
 ## Example: Gapminder data
 
@@ -258,7 +265,7 @@ cube(3)
 
 If my math is correct, it should be the case that $3^3$ is equal to $27$. So the function seems to be doing its job. In general we wouldn't write functions as simple as these, since they most likely already exist in base `R` (just look at the arithmetic functions in `R`) and will be more efficiently coded. However, in some cases we will need to write our own functions. 
 
-In our example above we didn't specify the `return` value in the code block. This is because `R`, like many other programming languages, automatically returns the final object in that you created with the function. However, it is good practice to always assign return objects.
+In our example above we didn't specify the `return` value in the code block. This is because `R`, like many other programming languages, automatically returns the final object in that you created with the function. However, I believe it is good practice to always assign return objects (as opposed to what Hadley Wickham says about `return` functions [here](https://style.tidyverse.org/functions.html)).
 
 ```{r cube2}
 cube =              
@@ -278,7 +285,7 @@ cube =
   }
 ```
 
-If we have multiple return objects we have to combine them in a list.  Remember that many objects in R contain multiple elements (vectors, data frames, and lists are all good examples of this). So we can also specify one of these "array"-type objects within the function itself if that provides a more convenient form of output. For example, we could combine the input and output values into a data frame:
+If we have multiple return objects we have to combine them in a list.  Remember that many objects in `R` `contain multiple elements (vectors, data frames, and lists are all good examples of this). So we can also specify one of these "array"-type objects within the function itself if that provides a more convenient form of output. For example, we could combine the input and output values into a data frame:
 
 ```{r cube4}
 cube = 
@@ -289,7 +296,38 @@ cube =
   }
 ```
 
+### Default argument values
 
+Another thing worth noting about R functions is that you can assign default argument values.
+
+```{r cube5}
+cube = 
+  function(x = 1) { ## Setting the default argument value 
+    x_cub = x^3 
+    df = tibble(value=x, value_cubed = x_cub)
+    return(df)
+  }
+```
+
+```{r cube6}
+cube() ## Will take the deafult value of 1
+```
+
+```{r cube7}
+cube(2) ## Now takes the explicit value that we give it.
+```
+
+## Lexical scoping
+
+An important concept to understand in the discussion of functions is the idea of lexical scoping. If you enter the code for this session into the console you will see that the functions will have entered the global enironment. However, the variables such as `x` inside of the function haven't creeped into the global environment. These variables can only be accessed within the function itself (locallly). 
+
+You can think of a function as its own environment. They only return objects to the global environment when they are forced to, normally with a `return()` command. The function will also only look outside of its own scope for a variable if it isn't defined in the function body. We will talk about this a bit more in the section on functional programming. I am sure Nico has mentioned this before, I just want to reiterate the point here. 
+
+# Control flow
+
+# Iteration
+
+# Functional programming
 
 
 
