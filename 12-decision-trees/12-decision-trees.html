@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Science for Economics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dawie van Lill" />
+    <meta name="date" content="2022-02-21" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Science for Economics
+## Lecture 12: Tree based methods
+### Dawie van Lill
+### 21 February 2022
+
+---
+
+
+
+
+## Packages and topics
+
+Here are the packages that we will be using for this session.  
+
+
+```r
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(dplyr, ggplot2, rpart, caret, rpart.plot, 
+               vip, pdp, doParallel, foreach, 
+               ipred, ranger, gbm, xgboost, AmesHousing)
+```
+
+Many new packages -&gt; several new topics covered.
+
+1. Decision trees
+2. Bagging
+3. Random forests
+4. Gradient boosting
+
+We will probably take **two lecture slots** to get through all these topics. 
+
+Important that you go and read on these specific topics if they interest you. 
+
+---
+
+## Decision trees
+
+Partition feature space into smaller regions with similar response values. 
+
+Use a set of **splitting rules** to decide regions. 
+
+Referred to as divide-and-conquer methods. 
+
+Rules can be easily interpreted and visualised with *tree diagrams*.
+
+Decision trees become more powerful when combined with ensemble algorithms.
+
+We will first develop strong foundation in decision trees. 
+
+---
+
+## CART
+
+Classification and regression tree (**CART**) algorithm. 
+
+Decision tree partitions the training data into homogeneous subgroups and then fits a simple constant in each subgroup.
+
+The subgroups (also called *nodes*) are formed recursively using binary partitions formed by asking simple yes-or-no questions about each feature.
+
+Done a number of times until a suitable stopping criteria is satisfied.
+
+
+After partitioning, model predicts output based on 
+
+1. Average response values for all observations that fall in that subgroup
+2. Class that has majority representation
+
+First is regression problem, second is classification. 
+
+---
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://bradleyboehmke.github.io/HOML/images/exemplar-decision-tree.png" alt="Figure 1: Decision tree depicting whether consumer will redeem a coupon." width="100%" /&gt;
+&lt;p class="caption"&gt;Figure 1: Decision tree depicting whether consumer will redeem a coupon.&lt;/p&gt;
+&lt;/div&gt;
+
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://bradleyboehmke.github.io/HOML/images/decision-tree-terminology.png" alt="Figure 2: Terminology of a decision tree." width="90%" /&gt;
+&lt;p class="caption"&gt;Figure 2: Terminology of a decision tree.&lt;/p&gt;
+&lt;/div&gt;
+---
+
+## Partitioning
+
+CART uses binary recursive partitioning -- each split depends on the split above it. 
+
+Objective is to find the best feature to partition the remaining data into two regions ($R_1$ and `\(R_2\)`). 
+
+Want to minimise overall error between response and predicted constant.
+
+In regression problems, minimise total SSE as follows
+
+`$$\text{SSE} =\sum_{i \in R_{1}}\left(y_{i}-c_{1}\right)^{2}+\sum_{i \in R_{2}}\left(y_{i}-c_{2}\right)^{2}$$`
+
+Having found best feature/split combination, data are partitioned again into two regions and the splitting process is repeated. 
+
+Process is continued until stopping criterion is reached (max depth).
+
+---
+
+## Creating a dataset
+
+
+```r
+# create data
+set.seed(1112)  # for reproducibility
+df &lt;- tibble::tibble(
+  x = seq(from = 0, to = 2 * pi, length = 500),
+  y = sin(x) + rnorm(length(x), sd = 0.5),
+  truth = sin(x)
+)
+
+# run decision stump model
+ctrl &lt;- list(cp = 0, minbucket = 5, maxdepth = 1)
+fit &lt;- rpart(y ~ x, data = df, control = ctrl)
+```
+
+Here we have data generated from simple `\(\sin\)` function with Gaussian noise. 
+
+---
+
+&lt;img src="stump-1.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="stump-2.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Classification problem
+
+Decision tree applied to iris data set.
+
+Species of flower predicted based on two features (sepal width and sepal length).
+
+Optimal decision tree with two splits in each feature.
+
+&lt;img src="stump-3.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+Predicted value is response class with greatest proportion within enclosed region. 
+
+---
+
+## How complex should tree be?
+
+&lt;img src="stump-4.png" width="150%" style="display: block; margin: auto;" /&gt;
+
+Don't want to overfit the data, so there is some balance we need to maintain. 
+
+Two approaches to find this balance.
+
+1. Early stopping
+2. Pruning
+
+---
+
+## Early stopping
+
+Early stopping explicitly restricts the growth of the tree.
+
+Two most common approaches are 
+
+1. Restrict the tree depth to a certain level
+2. Restrict the minimum number of observations allowed in any terminal node
+
+Two methods can be operated independently or jointly (see figure on next slide). 
+
+---
+
+&lt;img src="stopping.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Pruning
+
+Allow tree to grow large and then prune back to find optimal subtree.
+
+Penalises objective function for number of terminal nodes in the tree. 
+
+`$$\min(\text{SSE} +\alpha |T|)$$`
+Shares some similarity with the **lasso penalty** we discussed in the previous lecture. 
+
+&lt;img src="pruning.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+## Ames housing example
+
+
+```r
+# Create training (70%) set for the Ames housing data.
+set.seed(123)
+
+ames &lt;- AmesHousing::make_ames()
+split  &lt;- rsample::initial_split(ames, prop = 0.7, 
+                                 strata = "Sale_Price")
+ames_train  &lt;- rsample::training(split)
+
+ames_dt1 &lt;- rpart(
+  formula = Sale_Price ~ .,
+  data    = ames_train,
+  method  = "anova"
+)
+```
+For the decision tree we want to use the `anova` method, instead of `lm`. 
+
+`rpart` will make an educated guess as to the method, but we can specify if we want. 
+
+---
+
+
+```r
+ames_dt1
+```
+
+```
+## n= 2049 
+## 
+## node), split, n, deviance, yval
+##       * denotes terminal node
+## 
+##  1) root 2049 1.321981e+13 180922.60  
+##    2) Overall_Qual=Very_Poor,Poor,Fair,Below_Average,Average,Above_Average,Good 1701 4.109012e+12 155897.00  
+##      4) Neighborhood=North_Ames,Old_Town,Edwards,Sawyer,Mitchell,Brookside,Iowa_DOT_and_Rail_Road,South_and_West_of_Iowa_State_University,Meadow_Village,Briardale,Northpark_Villa,Blueste,Landmark 1023 1.370671e+12 131815.70  
+##        8) First_Flr_SF&lt; 1089.5 661 5.643745e+11 119572.90  
+##         16) Overall_Qual=Very_Poor,Poor,Fair,Below_Average 149 1.016868e+11  90363.56 *
+##         17) Overall_Qual=Average,Above_Average,Good 512 2.985678e+11 128073.30 *
+##        9) First_Flr_SF&gt;=1089.5 362 5.263151e+11 154170.60 *
+##      5) Neighborhood=College_Creek,Somerset,Northridge_Heights,Gilbert,Northwest_Ames,Sawyer_West,Crawford,Timberland,Northridge,Stone_Brook,Clear_Creek,Bloomington_Heights,Veenker,Green_Hills 678 1.249971e+12 192232.10  
+##       10) Gr_Liv_Area&lt; 1725.5 484 5.392924e+11 177594.80  
+##         20) Total_Bsmt_SF&lt; 1295.5 342 2.299978e+11 166044.60 *
+##         21) Total_Bsmt_SF&gt;=1295.5 142 1.537824e+11 205413.00 *
+##       11) Gr_Liv_Area&gt;=1725.5 194 3.482733e+11 228749.90 *
+##    3) Overall_Qual=Very_Good,Excellent,Very_Excellent 348 2.838371e+12 303245.90  
+##      6) Overall_Qual=Very_Good 242 9.801339e+11 271271.60  
+##       12) Gr_Liv_Area&lt; 1920.5 143 2.792781e+11 240517.80 *
+##       13) Gr_Liv_Area&gt;=1920.5 99 3.702480e+11 315693.70 *
+##      7) Overall_Qual=Excellent,Very_Excellent 106 1.045983e+12 376243.90  
+##       14) Gr_Liv_Area&lt; 1956.5 47 8.921667e+10 324506.70 *
+##       15) Gr_Liv_Area&gt;=1956.5 59 7.307403e+11 417458.30  
+##         30) Neighborhood=Edwards,Somerset,Veenker 8 8.904433e+10 269794.20 *
+##         31) Neighborhood=College_Creek,Old_Town,Northridge_Heights,Timberland,Northridge,Stone_Brook 51 4.398958e+11 440621.30  
+##           62) First_Flr_SF&lt; 1829 28 9.425118e+10 391454.60 *
+##           63) First_Flr_SF&gt;=1829 23 1.955579e+11 500476.40 *
+```
+---
+
+## Pruned decision tree (Ames)
+
+&lt;img src="pruned-ames.png" width="120%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```
+## Warning in nominalTrainWorkflow(x = x, y = y, wts = weights, info = trainInfo, :
+## There were missing values in resampled performance measures.
+```
+
+
+```r
+ames_dt2
+```
+
+```
+## CART 
+## 
+## 2049 samples
+##   80 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 1844, 1844, 1843, 1844, 1844, 1844, ... 
+## Resampling results across tuning parameters:
+## 
+##   cp           RMSE      Rsquared   MAE     
+##   0.004478693  41255.06  0.7360859  27370.55
+##   0.004767677  41470.08  0.7332039  27644.56
+##   0.005030590  41826.54  0.7279639  28342.21
+##   0.006020082  42409.33  0.7213990  28732.79
+##   0.006309621  42544.66  0.7202542  28813.66
+##   0.007107638  43198.12  0.7121972  29304.24
+##   0.007903149  43272.79  0.7105647  29487.24
+##   0.008322009  44068.30  0.7011069  30381.61
+##   0.009370051  44526.02  0.6940738  30679.07
+##   0.011740962  45538.92  0.6812489  31569.55
+##   0.013161937  46182.12  0.6737431  31815.61
+##   0.016590265  47763.92  0.6509670  32606.86
+##   0.017364750  47883.21  0.6477407  32798.25
+##   0.026945491  50434.68  0.6062058  34666.33
+##   0.028116479  50578.67  0.6039205  34759.25
+##   0.039146976  54063.08  0.5490045  37334.64
+##   0.046734891  56209.19  0.5114468  39109.16
+##   0.054220934  57753.59  0.4860093  40043.13
+##   0.116587198  59911.21  0.4395786  42802.17
+##   0.384952329  73128.54  0.3320750  53533.49
+## 
+## RMSE was used to select the optimal model using the smallest value.
+## The final value used for the model was cp = 0.004478693.
+```
+
+---
+&lt;img src="12-decision-trees_files/figure-html/regression_1-1.png" width="720" style="display: block; margin: auto;" /&gt;
+---
+
+## Bagging
+
+*Bootstrap aggregating* (bagging) will be our first ensemble algorithm. 
+
+Model averaging is applied to reduce variance and minimise overfitting. 
+
+Usually applied to **decision trees**!
+
+With bagging `\(b\)` bootstrap copies of the original training data are created.
+
+Regression or classification algorithm is applied to each bootstrap sample.
+
+ - For regression, new predictions are made by averaging predictions 
+ - For classification, predictions combined by averaging estimated class. 
+ 
+Equation below shows bagged prediction and prediction from regression or classification algorithms. 
+
+`$$\widehat{f_{b a g}}=\widehat{f_{1}}(X)+\widehat{f_{2}}(X)+\cdots+\widehat{f_{b}}(X)$$`
+
+Bagging works well for high variance algorithms such as decision trees and KNN. 
+
+---
+
+&lt;img src="12-decision-trees_files/figure-html/bagging-1-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Housing example
+
+Results from decision trees on our Ames example were not too encouraging. 
+
+Even after tuning to find best pruned tree, performance not great.  
+
+Move from using single pruned decision tree to 100 bagged unpruned trees. 
+
+Not pruning keeps variance high and bias low. 
+
+
+```r
+# make bootstrapping reproducible
+set.seed(123)
+
+# train bagged model
+ames_bag1 &lt;- bagging(
+  formula = Sale_Price ~ .,
+  data = ames_train,
+  nbagg = 100,  
+  coob = TRUE,
+  control = rpart.control(minsplit = 2, cp = 0)
+)
+```
+
+---
+
+## Housing example -- contd. 
+
+
+```r
+ames_bag1
+```
+
+```
+## 
+## Bagging regression trees with 100 bootstrap replications 
+## 
+## Call: bagging.data.frame(formula = Sale_Price ~ ., data = ames_train, 
+##     nbagg = 100, coob = TRUE, control = rpart.control(minsplit = 2, 
+##         cp = 0))
+## 
+## Out-of-bag estimate of root mean squared error:  26216.47
+```
+
+---
+
+&lt;img src="12-decision-trees_files/figure-html/bagging-2-1.png" width="720" style="display: block; margin: auto;" /&gt;
+---
+
+## Next time
+
+Next class will be our last lecture focused exclusively on machine learning. 
+
+We might mention a model or two as we progress, but most of our focus will be on **data science** topics. 
+
+In the next lecture we cover two topics. 
+
+1. Random forests
+2. Gradient boosting
+
+It would be great to cover support vector machines and neural networks at some stage. Let us see how far we get with the other sections though. 
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
