@@ -42,8 +42,6 @@ The list of software that you need to have installed for this course is,
 6. R (and associated tools per OS such as IRKernel and Rstudio)
 7. Julia (not on that page, but can be downloaded [here](https://julialang.org/downloads/))
 8. Make
-9. PostgreSQL
-10. Docker (not super important for now)
 
 If you are using another operating system than Windows, many of these programs will already be installed. If you are struggling to install something in another OS, please come and speak to me during the first lecture. 
 
