@@ -50,7 +50,7 @@ knit_hooks$set(
 
 # References
 
-The primary references for today's discussion can be found [here](),  [here](), [here]().
+The primary references for today's discussion can be found [here](https://stat545.com/functions-part1.html) and  [here](https://style.tidyverse.org/functions.html).
 
 
 Once again, most of the material that we will cover for the next few weeks is **heavily** influenced by the amazing lecture notes by Grant McDermott. You can visit his [Github page](https://github.com/uo-ec607/lectures) for more information.  
@@ -61,7 +61,7 @@ Run this piece of code to ensure that you have the appropriate packages installe
 
 ```{r, cache=F, message=F}
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(pbapply, data.table, tidyverse, gapminder)
+pacman::p_load(pbapply, data.table, tidyverse, gapminder, assertthat)
 ```
 
 # Introduction
@@ -103,7 +103,141 @@ This function can be written across multiple lines as above, or it can be stated
 
 We can write functions to more easily work with data. We might have some interactive code that we want to wrap in a function. My general advice is that you always want to wrap your code in functions if you can. 
 
+Say that we have the following interactive code that we input into our console, 
 
+
+```{r gap_1}
+min(gapminder$lifeExp)
+```
+
+```{r gap_2}
+max(gapminder$lifeExp)
+```
+
+We want to calculate the difference between the maximum and minimum life expectancy in the Gapminder dataset. 
+
+```{r gap_3}
+max(gapminder$lifeExp) - min(gapminder$lifeExp)
+```
+
+One nice thing to do is to wrap this in a function, so that we can perhaps use this difference operator for other variables as well. We can write the function on one line as follows, 
+
+```{r gap_4}
+max_minus_min <- function(x) max(x) - min(x)
+```
+
+We can test this function on our Gapminder data, but also on other inputs. 
+
+```{r gap_5}
+max_minus_min(gapminder$lifeExp)
+```
+
+```{r gap_6}
+max_minus_min(gapminder$gdpPercap)
+```
+
+```{r gap_7}
+max_minus_min(1:10)
+```
+
+```{r gap_8}
+max_minus_min(runif(1000))
+```
+
+This function will only work for certain types of inputs where `max()` and `min()` make sense. If we were to try the following it wouldn't work, 
+
+```r
+R> max_minus_min(gapminder$country) # What is the max() and min() of the country variable?
+```
+
+```
+## [1] Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, : 'max' not meaningful for factors
+```
+
+The function provides us the power to apply a general method to many different inputs. Remember, computer scientists are a lazy bunch, they don't want to write out the same piece of code multiple times! We don't want to repeat ourselves and create more effort than necessary. So when you are writing code, always think about wrapping it in a function. There are obviously many other benefits to writing in terms of functions, such as retaining local scope instead of working with global variables. I am sure that Nico covered some of the basic ideas of why function are so important.  
+
+In `R` it is often useful to write a function in its own script. This is generally good programming practice. In other languages like `Julia` this is not necessarily the same. If we have time I can go over how efficient `Julia` code looks. 
+
+### **Warning**: Type stability 
+
+There are going to be some cases where the function works, but it isn't what we intended. This means that we have to be careful to consider potential fringe cases and the types of variables that can be input into the function.  
+
+```{r gap_9}
+max_minus_min(c(TRUE, TRUE, FALSE, TRUE, TRUE))
+```
+
+> **Note**: This is where `Julia` really shines, it's type annotation system allows you to finely control which types of variables are acceptable as inputs into the function. 
+
+As far as I am aware, since `R` is a dynamically typed language (the type is inferred by the compiler), you can get some weird results sometimes when writing functions. For example, what does the following function do?
+
+```{r gap_10}
+do_magic <- 
+  function(a, b) {
+	a + b
+}
+```
+
+If we are summing two numbers then this makes sense. However, this will also add two Booleans! Is this what we intended the function to do? In Julia you could write a function as follows, 
+
+```julia
+function do_magic(a::Number, b::Number)
+  return a + b
+end
+```
+
+In this case the function will not work with something other than a `Number`, since we declared that the inputs into the function should be of a certain abstract type. This is perhaps a bit more technical of a topic, but writing type stable code is important in production. In the case of `R` your code should be well documented and should make people aware of the possibility of potential output conflicts for specific inputs. I am not aware of an elegant solution to resolve the issues with a dynamically typed language such as `R`, but maybe someone who is more of an expert in the language such as Nico might have a good answer. 
+
+One solution that I have found is to call a `stopifnot()` function inside of your function
+
+```{r gap_11}
+do_magic_type_stable <- 
+  function(a, b) {
+  stopifnot(is.numeric(a))
+  stopifnot(is.numeric(b))
+	a + b
+}
+```
+
+```{r gap_13}
+do_magic(1, 2)
+```
+
+```{r gap_14}
+do_magic(TRUE, FALSE)
+```
+
+```{r gap_15}
+do_magic_type_stable(1, 2)
+```
+
+```r
+do_magic_type_stable(TRUE, FALSE)
+```
+
+```
+## [1] Error in do_magic_type_stable(TRUE, FALSE) : is.numeric(a) is not TRUE
+```
+
+If you want a clearer error message you can use the `assertthat` package instead of `stopifnot()`.
+
+```{r gap_16}
+do_magic_assert <- 
+  function(a, b) {
+  assert_that(is.numeric(a))
+  assert_that(is.numeric(b))
+	a + b
+}
+```
+
+```r
+do_magic_assert(TRUE, FALSE)
+```
+
+```
+## [1] Error: a is not a numeric or integer vector
+```
+
+However, this is not a natural solution and is not as flexible as `Julia` when it comes to type specification. If you want to know more about how to protect the functions you wrote from providing nonsense output I recommend you read the section on **defensive programming** by Hadley Wickham in his textbook called *Advanced R*. You can find a link to the chapter [here](http://adv-r.had.co.nz/Exceptions-Debugging.html#defensive-programming). 
 
 ## Example: The cube
 

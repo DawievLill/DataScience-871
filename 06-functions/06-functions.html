@@ -336,14 +336,14 @@ div.tocify {
 </style>
 <div id="references" class="section level1">
 <h1>References</h1>
-<p>The primary references for today’s discussion can be found <a href>here</a>, <a href>here</a>, <a href>here</a>.</p>
+<p>The primary references for today’s discussion can be found <a href="https://stat545.com/functions-part1.html">here</a> and <a href="https://style.tidyverse.org/functions.html">here</a>.</p>
 <p>Once again, most of the material that we will cover for the next few weeks is <strong>heavily</strong> influenced by the amazing lecture notes by Grant McDermott. You can visit his <a href="https://github.com/uo-ec607/lectures">Github page</a> for more information.</p>
 </div>
 <div id="packages" class="section level1">
 <h1>Packages</h1>
 <p>Run this piece of code to ensure that you have the appropriate packages installed for the session to follow.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;pacman&quot;</span>)) <span class="fu">install.packages</span>(<span class="st">&quot;pacman&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> pacman<span class="sc">::</span><span class="fu">p_load</span>(pbapply, data.table, tidyverse, gapminder)</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> pacman<span class="sc">::</span><span class="fu">p_load</span>(pbapply, data.table, tidyverse, gapminder, assertthat)</span></code></pre></div>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -365,40 +365,109 @@ div.tocify {
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    OPERATIONS</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(VALUE)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<p>This function can be written across multiple lines as above, or it can be stated in a single line. We will illustrate with some examples below.</p>
 <div id="example-gapminder-data" class="section level2">
 <h2>Example: Gapminder data</h2>
 <p>We can write functions to more easily work with data. We might have some interactive code that we want to wrap in a function. My general advice is that you always want to wrap your code in functions if you can.</p>
+<p>Say that we have the following interactive code that we input into our console,</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">min</span>(gapminder<span class="sc">$</span>lifeExp)</span></code></pre></div>
+<pre><code>## [1] 23.599</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">max</span>(gapminder<span class="sc">$</span>lifeExp)</span></code></pre></div>
+<pre><code>## [1] 82.603</code></pre>
+<p>We want to calculate the difference between the maximum and minimum life expectancy in the Gapminder dataset.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">max</span>(gapminder<span class="sc">$</span>lifeExp) <span class="sc">-</span> <span class="fu">min</span>(gapminder<span class="sc">$</span>lifeExp)</span></code></pre></div>
+<pre><code>## [1] 59.004</code></pre>
+<p>One nice thing to do is to wrap this in a function, so that we can perhaps use this difference operator for other variables as well. We can write the function on one line as follows,</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> max_minus_min <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">max</span>(x) <span class="sc">-</span> <span class="fu">min</span>(x)</span></code></pre></div>
+<p>We can test this function on our Gapminder data, but also on other inputs.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">max_minus_min</span>(gapminder<span class="sc">$</span>lifeExp)</span></code></pre></div>
+<pre><code>## [1] 59.004</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">max_minus_min</span>(gapminder<span class="sc">$</span>gdpPercap)</span></code></pre></div>
+<pre><code>## [1] 113282</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">max_minus_min</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 9</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">max_minus_min</span>(<span class="fu">runif</span>(<span class="dv">1000</span>))</span></code></pre></div>
+<pre><code>## [1] 0.9979665</code></pre>
+<p>This function will only work for certain types of inputs where <code>max()</code> and <code>min()</code> make sense. If we were to try the following it wouldn’t work,</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">max_minus_min</span>(gapminder<span class="sc">$</span>country) <span class="co"># What is the max() and min() of the country variable?</span></span></code></pre></div>
+<pre><code>## [1] Error in Summary.factor(structure(c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, : &#39;max&#39; not meaningful for factors</code></pre>
+<p>The function provides us the power to apply a general method to many different inputs. Remember, computer scientists are a lazy bunch, they don’t want to write out the same piece of code multiple times! We don’t want to repeat ourselves and create more effort than necessary. So when you are writing code, always think about wrapping it in a function. There are obviously many other benefits to writing in terms of functions, such as retaining local scope instead of working with global variables. I am sure that Nico covered some of the basic ideas of why function are so important.</p>
+<p>In <code>R</code> it is often useful to write a function in its own script. This is generally good programming practice. In other languages like <code>Julia</code> this is not necessarily the same. If we have time I can go over how efficient <code>Julia</code> code looks.</p>
+<div id="warning-type-stability" class="section level3">
+<h3><strong>Warning</strong>: Type stability</h3>
+<p>There are going to be some cases where the function works, but it isn’t what we intended. This means that we have to be careful to consider potential fringe cases and the types of variables that can be input into the function.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">max_minus_min</span>(<span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<blockquote>
+<p><strong>Note</strong>: This is where <code>Julia</code> really shines, it’s type annotation system allows you to finely control which types of variables are acceptable as inputs into the function.</p>
+</blockquote>
+<p>As far as I am aware, since <code>R</code> is a dynamically typed language (the type is inferred by the compiler), you can get some weird results sometimes when writing functions. For example, what does the following function do?</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> do_magic <span class="ot">&lt;-</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(a, b) {</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   a <span class="sc">+</span> b</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> }</span></code></pre></div>
+<p>If we are summing two numbers then this makes sense. However, this will also add two Booleans! Is this what we intended the function to do? In Julia you could write a function as follows,</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode julia"><code class="sourceCode julia"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">do_magic</span>(a<span class="op">::</span><span class="dt">Number,</span> b<span class="op">::</span><span class="dt">Number)</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> a <span class="op">+</span> b</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div>
+<p>In this case the function will not work with something other than a <code>Number</code>, since we declared that the inputs into the function should be of a certain abstract type. This is perhaps a bit more technical of a topic, but writing type stable code is important in production. In the case of <code>R</code> your code should be well documented and should make people aware of the possibility of potential output conflicts for specific inputs. I am not aware of an elegant solution to resolve the issues with a dynamically typed language such as <code>R</code>, but maybe someone who is more of an expert in the language such as Nico might have a good answer.</p>
+<p>One solution that I have found is to call a <code>stopifnot()</code> function inside of your function</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> do_magic_type_stable <span class="ot">&lt;-</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(a, b) {</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">stopifnot</span>(<span class="fu">is.numeric</span>(a))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">stopifnot</span>(<span class="fu">is.numeric</span>(b))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   a <span class="sc">+</span> b</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> }</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">do_magic</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">do_magic</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">do_magic_type_stable</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">do_magic_type_stable</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] Error in do_magic_type_stable(TRUE, FALSE) : is.numeric(a) is not TRUE</code></pre>
+<p>If you want a clearer error message you can use the <code>assertthat</code> package instead of <code>stopifnot()</code>.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> do_magic_assert <span class="ot">&lt;-</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(a, b) {</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">assert_that</span>(<span class="fu">is.numeric</span>(a))</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">assert_that</span>(<span class="fu">is.numeric</span>(b))</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   a <span class="sc">+</span> b</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> }</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">do_magic_assert</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] Error: a is not a numeric or integer vector</code></pre>
+<p>However, this is not a natural solution and is not as flexible as <code>Julia</code> when it comes to type specification. If you want to know more about how to protect the functions you wrote from providing nonsense output I recommend you read the section on <strong>defensive programming</strong> by Hadley Wickham in his textbook called <em>Advanced R</em>. You can find a link to the chapter <a href="http://adv-r.had.co.nz/Exceptions-Debugging.html#defensive-programming">here</a>.</p>
+</div>
 </div>
 <div id="example-the-cube" class="section level2">
 <h2>Example: The cube</h2>
 <p>You should already have written some of your own functions, but as a quick reminder. Let us write a function that returns the cube of some input number.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> cube <span class="ot">=</span>              <span class="do">## Our function name</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(x) {     <span class="do">## The argument(s) that our function takes as an input</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     x<span class="sc">^</span><span class="dv">3</span>             <span class="do">## The operation(s) that our function performs</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   }</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> cube <span class="ot">=</span>              <span class="do">## Our function name</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(x) {     <span class="do">## The argument(s) that our function takes as an input</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     x<span class="sc">^</span><span class="dv">3</span>             <span class="do">## The operation(s) that our function performs</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   }</span></code></pre></div>
 <p>We can test whether this function works. Fingers crossed!</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">cube</span>(<span class="dv">3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">cube</span>(<span class="dv">3</span>)</span></code></pre></div>
 <pre><code>## [1] 27</code></pre>
 <p>If my math is correct, it should be the case that <span class="math inline">\(3^3\)</span> is equal to <span class="math inline">\(27\)</span>. So the function seems to be doing its job. In general we wouldn’t write functions as simple as these, since they most likely already exist in base <code>R</code> (just look at the arithmetic functions in <code>R</code>) and will be more efficiently coded. However, in some cases we will need to write our own functions.</p>
 <p>In our example above we didn’t specify the <code>return</code> value in the code block. This is because <code>R</code>, like many other programming languages, automatically returns the final object in that you created with the function. However, it is good practice to always assign return objects.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> cube <span class="ot">=</span>              </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(x) {     </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span>     <span class="do">## Create an intermediary object (that will be returned)</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="fu">return</span>(x_cub)   <span class="do">## The value(s) or object(s) that we want returned.    </span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   }</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> cube <span class="ot">=</span>              </span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(x) {     </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span>     <span class="do">## Create an intermediary object (that will be returned)</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="fu">return</span>(x_cub)   <span class="do">## The value(s) or object(s) that we want returned.    </span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   }</span></code></pre></div>
 <p>Specifying a return value is also helpful when we want to return more than one object. For example, let’s say that we want to remind our user what variable they used as an argument in our function:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> cube <span class="ot">=</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(x) {     <span class="do">## The argument(s) that our function takes as an input</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span>     <span class="do">## The operation(s) that our function performs</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">value =</span> x, <span class="at">value_cubed =</span> x_cub)) <span class="do">## The list of object(s) that we want returned.</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   }</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> cube <span class="ot">=</span> </span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(x) {     <span class="do">## The argument(s) that our function takes as an input</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span>     <span class="do">## The operation(s) that our function performs</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">value =</span> x, <span class="at">value_cubed =</span> x_cub)) <span class="do">## The list of object(s) that we want returned.</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   }</span></code></pre></div>
 <p>If we have multiple return objects we have to combine them in a list. Remember that many objects in R contain multiple elements (vectors, data frames, and lists are all good examples of this). So we can also specify one of these “array”-type objects within the function itself if that provides a more convenient form of output. For example, we could combine the input and output values into a data frame:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> cube <span class="ot">=</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(x) { </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     df <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">value =</span> x, <span class="at">value_cubed =</span> x_cub) <span class="do">## Bundle up our input and output values into a convenient dataframe.</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="fu">return</span>(df)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   }</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> cube <span class="ot">=</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="cf">function</span>(x) { </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     x_cub <span class="ot">=</span> x<span class="sc">^</span><span class="dv">3</span> </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     df <span class="ot">=</span> <span class="fu">tibble</span>(<span class="at">value =</span> x, <span class="at">value_cubed =</span> x_cub) <span class="do">## Bundle up our input and output values into a convenient dataframe.</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>     <span class="fu">return</span>(df)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   }</span></code></pre></div>
 </div>
 </div>
 
