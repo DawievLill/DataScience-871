@@ -51,6 +51,8 @@ This course schedule will be updated frequently, so please check before lecture 
 
 The R notebooks are mostly complete and form the basis of this course. However, I am currently working on porting over some of the code for the Julia and Python sections, so that students can see what the code would look like in other languages. This is still a work in progress though. The Julia port is happening first and then I will move to Python when I have the time. 
 
+The notes for R are written in R Markdown, while the notebooks for Julia and Python are in Jupyter notebook format. It is worthwhile learning how to use both R Markdown and Jupyter notebooks, since Jupyter notebooks are widely used in industry. 
+
 ### Extra marks
 
 If students are interested in extra credit (marks) and some recognition, they can make fork this repository and submit pull requests or open issues. I am especially interested in ports of the current code base, so that will count even more heavily in your favour. 
