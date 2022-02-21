@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Science for Economics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Dawie van Lill" />
+    <meta name="date" content="2022-02-21" />
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Science for Economics
+## Lecture 11: Shrinkage methods
+### Dawie van Lill
+### 21 February 2022
+
+---
+
+
+
+
+## Packages
+
+I thought slides would be easier to present than notes. 
+
+The code and slides are on the Github page. 
+
+Here are the packages that we will be using for this session.  
+
+
+```r
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(dplyr, ggplot2, rsample, caret, glmnet, vip, tidyverse, pdp, AmesHousing)
+```
+
+Let us give quick rundown of some of the potentially new packages.
+
+**rsample**:
+
+**caret**: Machine learning
+
+**glmnet**:
+
+---
+
+## Linear regression (one variable)
+ 
+Quick example of linear regression using machine learning process. 
+
+Want to model linear relationship between total above ground living space of a home (`Gr_Liv_Area`) and sale price (`Sale_Price`). 
+
+First, we construct our training sample.  
+
+
+```r
+set.seed(123)
+ames &lt;- AmesHousing::make_ames()
+split  &lt;- initial_split(ames, prop = 0.7, strata = "Sale_Price")
+ames_train  &lt;- training(split)
+ames_test   &lt;- testing(split)
+```
+
+Second, we model on training data.  
+
+
+```r
+model1 &lt;- lm(Sale_Price ~ Gr_Liv_Area, data = ames_train)
+```
+
+In the next slide we show the results from this regression. 
+
+---
+
+&lt;img src="11-regularisation_files/figure-html/regression_1-1.png" width="720" style="display: block; margin: auto;" /&gt;
+---
+
+&lt;img src="11-regularisation_files/figure-html/regression_2-1.png" width="720" style="display: block; margin: auto;" /&gt;
+---
+
+## Evaluate results
+
+
+```r
+summary(model1)
+```
+
+```
+## 
+## Call:
+## lm(formula = Sale_Price ~ Gr_Liv_Area, data = ames_train)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -474682  -30794   -1678   23353  328183 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 15938.173   3851.853   4.138 3.65e-05 ***
+## Gr_Liv_Area   109.667      2.421  45.303  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 56790 on 2047 degrees of freedom
+## Multiple R-squared:  0.5007,	Adjusted R-squared:  0.5004 
+## F-statistic:  2052 on 1 and 2047 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+## Multiple linear regression
+
+You can include more than one predictor, such as above ground square footage and year house was built. 
+
+
+```r
+model2 &lt;- lm(Sale_Price ~ Gr_Liv_Area + Year_Built, data = ames_train)
+```
+
+One could add as many predictors as you want. 
+
+```r
+model3 &lt;- lm(Sale_Price ~ ., data = ames_train) 
+```
+
+Let us now test the results from the models to see which one is the most accurate. 
+---
+
+## Linear regression
+
+
+```r
+set.seed(123)  
+(cv_model1 &lt;- train(form = Sale_Price ~ Gr_Liv_Area, 
+  data = ames_train, 
+  method = "lm",
+  trControl = trainControl(method = "cv", number = 10)
+))
+```
+
+```
+## Linear Regression 
+## 
+## 2049 samples
+##    1 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 1843, 1844, 1844, 1844, 1844, 1844, ... 
+## Resampling results:
+## 
+##   RMSE      Rsquared  MAE     
+##   56644.76  0.510273  38851.99
+## 
+## Tuning parameter 'intercept' was held constant at a value of TRUE
+```
+
+---
+
+## Multiple linear regression
+
+
+```r
+set.seed(123)  
+(cv_model2 &lt;- train(form = Sale_Price ~ Gr_Liv_Area + Year_Built, 
+  data = ames_train, 
+  method = "lm",
+  trControl = trainControl(method = "cv", number = 10)
+))
+```
+
+```
+## Linear Regression 
+## 
+## 2049 samples
+##    2 predictor
+## 
+## No pre-processing
+## Resampling: Cross-Validated (10 fold) 
+## Summary of sample sizes: 1843, 1844, 1844, 1844, 1844, 1844, ... 
+## Resampling results:
+## 
+##   RMSE      Rsquared   MAE     
+##   46865.68  0.6631008  31695.48
+## 
+## Tuning parameter 'intercept' was held constant at a value of TRUE
+```
+
+---
+
+### Out of sample performance 
+
+
+```
+## 
+## Call:
+## summary.resamples(object = resamples(list(model1 = cv_model1, model2
+##  = cv_model2)))
+## 
+## Models: model1, model2 
+## Number of resamples: 10 
+## 
+## MAE 
+##            Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
+## model1 34076.73 37656.23 39785.18 38851.99 40200.92 42058.68    0
+## model2 29227.14 30885.17 32003.59 31695.48 32710.41 33942.26    0
+## 
+## RMSE 
+##            Min.  1st Qu.   Median     Mean  3rd Qu.     Max. NA's
+## model1 45604.65 55896.58 57000.74 56644.76 59544.08 66198.59    0
+## model2 37174.26 42650.00 46869.84 46865.68 51155.14 55780.47    0
+## 
+## Rsquared 
+##             Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
+## model1 0.4230788 0.4621034 0.5090642 0.5102730 0.5681246 0.5996400    0
+## model2 0.5829425 0.6075293 0.6865871 0.6631008 0.6976664 0.7254572    0
+```
+
+---
+
+## Regularised regression
+
+Data typically have large number of features. 
+
+As number of features grow models tend to **overfit the data**. 
+
+Regularisation methods provide a means to constrain / regularise the estimated coefficients. 
+
+Easiest way to understand is to see how and why it is applied to OLS. 
+
+Objective in OLS is to find *hyperplane* that minimises SSE between observed and predicted response values. 
+
+This means identifying hyperplane that minimises grey lines in next slide.
+
+---
+
+&lt;img src="11-regularisation_files/figure-html/regression_3-1.png" width="720" style="display: block; margin: auto;" /&gt;
+---
+
+## Regularised regression
+
+OLS adheres to some specific assumptions
+
+- Linear relationship 
+- More observations (n) than features (p) - which means n &gt; p
+- No or little multicollinearity
+
+However, for many datasets, such as those involved in text mining, we have more features than observations. 
+
+If we have that p &gt; n there are many potential problems
+
+- Model is less interpretable
+- Infinite solutions to OLS problem
+
+Make an assumption that small subset of these features exhibit strongest effect
+
+This is called the **sparsity principle** 
+
+---
+
+## Regularised regression
+
+Objective function of regularised regression model includes penalty parameter `\(P\)`. 
+
+`$$\min(\text{SSE + P})$$`
+Penalty parameter constrains the size of coefficients.
+
+Coefficients can only increase is if we have decrease in SSE (i.e. the loss function).
+
+Generalises to other linear models as well (such as logistic regression).
+
+Three common penalty parameters
+
+1. Ridge
+2. Lasso [**think cowboys!**]
+3. Elastic net (combination of ridge and lasso)I
+
+---
+
+## Ridge regression
+
+Ridge regression controls coefficients by adding `\(\lambda \sum_{j=1}^{p}\beta^{2}_{j}\)` to objective function:
+
+`$$\min(\text{SSE} + \lambda \sum_{j=1}^{p}\beta^{2}_{j})$$`
+Size of the penalty is referred to as the `\(L^2\)` norm, or Euclidean norm. 
+
+This penalty can take on different values depending on the tuning parameter `\(\lambda\)`.
+
+If `\(\lambda = 0\)`, then we have OLS regression.
+
+As `\(\lambda \rightarrow \infty\)` the penalty becomes large and forces coefficients to zero. 
+
+**Important to note**: Does not force all the way to zero, only asymptotically. Does not perform feature selection.
+
+The following slide illustrates dynamics for ridge regression coefficient values as the tuning parameter approaches zero. 
+
+---
+
+&lt;img src="11-regularisation_files/figure-html/regression_5-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Lasso
+
+Similar to ridge penalty. Swap out `\(L^2\)` norm for `\(L^{1}\)` norm: `\(\lambda \sum_{j=1}^{p}|\beta_{j}|\)` 
+
+`$$\min(\text{SSE} + \lambda \sum_{j=1}^{p}|\beta_{j}|)$$`
+
+Ridge penalty pushes variables to approximately zero. 
+
+Lasso actually pushes coefficients all the way to zero. 
+
+Automated **feature selection**!
+
+Look at the figure on the following slide, can you see the difference?
+
+---
+
+&lt;img src="11-regularisation_files/figure-html/regression_6-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+## Elastic nets
+
+Generalisation of ridge and lasso penalties:
+
+`$$\min(\text{SSE} + \lambda_1 \sum_{j=1}^{p}\beta^{2}_{j} + \lambda_2 \sum_{j=1}^{p}|\beta_{j}|)$$`
+
+Lasso performs feature selection, **but** when we have two strongly correlated features one may be pushed to zero and the other remains. 
+
+Ridge regression penalty more effective in handling correlated features. 
+
+Elastic net combines bits of both these methods. 
+
+If you are interested in these topics I suggest you read more on them in **ISLR**.
+
+Penalty models are easy to implement and results are surprisingly good. 
+ 
+---
+
+&lt;img src="11-regularisation_files/figure-html/regression_7-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+## glmnet
+
+We will be using `glmnet` to conduct our regularised regression analysis. 
+
+This package is extremely efficient and fast. It utilises Fortran code. 
+
+For those who like Python, one can use `Scikit-Learn` modules.
+
+There are also other R packages available (e.g. `h20`, `elasticnet` and `penalized`).
+
+We have to do some basic transformations to use this package. 
+
+
+```r
+# Create training  feature matrices
+# we use model.matrix(...)[, -1] to discard the intercept
+X &lt;- model.matrix(Sale_Price ~ ., ames_train)[, -1]
+
+# transform y with log transformation
+Y &lt;- log(ames_train$Sale_Price)
+```
+
+---
+
+## glmnet
+
+Let us become more familiar with the different components of this package. 
+
+`alpha` tells **glmnet** which method to implement. 
+
+- `alpha` = 0: ridge penalty
+- `alpha` = 1: lasso penalty
+- 0 &lt; `alpha` &lt; 1: elastic net model
+
+**glmnet** does two things that one needs to be aware of. 
+
+1. Standardises features
+2. Fits ridge models across wide range of `\(\lambda\)` values (automatically)
+
+---
+
+## Parameter tuning 
+
+`\(\lambda\)` is the tuning parameter and it helps prevent overfitting training data.
+
+To identify optimal `\(\lambda\)` value we can use `\(k\)`-fold cross validation.
+
+
+```r
+# Apply CV ridge regression to Ames data
+ridge &lt;- cv.glmnet(
+  x = X,
+  y = Y,
+  alpha = 0)
+
+# Apply CV lasso regression to Ames data
+lasso &lt;- cv.glmnet(
+  x = X,
+  y = Y,
+  alpha = 1)
+```
+
+Now let's plot the result...
+
+---
+
+&lt;img src="11-regularisation_files/figure-html/tuning-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+# Ridge model
+min(ridge$cvm)       # minimum MSE
+```
+
+```
+## [1] 0.02158662
+```
+
+```r
+ridge$lambda.min     # lambda for this min MSE
+```
+
+```
+## [1] 0.1389619
+```
+
+```r
+# Lasso model
+min(lasso$cvm)       # minimum MSE
+```
+
+```
+## [1] 0.02342113
+```
+
+```r
+lasso$lambda.min     # lambda for this min MSE
+```
+
+```
+## [1] 0.003606096
+```
+
+```r
+lasso$nzero[lasso$lambda == lasso$lambda.min] # No. of coef | Min MSE
+```
+
+```
+## s47 
+## 135
+```
+
+---
+
+&lt;img src="11-regularisation_files/figure-html/ridge_lasso-1.png" width="720" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+
+
+```r
+# model with lowest RMSE
+cv_glmnet$bestTune
+```
+
+```
+##   alpha     lambda
+## 7   0.1 0.02006835
+```
+
+```r
+# results for model with lowest RMSE
+cv_glmnet$results %&gt;%
+  filter(alpha == cv_glmnet$bestTune$alpha, lambda == cv_glmnet$bestTune$lambda)
+```
+
+```
+##   alpha     lambda      RMSE  Rsquared      MAE     RMSESD RsquaredSD
+## 1   0.1 0.02006835 0.1460178 0.8749723 0.086671 0.03174582 0.04965123
+##         MAESD
+## 1 0.007970299
+```
+
+```r
+# predict sales price on training data
+pred &lt;- predict(cv_glmnet, X)
+
+# compute RMSE of transformed predicted
+RMSE(exp(pred), exp(Y))
+```
+
+```
+## [1] 23281.59
+```
+
+```r
+# RMSE of multiple linear regression was 26098.00
+```
+
+---
+
+&lt;img src="11-regularisation_files/figure-html/vip-1.png" width="720" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
