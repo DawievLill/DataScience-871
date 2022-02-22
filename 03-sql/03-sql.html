@@ -380,6 +380,25 @@ div.tocify {
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ./data</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sqlite3 <span class="at">-separator</span> <span class="st">&#39;;&#39;</span> wid_table_za.db <span class="st">&quot;.import wid-data-za.csv wid_za_table&quot;</span></span></code></pre></div>
 </div>
+<div id="access-sqlite-database" class="section level2">
+<h2>Access SQLite database</h2>
+<p>In order to use the SQLite commands <em>interactively</em>, we need to enter into the SQLite console.</p>
+<p>So, open up a terminal, and run</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ./data</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sqlite3 wid_table_za.db</span></code></pre></div>
+<p>My screen then displays the following information.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SQLite</span> version 3.36.0 2021-06-18 18:36:39</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> <span class="st">&quot;.help&quot;</span> for usage hints.</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span></span></code></pre></div>
+<p>The SQLite command is <code>sqlite3</code> and you are telling SQLite to open up the <code>wid_table_za.db</code>. You need to specify the <code>.db</code> file, otherwise <code>SQLite</code> will open up a temporary, empty database.</p>
+<p>To get out of <code>SQLite</code>, type out <code>.exit</code> or <code>.quit</code>. For some terminals, <code>Ctrl-D</code> can also work. If you forget any SQLite <code>.</code> (dot) command, type <code>.help</code>.</p>
+<blockquote>
+<p><strong>Note</strong>: If you want nice syntax highlighting in the terminal then you can use the LiteCLI package. I will be showing this in the lecture.</p>
+</blockquote>
+</div>
+<div id="selecting-data" class="section level2">
+<h2>Selecting data</h2>
+</div>
 </div>
 <div id="databases-and-r" class="section level1">
 <h1>Databases and R</h1>
@@ -394,19 +413,19 @@ div.tocify {
 <div id="connecting-to-a-local-database" class="section level1">
 <h1>Connecting to a local database</h1>
 <p>Start by opening an (empty) database connection via the <code>DBI::dbConnect()</code> function, which we’ll call <code>con</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">library</span>(DBI) <span class="do">## Already loaded</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> con <span class="ot">=</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbListTables</span>(con)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">library</span>(DBI) <span class="do">## Already loaded</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> con <span class="ot">=</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbListTables</span>(con)</span></code></pre></div>
 <pre><code>## character(0)</code></pre>
 <p>The arguments to <code>DBI::dbConnect()</code> vary from database to database. However, the first argument is always the database backend, i.e. <code>RSQLite::SQLite()</code> in this case since we’re using SQLite. Again, while this differs depending on the database type that you’re connecting with, SQLite only needs one other argument: the path to the database. Here we use the special string, “:memory:”, which causes SQLite to make a temporary in-memory database. We’ll explore more complicated connections later on that will involve things like password prompts for remote databases.</p>
 <p>Our makeshift database connection con is currently empty. So let’s copy across the world inequality dataset that we worked with before. There are a couple of ways to do this, but here I’ll use the <code>dplyr::copy_to()</code> convenience function. Note that we are specifying the table name (“wid_za”) that will exist within this database.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&#39;data/wid-data-za.csv&#39;</span>, <span class="at">sep =</span> <span class="st">&#39;;&#39;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">copy_to</span>(con, wid_za)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;wid_za&quot;</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">head</span>(wid_za_tbl)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&#39;data/wid-data-za.csv&#39;</span>, <span class="at">sep =</span> <span class="st">&#39;;&#39;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">copy_to</span>(con, wid_za)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;wid_za&quot;</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">head</span>(wid_za_tbl)</span></code></pre></div>
 <pre><code>## # Source:   lazy query [?? x 7]
 ## # Database: sqlite 3.37.2 [:memory:]
 ##   country variable   percentile  year  value   age pop  
@@ -417,19 +436,19 @@ div.tocify {
 ## 4 ZA      rhweal992j p0p100      1996  -85.8   992 j    
 ## 5 ZA      rhweal992j p0p100      1997  -99.0   992 j    
 ## 6 ZA      rhweal992j p0p100      1998 -120.    992 j</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbDisconnect</span>(con)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbDisconnect</span>(con)</span></code></pre></div>
 <p>You can also see that we’re passing a list of indexes to the <code>copy_to()</code> function. Indexes are what enable efficient database performance, since they specify how the data should be laid out for very quick search and aggregation. At the same time, I don’t want you to worry too much about this right now. Indexes will be set by the database host platform or maintainer in normal applications.</p>
 </div>
 <div id="connecting-to-an-online-database" class="section level1">
 <h1>Connecting to an online database</h1>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="st">&quot;relational.fit.cvut.cz&quot;</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">port =</span> <span class="dv">3306</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">&quot;guest&quot;</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">&quot;relational&quot;</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">&quot;ConsumerExpenditures&quot;</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="st">&quot;relational.fit.cvut.cz&quot;</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">port =</span> <span class="dv">3306</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">&quot;guest&quot;</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">&quot;relational&quot;</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">&quot;ConsumerExpenditures&quot;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 
 
