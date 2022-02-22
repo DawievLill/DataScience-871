@@ -109,7 +109,7 @@ In this section we will show you how to utilise the command line to convert the 
 
 ```bash
 $ cd ./data
-$ sqlite3 -separator ';' wid_table_new.db ".import wid-data-za.csv wid-data-za"
+$ sqlite3 -separator ';' wid_data_za.db ".import wid-data-za.csv wid-data-za"
 ```
 
 This has already been done for you. The SQLite database is contained GitHub repository for this course.  
@@ -122,7 +122,7 @@ So, open up a terminal, and run
 
 ```bash
 $ cd ./data
-$ sqlite3 wid_table_new.db
+$ sqlite3 wid_data_za.db
 ```
 
 My screen then displays the following information.
