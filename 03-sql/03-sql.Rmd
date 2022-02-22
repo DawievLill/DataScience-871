@@ -109,8 +109,10 @@ In this section we will show you how to utilise the command line to convert the 
 
 ```bash
 $ cd ./data
-$ sqlite3 -separator ';' wid_table_za.db ".import wid-data-za.csv wid_za_table"
+$ sqlite3 -separator ';' wid_table_new.db ".import wid-data-za.csv wid-data-za"
 ```
+
+This has already been done for you. The SQLite database is contained GitHub repository for this course.  
 
 ## Access SQLite database
 
@@ -120,7 +122,7 @@ So, open up a terminal, and run
 
 ```bash
 $ cd ./data
-$ sqlite3 wid_table_za.db
+$ sqlite3 wid_table_new.db
 ```
 
 My screen then displays the following information.
@@ -138,6 +140,40 @@ To get out of `SQLite`, type out `.exit` or `.quit`. For some terminals, `Ctrl-D
 > **Note**: If you want nice syntax highlighting in the terminal then you can use the LiteCLI package. I will be showing this in the lecture. 
 
 ## Selecting data 
+
+Remember that for this section things are interactive, so we will not get output in the notebook. We need to type the code into our terminal. The first thing we would like to do is see the tables in the database. In our case there is only going to be one table. 
+
+```bash
+sqlite> .tables
+```
+
+We can also see what the structure of the table looks like by using the `schema` command. 
+
+```bash
+sqlite> .schema
+```
+
+We can select all of the columns in a table using `*`. However, I would not recommend doing this, since it will show all the columns on the screen. If you have a massive dataset this will show everything. 
+
+```bash
+sqlite> SELECT * FROM "wid-data-za";
+```
+
+You can also select certain columns by replacing the `*` with the column name. 
+
+```bash
+sqlite> SELECT country FROM "wid-data-za";
+```
+
+Once again, we don't want to display everything on screen, so don't run these commands. 
+
+Sometimes we want to look at unique values in a column, then we can use the `DISTINCT` command. 
+
+```bash
+sqlite> SELECT DISTINCT country FROM "wid-data-za";
+```
+
+In this case you will see that the only country in our dataset is South Africa, given by `ZA`. 
 
 
 
