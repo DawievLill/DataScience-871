@@ -356,7 +356,7 @@ div.tocify {
 </div>
 <div id="using-sql-directly" class="section level1">
 <h1>Using SQL directly</h1>
-<p>In the next session we will be working directly with a SQLite database. We will some SQL commands directly on the database. In the following section we will show how to work with databases in R through the usage of <code>dbplyr</code>.</p>
+<p>In the next session we will be working directly with a SQLite database. We will some SQL commands directly on the database. This is not a detailed guide on how to use SQL, it simply introduces some of the core concepts. There are many resources online for learning SQL. This lecture just provides a quick survey so that you have an idea of what SQL is and what it does.</p>
 <div id="world-inequality-database" class="section level2">
 <h2>World inequality database</h2>
 <p>We are going to import some data from the WID database and then insert that into a SQLite database for us to work with. We could also work with the data in memory, but we want to showcase some of the SQL commands. We are going to use the command line to interface with the SQLite database at first and then we will use the <code>dbplyr</code> package to work directly through <code>RStudio</code>.</p>
@@ -378,7 +378,7 @@ div.tocify {
 <p>We could also access the full dataset for South Africa by downloading it from the website in CSV format. There are many ways to get data from websites, but in this case I just downloaded it directly by clicking on the appropriate link and storing it on my computer. The CSV file is in the <code>data</code> directory for this lecture, so you don’t have to download it if you have cloned the repository. It is called <code>wid-data-za.csv</code>.</p>
 <p>In this section we will show you how to utilise the command line to convert the CSV to an SQLite database. We can use the <code>sqlite3</code> command to do this as follows,</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ./data</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sqlite3 <span class="at">-separator</span> <span class="st">&#39;;&#39;</span> wid_table_new.db <span class="st">&quot;.import wid-data-za.csv wid-za-table&quot;</span></span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sqlite3 <span class="at">-separator</span> <span class="st">&#39;;&#39;</span> wid_data_za.db <span class="st">&quot;.import wid-dta-za.csv wid-dta-za&quot;</span></span></code></pre></div>
 <p>This has already been done for you. The SQLite database is contained GitHub repository for this course.</p>
 </div>
 <div id="access-sqlite-database" class="section level2">
@@ -386,7 +386,7 @@ div.tocify {
 <p>In order to use the SQLite commands <em>interactively</em>, we need to enter into the SQLite console.</p>
 <p>So, open up a terminal, and run</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ./data</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sqlite3 wid_table_new.db</span></code></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sqlite3 wid_data_za.db</span></code></pre></div>
 <p>My screen then displays the following information.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SQLite</span> version 3.36.0 2021-06-18 18:36:39</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> <span class="st">&quot;.help&quot;</span> for usage hints.</span>
@@ -404,10 +404,48 @@ div.tocify {
 <p>We can also see what the structure of the table looks like by using the <code>schema</code> command.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> .schema</span></code></pre></div>
 <p>We can select all of the columns in a table using <code>*</code>. However, I would not recommend doing this, since it will show all the columns on the screen. If you have a massive dataset this will show everything.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> FROM <span class="st">&quot;wid-za-table&quot;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span><span class="kw">;</span></span></code></pre></div>
 <p>You can also select certain columns by replacing the <code>*</code> with the column name.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT country FROM <span class="st">&quot;wid-za-table&quot;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT year </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span><span class="kw">;</span></span></code></pre></div>
 <p>Once again, we don’t want to display everything on screen, so don’t run these commands.</p>
+<p>Sometimes we want to look at unique values in a column, then we can use the <code>DISTINCT</code> command.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT DISTINCT year </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span><span class="kw">;</span></span></code></pre></div>
+<p>In this case you will see that the only country in our dataset is South Africa, given by <code>ZA</code>. We can also use the <code>DISTINCT</code> keyword on multiple columns,</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT DISTINCT country, year </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span><span class="kw">;</span></span></code></pre></div>
+<p>Another thing that we can do is order all the variables by <code>year</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ORDER</span> by year<span class="kw">;</span></span></code></pre></div>
+<p>We can do this in either <code>ASC</code> or <code>DESC</code> order.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ORDER</span> by year DESC<span class="kw">;</span></span></code></pre></div>
+</div>
+<div id="filtering" class="section level2">
+<h2>Filtering</h2>
+<p>One of the most important features of a database is the ability to filter data. We have encountered this in <code>R</code> with the <code>filter</code> command. In the case of SQL we use the <code>WHERE</code> clause in a query,</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> FROM <span class="st">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">WHERE</span> year <span class="op">&lt;</span>= <span class="st">&#39;1955&#39;</span><span class="kw">;</span></span></code></pre></div>
+<p>If we want to find out what the values in the database after the second world war AND where <code>GDP</code> was above 16.5 billion rand per year, we can use the following,</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">WHERE</span> gross_domest_product <span class="op">&gt;</span> <span class="st">&#39;16500&#39;</span> AND year <span class="op">&gt;</span>= <span class="st">&#39;1945&#39;</span><span class="kw">;</span></span></code></pre></div>
+<p>Are there any interesting patterns that you can observe here?</p>
+</div>
+<div id="new-values" class="section level2">
+<h2>New values</h2>
+<p>We can also calculate new values from existing values. Perhaps we realise that our GDP values after the year 2000 need to be corrected by 5% due to some measurement error. Rather than modifying the stored data we can do this calculation on the fly as follows.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT gross_domest_product, 1.05 <span class="pp">*</span> gross_domest_product </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ex">WHERE</span> year <span class="op">&gt;</span> <span class="st">&#39;2000&#39;</span><span class="kw">;</span></span></code></pre></div>
+<p>We can rename the new field as follows,</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT gross_domest_product as gdp, 1.05 <span class="pp">*</span> gross_domest_product as new_gdp </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">WHERE</span> year <span class="op">&gt;</span> <span class="st">&#39;2000&#39;</span><span class="kw">;</span></span></code></pre></div>
 </div>
 </div>
 <div id="databases-and-r" class="section level1">
@@ -423,42 +461,43 @@ div.tocify {
 <div id="connecting-to-a-local-database" class="section level1">
 <h1>Connecting to a local database</h1>
 <p>Start by opening an (empty) database connection via the <code>DBI::dbConnect()</code> function, which we’ll call <code>con</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">library</span>(DBI) <span class="do">## Already loaded</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> con <span class="ot">=</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbListTables</span>(con)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">library</span>(DBI) <span class="do">## Already loaded</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> con <span class="ot">=</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbListTables</span>(con)</span></code></pre></div>
 <pre><code>## character(0)</code></pre>
 <p>The arguments to <code>DBI::dbConnect()</code> vary from database to database. However, the first argument is always the database backend, i.e. <code>RSQLite::SQLite()</code> in this case since we’re using SQLite. Again, while this differs depending on the database type that you’re connecting with, SQLite only needs one other argument: the path to the database. Here we use the special string, “:memory:”, which causes SQLite to make a temporary in-memory database. We’ll explore more complicated connections later on that will involve things like password prompts for remote databases.</p>
 <p>Our makeshift database connection con is currently empty. So let’s copy across the world inequality dataset that we worked with before. There are a couple of ways to do this, but here I’ll use the <code>dplyr::copy_to()</code> convenience function. Note that we are specifying the table name (“wid_za”) that will exist within this database.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&#39;data/wid-data-za.csv&#39;</span>, <span class="at">sep =</span> <span class="st">&#39;;&#39;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">copy_to</span>(con, wid_za)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;wid_za&quot;</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">head</span>(wid_za_tbl)</span></code></pre></div>
-<pre><code>## # Source:   lazy query [?? x 7]
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&#39;data/wid-dta-za.csv&#39;</span>, <span class="at">sep =</span> <span class="st">&#39;,&#39;</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">copy_to</span>(con, wid_za)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;wid_za&quot;</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">head</span>(wid_za_tbl)</span></code></pre></div>
+<pre><code>## # Source:   lazy query [?? x 6]
 ## # Database: sqlite 3.37.2 [:memory:]
-##   country variable   percentile  year  value   age pop  
-##   &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;int&gt;  &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;
-## 1 ZA      rhweal992j p0p100      1993 -357.    992 j    
-## 2 ZA      rhweal992j p0p100      1994 -204.    992 j    
-## 3 ZA      rhweal992j p0p100      1995  -84.8   992 j    
-## 4 ZA      rhweal992j p0p100      1996  -85.8   992 j    
-## 5 ZA      rhweal992j p0p100      1997  -99.0   992 j    
-## 6 ZA      rhweal992j p0p100      1998 -120.    992 j</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbDisconnect</span>(con)</span></code></pre></div>
+##    year national_income gross_domest_product one_perc_share_i… one_perc_share_w…
+##   &lt;int&gt;           &lt;dbl&gt;                &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;
+## 1  1914              NA                   NA             0.220                NA
+## 2  1915              NA                   NA             0.219                NA
+## 3  1916              NA                   NA             0.220                NA
+## 4  1917              NA                   NA             0.228                NA
+## 5  1918              NA                   NA             0.210                NA
+## 6  1919              NA                   NA             0.190                NA
+## # … with 1 more variable: carbon_footprint &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbDisconnect</span>(con)</span></code></pre></div>
 <p>You can also see that we’re passing a list of indexes to the <code>copy_to()</code> function. Indexes are what enable efficient database performance, since they specify how the data should be laid out for very quick search and aggregation. At the same time, I don’t want you to worry too much about this right now. Indexes will be set by the database host platform or maintainer in normal applications.</p>
 </div>
 <div id="connecting-to-an-online-database" class="section level1">
 <h1>Connecting to an online database</h1>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="st">&quot;relational.fit.cvut.cz&quot;</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">port =</span> <span class="dv">3306</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">&quot;guest&quot;</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">&quot;relational&quot;</span>,</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">&quot;ConsumerExpenditures&quot;</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="st">&quot;relational.fit.cvut.cz&quot;</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">port =</span> <span class="dv">3306</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">&quot;guest&quot;</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">&quot;relational&quot;</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">&quot;ConsumerExpenditures&quot;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 
 

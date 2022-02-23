@@ -79,7 +79,7 @@ Relational databases (or databases) exist either on your local computer, or on s
 
 # Using SQL directly 
 
-In the next session we will be working directly with a SQLite database. We will some SQL commands directly on the database. In the following section we will show how to work with databases in R through the usage of `dbplyr`. 
+In the next session we will be working directly with a SQLite database. We will some SQL commands directly on the database. This is not a detailed guide on how to use SQL, it simply introduces some of the core concepts. There are many resources online for learning SQL. This lecture just provides a quick survey so that you have an idea of what SQL is and what it does. 
 
 ## World inequality database
 
@@ -109,7 +109,7 @@ In this section we will show you how to utilise the command line to convert the 
 
 ```bash
 $ cd ./data
-$ sqlite3 -separator ';' wid_data_za.db ".import wid-data-za.csv wid-data-za"
+$ sqlite3 -separator ';' wid_data_za.db ".import wid-dta-za.csv wid-dta-za"
 ```
 
 This has already been done for you. The SQLite database is contained GitHub repository for this course.  
@@ -156,13 +156,15 @@ sqlite> .schema
 We can select all of the columns in a table using `*`. However, I would not recommend doing this, since it will show all the columns on the screen. If you have a massive dataset this will show everything. 
 
 ```bash
-sqlite> SELECT * FROM "wid-data-za";
+sqlite> SELECT * 
+FROM "wid-dta-za";
 ```
 
 You can also select certain columns by replacing the `*` with the column name. 
 
 ```bash
-sqlite> SELECT country FROM "wid-data-za";
+sqlite> SELECT year 
+FROM "wid-dta-za";
 ```
 
 Once again, we don't want to display everything on screen, so don't run these commands. 
@@ -170,10 +172,99 @@ Once again, we don't want to display everything on screen, so don't run these co
 Sometimes we want to look at unique values in a column, then we can use the `DISTINCT` command. 
 
 ```bash
-sqlite> SELECT DISTINCT country FROM "wid-data-za";
+sqlite> SELECT DISTINCT year 
+FROM "wid-dta-za";
 ```
 
-In this case you will see that the only country in our dataset is South Africa, given by `ZA`. 
+In this case you will see that the only country in our dataset is South Africa, given by `ZA`. We can also use the `DISTINCT` keyword on multiple columns,
+
+```bash
+sqlite> SELECT DISTINCT country, year 
+FROM "wid-dta-za";
+```
+
+Another thing that we can do is order all the variables by `year`. 
+
+```bash
+sqlite> SELECT * 
+FROM "wid-dta-za" 
+ORDER by year;
+```
+
+We can do this in either `ASC` or `DESC` order. 
+
+```bash
+sqlite> SELECT * 
+FROM "wid-dta-za" 
+ORDER by year DESC;
+```
+
+## Filtering
+
+One of the most important features of a database is the ability to filter data. We have encountered this in `R` with the `filter` command. In the case of SQL we use the `WHERE` clause in a query, 
+
+```bash
+sqlite> SELECT * 
+FROM "wid-dta-za" 
+WHERE year <= '1955';
+```
+
+If we want to find out what the values in the database after the second world war AND where `GDP` was above 16.5 billion rand per year, we can use the following, 
+
+```bash
+sqlite> SELECT * 
+FROM "wid-dta-za" 
+WHERE gross_domest_product > '16500' AND year >= '1945';
+```
+
+Are there any interesting patterns that you can observe here?
+
+## New values
+
+We can also calculate new values from existing values. Perhaps we realise that our GDP values after the year 2000 need to be corrected by 5% due to some measurement error. Rather than modifying the stored data we can do this calculation on the fly as follows. 
+
+```bash
+sqlite> SELECT gross_domest_product, 1.05 * gross_domest_product 
+FROM "wid-dta-za" 
+WHERE year > '2000';
+```
+
+We can rename the new field as follows, 
+
+```bash
+sqlite> SELECT gross_domest_product as gdp, 1.05 * gross_domest_product as new_gdp 
+FROM "wid-dta-za" 
+WHERE year > '2000';
+```
+
+## Missing values
+
+To check whether a value is null or not, we must use a special test `IS NULL`:
+
+```bash
+sqlite> SELECT year 
+FROM "wid-dta-za"  
+WHERE one_perc_share_income IS NULL;
+```
+This reveals the years where there is a `NULL` value. 
+
+Null values can cause headaches wherever they appear. For example, suppose we want to the years at which the one percent share of income is greater than 0.2 and percentage share of wealth is greater than 0.5. Then we could do the following, 
+
+```bash
+sqlite> SELECT year  
+FROM "wid-dta-za"   
+WHERE one_perc_share_income > 0.2 AND one_perc_share_wealth > 0.5; 
+```
+
+This reveals that this occurs on three different occasions, 2007, 2020 and 2021. However, if we specified that the country should also be South Africa, we get the following, 
+
+```bash
+sqlite> SELECT year  
+FROM "wid-dta-za"   
+WHERE one_perc_share_income > 0.2 AND one_perc_share_wealth > 0.5 AND country = 'ZA';
+```
+
+The result is that we lose the value for 2021, since there is no country value allocated for 2021. This might simply be a mistake in the data, but it prevents us from seeing an obvious instance where there is a high level of inequality. 
 
 
 
@@ -206,7 +297,7 @@ The arguments to `DBI::dbConnect()` vary from database to database. However, the
 Our makeshift database connection con is currently empty. So let’s copy across the world inequality dataset that we worked with before. There are a couple of ways to do this, but here I’ll use the `dplyr::copy_to()` convenience function. Note that we are specifying the table name (“wid_za”) that will exist within this database. 
 
 ```{r}
-wid_za <- read.csv(file = 'data/wid-data-za.csv', sep = ';')
+wid_za <- read.csv(file = 'data/wid-dta-za.csv', sep = ',')
 copy_to(con, wid_za)
 wid_za_tbl <- tbl(con, "wid_za")
 
