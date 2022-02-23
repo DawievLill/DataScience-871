@@ -388,9 +388,9 @@ div.tocify {
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ./data</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> sqlite3 wid_data_za.db</span></code></pre></div>
 <p>My screen then displays the following information.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">SQLite</span> version 3.36.0 2021-06-18 18:36:39</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Enter</span> <span class="st">&quot;.help&quot;</span> for usage hints.</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>SQLite version <span class="dv">3</span>.<span class="fl">36.0</span> <span class="dv">2021</span><span class="op">-</span><span class="dv">06</span><span class="op">-</span><span class="dv">18</span> <span class="dv">18</span><span class="ch">:36:39</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Enter <span class="ot">&quot;.help&quot;</span> <span class="cf">for</span> <span class="kw">usage</span> hints.</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span></span></code></pre></div>
 <p>The SQLite command is <code>sqlite3</code> and you are telling SQLite to open up the <code>wid_table_za.db</code>. You need to specify the <code>.db</code> file, otherwise <code>SQLite</code> will open up a temporary, empty database.</p>
 <p>To get out of <code>SQLite</code>, type out <code>.exit</code> or <code>.quit</code>. For some terminals, <code>Ctrl-D</code> can also work. If you forget any SQLite <code>.</code> (dot) command, type <code>.help</code>.</p>
 <blockquote>
@@ -400,52 +400,83 @@ div.tocify {
 <div id="selecting-data" class="section level2">
 <h2>Selecting data</h2>
 <p>Remember that for this section things are interactive, so we will not get output in the notebook. We need to type the code into our terminal. The first thing we would like to do is see the tables in the database. In our case there is only going to be one table.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> .tables</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> .<span class="kw">tables</span></span></code></pre></div>
 <p>We can also see what the structure of the table looks like by using the <code>schema</code> command.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> .schema</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> .<span class="kw">schema</span></span></code></pre></div>
 <p>We can select all of the columns in a table using <code>*</code>. However, I would not recommend doing this, since it will show all the columns on the screen. If you have a massive dataset this will show everything.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> </span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>;</span></code></pre></div>
 <p>You can also select certain columns by replacing the <code>*</code> with the column name.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT year </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="dt">year</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>;</span></code></pre></div>
 <p>Once again, we don’t want to display everything on screen, so don’t run these commands.</p>
 <p>Sometimes we want to look at unique values in a column, then we can use the <code>DISTINCT</code> command.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT DISTINCT year </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="kw">DISTINCT</span> <span class="dt">year</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>;</span></code></pre></div>
 <p>In this case you will see that the only country in our dataset is South Africa, given by <code>ZA</code>. We can also use the <code>DISTINCT</code> keyword on multiple columns,</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT DISTINCT country, year </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="kw">DISTINCT</span> country, <span class="dt">year</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>;</span></code></pre></div>
 <p>Another thing that we can do is order all the variables by <code>year</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ORDER</span> by year<span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">by</span> <span class="dt">year</span>;</span></code></pre></div>
 <p>We can do this in either <code>ASC</code> or <code>DESC</code> order.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">ORDER</span> by year DESC<span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">by</span> <span class="dt">year</span> <span class="kw">DESC</span>;</span></code></pre></div>
 </div>
 <div id="filtering" class="section level2">
 <h2>Filtering</h2>
 <p>One of the most important features of a database is the ability to filter data. We have encountered this in <code>R</code> with the <code>filter</code> command. In the case of SQL we use the <code>WHERE</code> clause in a query,</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> FROM <span class="st">&quot;wid-dta-za&quot;</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">WHERE</span> year <span class="op">&lt;</span>= <span class="st">&#39;1955&#39;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="dt">year</span> <span class="op">&lt;=</span> <span class="st">&#39;1955&#39;</span>;</span></code></pre></div>
 <p>If we want to find out what the values in the database after the second world war AND where <code>GDP</code> was above 16.5 billion rand per year, we can use the following,</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT <span class="pp">*</span> </span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">WHERE</span> gross_domest_product <span class="op">&gt;</span> <span class="st">&#39;16500&#39;</span> AND year <span class="op">&gt;</span>= <span class="st">&#39;1945&#39;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="op">*</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> gross_domest_product <span class="op">&gt;</span> <span class="st">&#39;16500&#39;</span> <span class="kw">AND</span> <span class="dt">year</span> <span class="op">&gt;=</span> <span class="st">&#39;1945&#39;</span>;</span></code></pre></div>
 <p>Are there any interesting patterns that you can observe here?</p>
 </div>
 <div id="new-values" class="section level2">
 <h2>New values</h2>
 <p>We can also calculate new values from existing values. Perhaps we realise that our GDP values after the year 2000 need to be corrected by 5% due to some measurement error. Rather than modifying the stored data we can do this calculation on the fly as follows.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT gross_domest_product, 1.05 <span class="pp">*</span> gross_domest_product </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ex">WHERE</span> year <span class="op">&gt;</span> <span class="st">&#39;2000&#39;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> gross_domest_product, <span class="fl">1.05</span> <span class="op">*</span> gross_domest_product </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="dt">year</span> <span class="op">&gt;</span> <span class="st">&#39;2000&#39;</span>;</span></code></pre></div>
 <p>We can rename the new field as follows,</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite</span><span class="op">&gt;</span> SELECT gross_domest_product as gdp, 1.05 <span class="pp">*</span> gross_domest_product as new_gdp </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">FROM</span> <span class="st">&quot;wid-dta-za&quot;</span> </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">WHERE</span> year <span class="op">&gt;</span> <span class="st">&#39;2000&#39;</span><span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> gross_domest_product <span class="kw">as</span> gdp, <span class="fl">1.05</span> <span class="op">*</span> gross_domest_product <span class="kw">as</span> new_gdp </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> <span class="dt">year</span> <span class="op">&gt;</span> <span class="st">&#39;2000&#39;</span>;</span></code></pre></div>
+</div>
+<div id="missing-values" class="section level2">
+<h2>Missing values</h2>
+<p>Databases use a special value called <code>NULL</code> to represent missing information. Almost all operations on <code>NULL</code> produce <code>NULL</code>. Queries can test for <code>NULL</code>s using <code>IS NULL</code> and <code>IS NOT NULL</code>. Below is an example where we check for a <code>NULL</code> value:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="dt">year</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>  </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> one_perc_share_income <span class="kw">IS</span> <span class="kw">NULL</span>;</span></code></pre></div>
+<p>This reveals the years where there is a <code>NULL</code> value. These values can cause headaches wherever they appear. For example, suppose we want to the years at which the one percent share of income is greater than 0.2 and percentage share of wealth is greater than 0.5. Then we could do the following,</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="dt">year</span>  </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>   </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> one_perc_share_income <span class="op">&gt;</span> <span class="fl">0.2</span> <span class="kw">AND</span> one_perc_share_wealth <span class="op">&gt;</span> <span class="fl">0.5</span>; </span></code></pre></div>
+<p>This reveals that this occurs on three different occasions, 2007, 2020 and 2021. However, if we specified that the country should also be South Africa, we get the following,</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="dt">year</span>  </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>   </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> one_perc_share_income <span class="op">&gt;</span> <span class="fl">0.2</span> <span class="kw">AND</span> one_perc_share_wealth <span class="op">&gt;</span> <span class="fl">0.5</span> <span class="kw">AND</span> country <span class="op">=</span> <span class="st">&#39;ZA&#39;</span>;</span></code></pre></div>
+<p>The result is that we lose the value for 2021, since there is no country value allocated for 2021. This might simply be a mistake in the data, but it prevents us from seeing an obvious instance where there is a high level of inequality.</p>
+</div>
+<div id="aggregation" class="section level2">
+<h2>Aggregation</h2>
+<p>In SQL we can aggregation functions such as <code>min</code> or <code>max</code>. Each of these functions takes a set of records as input, and produces a single record as output:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="fu">max</span>(gross_domest_product)  </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>;</span></code></pre></div>
+<p><code>min</code> and <code>max</code> are just two of the aggregation functions built into SQL. Three others are <code>avg</code>, <code>count</code>, and <code>sum</code>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="fu">avg</span>(gross_domest_product)  </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span>;</span></code></pre></div>
+<p>Interestingly, when there are no values to aggregate — for example, where there are no rows satisfying the <code>WHERE</code> clause — aggregation’s result is “don’t know” rather than zero or some other arbitrary value:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sqlite<span class="op">&gt;</span> <span class="kw">SELECT</span> <span class="fu">min</span>(gross_domest_product)  </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="ot">&quot;wid-dta-za&quot;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> country <span class="op">=</span> <span class="ot">&quot;USA&quot;</span>;</span></code></pre></div>
+<p>We have covered some of the main commands that you will encounter in SQL. However, this has truly just been an introduction to get you started. We haven’t even dealt with a fundamental concept such as <code>JOIN</code>, so there is much more to learn. The reason that we aren’t exploring every dimension of SQL is that the <code>R</code> interface with SQL often means that you won’t need to write much SQL code to execute your queries. We will see this below.</p>
 </div>
 </div>
 <div id="databases-and-r" class="section level1">
@@ -458,22 +489,22 @@ div.tocify {
 <p>While <code>DBI</code> is automatically bundled with <code>dbplyr</code>, you’ll need to install a specific backend package for the type of database that you want to connect to. There are many backends to use. We have worked with SQLite since it is quite lightweight and installed on most operating systems already. We will talk later about <code>bigrquery</code> which connects to Google BigQuery when we have our session on cloud computing and big data.</p>
 <p>Our goal for this section is to create a makeshift database on our local computers — using the excellent SQLite backend — and then connect to it from <code>R</code>. I’ll use this to demonstrate the ease with which we can execute queries from <code>R</code>, as well as underscore some principles for working with databases in general. The lessons that we learn here will carry over to more complicated cases and much larger datasets.</p>
 </div>
-<div id="connecting-to-a-local-database" class="section level1">
-<h1>Connecting to a local database</h1>
+<div id="local-database" class="section level1">
+<h1>Local database</h1>
 <p>Start by opening an (empty) database connection via the <code>DBI::dbConnect()</code> function, which we’ll call <code>con</code>.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">library</span>(DBI) <span class="do">## Already loaded</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> con <span class="ot">=</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbListTables</span>(con)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">library</span>(DBI) <span class="do">## Already loaded</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> con <span class="ot">=</span> DBI<span class="sc">::</span><span class="fu">dbConnect</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="st">&quot;:memory:&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbListTables</span>(con)</span></code></pre></div>
 <pre><code>## character(0)</code></pre>
 <p>The arguments to <code>DBI::dbConnect()</code> vary from database to database. However, the first argument is always the database backend, i.e. <code>RSQLite::SQLite()</code> in this case since we’re using SQLite. Again, while this differs depending on the database type that you’re connecting with, SQLite only needs one other argument: the path to the database. Here we use the special string, “:memory:”, which causes SQLite to make a temporary in-memory database. We’ll explore more complicated connections later on that will involve things like password prompts for remote databases.</p>
 <p>Our makeshift database connection con is currently empty. So let’s copy across the world inequality dataset that we worked with before. There are a couple of ways to do this, but here I’ll use the <code>dplyr::copy_to()</code> convenience function. Note that we are specifying the table name (“wid_za”) that will exist within this database.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&#39;data/wid-dta-za.csv&#39;</span>, <span class="at">sep =</span> <span class="st">&#39;,&#39;</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">copy_to</span>(con, wid_za)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;wid_za&quot;</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">head</span>(wid_za_tbl)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&#39;data/wid-dta-za.csv&#39;</span>, <span class="at">sep =</span> <span class="st">&#39;,&#39;</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">copy_to</span>(con, wid_za)</span></code></pre></div>
+<p>Now that we’ve copied over the data, we can reference it from <code>R</code> via the <code>dplyr::tbl()</code> function. This will allow us to treat it as a normal data frame that be manipulated with <code>dplyr</code> commands.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">&quot;wid_za&quot;</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">head</span>(wid_za_tbl)</span></code></pre></div>
 <pre><code>## # Source:   lazy query [?? x 6]
 ## # Database: sqlite 3.37.2 [:memory:]
 ##    year national_income gross_domest_product one_perc_share_i… one_perc_share_w…
@@ -485,19 +516,107 @@ div.tocify {
 ## 5  1918              NA                   NA             0.210                NA
 ## 6  1919              NA                   NA             0.190                NA
 ## # … with 1 more variable: carbon_footprint &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbDisconnect</span>(con)</span></code></pre></div>
-<p>You can also see that we’re passing a list of indexes to the <code>copy_to()</code> function. Indexes are what enable efficient database performance, since they specify how the data should be laid out for very quick search and aggregation. At the same time, I don’t want you to worry too much about this right now. Indexes will be set by the database host platform or maintainer in normal applications.</p>
+<p>It worked! Everything looks pretty good, although you may notice something slightly strange about the output. We’ll get to that in a minute.</p>
+<div id="generating-queries" class="section level2">
+<h2>Generating queries</h2>
+<p>One of the best things about <code>dplyr</code> is that it automatically translates tidyverse-style code into SQL for you. In fact, many of the key <code>dplyr</code> verbs are based on SQL equivalents. Let’s try out a few queries using the typical <code>dplyr</code> syntax that we already know.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="do">## Select some columns</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(year, one_perc_share_income, gross_domest_product)</span></code></pre></div>
+<pre><code>## # Source:   lazy query [?? x 3]
+## # Database: sqlite 3.37.2 [:memory:]
+##     year one_perc_share_income gross_domest_product
+##    &lt;int&gt;                 &lt;dbl&gt;                &lt;dbl&gt;
+##  1  1914                 0.220                   NA
+##  2  1915                 0.219                   NA
+##  3  1916                 0.220                   NA
+##  4  1917                 0.228                   NA
+##  5  1918                 0.210                   NA
+##  6  1919                 0.190                   NA
+##  7  1920                 0.202                   NA
+##  8  1921                 0.218                   NA
+##  9  1922                 0.192                   NA
+## 10  1923                 0.195                   NA
+## # … with more rows</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="do">## Get the mean GDP </span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> wid_za_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">summarise</span>(<span class="at">mean_gdp =</span> <span class="fu">mean</span>(gross_domest_product), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## Warning: Missing values are always removed in SQL.
+## Use `mean(x, na.rm = TRUE)` to silence this warning
+## This warning is displayed only once per session.</code></pre>
+<pre><code>## # Source:   lazy query [?? x 2]
+## # Database: sqlite 3.37.2 [:memory:]
+##   mean_gdp na.rm
+##      &lt;dbl&gt; &lt;int&gt;
+## 1   14664.     1</code></pre>
 </div>
-<div id="connecting-to-an-online-database" class="section level1">
-<h1>Connecting to an online database</h1>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  RMariaDB<span class="sc">::</span><span class="fu">MariaDB</span>(),</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">host =</span> <span class="st">&quot;relational.fit.cvut.cz&quot;</span>,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">port =</span> <span class="dv">3306</span>,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">username =</span> <span class="st">&quot;guest&quot;</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">password =</span> <span class="st">&quot;relational&quot;</span>,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dbname =</span> <span class="st">&quot;ConsumerExpenditures&quot;</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div id="laziness-as-a-virtue" class="section level2">
+<h2>Laziness as a virtue</h2>
+<p>The modus operandi of <code>dplyr</code> is to be as lazy as possible. What this means in practice is that your <code>R</code> code is translated into SQL and executed in the database, not in <code>R</code>. This is a good thing, since:</p>
+<ol style="list-style-type: decimal">
+<li>It never pulls data into <code>R</code> unless you explicitly ask for it.</li>
+<li>It delays doing any work until the last possible moment: it collects together everything you want to do and then sends it to the database in one step.</li>
+</ol>
+<p>For example, consider an example where we are interested in values in the database after the second world war and where <code>GDP</code> was above 16.5 billion rand per year.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> gdp_post_ww2_db <span class="ot">&lt;-</span> wid_za_tbl <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">select</span>(year, gross_domest_product) <span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">1945</span> <span class="sc">&amp;</span> gross_domest_product <span class="sc">&gt;</span> <span class="dv">16500</span>)</span></code></pre></div>
+<p>Surprisingly, this sequence of operations never touches the database. It’s not until you actually ask for the data that <code>dplyr</code> generates the SQL and requests the results from the database. Even then it tries to do as little work as possible and only pulls down a few rows.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> gdp_post_ww2_db</span></code></pre></div>
+<pre><code>## # Source:   lazy query [?? x 2]
+## # Database: sqlite 3.37.2 [:memory:]
+##     year gross_domest_product
+##    &lt;int&gt;                &lt;dbl&gt;
+##  1  1973               16742.
+##  2  1974               17692.
+##  3  1975               17301.
+##  4  1976               16920.
+##  5  1977               16684.
+##  6  1978               16812.
+##  7  1979               17173.
+##  8  1980               18204.
+##  9  1981               18082.
+## 10  1982               17265.
+## # … with more rows</code></pre>
+</div>
+<div id="collecting-data" class="section level2">
+<h2>Collecting data</h2>
+<p>Typically, you’ll iterate a few times before you figure out what data you need from the database. Once you’ve figured it out, use <code>collect()</code> to pull all the data into a local data frame. I’m going to assign this collected data frame to a new object (), but only because I want to keep the queried data base object (<code>gdp_post_ww2</code>) separate for demonstrating some SQL translation principles in the next section.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> gdp_post_ww2 <span class="ot">&lt;-</span> gdp_post_ww2_db <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span>   <span class="fu">collect</span>()</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> gdp_post_ww2</span></code></pre></div>
+<pre><code>## # A tibble: 22 × 2
+##     year gross_domest_product
+##    &lt;int&gt;                &lt;dbl&gt;
+##  1  1973               16742.
+##  2  1974               17692.
+##  3  1975               17301.
+##  4  1976               16920.
+##  5  1977               16684.
+##  6  1978               16812.
+##  7  1979               17173.
+##  8  1980               18204.
+##  9  1981               18082.
+## 10  1982               17265.
+## # … with 12 more rows</code></pre>
+<p>Super. We have successfully pulled the queried database into our local <code>R</code> environment as a data frame. You can now proceed to use it in exactly the same way as you would any other data frame.</p>
+</div>
+<div id="using-show_query" class="section level2">
+<h2>Using <code>show_query</code></h2>
+<p>Behind the scenes, <code>dplyr</code> is translating your <code>R</code> code into SQL. You can use the <code>show_query()</code> function to display the SQL code that was used to generate a queried table.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> gdp_post_ww2_db <span class="sc">%&gt;%</span> <span class="fu">show_query</span>() </span></code></pre></div>
+<pre><code>## &lt;SQL&gt;
+## SELECT *
+## FROM (SELECT `year`, `gross_domest_product`
+## FROM `wid_za`)
+## WHERE (`year` &gt; 1945.0 AND `gross_domest_product` &gt; 16500.0)</code></pre>
+<p>Note that the SQL call is much less appealing/intuitive than our piped <code>dplyr</code> code. In part, this is an artefact of the translation steps involved. The <code>dplyr</code> translation engine includes various safeguards that are designed to ensure that the resulting SQL code works. But this comes at the expense of code concision (e.g. those repeated <code>SELECT</code> commands at the top of the SQL string are redundant). However, it also reflects the simple fact that SQL is not an elegant language to work with. In particular, SQL imposes a lexical order of operations that doesn’t necessarily preserve the logical order of operations. This lexical ordering is also known as “order of execution” and is strict in the sense that every SQL query must follow the same hierarchy of commands.</p>
+<p>I don’t really want to get into all of this now. But I do want to make you aware of the fact that SQL queries are not written in a way that you would think about them logically. Still, while it can take a while to wrap your head around, the good news is that SQL’s lexical ordering is certainly learnable.</p>
+<p>Now, at this point, you may be wondering: Do we even need to learn SQL, given that it’s a pain and that the <code>dplyr</code> translation works so well?</p>
+<p>That’s a fair question. The short answer is that, “yes”, at some point you will probably find yourself needing to write raw SQL code. Luckily, writing and submitting SQL queries directly from <code>R</code> and RStudio is easily done, thanks to the <code>DBI</code> package.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">dbDisconnect</span>(con)</span></code></pre></div>
+<p>In the section on cloud computing we might have some time to discuss the ideas behind BigQuery, which is like SQL in the cloud.</p>
+</div>
 </div>
 
 
