@@ -53,8 +53,6 @@ knit_hooks$set(
 
 ---
 
-Before we start with the shell basics we will quickly run through how to install everything for different operating systems. We will do this in class so that I can see if there are any potential problems. We had some issues last year with the installation process.
-
 Today is about working with a command line interface. There are many shell variants, and we will be working with **Bash** (**B**ourne **a**gain **sh**ell). This is the default for Linux and MacOS and needs to be installed for Windows. It is easiest to work with a Unix based operating system when coding, such as Linux or MacOS. However, I do realise that many of you will be working with Windows.
 
 If you want to know more about Linux then you are welcome to come and speak to me about it. I do most of my work in a Linux environment and I think programming is much easier in Linux and MacOS. I use [Manjaro](https://manjaro.org/), but I think that [PopOS](https://pop.system76.com/) is a good Linux distribution to start with. It is quite similar to MacOS and you don't need to use the command line as frequently as with other Linux distributions.
@@ -63,7 +61,7 @@ In this section we will look at how to setup a project as well as how to work wi
 
 1.  Power 
 2.  Reproducibility
-3.  Interacting with servers and super computers
+3.  Interacting with servers and super computers (**NB**)
 4.  Automating workflow and analysis pipelines
 
 The primary references for this section are the notes from [Merely Useful](https://merely-useful.tech/py-rse/) and the slides from [Grant McDermott](https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1)
