@@ -1,0 +1,1734 @@
+---
+title: "Forecasting GDP with machine learning methods"
+author: "SUMMER 🌞 series presentation"
+date: "28 July 2022"
+format:
+  revealjs: 
+    theme: slides.scss
+    slide-number: true
+    transition: fade
+    background-transition: fade
+code-link: true
+code-fold: true
+execute:
+  echo: true
+  freeze: auto
+jupyter: python3
+---
+
+# Introduction 👋
+
+## Collaborators
+
+We have a team of people that consists of statisticians, econometricians and data scientists / engineers.
+
+-   **Dawie van Lill** (analysis) 🗣️
+-   François Kamper (analysis)
+-   Hylton Hollander (data team supervision)
+-   Ruan Erasmus (data team)
+-   Jannes Reddig (data team)
+
+::: aside
+📧 dvanlill@sun.ac.za
+:::
+
+## Research question(s)
+
+There are two parts to our research question. One part relates to performance, the other to ease of use. 
+
+<br>
+
+> Do machine learning (and deep learning) methods contribute to forecasting performance over and above the traditional autoregressive model? Are these methods easy to implement for practitioners?
+
+
+## Managing expectations
+
+<br>
+
+This is **not** a technical talk on the methods used.
+
+The talk is more about our results and the way that our experience translates to practitioners.
+
+<br>
+
+
+:::{.callout-important}
+## Please reach out
+
+Contact us after the presentation to discuss model details. We would love to know how we can improve our models! 
+
+:::
+
+## Contribution
+
+ARIMA forecasting benchmark versus ML and DL models.
+
+::: columns
+::: {.column width="50%" style="text-align: center;"}
+
+**ML models**
+
+::: goal
+1. SVR (U & M)
+2. RF (U & M)
+3. GBM (U & M)
+:::
+:::
+
+::: {.column width="50%" style="text-align: center;"}
+
+**DL models**
+
+::: goal
+1. RNN-LSTM (M)
+2. RNN-GRU (M)
+3. N-BEATS (U & M)
+4. N-HiTS (U & M)
+5. TCN (M)
+
+::: aside
+U = Univariate and M = Multivariate
+:::
+
+
+:::
+:::
+:::
+
+
+## Useful libraries
+
+<br>
+
+![](02_figures/Scikit_learn_logo_small.svg){.absolute top=50 left=0 width="350" height="300"}
+
+![](02_figures/LightGBM_logo_black_text.svg){.absolute top=50 right=50 width="450" height="250"}
+
+![](02_figures/Darts-Time-Series-Made-Easy-in-Python-100-694x392.jpg){.absolute bottom=20 right=50 width="500" height="300"}
+
+![](02_figures/PyTorch_logo_black.svg){.absolute bottom=50 left=20 width="300" height="200"}
+
+
+# Data 📈
+
+## Data
+
+<br> 
+ 
+
+The **target variable** is the seasonally adjusted annualised quarter-on-quarter growth rate of GDP covering the period from 1993-06-31 to 2022-03-31. 
+
+<br> 
+
+::: columns
+::: {.column width="80%"}
+Quarterly and monthly macroeconomic variables are collected using the EconData platform from Codera Analytics. 
+:::
+
+::: {.column width="20%"}
+![](02_figures/cropped-signature_large.jpg)
+:::
+:::
+
+
+::: aside
+
+Target variable is often used in machine learning, while dependent variable is more common in econometrics. 
+:::
+
+## Data preparation and cleaning
+
+<br>
+
+Remove variables with large proportion of missing data.
+
+  - Percentage of entire series
+  - Percentage of most recent observations
+
+Outliers removed (beyond 1.5 times the interquartile range)
+
+Remove variables that are scalar multiples.
+
+## Data transformations
+
+<br> 
+
+ADF test used to determine whether a unit root (or roots) is (are) present for each variable.
+
+- I(0) variables: level
+- I(1) variables: **growth rate**
+- I(2) variables: **rate of growth**
+
+
+All variables are standardized following transformation.
+
+::: aside
+Ignore compounding effects when annualizing growth rate and rate of growth.
+:::
+
+## Data transformations (cont.)
+
+:::{.callout-important}
+## Suggestions
+
+Space for improvement possible here. Suggestions are welcome. 
+
+:::
+
+<br>
+
+Create new variables from the values of the 1st, 2nd, and 3rd month of each quarter.
+
+**Alternative**: Monthly variables aggregated to a quarterly level using the mean of the monthly values (after which transformations and standardizations are applied)
+
+
+
+
+
+
+## 
+
+```{python}
+#| label: fig-gdp-precovid
+#| fig-cap: "GDP Pre-COVID"
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import AutoMinorLocator, MultipleLocator
+
+data = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.set_ylim(-2, 2.5)
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = data.Date, y = data.Target, s = 20, c = "#00589b", edgecolor="#00589b", linewidth=0.75, zorder=-20, alpha = 0.3)
+ax.plot(data.Target, c = "#00589b", linewidth=1.2, alpha = 1)
+
+plt.show()
+```
+
+## 
+
+```{python}
+#| label: fig-gdp-full-1
+#| fig-cap: "Full GDP Series"
+
+data = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data.iloc[:-10]
+data_2 = data.iloc[-10:]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), gridspec_kw={'width_ratios': [5, 1]})
+
+ax1.set_ylim(-2, 2.5)
+
+ax1.xaxis.set_major_locator(MultipleLocator(30.000))
+ax1.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax1.tick_params(which="major", width=1.0)
+ax1.tick_params(which="major", length=10)
+ax1.tick_params(which="minor", width=1.0, labelsize=10)
+ax1.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax2.set_ylim(-22, 15)
+
+ax2.tick_params(which="major", width=1.0)
+ax2.tick_params(which="major", length=10)
+ax2.tick_params(which="minor", width=1.0, labelsize=10)
+ax2.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax2.xaxis.set_major_locator(MultipleLocator(10.000))
+ax2.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax2.tick_params(which="major", width=1.0)
+ax2.tick_params(which="major", length=10)
+ax2.tick_params(which="minor", width=1.0, labelsize=10)
+ax2.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax1.spines['top'].set_visible(False)
+ax1.spines['right'].set_visible(False)
+
+ax2.spines['top'].set_visible(False)
+ax2.spines['right'].set_visible(False)
+
+ax1.set_ylabel("GDP growth", weight="medium")
+ax1.set_xlabel("Date", weight="medium")
+
+
+ax2.set_xlabel("Date", weight="medium")
+
+ax1.scatter(x = data_1.Date, y = data_1.Target, s = 20, c = "#00589b", edgecolor="#00589b", linewidth=0.75, zorder=-20, alpha = 0.3)
+ax1.plot(data_1.Target, c = "#00589b", linewidth=1.2, alpha = 1)
+
+ax2.scatter(x = data_2.Date, y = data_2.Target, s = 20, c = "#00589b", edgecolor="#00589b", linewidth=0.75, zorder=-20, alpha = 0.3)
+ax2.plot(data_2.Date, data_2.Target, c = "#00589b", linewidth=1.2, alpha = 1)
+
+
+plt.show()
+```
+
+## 
+
+```{python}
+#| label: fig-gdp-full-2
+#| fig-cap: "Full GDP Series "
+
+data = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data.iloc[:-10]
+data_2 = data.iloc[-10:]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), gridspec_kw={'width_ratios': [5, 1]})
+
+ax1.set_ylim(-2, 2.5)
+
+ax1.xaxis.set_major_locator(MultipleLocator(30.000))
+ax1.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax1.tick_params(which="major", width=1.0)
+ax1.tick_params(which="major", length=10)
+ax1.tick_params(which="minor", width=1.0, labelsize=10)
+ax1.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax2.set_ylim(-22, 15)
+
+ax2.tick_params(which="major", width=1.0)
+ax2.tick_params(which="major", length=10)
+ax2.tick_params(which="minor", width=1.0, labelsize=10)
+ax2.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax2.xaxis.set_major_locator(MultipleLocator(10.000))
+ax2.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax2.tick_params(which="major", width=1.0)
+ax2.tick_params(which="major", length=10)
+ax2.tick_params(which="minor", width=1.0, labelsize=10)
+ax2.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax1.spines['top'].set_visible(False)
+ax1.spines['right'].set_visible(False)
+
+ax2.spines['top'].set_visible(False)
+ax2.spines['right'].set_visible(False)
+
+ax1.set_ylabel("GDP growth", weight="medium")
+ax1.set_xlabel("Date", weight="medium")
+
+
+ax2.set_xlabel("Date", weight="medium")
+
+ax1.scatter(x = data_1.Date, y = data_1.Target, s = 20, c = "#00589b", edgecolor="#00589b", linewidth=0.75, zorder=-20, alpha = 0.3)
+ax1.plot(data_1.Target, c = "#00589b", linewidth=1.2, alpha = 1)
+
+ax2.scatter(x = data_2.Date, y = data_2.Target, s = 20, c = "#00589b", edgecolor="#00589b", linewidth=0.75, zorder=-20, alpha = 0.3)
+ax2.plot(data_2.Date, data_2.Target, c = "#00589b", linewidth=1.2, alpha = 1)
+
+ax2.axhspan(2, 14, alpha=0.2, color='red')
+ax2.axhspan(-1.8, -20, alpha=0.2, color='red')
+
+plt.show()
+```
+
+# Training the model 🧘🏾
+
+##
+
+```{python}
+#| label: fig-ts-cv
+#| fig-cap: "Time series cross validation"
+
+fig = plt.figure(figsize=(12, 5.5))
+ax = fig.add_subplot(111, xlim=(1993.5, 2021.5), ylim=(0, 9), yticks=([]))
+
+for i in range(10):
+  plt.plot([1992.5, 2021.5], [i, i], color="black", linewidth=0.5, clip_on=False)
+
+X11 = np.arange(1993, 2021)
+Y11 = np.zeros(len(X11))
+plt.scatter(
+  X11,
+  Y11,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X12 = np.arange(2021, 2022)
+Y12 = np.zeros(len(X12))
+plt.scatter(
+  X12,
+  Y12,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+X21 = np.arange(1993, 2020)
+Y21 = np.ones(len(X21))
+plt.scatter(
+  X21,
+  Y21,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X22 = np.arange(2020, 2021)
+Y22 = np.ones(len(X22))
+plt.scatter(
+  X22,
+  Y22,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+X31 = np.arange(1993, 2019)
+Y31 = 2*np.ones(len(X31))
+plt.scatter(
+  X31,
+  Y31,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X32 = np.arange(2019, 2020)
+Y32 = 2*np.ones(len(X32))
+plt.scatter(
+  X32,
+  Y32,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+X41 = np.arange(1993, 2018)
+Y41 = 3*np.ones(len(X41))
+plt.scatter(
+  X41,
+  Y41,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X42 = np.arange(2018, 2019)
+Y42 = 3*np.ones(len(X42))
+plt.scatter(
+  X42,
+  Y42,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+X51 = np.arange(1993, 2017)
+Y51 = 4*np.ones(len(X51))
+plt.scatter(
+  X51,
+  Y51,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X52 = np.arange(2017, 2018)
+Y52 = 4*np.ones(len(X52))
+plt.scatter(
+  X52,
+  Y52,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+X61 = np.arange(1993, 2016)
+Y61 = 5*np.ones(len(X61))
+plt.scatter(
+  X61,
+  Y61,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X62 = np.arange(2016, 2017)
+Y62 = 5*np.ones(len(X62))
+plt.scatter(
+  X62,
+  Y62,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+X71 = np.arange(1993, 2015)
+Y71 = 6*np.ones(len(X71))
+plt.scatter(
+  X71,
+  Y71,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X72 = np.arange(2015, 2016)
+Y72 = 6*np.ones(len(X72))
+plt.scatter(
+  X72,
+  Y72,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+
+X81 = np.arange(1993, 2014)
+Y81 = 7*np.ones(len(X81))
+plt.scatter(
+  X81,
+  Y81,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X82 = np.arange(2014, 2015)
+Y82 = 7*np.ones(len(X82))
+plt.scatter(
+  X82,
+  Y82,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+
+X91 = np.arange(1993, 2013)
+Y91 = 8*np.ones(len(X91))
+plt.scatter(
+  X91,
+  Y91,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X92 = np.arange(2013, 2014)
+Y92 = 8*np.ones(len(X92))
+plt.scatter(
+  X92,
+  Y92,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+
+X101 = np.arange(1993, 2012)
+Y101 = 9*np.ones(len(X101))
+plt.scatter(
+  X101,
+  Y101,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "#00589b",
+  alpha = 0.8
+)
+
+X102 = np.arange(2012, 2013)
+Y102 = 9*np.ones(len(X102))
+plt.scatter(
+  X102,
+  Y102,
+  s=70,
+  linewidth=1.0,
+  zorder=20,
+  clip_on=False,
+  edgecolor="black",
+  c = "orange",
+  alpha = 0.8
+)
+
+
+ax.spines["right"].set_visible(False)
+ax.spines["left"].set_visible(False)
+ax.spines["top"].set_visible(False)
+ax.spines["bottom"].set_visible(False)
+
+x0, x1 = 1992.9, 2010.9
+ax.plot([x0, x1], [10, 10], color="black", linewidth=1, marker="|", clip_on=False)
+ax.text((x0 + x1) / 2, 10.1, "Training sample", ha="center", va="bottom", size="small")
+
+
+plt.show()
+```
+
+## 
+
+```{python}
+#| label: fig-gdp-hyper
+#| fig-cap: "Hyperparameter tuning sample period"
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import AutoMinorLocator, MultipleLocator
+
+data = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.set_ylim(-2, 2.5)
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = data.Date, y = data.Target, s = 20, c = "#00589b", edgecolor="#00589b", linewidth=0.75, zorder=-20, alpha = 0.3)
+ax.plot(data.Target, c = "#00589b", linewidth=1.2, alpha = 1)
+ax.axvspan(19, 100, color="black", alpha=0.1)
+
+plt.show()
+```
+
+# Results 📋
+
+## Results
+
+We display *two types of results* for each model of interest. 
+
+> $n$-period ahead forecast
+
+The first result compares the forecast against the out of sample data point (**test set**). 
+
+> Historical one-period ahead forecast (backtest)
+
+The second result is a hypothetical scenario where we compare against historical data.
+
+## Results
+
+Reminder of the types of models we are interested in.
+
+::: columns
+::: {.column width="50%" style="text-align: center;"}
+
+**ML models**
+
+::: goal
+1. SVR (U & M)
+2. RF (U & M)
+3. GBM (U & M)
+:::
+:::
+
+::: {.column width="50%" style="text-align: center;"}
+
+**DL models**
+
+::: goal
+1. RNN-LSTM (M)
+2. RNN-GRU (M)
+3. N-BEATS (U & M)
+4. N-HiTS (U & M)
+5. TCN (M)
+
+::: aside
+U = Univariate and M = Multivariate
+:::
+
+:::
+:::
+:::
+
+# Benchmark model
+
+## 
+
+```{python}
+#| label: fig-arma
+#| fig-cap: "AR(1) model"
+
+data = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+
+
+plt.show()
+```
+
+##
+
+```{python}
+#| label: fig-ar-forecast
+#| fig-cap: "Benchmark model forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_ar.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+plt.show()
+```
+
+## Benchmark model
+
+Quick **demo** of how to run the ARIMA model with Darts. 
+
+``` {.python code-line-numbers="1-3|5|6-7|9-11|13-14"}
+from darts import TimeSeries
+from darts.models import AutoARIMA
+from darts.metrics import rmse
+
+data = pd.read_csv("../000_data/transformed_gdp.csv")
+series = TimeSeries.from_series(data)
+train, val = series.split_before(0.9) 
+
+model_ar = AutoARIMA()
+model_ar.fit(train)
+prediction_ar = model_ar.predict(len(val))
+
+historical_fcast_ar = model_ar.historical_forecasts(
+    series, start = 0.1, forecast_horizon = 1, verbose = True)
+
+```
+
+# Machine learning 🤖
+
+## Machine learning
+
+<br>
+
+Support vector regression (SVR), random forests (RF) and gradient boosted machines (GBM) are machine learning algorithms designed for **tabular data**.
+
+<br>
+
+Temporal data needs to be converted into tabular form.
+
+This can be done by using lags of the target series and features as the tabular covariates.
+
+## Support vector regression
+
+<br>
+
+SVR is trained using the $\varepsilon$-insensitve loss function.
+
+This loss function leads to the concept of support vectors, where other data points do not contribute to the fit.
+
+<br>
+
+::: columns
+::: {.column width="60%"}
+We use the **Scikit-Learn** implementation of SVR.
+:::
+
+::: {.column width="40%"}
+![](02_figures/Scikit_learn_logo_small.svg)
+:::
+:::
+
+##
+
+```{python}
+#| label: fig-svr
+#| fig-cap: "Support vector regression"
+
+data = pd.read_csv("../scripts/python/000_data/hist_svr.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.iloc[:, 1], s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.iloc[:, 1], c = "red", linewidth = 1.5, alpha = 0.8)
+
+
+
+plt.show()
+```
+
+## Random forests
+
+Random forests fits an ensemble of regression trees, where each regression 
+tree is fitted to a bootstraped sample from the original data.
+
+<!-- To decorrelate the regression tree, every time a split is performed, a subset of the available covariates are randomly selected as candidate splitting variables. -->
+
+The aim of a random forest is to reduce the high variance associated 
+with single regression trees.
+
+<br>
+
+::: columns
+::: {.column width="70%"}
+We use the **Scikit-Learn** implementation of random forests.
+:::
+
+::: {.column width="30%"}
+![](02_figures/Scikit_learn_logo_small.svg)
+:::
+:::
+
+##
+
+## Gradient boosted machines
+
+Similar to random forests, a gradient boosted machine (GBM) is an ensemble
+of regression trees.
+
+The difference between random forests and GBMs is that regression trees are added sequentially to the emsemble.
+
+In the case of regression, regression trees are fitted to the residuals produced by the current ensemble.
+
+<br>
+
+::: columns
+::: {.column width="70%"}
+We use the **LightGBM** implementation.
+:::
+
+::: {.column width="30%"}
+![](02_figures/LightGBM_logo_black_text.svg)
+:::
+:::
+
+##
+
+# Deep learning 🧠
+
+## Deep learning
+
+Traditional feedforward networks cannot be used in time series forecasting. 
+
+Time structure is not recognized. 
+
+## RNN-LSTM
+
+RNN models use a mechanism to retain historic information to forecast values. 
+
+
+::: aside
+RNN-LSTM: Recurrent neural network - long short-term memory
+:::
+
+## 
+
+```{python}
+#| label: fig-lstm
+#| fig-cap: "RNN-LSTM model"
+
+data = pd.read_csv("../scripts/python/000_data/hist_brnn_lstm.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+plt.show()
+```
+
+
+
+##
+
+```{python}
+#| label: fig-rnn_lstm-forecast
+#| fig-cap: "RNN-LSTM model forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_brnn_lstm.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_brnn_lstm.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+plt.show()
+```
+
+## RNN-GRU
+
+
+::: aside
+RNN-GRU: Recurrent neural network - gated recurrent unit
+:::
+
+## 
+
+```{python}
+#| label: fig-rnn_gru
+#| fig-cap: "RNN-GRU model"
+
+data = pd.read_csv("../scripts/python/000_data/hist_brnn_gru.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+plt.show()
+```
+
+## 
+
+```{python}
+#| label: fig-rnn_gru-forecast
+#| fig-cap: "RNN-GRU model forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_brnn_gru.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_brnn_gru.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+plt.show()
+```
+
+
+## N-BEATS
+
+Intended for univariate time series point forecasting. 
+
+Outperformed all other univariate methods in the recent M4 forecasting competition.
+
+::: aside
+N-BEATS: Neural basis expansion analysis for interpretable time-series forecasting
+:::
+
+## 
+
+```{python}
+#| label: fig-nbeats
+#| fig-cap: "N-BEATS model (univariate)"
+
+ar = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
+data = pd.read_csv("../scripts/python/000_data/hist_nbeats.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+plt.show()
+```
+
+## 
+
+```{python}
+#| label: fig-nbeatsx
+#| fig-cap: "N-BEATSx model (multivariate)"
+
+ar = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
+data = pd.read_csv("../scripts/python/000_data/hist_nbeatsx.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+plt.show()
+```
+
+## N-BEATSx
+
+::: small
+N-BEATSx model includes covariates.
+
+``` {.python}
+model_nbeats = NBEATSModel(
+    input_chunk_length=12, 
+    output_chunk_length=1, 
+    num_stacks=1, 
+    num_blocks=2, 
+    num_layers=3,
+    layer_widths=256, 
+    n_epochs=100,
+    random_state = 42,
+    add_encoders=encoders,
+    dropout=0.3,
+    loss_fn=RMSELoss(),
+    pl_trainer_kwargs={"accelerator": "gpu",
+                        "gpus": 1,
+                        "auto_select_gpus": True, 
+                        "callbacks": [my_stopper]})
+```
+
+Would a forecasting practitioner be able to do this easily?
+
+Model involves intensive **hyperparameter tuning**.
+
+:::
+
+::: aside
+In this case the tuning took roughly **22 hours**. 
+:::
+
+##
+
+```{python}
+#| label: fig-nbeatsx-forecast
+#| fig-cap: "N-BEATSx model forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_nbeatsx.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_nbeatsx.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+
+plt.show()
+```
+
+## N-HiTS
+
+N-HiTS model has recently shown that it can consistently outperform the N-BEATS model. 
+
+::: aside
+N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting
+:::
+
+## 
+
+```{python}
+#| label: fig-nhits
+#| fig-cap: "N-HiTS model (multivariate)"
+
+ar = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
+data = pd.read_csv("../scripts/python/000_data/hist_nhits.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+plt.show()
+```
+
+## 
+
+```{python}
+#| label: fig-nhits-forecast
+#| fig-cap: "N-HiTS model forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_nhits.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_nhits.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+
+plt.show()
+```
+
+## TCN
+
+::: aside
+TCN: Temporal convolutional network
+:::
+
+## 
+
+```{python}
+#| label: fig-tcn
+#| fig-cap: "TCN model"
+
+data = pd.read_csv("../scripts/python/000_data/hist_tcn.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+plt.show()
+```
+
+## 
+
+```{python}
+#| label: fig-tcn-forecast
+#| fig-cap: "TCN model forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_tcn.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_tcn.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+
+plt.show()
+```
+
+# Model comparison 🤔
+
+## 
+
+```{python}
+#| label: fig-comparison
+#| fig-cap: "Historical forecast comparison"
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
+#data_2 = pd.read_csv("../scripts/python/000_data/hist_svr.csv")
+#data_3 = pd.read_csv("../scripts/python/000_data/hist_rf.csv")
+#data_4 = pd.read_csv("../scripts/python/000_data/hist_gbm.csv")
+data_5 = pd.read_csv("../scripts/python/000_data/hist_brnn_lstm.csv")
+data_6 = pd.read_csv("../scripts/python/000_data/hist_brnn_gru.csv")
+data_7 = pd.read_csv("../scripts/python/000_data/hist_nbeatsx.csv")
+data_8 = pd.read_csv("../scripts/python/000_data/hist_nhits.csv")
+data_9 = pd.read_csv("../scripts/python/000_data/hist_tcn.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "#00589b", edgecolor="#00589b", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "#00589b", linewidth = 2, alpha = 1)
+
+# ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "black", linewidth = 1, alpha = 0.5)
+#ax.plot(data_2.time, data_2.Target, c = "black", linewidth = 1, alpha = 0.8)
+#ax.plot(data_3.time, data_3.Target, c = "black", linewidth = 1, alpha = 0.8)
+#ax.plot(data_4.time, data_4.Target, c = "black", linewidth = 1, alpha = 0.8)
+ax.plot(data_5.time, data_5.Target, c = "black", linewidth = 1, alpha = 0.5)
+ax.plot(data_6.time, data_6.Target, c = "black", linewidth = 1, alpha = 0.5)
+ax.plot(data_7.time, data_7.Target, c = "black", linewidth = 1, alpha = 0.5)
+ax.scatter(x = data_8.time, y = data_8.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+ax.plot(data_8.time, data_8.Target, c = "red", linewidth = 2, alpha = 1)
+ax.plot(data_9.time, data_9.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+plt.show()
+```
+
+## Model comparison
+
+::: columns
+::: {.column width="40%"}
+
+::: small
+
+<br>
+
+Here we compare the root mean squared error (RMSE) of the different models. 
+
+Lower RMSE is better. 
+
+The best performer in terms of this metric on the training data is the **gradient boosting model**. 
+
+While the model SVR performs best in terms of the test RMSE. 
+:::
+:::
+
+::: {.column width="60%"}
+
+::: small
+
+::: goal
+| Model | Train RMSE  | Test RMSE  |
+|:---|:---:|:---:|
+| AR(1)  | 0.49 |   |
+|  SVR | 0.27 | 0.25  |
+|  RF |0.24| 0.26 |
+|  GBM | **0.23**  | 0.27  |
+| RNN-LSTM  | 0.33  |   |
+| RNN-GRU  | 0.27  |   |
+| N-BEATS  | 0.39 |   |
+| N-BEATSx  | 0.29  |   |
+| N-HiTS  | 0.24  |   |
+| TCN  | 0.31  |   |
+||||
+
+:::
+:::
+:::
+:::
+
+# Life after COVID? 😷
+
+## Post-COVID backtest
+
+
+
+## Post-COVID forecast
+
+# Conclusion 🤯
+
+## Conclusion
+
+ML and DL models provide improved performance in terms of historical forecasts and future prediction. 
+
+Possible to automate components of the process, but expert opinion is required. 
+
+<br>
+
+Hyperparameter selection is **difficult**
+
+- This process is more art than science
+- Can be computationally expensive
+- Potential for overfitting
+
+# Future plans 🗺️
+
+## 
+
+::: columns
+::: {.column width="50%"}
+**In progress** 🚧
+
+::: goal
+
+Mixed data strategies.
+
+Post-COVID period forecast.
+
+Solution for missing data. 
+
+Finer grids for hyperparameter search.
+
+:::
+:::
+
+::: {.column width="50%"}
+**In future** 🔮
+
+Impact of including alternative data.
+
+Probabilistic models.
+
+Temporal fusion transformers.
+
+DFM and MF-VAR models.
+
+Real-time data.
+
+:::
+:::
+
+## 
+
+::: columns
+::: {.column width="50%"}
+**In progress** 🚧
+
+Mixed data strategies.
+
+Post-COVID period forecast.
+
+Solution for missing data. 
+
+Finer grids for hyperparameter search.
+:::
+
+::: {.column width="50%"}
+**In future** 🔮
+
+::: goal
+
+Impact of including alternative data.
+
+Probabilistic models.
+
+Temporal fusion transformers.
+
+DFM and MF-VAR models.
+
+Real-time data.
+
+:::
+
+:::
+:::
+
+
+# Questions? 💡
+
+
+
+
+
