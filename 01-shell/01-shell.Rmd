@@ -899,6 +899,8 @@ cd ../research-project/bin
 bash top_words.sh
 ```
 
+If you want to learn more about shell scripting and best practice for bash scripts I recommend the following resource, located [here](https://earthly.dev/blog/understanding-bash/).
+
 
 # Editing text files
 

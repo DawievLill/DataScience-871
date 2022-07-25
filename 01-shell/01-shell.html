@@ -337,14 +337,13 @@ div.tocify {
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <hr />
-<p>Before we start with the shell basics we will quickly run through how to install everything for different operating systems. We will do this in class so that I can see if there are any potential problems. We had some issues last year with the installation process.</p>
 <p>Today is about working with a command line interface. There are many shell variants, and we will be working with <strong>Bash</strong> (<strong>B</strong>ourne <strong>a</strong>gain <strong>sh</strong>ell). This is the default for Linux and MacOS and needs to be installed for Windows. It is easiest to work with a Unix based operating system when coding, such as Linux or MacOS. However, I do realise that many of you will be working with Windows.</p>
 <p>If you want to know more about Linux then you are welcome to come and speak to me about it. I do most of my work in a Linux environment and I think programming is much easier in Linux and MacOS. I use <a href="https://manjaro.org/">Manjaro</a>, but I think that <a href="https://pop.system76.com/">PopOS</a> is a good Linux distribution to start with. It is quite similar to MacOS and you don’t need to use the command line as frequently as with other Linux distributions.</p>
 <p>In this section we will look at how to setup a project as well as how to work with the command line. You might be used to working with graphical user interfaces for most of your coding career, but it is useful to know how to work through the shell. This is not something that is often taught in economics programs, but if you are looking at a career in data science this might be very useful. <a href="https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#14">Here</a> are some of the reasons why we might be interested in using the shell. We will start with looking at the basic file structures within a computer. The key points are the following,</p>
 <ol style="list-style-type: decimal">
 <li>Power</li>
 <li>Reproducibility</li>
-<li>Interacting with servers and super computers</li>
+<li>Interacting with servers and super computers (<strong>NB</strong>)</li>
 <li>Automating workflow and analysis pipelines</li>
 </ol>
 <p>The primary references for this section are the notes from <a href="https://merely-useful.tech/py-rse/">Merely Useful</a> and the slides from <a href="https://raw.githack.com/uo-ec607/lectures/master/03-shell/03-shell.html#1">Grant McDermott</a></p>
@@ -415,10 +414,10 @@ div.tocify {
 <p>We could use other options like <code>-a</code>, <code>-l</code> and <code>-h</code> to show <code>all</code> the folders and files. The <code>-l</code> is for long format and the <code>-h</code> is for human readable.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> <span class="at">-a</span> <span class="at">-h</span> </span></code></pre></div>
 <pre><code>## total 1.5M
-## drwxr-xr-x  3 dawie dawie 4.0K Feb 13 13:10 .
-## drwxr-xr-x 17 dawie dawie 4.0K Feb 13 11:58 ..
-## -rw-r--r--  1 dawie dawie 1.5M Feb 13 13:10 01-shell.html
-## -rw-r--r--  1 dawie dawie  39K Feb 13 13:10 01-shell.Rmd
+## drwxr-xr-x  3 dawie dawie 4.0K Feb 13 13:19 .
+## drwxr-xr-x 18 dawie dawie 4.0K Feb 24 13:42 ..
+## -rw-r--r--  1 dawie dawie 1.5M Feb 13 13:19 01-shell.html
+## -rw-r--r--  1 dawie dawie  39K Mar  1 16:25 01-shell.Rmd
 ## drwxr-xr-x  2 dawie dawie 4.0K Feb 12 21:12 images</code></pre>
 <p>You might notice that there is a lot of information here. Let us analyse this one piece at a time.</p>
 <p>The first column indicates the object type. It can either be a (<code>d</code>) directory / folder, (<code>l</code>) link or (<code>-</code>) file. In the case of the first line, we see that this is a directory.</p>
@@ -481,13 +480,14 @@ div.tocify {
 ## 03-sql
 ## 04-julia
 ## 05-julia-data
-## 06-ml-intro
-## 07-regularisation
-## 08-decision-trees
-## 09-boosting
-## 10-parallel
-## 11-cloud
-## 12-big-data
+## 06-functions
+## 07-parallel
+## 08-cloud
+## 09-big-data
+## 10-intro-ml
+## 11-regularisation
+## 12-decision-trees
+## 13-boosting
 ## .git
 ## notebooks
 ## README.md
@@ -522,7 +522,9 @@ div.tocify {
 ## 872-ats
 ## 872-macro
 ## admin
-## comp-reading</code></pre>
+## comp-reading
+## consulting
+## ml-dl</code></pre>
 <p>If we try and move to a folder that doesn’t exist in this directory we will receive an error message.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ~/Dropbox/2022/comp</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> pwd</span></code></pre></div>
@@ -536,13 +538,14 @@ div.tocify {
 ## 03-sql
 ## 04-julia
 ## 05-julia-data
-## 06-ml-intro
-## 07-regularisation
-## 08-decision-trees
-## 09-boosting
-## 10-parallel
-## 11-cloud
-## 12-big-data
+## 06-functions
+## 07-parallel
+## 08-cloud
+## 09-big-data
+## 10-intro-ml
+## 11-regularisation
+## 12-decision-trees
+## 13-boosting
 ## notebooks
 ## README.md
 ## research-project</code></pre>
@@ -554,16 +557,16 @@ div.tocify {
 <div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls <span class="at">-l</span> <span class="at">-h</span></span></code></pre></div>
 <pre><code>## total 32K
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:01 bin
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:10 data
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:10 docs
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:19 bin
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:11 data
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:11 docs
 ## -rw-r--r-- 1 dawie dawie    0 Feb 10 15:15 example1.txt
 ## -rw-r--r-- 1 dawie dawie    0 Feb 10 15:15 example2.txt
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:10 examples
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:10 journal
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:11 examples
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:19 journal
 ## -rw-r--r-- 1 dawie dawie    4 Jan 14 13:28 README.md
 ## drwxr-xr-x 2 dawie dawie 4.0K Jan 14 12:55 results
-## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 12:52 src</code></pre>
+## drwxr-xr-x 2 dawie dawie 4.0K Feb 13 13:19 src</code></pre>
 <p>In this folder structure you can see a broad template for organising a small project.</p>
 <p>For this project you see that here is a <code>README.md</code> file that gives us the basic information of the project. You might often see <code>licence</code>, <code>conduct</code> and <code>citation</code> files in projects, but we won’t be dealing with those in detail in this course. The only boilerplate file that you need to concern yourself with is the <code>README.md</code> document, which we will talk about a bit more when we deal with <strong>version control</strong>. You will notice that this has the <code>.md</code> extension, which indicates that this is a Markdown file. This entire notebook was written in Markdown and I will talk about the format briefly in the lecture.</p>
 <p>The directories for this project are organised by purpose.</p>
@@ -909,15 +912,11 @@ div.tocify {
 ## ./bin
 ## ./bin/top_words.sh
 ## ./bin/book_summary.sh
-## ./bin/alice.txt
 ## ./README.md
 ## ./docs
 ## ./docs/doc1.txt
 ## ./results
 ## ./journal
-## ./journal/toc.txt
-## ./journal/draft_journal_entry.txt
-## ./journal/readme.txt
 ## ./journal/makefile
 ## ./example2.txt
 ## ./src
@@ -952,12 +951,8 @@ div.tocify {
 ## ./example1.txt
 ## ./bin/top_words.sh
 ## ./bin/book_summary.sh
-## ./bin/alice.txt
 ## ./README.md
 ## ./docs/doc1.txt
-## ./journal/toc.txt
-## ./journal/draft_journal_entry.txt
-## ./journal/readme.txt
 ## ./journal/makefile
 ## ./example2.txt
 ## ./src/top-words.R
@@ -977,11 +972,7 @@ div.tocify {
 ## ./data/frankenstein.txt
 ## ./data/jane_eyre.txt
 ## ./example1.txt
-## ./bin/alice.txt
 ## ./docs/doc1.txt
-## ./journal/toc.txt
-## ./journal/draft_journal_entry.txt
-## ./journal/readme.txt
 ## ./example2.txt
 ## ./examples/example1.txt
 ## ./examples/example2.txt
@@ -998,17 +989,13 @@ div.tocify {
 ##    7832 ./data/frankenstein.txt
 ##   21054 ./data/jane_eyre.txt
 ##       0 ./example1.txt
-##    3761 ./bin/alice.txt
 ##       0 ./docs/doc1.txt
-##       2 ./journal/toc.txt
-##       0 ./journal/draft_journal_entry.txt
-##       2 ./journal/readme.txt
 ##       0 ./example2.txt
 ##       0 ./examples/example1.txt
 ##       0 ./examples/example2.txt
 ##       2 ./examples/nursery.txt
 ##       2 ./examples/example3.txt
-##  100624 total</code></pre>
+##   96859 total</code></pre>
 <p>You will often have <code>find</code> and <code>grep</code> used together. The following is a nice way to show the author of each of the books in the <code>data/</code> directory,</p>
 <div class="sourceCode" id="cb99"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/data</span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> grep <span class="st">&quot;Author:&quot;</span> <span class="va">$(</span><span class="fu">find</span> . <span class="at">-name</span> <span class="st">&quot;*.txt&quot;</span><span class="va">)</span></span></code></pre></div>
@@ -1316,14 +1303,11 @@ div.tocify {
 <p>In our simple example above, the <strong>target</strong> is the text file <code>draft_journal_entry.txt</code>. This file is created with the <code>touch</code> <strong>command</strong> in the second line. We can check the <code>journal</code> folder to see the contents.</p>
 <div class="sourceCode" id="cb153"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
 <span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
-<pre><code>## draft_journal_entry.txt
-## makefile
-## readme.txt
-## toc.txt</code></pre>
+<pre><code>## makefile</code></pre>
 <p>Let us know use the <code>make</code> command to see if the <code>makefile</code> is properly executed.</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
 <span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make draft_journal_entry.txt</span></code></pre></div>
-<pre><code>## make: &#39;draft_journal_entry.txt&#39; is up to date.</code></pre>
+<pre><code>## touch draft_journal_entry.txt</code></pre>
 <p>It seems like this has worked properly. We have created a new file with our command in the <code>makefile</code>. Let us try running it again and see what happens.</p>
 <div class="sourceCode" id="cb157"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> cd ../research-project/journal</span>
 <span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> make draft_journal_entry.txt</span></code></pre></div>
@@ -1335,7 +1319,6 @@ div.tocify {
 <span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> ls</span></code></pre></div>
 <pre><code>## draft_journal_entry.txt
 ## makefile
-## readme.txt
 ## toc.txt</code></pre>
 <p>Next, let us edit our <code>makefile</code> in VS Code to include the following lines,</p>
 <div class="sourceCode" id="cb161"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="ex">readme.txt:</span> toc.txt</span>
