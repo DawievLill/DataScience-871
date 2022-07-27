@@ -786,7 +786,7 @@ plt.show()
 
 ```{python}
 #| label: fig-ar-forecast
-#| fig-cap: "Benchmark model forecast (5-periods ahead)"
+#| fig-cap: "AR(1) model forecast (5-periods ahead)"
 
 
 data_1 = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
@@ -925,6 +925,55 @@ ax.plot(data.time, data.iloc[:, 1], c = "red", linewidth = 1.5, alpha = 0.8)
 plt.show()
 ```
 
+##
+
+```{python}
+#| label: fig-svr-forecast
+#| fig-cap: "Support vector regression forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_svr.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_svr.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+plt.show()
+```
+
 ## Random forests
 
 Random forests fits an ensemble of regression trees, where each regression 
@@ -972,21 +1021,155 @@ We use the **LightGBM** implementation.
 
 ##
 
+```{python}
+#| label: fig-lgbm
+#| fig-cap: "Gradient boosted machines"
+
+data = pd.read_csv("../scripts/python/000_data/hist_lgbm.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.iloc[:, 1], s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.iloc[:, 1], c = "red", linewidth = 1.5, alpha = 0.8)
+
+
+
+plt.show()
+```
+
+
+##
+
+```{python}
+#| label: fig-lgbm-forecast
+#| fig-cap: "Gradien boosted model forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_lgbm.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_lgbm.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+plt.show()
+```
+
 # Deep learning 🧠
 
 ## Deep learning
 
-Traditional feedforward networks cannot be used in time series forecasting. 
+<br>
 
-Time structure is not recognized. 
+Traditional fully connected feedforward networks perform poorly in time series forecasting. 
+
+<br>
+
+Modern forecasting methods include modified forms such as **recurrent** and **convolutional** networks.
+
+More recently **attention** and **graph** neural networks have become popular. 
+
+## RNNs
+
+<br>
+
+Not completely different from normal neural network. 
+
+RNNs are designed to take sequence data as input.
+
+Can imagine mulitple copies of the same network, each passing a message to a successor. 
+
+<br>
+
+Vanilla RNNs have some important shortcomings, this is why alternative kinds of RNNs were introduced. 
+
+::: aside
+RNN: Recurrent neural network
+:::
 
 ## RNN-LSTM
 
-RNN models use a mechanism to retain historic information to forecast values. 
+<br>
 
+RNNs struggle to connect past information to the present. 
+
+If the gap between previous information and the present is large, then RNNs become unable to learn how to connect the information. 
+
+<br>
+
+This is where **LSTMs** enter. 
 
 ::: aside
 RNN-LSTM: Recurrent neural network - long short-term memory
+:::
+
+## RNN-LSTM
+
+<br>
+
+Long Short Term Memory networks (LSTMs) are a special kind of RNN that can learn long-term dependencies.
+
+Gates within the structure of the model allow differing levels of information through. 
+
+<br>
+
+Let us consider the results from an RNN-LSTM model. 
+
+::: aside 
+Excellent blog post on LSTMs [here](https://bit.ly/3owra3g).
+
 :::
 
 ## 
@@ -1077,6 +1260,16 @@ plt.show()
 ```
 
 ## RNN-GRU
+
+<br>
+
+There are many variations on the LSTM idea, such as the Gated Recurrent Unit (GRU). 
+
+This model is a bit simpler than the traditional LSTM model and has become quite popular in deep learning applications. 
+
+<br>
+
+No guarantee that one variant will perform better. 
 
 
 ::: aside
@@ -1172,9 +1365,15 @@ plt.show()
 
 ## N-BEATS
 
+<br>
+
 Intended for univariate time series point forecasting. 
 
 Outperformed all other univariate methods in the recent M4 forecasting competition.
+
+<br>
+
+Incorporates RNN ideas, but differs in the way in which cells are constructed. 
 
 ::: aside
 N-BEATS: Neural basis expansion analysis for interpretable time-series forecasting
@@ -1340,9 +1539,17 @@ ax.axvspan(17, 21, color="#00589b", alpha=0.1)
 plt.show()
 ```
 
-## N-HiTS
+## N-HiTS 🚧
+
+<br>
 
 N-HiTS model has recently shown that it can consistently outperform the N-BEATS model. 
+
+<br>
+
+Included experimentally to see whether it could achieve good performance on GDP.
+
+Rough grid search applied for hyperparameters.
 
 ::: aside
 N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting
@@ -1436,7 +1643,19 @@ ax.axvspan(17, 21, color="#00589b", alpha=0.1)
 plt.show()
 ```
 
-## TCN
+## TCN 🚧
+
+<br>
+
+Only application of convolutional network in the article. 
+
+Mostly used in finance and exhchange rate prediction (high frequency data)
+
+<br>
+
+Another experimental approach to see what convolutional networks can contribute. 
+
+Mostly using model **defaults** in terms of parameters. 
 
 ::: aside
 TCN: Temporal convolutional network
@@ -1538,9 +1757,9 @@ plt.show()
 #| fig-cap: "Historical forecast comparison"
 
 data_1 = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
-#data_2 = pd.read_csv("../scripts/python/000_data/hist_svr.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/hist_svr.csv")
 #data_3 = pd.read_csv("../scripts/python/000_data/hist_rf.csv")
-#data_4 = pd.read_csv("../scripts/python/000_data/hist_gbm.csv")
+data_4 = pd.read_csv("../scripts/python/000_data/hist_lgbm.csv")
 data_5 = pd.read_csv("../scripts/python/000_data/hist_brnn_lstm.csv")
 data_6 = pd.read_csv("../scripts/python/000_data/hist_brnn_gru.csv")
 data_7 = pd.read_csv("../scripts/python/000_data/hist_nbeatsx.csv")
@@ -1571,9 +1790,9 @@ ax.plot(gdp.Date, gdp.Target, c = "#00589b", linewidth = 2, alpha = 1)
 # ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
 
 ax.plot(data_1.time, data_1.Target, c = "black", linewidth = 1, alpha = 0.5)
-#ax.plot(data_2.time, data_2.Target, c = "black", linewidth = 1, alpha = 0.8)
+ax.plot(data_2.time, data_2.Target, c = "black", linewidth = 1, alpha = 0.8)
 #ax.plot(data_3.time, data_3.Target, c = "black", linewidth = 1, alpha = 0.8)
-#ax.plot(data_4.time, data_4.Target, c = "black", linewidth = 1, alpha = 0.8)
+ax.plot(data_4.time, data_4.Target, c = "black", linewidth = 1, alpha = 0.8)
 ax.plot(data_5.time, data_5.Target, c = "black", linewidth = 1, alpha = 0.5)
 ax.plot(data_6.time, data_6.Target, c = "black", linewidth = 1, alpha = 0.5)
 ax.plot(data_7.time, data_7.Target, c = "black", linewidth = 1, alpha = 0.5)
@@ -1589,40 +1808,43 @@ plt.show()
 ## Model comparison
 
 ::: columns
-::: {.column width="40%"}
+::: {.column width="50%"}
 
 ::: small
 
 <br>
 
-Here we compare the root mean squared error (RMSE) of the different models. 
+Here we compare the root mean squared error (RMSE) of the different models, where lower RMSE is better. 
 
-Lower RMSE is better. 
+<br>
 
-The best performer in terms of this metric on the training data is the **gradient boosting model**. 
+Best performer in terms of this metric is the **N-HiTS** model. 
 
-While the model SVR performs best in terms of the test RMSE. 
+<br>
+
+Deep learning models seem to perform better on average.
+
 :::
 :::
 
-::: {.column width="60%"}
+::: {.column width="50%"}
 
 ::: small
 
 ::: goal
-| Model | Train RMSE  | Test RMSE  |
+| Model | RMSE  |
 |:---|:---:|:---:|
-| AR(1)  | 0.49 |   |
-|  SVR | 0.27 | 0.25  |
-|  RF |0.24| 0.26 |
-|  GBM | **0.23**  | 0.27  |
-| RNN-LSTM  | 0.33  |   |
-| RNN-GRU  | 0.27  |   |
-| N-BEATS  | 0.39 |   |
-| N-BEATSx  | 0.29  |   |
-| N-HiTS  | 0.24  |   |
-| TCN  | 0.31  |   |
-||||
+| AR(1)  | 0.49 |
+|  SVR | 0.33 |
+|  RF |0.24|
+|  GBM | 0.37  |
+| RNN-LSTM  | 0.33  | 
+| RNN-GRU  | 0.27  | 
+| N-BEATS  | 0.39 |
+| N-BEATSx  | 0.29  | 
+| N-HiTS  | **0.21**  | 
+| TCN  | 0.31  |
+|||
 
 :::
 :::
@@ -1632,8 +1854,6 @@ While the model SVR performs best in terms of the test RMSE.
 # Life after COVID? 😷
 
 ## Post-COVID backtest
-
-
 
 ## Post-COVID forecast
 
@@ -1671,6 +1891,8 @@ Solution for missing data.
 
 Finer grids for hyperparameter search.
 
+Model averaging / ensemble.
+
 :::
 :::
 
@@ -1683,44 +1905,11 @@ Probabilistic models.
 
 Temporal fusion transformers.
 
-DFM and MF-VAR models.
-
-Real-time data.
-
-:::
-:::
-
-## 
-
-::: columns
-::: {.column width="50%"}
-**In progress** 🚧
-
-Mixed data strategies.
-
-Post-COVID period forecast.
-
-Solution for missing data. 
-
-Finer grids for hyperparameter search.
-:::
-
-::: {.column width="50%"}
-**In future** 🔮
-
-::: goal
-
-Impact of including alternative data.
-
-Probabilistic models.
-
-Temporal fusion transformers.
+Attention and augmented RNNs.
 
 DFM and MF-VAR models.
 
 Real-time data.
-
-:::
 
 :::
 :::
