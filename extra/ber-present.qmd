@@ -699,13 +699,17 @@ plt.show()
 
 We display *two types of results* for each model of interest. 
 
-> $n$-period ahead forecast
-
-The first result compares the forecast against the out of sample data point (**test set**). 
+<br>
 
 > Historical one-period ahead forecast (backtest)
 
-The second result is a hypothetical scenario where we compare against historical data.
+Scenario where we compare against historical data.
+
+<br>
+
+> $n$-period ahead forecast
+
+Compares the forecast against the out of sample data point(s). 
 
 ## Results
 
@@ -997,6 +1001,92 @@ We use the **Scikit-Learn** implementation of random forests.
 :::
 
 ##
+
+```{python}
+#| label: fig-rf
+#| fig-cap: "Random forests"
+
+data = pd.read_csv("../scripts/python/000_data/hist_rf.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp.csv")
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data.time, y = data.iloc[:, 1], s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data.time, data.iloc[:, 1], c = "red", linewidth = 1.5, alpha = 0.8)
+
+
+
+plt.show()
+```
+
+
+##
+
+```{python}
+#| label: fig-rf-forecast
+#| fig-cap: "Random forest forecast (5-periods ahead)"
+
+
+data_1 = pd.read_csv("../scripts/python/000_data/hist_rf.csv")
+data_2 = pd.read_csv("../scripts/python/000_data/pred_rf.csv")
+gdp = pd.read_csv("../scripts/python/000_data/transformed_gdp_full.csv")
+
+data_1 = data_1.iloc[-17:]
+data_2 = data_2.iloc[-30:]
+gdp = gdp.iloc[-30:-8]
+
+fig, ax = plt.subplots(figsize=(12, 6))
+
+ax.xaxis.set_major_locator(MultipleLocator(20.000))
+ax.xaxis.set_minor_locator(AutoMinorLocator(2.000))
+
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.tick_params(which="major", width=1.0)
+ax.tick_params(which="major", length=10)
+ax.tick_params(which="minor", width=1.0, labelsize=10)
+ax.tick_params(which="minor", length=5, labelsize=10, labelcolor="0.25")
+
+ax.set_ylabel("GDP growth", weight="medium")
+ax.set_xlabel("Date", weight="medium")
+
+ax.scatter(x = gdp.Date, y = gdp.Target, s = 10, c = "black", edgecolor="black", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(gdp.Date, gdp.Target, c = "black", linewidth = 1, alpha = 0.5)
+
+ax.scatter(x = data_2.Date, y = data_2.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_2.Date, data_2.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)
+
+ax.scatter(x = data_1.time, y = data_1.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)
+
+ax.plot(data_1.time, data_1.Target, c = "red", linewidth = 1.5, alpha = 0.8)
+
+ax.axvspan(17, 21, color="#00589b", alpha=0.1)
+
+plt.show()
+```
 
 ## Gradient boosted machines
 
@@ -1758,7 +1848,7 @@ plt.show()
 
 data_1 = pd.read_csv("../scripts/python/000_data/hist_arma.csv")
 data_2 = pd.read_csv("../scripts/python/000_data/hist_svr.csv")
-#data_3 = pd.read_csv("../scripts/python/000_data/hist_rf.csv")
+data_3 = pd.read_csv("../scripts/python/000_data/hist_rf.csv")
 data_4 = pd.read_csv("../scripts/python/000_data/hist_lgbm.csv")
 data_5 = pd.read_csv("../scripts/python/000_data/hist_brnn_lstm.csv")
 data_6 = pd.read_csv("../scripts/python/000_data/hist_brnn_gru.csv")
@@ -1836,7 +1926,7 @@ Deep learning models seem to perform better on average.
 |:---|:---:|:---:|
 | AR(1)  | 0.49 |
 |  SVR | 0.33 |
-|  RF |0.24|
+|  RF |0.46|
 |  GBM | 0.37  |
 | RNN-LSTM  | 0.33  | 
 | RNN-GRU  | 0.27  | 
@@ -1852,10 +1942,6 @@ Deep learning models seem to perform better on average.
 :::
 
 # Life after COVID? 😷
-
-## Post-COVID backtest
-
-## Post-COVID forecast
 
 # Conclusion 🤯
 

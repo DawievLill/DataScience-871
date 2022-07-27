@@ -1098,14 +1098,16 @@
 <section id="results-1" class="slide level2">
 <h2>Results</h2>
 <p>We display <em>two types of results</em> for each model of interest.</p>
-<blockquote>
-<p><span class="math inline">\(n\)</span>-period ahead forecast</p>
-</blockquote>
-<p>The first result compares the forecast against the out of sample data point (<strong>test set</strong>).</p>
+<p><br></p>
 <blockquote>
 <p>Historical one-period ahead forecast (backtest)</p>
 </blockquote>
-<p>The second result is a hypothetical scenario where we compare against historical data.</p>
+<p>Scenario where we compare against historical data.</p>
+<p><br></p>
+<blockquote>
+<p><span class="math inline">\(n\)</span>-period ahead forecast</p>
+</blockquote>
+<p>Compares the forecast against the out of sample data point(s).</p>
 </section>
 <section id="results-2" class="slide level2">
 <h2>Results</h2>
@@ -1407,27 +1409,10 @@
 </section>
 <section id="section-9" class="slide level2">
 <h2></h2>
-</section>
-<section id="gradient-boosted-machines" class="slide level2">
-<h2>Gradient boosted machines</h2>
-<p>Similar to random forests, a gradient boosted machine (GBM) is an ensemble of regression trees.</p>
-<p>The difference between random forests and GBMs is that regression trees are added sequentially to the emsemble.</p>
-<p>In the case of regression, regression trees are fitted to the residuals produced by the current ensemble.</p>
-<p><br></p>
-<div class="columns">
-<div class="column" style="width:70%;">
-<p>We use the <strong>LightGBM</strong> implementation.</p>
-</div><div class="column" style="width:30%;">
-<p><img data-src="02_figures/LightGBM_logo_black_text.svg"></p>
-</div>
-</div>
-</section>
-<section id="section-10" class="slide level2">
-<h2></h2>
 <div class="cell" data-execution_count="10">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_lgbm.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_rf.csv"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3"></a></span>
 <span id="cb11-4"><a href="#cb11-4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
@@ -1459,22 +1444,22 @@
 <span id="cb11-30"><a href="#cb11-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-lgbm" class="quarto-figure quarto-figure-center">
+<div id="fig-rf" class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ber-present_files/figure-revealjs/fig-lgbm-output-1.png" width="981" height="507"></p>
-<p></p><figcaption>Figure 10: Gradient boosted machines</figcaption><p></p>
+<p><img data-src="ber-present_files/figure-revealjs/fig-rf-output-1.png" width="981" height="507"></p>
+<p></p><figcaption>Figure 10: Random forests</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="section-11" class="slide level2">
+<section id="section-10" class="slide level2">
 <h2></h2>
 <div class="cell" data-execution_count="11">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_lgbm.csv"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_lgbm.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_rf.csv"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_rf.csv"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
 <span id="cb12-4"><a href="#cb12-4"></a></span>
 <span id="cb12-5"><a href="#cb12-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
@@ -1515,10 +1500,126 @@
 <span id="cb12-40"><a href="#cb12-40"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
+<div id="fig-rf-forecast" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ber-present_files/figure-revealjs/fig-rf-forecast-output-1.png" width="981" height="503"></p>
+<p></p><figcaption>Figure 11: Random forest forecast (5-periods ahead)</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="gradient-boosted-machines" class="slide level2">
+<h2>Gradient boosted machines</h2>
+<p>Similar to random forests, a gradient boosted machine (GBM) is an ensemble of regression trees.</p>
+<p>The difference between random forests and GBMs is that regression trees are added sequentially to the emsemble.</p>
+<p>In the case of regression, regression trees are fitted to the residuals produced by the current ensemble.</p>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<p>We use the <strong>LightGBM</strong> implementation.</p>
+</div><div class="column" style="width:30%;">
+<p><img data-src="02_figures/LightGBM_logo_black_text.svg"></p>
+</div>
+</div>
+</section>
+<section id="section-11" class="slide level2">
+<h2></h2>
+<div class="cell" data-execution_count="12">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_lgbm.csv"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb13-5"><a href="#cb13-5"></a></span>
+<span id="cb13-6"><a href="#cb13-6"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb13-7"><a href="#cb13-7"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb13-8"><a href="#cb13-8"></a></span>
+<span id="cb13-9"><a href="#cb13-9"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb13-10"><a href="#cb13-10"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb13-11"><a href="#cb13-11"></a></span>
+<span id="cb13-12"><a href="#cb13-12"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb13-13"><a href="#cb13-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb13-14"><a href="#cb13-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb13-15"><a href="#cb13-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16"></a></span>
+<span id="cb13-17"><a href="#cb13-17"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb13-18"><a href="#cb13-18"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb13-19"><a href="#cb13-19"></a></span>
+<span id="cb13-20"><a href="#cb13-20"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb13-21"><a href="#cb13-21"></a></span>
+<span id="cb13-22"><a href="#cb13-22"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb13-23"><a href="#cb13-23"></a></span>
+<span id="cb13-24"><a href="#cb13-24"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.iloc[:, <span class="dv">1</span>], s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb13-25"><a href="#cb13-25"></a></span>
+<span id="cb13-26"><a href="#cb13-26"></a>ax.plot(data.time, data.iloc[:, <span class="dv">1</span>], c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb13-27"><a href="#cb13-27"></a></span>
+<span id="cb13-28"><a href="#cb13-28"></a></span>
+<span id="cb13-29"><a href="#cb13-29"></a></span>
+<span id="cb13-30"><a href="#cb13-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-lgbm" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ber-present_files/figure-revealjs/fig-lgbm-output-1.png" width="981" height="507"></p>
+<p></p><figcaption>Figure 12: Gradient boosted machines</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-12" class="slide level2">
+<h2></h2>
+<div class="cell" data-execution_count="13">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_lgbm.csv"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_lgbm.csv"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4"></a></span>
+<span id="cb14-5"><a href="#cb14-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
+<span id="cb14-6"><a href="#cb14-6"></a>data_2 <span class="op">=</span> data_2.iloc[<span class="op">-</span><span class="dv">30</span>:]</span>
+<span id="cb14-7"><a href="#cb14-7"></a>gdp <span class="op">=</span> gdp.iloc[<span class="op">-</span><span class="dv">30</span>:<span class="op">-</span><span class="dv">8</span>]</span>
+<span id="cb14-8"><a href="#cb14-8"></a></span>
+<span id="cb14-9"><a href="#cb14-9"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb14-10"><a href="#cb14-10"></a></span>
+<span id="cb14-11"><a href="#cb14-11"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb14-12"><a href="#cb14-12"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb14-13"><a href="#cb14-13"></a></span>
+<span id="cb14-14"><a href="#cb14-14"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb14-15"><a href="#cb14-15"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb14-16"><a href="#cb14-16"></a></span>
+<span id="cb14-17"><a href="#cb14-17"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb14-18"><a href="#cb14-18"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb14-19"><a href="#cb14-19"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb14-20"><a href="#cb14-20"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb14-21"><a href="#cb14-21"></a></span>
+<span id="cb14-22"><a href="#cb14-22"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb14-23"><a href="#cb14-23"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb14-24"><a href="#cb14-24"></a></span>
+<span id="cb14-25"><a href="#cb14-25"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb14-26"><a href="#cb14-26"></a></span>
+<span id="cb14-27"><a href="#cb14-27"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb14-28"><a href="#cb14-28"></a></span>
+<span id="cb14-29"><a href="#cb14-29"></a>ax.scatter(x <span class="op">=</span> data_2.Date, y <span class="op">=</span> data_2.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb14-30"><a href="#cb14-30"></a></span>
+<span id="cb14-31"><a href="#cb14-31"></a>ax.plot(data_2.Date, data_2.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb14-32"><a href="#cb14-32"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb14-33"><a href="#cb14-33"></a></span>
+<span id="cb14-34"><a href="#cb14-34"></a>ax.scatter(x <span class="op">=</span> data_1.time, y <span class="op">=</span> data_1.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb14-35"><a href="#cb14-35"></a></span>
+<span id="cb14-36"><a href="#cb14-36"></a>ax.plot(data_1.time, data_1.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb14-37"><a href="#cb14-37"></a></span>
+<span id="cb14-38"><a href="#cb14-38"></a>ax.axvspan(<span class="dv">17</span>, <span class="dv">21</span>, color<span class="op">=</span><span class="st">"#00589b"</span>, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb14-39"><a href="#cb14-39"></a></span>
+<span id="cb14-40"><a href="#cb14-40"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
 <div id="fig-lgbm-forecast" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="ber-present_files/figure-revealjs/fig-lgbm-forecast-output-1.png" width="981" height="503"></p>
-<p></p><figcaption>Figure 11: Gradien boosted model forecast (5-periods ahead)</figcaption><p></p>
+<p></p><figcaption>Figure 13: Gradien boosted model forecast (5-periods ahead)</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -1571,123 +1672,12 @@
 <aside><div>
 <p>Excellent blog post on LSTMs <a href="https://bit.ly/3owra3g">here</a>.</p>
 </div></aside></section>
-<section id="section-12" class="slide level2">
-<h2></h2>
-<div class="cell" data-execution_count="12">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_lstm.csv"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
-<span id="cb13-3"><a href="#cb13-3"></a></span>
-<span id="cb13-4"><a href="#cb13-4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb13-5"><a href="#cb13-5"></a></span>
-<span id="cb13-6"><a href="#cb13-6"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
-<span id="cb13-7"><a href="#cb13-7"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
-<span id="cb13-8"><a href="#cb13-8"></a></span>
-<span id="cb13-9"><a href="#cb13-9"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb13-10"><a href="#cb13-10"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb13-11"><a href="#cb13-11"></a></span>
-<span id="cb13-12"><a href="#cb13-12"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb13-13"><a href="#cb13-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb13-14"><a href="#cb13-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb13-15"><a href="#cb13-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
-<span id="cb13-16"><a href="#cb13-16"></a></span>
-<span id="cb13-17"><a href="#cb13-17"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb13-18"><a href="#cb13-18"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb13-19"><a href="#cb13-19"></a></span>
-<span id="cb13-20"><a href="#cb13-20"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb13-21"><a href="#cb13-21"></a></span>
-<span id="cb13-22"><a href="#cb13-22"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb13-23"><a href="#cb13-23"></a></span>
-<span id="cb13-24"><a href="#cb13-24"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb13-25"><a href="#cb13-25"></a></span>
-<span id="cb13-26"><a href="#cb13-26"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb13-27"><a href="#cb13-27"></a></span>
-<span id="cb13-28"><a href="#cb13-28"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div id="fig-lstm" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="ber-present_files/figure-revealjs/fig-lstm-output-1.png" width="981" height="507"></p>
-<p></p><figcaption>Figure 12: RNN-LSTM model</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
 <section id="section-13" class="slide level2">
-<h2></h2>
-<div class="cell" data-execution_count="13">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_lstm.csv"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_brnn_lstm.csv"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4"></a></span>
-<span id="cb14-5"><a href="#cb14-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
-<span id="cb14-6"><a href="#cb14-6"></a>data_2 <span class="op">=</span> data_2.iloc[<span class="op">-</span><span class="dv">30</span>:]</span>
-<span id="cb14-7"><a href="#cb14-7"></a>gdp <span class="op">=</span> gdp.iloc[<span class="op">-</span><span class="dv">30</span>:<span class="op">-</span><span class="dv">8</span>]</span>
-<span id="cb14-8"><a href="#cb14-8"></a></span>
-<span id="cb14-9"><a href="#cb14-9"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb14-10"><a href="#cb14-10"></a></span>
-<span id="cb14-11"><a href="#cb14-11"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
-<span id="cb14-12"><a href="#cb14-12"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
-<span id="cb14-13"><a href="#cb14-13"></a></span>
-<span id="cb14-14"><a href="#cb14-14"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb14-15"><a href="#cb14-15"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb14-16"><a href="#cb14-16"></a></span>
-<span id="cb14-17"><a href="#cb14-17"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb14-18"><a href="#cb14-18"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb14-19"><a href="#cb14-19"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb14-20"><a href="#cb14-20"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
-<span id="cb14-21"><a href="#cb14-21"></a></span>
-<span id="cb14-22"><a href="#cb14-22"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb14-23"><a href="#cb14-23"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb14-24"><a href="#cb14-24"></a></span>
-<span id="cb14-25"><a href="#cb14-25"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb14-26"><a href="#cb14-26"></a></span>
-<span id="cb14-27"><a href="#cb14-27"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb14-28"><a href="#cb14-28"></a></span>
-<span id="cb14-29"><a href="#cb14-29"></a>ax.scatter(x <span class="op">=</span> data_2.Date, y <span class="op">=</span> data_2.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb14-30"><a href="#cb14-30"></a></span>
-<span id="cb14-31"><a href="#cb14-31"></a>ax.plot(data_2.Date, data_2.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb14-32"><a href="#cb14-32"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
-<span id="cb14-33"><a href="#cb14-33"></a></span>
-<span id="cb14-34"><a href="#cb14-34"></a>ax.scatter(x <span class="op">=</span> data_1.time, y <span class="op">=</span> data_1.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb14-35"><a href="#cb14-35"></a></span>
-<span id="cb14-36"><a href="#cb14-36"></a>ax.plot(data_1.time, data_1.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb14-37"><a href="#cb14-37"></a></span>
-<span id="cb14-38"><a href="#cb14-38"></a>ax.axvspan(<span class="dv">17</span>, <span class="dv">21</span>, color<span class="op">=</span><span class="st">"#00589b"</span>, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb14-39"><a href="#cb14-39"></a></span>
-<span id="cb14-40"><a href="#cb14-40"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div id="fig-rnn_lstm-forecast" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="ber-present_files/figure-revealjs/fig-rnn_lstm-forecast-output-1.png" width="981" height="503"></p>
-<p></p><figcaption>Figure 13: RNN-LSTM model forecast (5-periods ahead)</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="rnn-gru" class="slide level2">
-<h2>RNN-GRU</h2>
-<p><br></p>
-<p>There are many variations on the LSTM idea, such as the Gated Recurrent Unit (GRU).</p>
-<p>This model is a bit simpler than the traditional LSTM model and has become quite popular in deep learning applications.</p>
-<p><br></p>
-<p>No guarantee that one variant will perform better.</p>
-
-<aside><div>
-<p>RNN-GRU: Recurrent neural network - gated recurrent unit</p>
-</div></aside></section>
-<section id="section-14" class="slide level2">
 <h2></h2>
 <div class="cell" data-execution_count="14">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_gru.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_lstm.csv"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
 <span id="cb15-3"><a href="#cb15-3"></a></span>
 <span id="cb15-4"><a href="#cb15-4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
@@ -1713,27 +1703,26 @@
 <span id="cb15-24"><a href="#cb15-24"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
 <span id="cb15-25"><a href="#cb15-25"></a></span>
 <span id="cb15-26"><a href="#cb15-26"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb15-27"><a href="#cb15-27"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
-<span id="cb15-28"><a href="#cb15-28"></a></span>
-<span id="cb15-29"><a href="#cb15-29"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-27"><a href="#cb15-27"></a></span>
+<span id="cb15-28"><a href="#cb15-28"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-rnn_gru" class="quarto-figure quarto-figure-center">
+<div id="fig-lstm" class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ber-present_files/figure-revealjs/fig-rnn_gru-output-1.png" width="981" height="507"></p>
-<p></p><figcaption>Figure 14: RNN-GRU model</figcaption><p></p>
+<p><img data-src="ber-present_files/figure-revealjs/fig-lstm-output-1.png" width="981" height="507"></p>
+<p></p><figcaption>Figure 14: RNN-LSTM model</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="section-15" class="slide level2">
+<section id="section-14" class="slide level2">
 <h2></h2>
 <div class="cell" data-execution_count="15">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_gru.csv"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_brnn_gru.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_lstm.csv"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_brnn_lstm.csv"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
 <span id="cb16-4"><a href="#cb16-4"></a></span>
 <span id="cb16-5"><a href="#cb16-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
@@ -1774,10 +1763,122 @@
 <span id="cb16-40"><a href="#cb16-40"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
+<div id="fig-rnn_lstm-forecast" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ber-present_files/figure-revealjs/fig-rnn_lstm-forecast-output-1.png" width="981" height="503"></p>
+<p></p><figcaption>Figure 15: RNN-LSTM model forecast (5-periods ahead)</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="rnn-gru" class="slide level2">
+<h2>RNN-GRU</h2>
+<p><br></p>
+<p>There are many variations on the LSTM idea, such as the Gated Recurrent Unit (GRU).</p>
+<p>This model is a bit simpler than the traditional LSTM model and has become quite popular in deep learning applications.</p>
+<p><br></p>
+<p>No guarantee that one variant will perform better.</p>
+
+<aside><div>
+<p>RNN-GRU: Recurrent neural network - gated recurrent unit</p>
+</div></aside></section>
+<section id="section-15" class="slide level2">
+<h2></h2>
+<div class="cell" data-execution_count="16">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_gru.csv"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb17-5"><a href="#cb17-5"></a></span>
+<span id="cb17-6"><a href="#cb17-6"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb17-7"><a href="#cb17-7"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb17-8"><a href="#cb17-8"></a></span>
+<span id="cb17-9"><a href="#cb17-9"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb17-10"><a href="#cb17-10"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb17-11"><a href="#cb17-11"></a></span>
+<span id="cb17-12"><a href="#cb17-12"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb17-13"><a href="#cb17-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb17-14"><a href="#cb17-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb17-15"><a href="#cb17-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb17-16"><a href="#cb17-16"></a></span>
+<span id="cb17-17"><a href="#cb17-17"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb17-18"><a href="#cb17-18"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb17-19"><a href="#cb17-19"></a></span>
+<span id="cb17-20"><a href="#cb17-20"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb17-21"><a href="#cb17-21"></a></span>
+<span id="cb17-22"><a href="#cb17-22"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb17-23"><a href="#cb17-23"></a></span>
+<span id="cb17-24"><a href="#cb17-24"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb17-25"><a href="#cb17-25"></a></span>
+<span id="cb17-26"><a href="#cb17-26"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb17-27"><a href="#cb17-27"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb17-28"><a href="#cb17-28"></a></span>
+<span id="cb17-29"><a href="#cb17-29"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-rnn_gru" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ber-present_files/figure-revealjs/fig-rnn_gru-output-1.png" width="981" height="507"></p>
+<p></p><figcaption>Figure 16: RNN-GRU model</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-16" class="slide level2">
+<h2></h2>
+<div class="cell" data-execution_count="17">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_gru.csv"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_brnn_gru.csv"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
+<span id="cb18-6"><a href="#cb18-6"></a>data_2 <span class="op">=</span> data_2.iloc[<span class="op">-</span><span class="dv">30</span>:]</span>
+<span id="cb18-7"><a href="#cb18-7"></a>gdp <span class="op">=</span> gdp.iloc[<span class="op">-</span><span class="dv">30</span>:<span class="op">-</span><span class="dv">8</span>]</span>
+<span id="cb18-8"><a href="#cb18-8"></a></span>
+<span id="cb18-9"><a href="#cb18-9"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb18-10"><a href="#cb18-10"></a></span>
+<span id="cb18-11"><a href="#cb18-11"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb18-12"><a href="#cb18-12"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb18-13"><a href="#cb18-13"></a></span>
+<span id="cb18-14"><a href="#cb18-14"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb18-15"><a href="#cb18-15"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb18-16"><a href="#cb18-16"></a></span>
+<span id="cb18-17"><a href="#cb18-17"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb18-18"><a href="#cb18-18"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb18-19"><a href="#cb18-19"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb18-20"><a href="#cb18-20"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb18-21"><a href="#cb18-21"></a></span>
+<span id="cb18-22"><a href="#cb18-22"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb18-23"><a href="#cb18-23"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb18-24"><a href="#cb18-24"></a></span>
+<span id="cb18-25"><a href="#cb18-25"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb18-26"><a href="#cb18-26"></a></span>
+<span id="cb18-27"><a href="#cb18-27"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb18-28"><a href="#cb18-28"></a></span>
+<span id="cb18-29"><a href="#cb18-29"></a>ax.scatter(x <span class="op">=</span> data_2.Date, y <span class="op">=</span> data_2.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb18-30"><a href="#cb18-30"></a></span>
+<span id="cb18-31"><a href="#cb18-31"></a>ax.plot(data_2.Date, data_2.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb18-32"><a href="#cb18-32"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb18-33"><a href="#cb18-33"></a></span>
+<span id="cb18-34"><a href="#cb18-34"></a>ax.scatter(x <span class="op">=</span> data_1.time, y <span class="op">=</span> data_1.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb18-35"><a href="#cb18-35"></a></span>
+<span id="cb18-36"><a href="#cb18-36"></a>ax.plot(data_1.time, data_1.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb18-37"><a href="#cb18-37"></a></span>
+<span id="cb18-38"><a href="#cb18-38"></a>ax.axvspan(<span class="dv">17</span>, <span class="dv">21</span>, color<span class="op">=</span><span class="st">"#00589b"</span>, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb18-39"><a href="#cb18-39"></a></span>
+<span id="cb18-40"><a href="#cb18-40"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
 <div id="fig-rnn_gru-forecast" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="ber-present_files/figure-revealjs/fig-rnn_gru-forecast-output-1.png" width="981" height="503"></p>
-<p></p><figcaption>Figure 15: RNN-GRU model forecast (5-periods ahead)</figcaption><p></p>
+<p></p><figcaption>Figure 17: RNN-GRU model forecast (5-periods ahead)</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -1794,93 +1895,93 @@
 <aside><div>
 <p>N-BEATS: Neural basis expansion analysis for interpretable time-series forecasting</p>
 </div></aside></section>
-<section id="section-16" class="slide level2">
+<section id="section-17" class="slide level2">
 <h2></h2>
-<div class="cell" data-execution_count="16">
+<div class="cell" data-execution_count="18">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>ar <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_arma.csv"</span>)</span>
-<span id="cb17-2"><a href="#cb17-2"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nbeats.csv"</span>)</span>
-<span id="cb17-3"><a href="#cb17-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4"></a></span>
-<span id="cb17-5"><a href="#cb17-5"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb17-6"><a href="#cb17-6"></a></span>
-<span id="cb17-7"><a href="#cb17-7"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
-<span id="cb17-8"><a href="#cb17-8"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
-<span id="cb17-9"><a href="#cb17-9"></a></span>
-<span id="cb17-10"><a href="#cb17-10"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb17-11"><a href="#cb17-11"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb17-12"><a href="#cb17-12"></a></span>
-<span id="cb17-13"><a href="#cb17-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb17-14"><a href="#cb17-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb17-15"><a href="#cb17-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb17-16"><a href="#cb17-16"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
-<span id="cb17-17"><a href="#cb17-17"></a></span>
-<span id="cb17-18"><a href="#cb17-18"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb17-19"><a href="#cb17-19"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb17-20"><a href="#cb17-20"></a></span>
-<span id="cb17-21"><a href="#cb17-21"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb17-22"><a href="#cb17-22"></a></span>
-<span id="cb17-23"><a href="#cb17-23"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb17-24"><a href="#cb17-24"></a></span>
-<span id="cb17-25"><a href="#cb17-25"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb17-26"><a href="#cb17-26"></a></span>
-<span id="cb17-27"><a href="#cb17-27"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb17-28"><a href="#cb17-28"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
-<span id="cb17-29"><a href="#cb17-29"></a></span>
-<span id="cb17-30"><a href="#cb17-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>ar <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_arma.csv"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nbeats.csv"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4"></a></span>
+<span id="cb19-5"><a href="#cb19-5"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb19-6"><a href="#cb19-6"></a></span>
+<span id="cb19-7"><a href="#cb19-7"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb19-8"><a href="#cb19-8"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb19-9"><a href="#cb19-9"></a></span>
+<span id="cb19-10"><a href="#cb19-10"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb19-11"><a href="#cb19-11"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb19-12"><a href="#cb19-12"></a></span>
+<span id="cb19-13"><a href="#cb19-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb19-14"><a href="#cb19-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb19-15"><a href="#cb19-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb19-16"><a href="#cb19-16"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb19-17"><a href="#cb19-17"></a></span>
+<span id="cb19-18"><a href="#cb19-18"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb19-19"><a href="#cb19-19"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb19-20"><a href="#cb19-20"></a></span>
+<span id="cb19-21"><a href="#cb19-21"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb19-22"><a href="#cb19-22"></a></span>
+<span id="cb19-23"><a href="#cb19-23"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb19-24"><a href="#cb19-24"></a></span>
+<span id="cb19-25"><a href="#cb19-25"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb19-26"><a href="#cb19-26"></a></span>
+<span id="cb19-27"><a href="#cb19-27"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb19-28"><a href="#cb19-28"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb19-29"><a href="#cb19-29"></a></span>
+<span id="cb19-30"><a href="#cb19-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-nbeats" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="ber-present_files/figure-revealjs/fig-nbeats-output-1.png" width="981" height="507"></p>
-<p></p><figcaption>Figure 16: N-BEATS model (univariate)</figcaption><p></p>
+<p></p><figcaption>Figure 18: N-BEATS model (univariate)</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="section-17" class="slide level2">
+<section id="section-18" class="slide level2">
 <h2></h2>
-<div class="cell" data-execution_count="17">
+<div class="cell" data-execution_count="19">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a>ar <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_arma.csv"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nbeatsx.csv"</span>)</span>
-<span id="cb18-3"><a href="#cb18-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
-<span id="cb18-4"><a href="#cb18-4"></a></span>
-<span id="cb18-5"><a href="#cb18-5"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb18-6"><a href="#cb18-6"></a></span>
-<span id="cb18-7"><a href="#cb18-7"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
-<span id="cb18-8"><a href="#cb18-8"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
-<span id="cb18-9"><a href="#cb18-9"></a></span>
-<span id="cb18-10"><a href="#cb18-10"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb18-11"><a href="#cb18-11"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb18-12"><a href="#cb18-12"></a></span>
-<span id="cb18-13"><a href="#cb18-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb18-14"><a href="#cb18-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb18-15"><a href="#cb18-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb18-16"><a href="#cb18-16"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
-<span id="cb18-17"><a href="#cb18-17"></a></span>
-<span id="cb18-18"><a href="#cb18-18"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb18-19"><a href="#cb18-19"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb18-20"><a href="#cb18-20"></a></span>
-<span id="cb18-21"><a href="#cb18-21"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb18-22"><a href="#cb18-22"></a></span>
-<span id="cb18-23"><a href="#cb18-23"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb18-24"><a href="#cb18-24"></a></span>
-<span id="cb18-25"><a href="#cb18-25"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb18-26"><a href="#cb18-26"></a></span>
-<span id="cb18-27"><a href="#cb18-27"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb18-28"><a href="#cb18-28"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
-<span id="cb18-29"><a href="#cb18-29"></a></span>
-<span id="cb18-30"><a href="#cb18-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>ar <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_arma.csv"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nbeatsx.csv"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4"></a></span>
+<span id="cb20-5"><a href="#cb20-5"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb20-6"><a href="#cb20-6"></a></span>
+<span id="cb20-7"><a href="#cb20-7"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb20-8"><a href="#cb20-8"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb20-9"><a href="#cb20-9"></a></span>
+<span id="cb20-10"><a href="#cb20-10"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb20-11"><a href="#cb20-11"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb20-12"><a href="#cb20-12"></a></span>
+<span id="cb20-13"><a href="#cb20-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb20-14"><a href="#cb20-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb20-15"><a href="#cb20-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb20-16"><a href="#cb20-16"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb20-17"><a href="#cb20-17"></a></span>
+<span id="cb20-18"><a href="#cb20-18"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb20-19"><a href="#cb20-19"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb20-20"><a href="#cb20-20"></a></span>
+<span id="cb20-21"><a href="#cb20-21"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb20-22"><a href="#cb20-22"></a></span>
+<span id="cb20-23"><a href="#cb20-23"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb20-24"><a href="#cb20-24"></a></span>
+<span id="cb20-25"><a href="#cb20-25"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb20-26"><a href="#cb20-26"></a></span>
+<span id="cb20-27"><a href="#cb20-27"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb20-28"><a href="#cb20-28"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb20-29"><a href="#cb20-29"></a></span>
+<span id="cb20-30"><a href="#cb20-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-nbeatsx" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="ber-present_files/figure-revealjs/fig-nbeatsx-output-1.png" width="981" height="507"></p>
-<p></p><figcaption>Figure 17: N-BEATSx model (multivariate)</figcaption><p></p>
+<p></p><figcaption>Figure 19: N-BEATSx model (multivariate)</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -1890,22 +1991,22 @@
 <h2>N-BEATSx</h2>
 <div class="small">
 <p>N-BEATSx model includes covariates.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>model_nbeats <span class="op">=</span> NBEATSModel(</span>
-<span id="cb19-2"><a href="#cb19-2"></a>    input_chunk_length<span class="op">=</span><span class="dv">12</span>, </span>
-<span id="cb19-3"><a href="#cb19-3"></a>    output_chunk_length<span class="op">=</span><span class="dv">1</span>, </span>
-<span id="cb19-4"><a href="#cb19-4"></a>    num_stacks<span class="op">=</span><span class="dv">1</span>, </span>
-<span id="cb19-5"><a href="#cb19-5"></a>    num_blocks<span class="op">=</span><span class="dv">2</span>, </span>
-<span id="cb19-6"><a href="#cb19-6"></a>    num_layers<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb19-7"><a href="#cb19-7"></a>    layer_widths<span class="op">=</span><span class="dv">256</span>, </span>
-<span id="cb19-8"><a href="#cb19-8"></a>    n_epochs<span class="op">=</span><span class="dv">100</span>,</span>
-<span id="cb19-9"><a href="#cb19-9"></a>    random_state <span class="op">=</span> <span class="dv">42</span>,</span>
-<span id="cb19-10"><a href="#cb19-10"></a>    add_encoders<span class="op">=</span>encoders,</span>
-<span id="cb19-11"><a href="#cb19-11"></a>    dropout<span class="op">=</span><span class="fl">0.3</span>,</span>
-<span id="cb19-12"><a href="#cb19-12"></a>    loss_fn<span class="op">=</span>RMSELoss(),</span>
-<span id="cb19-13"><a href="#cb19-13"></a>    pl_trainer_kwargs<span class="op">=</span>{<span class="st">"accelerator"</span>: <span class="st">"gpu"</span>,</span>
-<span id="cb19-14"><a href="#cb19-14"></a>                        <span class="st">"gpus"</span>: <span class="dv">1</span>,</span>
-<span id="cb19-15"><a href="#cb19-15"></a>                        <span class="st">"auto_select_gpus"</span>: <span class="va">True</span>, </span>
-<span id="cb19-16"><a href="#cb19-16"></a>                        <span class="st">"callbacks"</span>: [my_stopper]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>model_nbeats <span class="op">=</span> NBEATSModel(</span>
+<span id="cb21-2"><a href="#cb21-2"></a>    input_chunk_length<span class="op">=</span><span class="dv">12</span>, </span>
+<span id="cb21-3"><a href="#cb21-3"></a>    output_chunk_length<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb21-4"><a href="#cb21-4"></a>    num_stacks<span class="op">=</span><span class="dv">1</span>, </span>
+<span id="cb21-5"><a href="#cb21-5"></a>    num_blocks<span class="op">=</span><span class="dv">2</span>, </span>
+<span id="cb21-6"><a href="#cb21-6"></a>    num_layers<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb21-7"><a href="#cb21-7"></a>    layer_widths<span class="op">=</span><span class="dv">256</span>, </span>
+<span id="cb21-8"><a href="#cb21-8"></a>    n_epochs<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb21-9"><a href="#cb21-9"></a>    random_state <span class="op">=</span> <span class="dv">42</span>,</span>
+<span id="cb21-10"><a href="#cb21-10"></a>    add_encoders<span class="op">=</span>encoders,</span>
+<span id="cb21-11"><a href="#cb21-11"></a>    dropout<span class="op">=</span><span class="fl">0.3</span>,</span>
+<span id="cb21-12"><a href="#cb21-12"></a>    loss_fn<span class="op">=</span>RMSELoss(),</span>
+<span id="cb21-13"><a href="#cb21-13"></a>    pl_trainer_kwargs<span class="op">=</span>{<span class="st">"accelerator"</span>: <span class="st">"gpu"</span>,</span>
+<span id="cb21-14"><a href="#cb21-14"></a>                        <span class="st">"gpus"</span>: <span class="dv">1</span>,</span>
+<span id="cb21-15"><a href="#cb21-15"></a>                        <span class="st">"auto_select_gpus"</span>: <span class="va">True</span>, </span>
+<span id="cb21-16"><a href="#cb21-16"></a>                        <span class="st">"callbacks"</span>: [my_stopper]})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Would a forecasting practitioner be able to do this easily?</p>
 <p>Model involves intensive <strong>hyperparameter tuning</strong>.</p>
 </div>
@@ -1913,127 +2014,13 @@
 <aside><div>
 <p>In this case the tuning took roughly <strong>22 hours</strong>.</p>
 </div></aside></section>
-<section id="section-18" class="slide level2">
-<h2></h2>
-<div class="cell" data-execution_count="18">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nbeatsx.csv"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_nbeatsx.csv"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
-<span id="cb20-4"><a href="#cb20-4"></a></span>
-<span id="cb20-5"><a href="#cb20-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
-<span id="cb20-6"><a href="#cb20-6"></a>data_2 <span class="op">=</span> data_2.iloc[<span class="op">-</span><span class="dv">30</span>:]</span>
-<span id="cb20-7"><a href="#cb20-7"></a>gdp <span class="op">=</span> gdp.iloc[<span class="op">-</span><span class="dv">30</span>:<span class="op">-</span><span class="dv">8</span>]</span>
-<span id="cb20-8"><a href="#cb20-8"></a></span>
-<span id="cb20-9"><a href="#cb20-9"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb20-10"><a href="#cb20-10"></a></span>
-<span id="cb20-11"><a href="#cb20-11"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
-<span id="cb20-12"><a href="#cb20-12"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
-<span id="cb20-13"><a href="#cb20-13"></a></span>
-<span id="cb20-14"><a href="#cb20-14"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb20-15"><a href="#cb20-15"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb20-16"><a href="#cb20-16"></a></span>
-<span id="cb20-17"><a href="#cb20-17"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb20-18"><a href="#cb20-18"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb20-19"><a href="#cb20-19"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb20-20"><a href="#cb20-20"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
-<span id="cb20-21"><a href="#cb20-21"></a></span>
-<span id="cb20-22"><a href="#cb20-22"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb20-23"><a href="#cb20-23"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb20-24"><a href="#cb20-24"></a></span>
-<span id="cb20-25"><a href="#cb20-25"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb20-26"><a href="#cb20-26"></a></span>
-<span id="cb20-27"><a href="#cb20-27"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb20-28"><a href="#cb20-28"></a></span>
-<span id="cb20-29"><a href="#cb20-29"></a>ax.scatter(x <span class="op">=</span> data_2.Date, y <span class="op">=</span> data_2.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb20-30"><a href="#cb20-30"></a></span>
-<span id="cb20-31"><a href="#cb20-31"></a>ax.plot(data_2.Date, data_2.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb20-32"><a href="#cb20-32"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
-<span id="cb20-33"><a href="#cb20-33"></a></span>
-<span id="cb20-34"><a href="#cb20-34"></a>ax.scatter(x <span class="op">=</span> data_1.time, y <span class="op">=</span> data_1.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb20-35"><a href="#cb20-35"></a></span>
-<span id="cb20-36"><a href="#cb20-36"></a>ax.plot(data_1.time, data_1.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb20-37"><a href="#cb20-37"></a></span>
-<span id="cb20-38"><a href="#cb20-38"></a>ax.axvspan(<span class="dv">17</span>, <span class="dv">21</span>, color<span class="op">=</span><span class="st">"#00589b"</span>, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb20-39"><a href="#cb20-39"></a></span>
-<span id="cb20-40"><a href="#cb20-40"></a></span>
-<span id="cb20-41"><a href="#cb20-41"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div id="fig-nbeatsx-forecast" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="ber-present_files/figure-revealjs/fig-nbeatsx-forecast-output-1.png" width="981" height="503"></p>
-<p></p><figcaption>Figure 18: N-BEATSx model forecast (5-periods ahead)</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="n-hits" class="slide level2">
-<h2>N-HiTS 🚧</h2>
-<p><br></p>
-<p>N-HiTS model has recently shown that it can consistently outperform the N-BEATS model.</p>
-<p><br></p>
-<p>Included experimentally to see whether it could achieve good performance on GDP.</p>
-<p>Rough grid search applied for hyperparameters.</p>
-
-<aside><div>
-<p>N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting</p>
-</div></aside></section>
 <section id="section-19" class="slide level2">
-<h2></h2>
-<div class="cell" data-execution_count="19">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a>ar <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_arma.csv"</span>)</span>
-<span id="cb21-2"><a href="#cb21-2"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nhits.csv"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4"></a></span>
-<span id="cb21-5"><a href="#cb21-5"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb21-6"><a href="#cb21-6"></a></span>
-<span id="cb21-7"><a href="#cb21-7"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
-<span id="cb21-8"><a href="#cb21-8"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
-<span id="cb21-9"><a href="#cb21-9"></a></span>
-<span id="cb21-10"><a href="#cb21-10"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb21-11"><a href="#cb21-11"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb21-12"><a href="#cb21-12"></a></span>
-<span id="cb21-13"><a href="#cb21-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb21-14"><a href="#cb21-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb21-15"><a href="#cb21-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb21-16"><a href="#cb21-16"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
-<span id="cb21-17"><a href="#cb21-17"></a></span>
-<span id="cb21-18"><a href="#cb21-18"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb21-19"><a href="#cb21-19"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb21-20"><a href="#cb21-20"></a></span>
-<span id="cb21-21"><a href="#cb21-21"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb21-22"><a href="#cb21-22"></a></span>
-<span id="cb21-23"><a href="#cb21-23"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb21-24"><a href="#cb21-24"></a></span>
-<span id="cb21-25"><a href="#cb21-25"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb21-26"><a href="#cb21-26"></a></span>
-<span id="cb21-27"><a href="#cb21-27"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb21-28"><a href="#cb21-28"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
-<span id="cb21-29"><a href="#cb21-29"></a></span>
-<span id="cb21-30"><a href="#cb21-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display">
-<div id="fig-nhits" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="ber-present_files/figure-revealjs/fig-nhits-output-1.png" width="981" height="507"></p>
-<p></p><figcaption>Figure 19: N-HiTS model (multivariate)</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="section-20" class="slide level2">
 <h2></h2>
 <div class="cell" data-execution_count="20">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nhits.csv"</span>)</span>
-<span id="cb22-2"><a href="#cb22-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_nhits.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nbeatsx.csv"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_nbeatsx.csv"</span>)</span>
 <span id="cb22-3"><a href="#cb22-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
 <span id="cb22-4"><a href="#cb22-4"></a></span>
 <span id="cb22-5"><a href="#cb22-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
@@ -2075,79 +2062,79 @@
 <span id="cb22-41"><a href="#cb22-41"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-nhits-forecast" class="quarto-figure quarto-figure-center">
+<div id="fig-nbeatsx-forecast" class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ber-present_files/figure-revealjs/fig-nhits-forecast-output-1.png" width="981" height="503"></p>
-<p></p><figcaption>Figure 20: N-HiTS model forecast (5-periods ahead)</figcaption><p></p>
+<p><img data-src="ber-present_files/figure-revealjs/fig-nbeatsx-forecast-output-1.png" width="981" height="503"></p>
+<p></p><figcaption>Figure 20: N-BEATSx model forecast (5-periods ahead)</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="tcn" class="slide level2">
-<h2>TCN 🚧</h2>
+<section id="n-hits" class="slide level2">
+<h2>N-HiTS 🚧</h2>
 <p><br></p>
-<p>Only application of convolutional network in the article.</p>
-<p>Mostly used in finance and exhchange rate prediction (high frequency data)</p>
+<p>N-HiTS model has recently shown that it can consistently outperform the N-BEATS model.</p>
 <p><br></p>
-<p>Another experimental approach to see what convolutional networks can contribute.</p>
-<p>Mostly using model <strong>defaults</strong> in terms of parameters.</p>
+<p>Included experimentally to see whether it could achieve good performance on GDP.</p>
+<p>Rough grid search applied for hyperparameters.</p>
 
 <aside><div>
-<p>TCN: Temporal convolutional network</p>
+<p>N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting</p>
 </div></aside></section>
-<section id="section-21" class="slide level2">
+<section id="section-20" class="slide level2">
 <h2></h2>
 <div class="cell" data-execution_count="21">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_tcn.csv"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
-<span id="cb23-3"><a href="#cb23-3"></a></span>
-<span id="cb23-4"><a href="#cb23-4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb23-5"><a href="#cb23-5"></a></span>
-<span id="cb23-6"><a href="#cb23-6"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
-<span id="cb23-7"><a href="#cb23-7"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
-<span id="cb23-8"><a href="#cb23-8"></a></span>
-<span id="cb23-9"><a href="#cb23-9"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb23-10"><a href="#cb23-10"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb23-11"><a href="#cb23-11"></a></span>
-<span id="cb23-12"><a href="#cb23-12"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb23-13"><a href="#cb23-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb23-14"><a href="#cb23-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb23-15"><a href="#cb23-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
-<span id="cb23-16"><a href="#cb23-16"></a></span>
-<span id="cb23-17"><a href="#cb23-17"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb23-18"><a href="#cb23-18"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb23-19"><a href="#cb23-19"></a></span>
-<span id="cb23-20"><a href="#cb23-20"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb23-21"><a href="#cb23-21"></a></span>
-<span id="cb23-22"><a href="#cb23-22"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb23-23"><a href="#cb23-23"></a></span>
-<span id="cb23-24"><a href="#cb23-24"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb23-25"><a href="#cb23-25"></a></span>
-<span id="cb23-26"><a href="#cb23-26"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb23-27"><a href="#cb23-27"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
-<span id="cb23-28"><a href="#cb23-28"></a></span>
-<span id="cb23-29"><a href="#cb23-29"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>ar <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_arma.csv"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nhits.csv"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4"></a></span>
+<span id="cb23-5"><a href="#cb23-5"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb23-6"><a href="#cb23-6"></a></span>
+<span id="cb23-7"><a href="#cb23-7"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb23-8"><a href="#cb23-8"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb23-9"><a href="#cb23-9"></a></span>
+<span id="cb23-10"><a href="#cb23-10"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb23-11"><a href="#cb23-11"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb23-12"><a href="#cb23-12"></a></span>
+<span id="cb23-13"><a href="#cb23-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb23-14"><a href="#cb23-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb23-15"><a href="#cb23-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb23-16"><a href="#cb23-16"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb23-17"><a href="#cb23-17"></a></span>
+<span id="cb23-18"><a href="#cb23-18"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb23-19"><a href="#cb23-19"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb23-20"><a href="#cb23-20"></a></span>
+<span id="cb23-21"><a href="#cb23-21"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb23-22"><a href="#cb23-22"></a></span>
+<span id="cb23-23"><a href="#cb23-23"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb23-24"><a href="#cb23-24"></a></span>
+<span id="cb23-25"><a href="#cb23-25"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb23-26"><a href="#cb23-26"></a></span>
+<span id="cb23-27"><a href="#cb23-27"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb23-28"><a href="#cb23-28"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb23-29"><a href="#cb23-29"></a></span>
+<span id="cb23-30"><a href="#cb23-30"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div id="fig-tcn" class="quarto-figure quarto-figure-center">
+<div id="fig-nhits" class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="ber-present_files/figure-revealjs/fig-tcn-output-1.png" width="981" height="507"></p>
-<p></p><figcaption>Figure 21: TCN model</figcaption><p></p>
+<p><img data-src="ber-present_files/figure-revealjs/fig-nhits-output-1.png" width="981" height="507"></p>
+<p></p><figcaption>Figure 21: N-HiTS model (multivariate)</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="section-22" class="slide level2">
+<section id="section-21" class="slide level2">
 <h2></h2>
 <div class="cell" data-execution_count="22">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_tcn.csv"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_tcn.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nhits.csv"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_nhits.csv"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
 <span id="cb24-4"><a href="#cb24-4"></a></span>
 <span id="cb24-5"><a href="#cb24-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
@@ -2189,10 +2176,124 @@
 <span id="cb24-41"><a href="#cb24-41"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
+<div id="fig-nhits-forecast" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ber-present_files/figure-revealjs/fig-nhits-forecast-output-1.png" width="981" height="503"></p>
+<p></p><figcaption>Figure 22: N-HiTS model forecast (5-periods ahead)</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="tcn" class="slide level2">
+<h2>TCN 🚧</h2>
+<p><br></p>
+<p>Only application of convolutional network in the article.</p>
+<p>Mostly used in finance and exhchange rate prediction (high frequency data)</p>
+<p><br></p>
+<p>Another experimental approach to see what convolutional networks can contribute.</p>
+<p>Mostly using model <strong>defaults</strong> in terms of parameters.</p>
+
+<aside><div>
+<p>TCN: Temporal convolutional network</p>
+</div></aside></section>
+<section id="section-22" class="slide level2">
+<h2></h2>
+<div class="cell" data-execution_count="23">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_tcn.csv"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3"></a></span>
+<span id="cb25-4"><a href="#cb25-4"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb25-5"><a href="#cb25-5"></a></span>
+<span id="cb25-6"><a href="#cb25-6"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb25-7"><a href="#cb25-7"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb25-8"><a href="#cb25-8"></a></span>
+<span id="cb25-9"><a href="#cb25-9"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb25-10"><a href="#cb25-10"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb25-11"><a href="#cb25-11"></a></span>
+<span id="cb25-12"><a href="#cb25-12"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb25-13"><a href="#cb25-13"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb25-14"><a href="#cb25-14"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb25-15"><a href="#cb25-15"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb25-16"><a href="#cb25-16"></a></span>
+<span id="cb25-17"><a href="#cb25-17"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb25-18"><a href="#cb25-18"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb25-19"><a href="#cb25-19"></a></span>
+<span id="cb25-20"><a href="#cb25-20"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb25-21"><a href="#cb25-21"></a></span>
+<span id="cb25-22"><a href="#cb25-22"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb25-23"><a href="#cb25-23"></a></span>
+<span id="cb25-24"><a href="#cb25-24"></a>ax.scatter(x <span class="op">=</span> data.time, y <span class="op">=</span> data.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb25-25"><a href="#cb25-25"></a></span>
+<span id="cb25-26"><a href="#cb25-26"></a>ax.plot(data.time, data.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb25-27"><a href="#cb25-27"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb25-28"><a href="#cb25-28"></a></span>
+<span id="cb25-29"><a href="#cb25-29"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-tcn" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="ber-present_files/figure-revealjs/fig-tcn-output-1.png" width="981" height="507"></p>
+<p></p><figcaption>Figure 23: TCN model</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-23" class="slide level2">
+<h2></h2>
+<div class="cell" data-execution_count="24">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_tcn.csv"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/pred_tcn.csv"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp_full.csv"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4"></a></span>
+<span id="cb26-5"><a href="#cb26-5"></a>data_1 <span class="op">=</span> data_1.iloc[<span class="op">-</span><span class="dv">17</span>:]</span>
+<span id="cb26-6"><a href="#cb26-6"></a>data_2 <span class="op">=</span> data_2.iloc[<span class="op">-</span><span class="dv">30</span>:]</span>
+<span id="cb26-7"><a href="#cb26-7"></a>gdp <span class="op">=</span> gdp.iloc[<span class="op">-</span><span class="dv">30</span>:<span class="op">-</span><span class="dv">8</span>]</span>
+<span id="cb26-8"><a href="#cb26-8"></a></span>
+<span id="cb26-9"><a href="#cb26-9"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb26-10"><a href="#cb26-10"></a></span>
+<span id="cb26-11"><a href="#cb26-11"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb26-12"><a href="#cb26-12"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb26-13"><a href="#cb26-13"></a></span>
+<span id="cb26-14"><a href="#cb26-14"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb26-15"><a href="#cb26-15"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb26-16"><a href="#cb26-16"></a></span>
+<span id="cb26-17"><a href="#cb26-17"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb26-18"><a href="#cb26-18"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb26-19"><a href="#cb26-19"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb26-20"><a href="#cb26-20"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb26-21"><a href="#cb26-21"></a></span>
+<span id="cb26-22"><a href="#cb26-22"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb26-23"><a href="#cb26-23"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb26-24"><a href="#cb26-24"></a></span>
+<span id="cb26-25"><a href="#cb26-25"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"black"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb26-26"><a href="#cb26-26"></a></span>
+<span id="cb26-27"><a href="#cb26-27"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb26-28"><a href="#cb26-28"></a></span>
+<span id="cb26-29"><a href="#cb26-29"></a>ax.scatter(x <span class="op">=</span> data_2.Date, y <span class="op">=</span> data_2.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb26-30"><a href="#cb26-30"></a></span>
+<span id="cb26-31"><a href="#cb26-31"></a>ax.plot(data_2.Date, data_2.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb26-32"><a href="#cb26-32"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb26-33"><a href="#cb26-33"></a></span>
+<span id="cb26-34"><a href="#cb26-34"></a>ax.scatter(x <span class="op">=</span> data_1.time, y <span class="op">=</span> data_1.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb26-35"><a href="#cb26-35"></a></span>
+<span id="cb26-36"><a href="#cb26-36"></a>ax.plot(data_1.time, data_1.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb26-37"><a href="#cb26-37"></a></span>
+<span id="cb26-38"><a href="#cb26-38"></a>ax.axvspan(<span class="dv">17</span>, <span class="dv">21</span>, color<span class="op">=</span><span class="st">"#00589b"</span>, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb26-39"><a href="#cb26-39"></a></span>
+<span id="cb26-40"><a href="#cb26-40"></a></span>
+<span id="cb26-41"><a href="#cb26-41"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
 <div id="fig-tcn-forecast" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="ber-present_files/figure-revealjs/fig-tcn-forecast-output-1.png" width="981" height="503"></p>
-<p></p><figcaption>Figure 22: TCN model forecast (5-periods ahead)</figcaption><p></p>
+<p></p><figcaption>Figure 24: TCN model forecast (5-periods ahead)</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -2203,64 +2304,64 @@
 <h1>Model comparison 🤔</h1>
 
 </section>
-<section id="section-23" class="slide level2">
+<section id="section-24" class="slide level2">
 <h2></h2>
-<div class="cell" data-execution_count="23">
+<div class="cell" data-execution_count="25">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_arma.csv"</span>)</span>
-<span id="cb25-2"><a href="#cb25-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_svr.csv"</span>)</span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="co">#data_3 = pd.read_csv("../scripts/python/000_data/hist_rf.csv")</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>data_4 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_lgbm.csv"</span>)</span>
-<span id="cb25-5"><a href="#cb25-5"></a>data_5 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_lstm.csv"</span>)</span>
-<span id="cb25-6"><a href="#cb25-6"></a>data_6 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_gru.csv"</span>)</span>
-<span id="cb25-7"><a href="#cb25-7"></a>data_7 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nbeatsx.csv"</span>)</span>
-<span id="cb25-8"><a href="#cb25-8"></a>data_8 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nhits.csv"</span>)</span>
-<span id="cb25-9"><a href="#cb25-9"></a>data_9 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_tcn.csv"</span>)</span>
-<span id="cb25-10"><a href="#cb25-10"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
-<span id="cb25-11"><a href="#cb25-11"></a></span>
-<span id="cb25-12"><a href="#cb25-12"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb25-13"><a href="#cb25-13"></a></span>
-<span id="cb25-14"><a href="#cb25-14"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
-<span id="cb25-15"><a href="#cb25-15"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
-<span id="cb25-16"><a href="#cb25-16"></a></span>
-<span id="cb25-17"><a href="#cb25-17"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb25-18"><a href="#cb25-18"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
-<span id="cb25-19"><a href="#cb25-19"></a></span>
-<span id="cb25-20"><a href="#cb25-20"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb25-21"><a href="#cb25-21"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb25-22"><a href="#cb25-22"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb25-23"><a href="#cb25-23"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
-<span id="cb25-24"><a href="#cb25-24"></a></span>
-<span id="cb25-25"><a href="#cb25-25"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb25-26"><a href="#cb25-26"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
-<span id="cb25-27"><a href="#cb25-27"></a></span>
-<span id="cb25-28"><a href="#cb25-28"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"#00589b"</span>, edgecolor<span class="op">=</span><span class="st">"#00589b"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb25-29"><a href="#cb25-29"></a></span>
-<span id="cb25-30"><a href="#cb25-30"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"#00589b"</span>, linewidth <span class="op">=</span> <span class="dv">2</span>, alpha <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb25-31"><a href="#cb25-31"></a></span>
-<span id="cb25-32"><a href="#cb25-32"></a><span class="co"># ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)</span></span>
-<span id="cb25-33"><a href="#cb25-33"></a></span>
-<span id="cb25-34"><a href="#cb25-34"></a>ax.plot(data_1.time, data_1.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb25-35"><a href="#cb25-35"></a>ax.plot(data_2.time, data_2.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb25-36"><a href="#cb25-36"></a><span class="co">#ax.plot(data_3.time, data_3.Target, c = "black", linewidth = 1, alpha = 0.8)</span></span>
-<span id="cb25-37"><a href="#cb25-37"></a>ax.plot(data_4.time, data_4.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
-<span id="cb25-38"><a href="#cb25-38"></a>ax.plot(data_5.time, data_5.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb25-39"><a href="#cb25-39"></a>ax.plot(data_6.time, data_6.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb25-40"><a href="#cb25-40"></a>ax.plot(data_7.time, data_7.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb25-41"><a href="#cb25-41"></a>ax.scatter(x <span class="op">=</span> data_8.time, y <span class="op">=</span> data_8.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
-<span id="cb25-42"><a href="#cb25-42"></a>ax.plot(data_8.time, data_8.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="dv">2</span>, alpha <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb25-43"><a href="#cb25-43"></a>ax.plot(data_9.time, data_9.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
-<span id="cb25-44"><a href="#cb25-44"></a></span>
-<span id="cb25-45"><a href="#cb25-45"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
-<span id="cb25-46"><a href="#cb25-46"></a></span>
-<span id="cb25-47"><a href="#cb25-47"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>data_1 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_arma.csv"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2"></a>data_2 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_svr.csv"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3"></a>data_3 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_rf.csv"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4"></a>data_4 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_lgbm.csv"</span>)</span>
+<span id="cb27-5"><a href="#cb27-5"></a>data_5 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_lstm.csv"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6"></a>data_6 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_brnn_gru.csv"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7"></a>data_7 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nbeatsx.csv"</span>)</span>
+<span id="cb27-8"><a href="#cb27-8"></a>data_8 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_nhits.csv"</span>)</span>
+<span id="cb27-9"><a href="#cb27-9"></a>data_9 <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/hist_tcn.csv"</span>)</span>
+<span id="cb27-10"><a href="#cb27-10"></a>gdp <span class="op">=</span> pd.read_csv(<span class="st">"../scripts/python/000_data/transformed_gdp.csv"</span>)</span>
+<span id="cb27-11"><a href="#cb27-11"></a></span>
+<span id="cb27-12"><a href="#cb27-12"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb27-13"><a href="#cb27-13"></a></span>
+<span id="cb27-14"><a href="#cb27-14"></a>ax.xaxis.set_major_locator(MultipleLocator(<span class="fl">20.000</span>))</span>
+<span id="cb27-15"><a href="#cb27-15"></a>ax.xaxis.set_minor_locator(AutoMinorLocator(<span class="fl">2.000</span>))</span>
+<span id="cb27-16"><a href="#cb27-16"></a></span>
+<span id="cb27-17"><a href="#cb27-17"></a>ax.spines[<span class="st">'top'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb27-18"><a href="#cb27-18"></a>ax.spines[<span class="st">'right'</span>].set_visible(<span class="va">False</span>)</span>
+<span id="cb27-19"><a href="#cb27-19"></a></span>
+<span id="cb27-20"><a href="#cb27-20"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, width<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb27-21"><a href="#cb27-21"></a>ax.tick_params(which<span class="op">=</span><span class="st">"major"</span>, length<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb27-22"><a href="#cb27-22"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, width<span class="op">=</span><span class="fl">1.0</span>, labelsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb27-23"><a href="#cb27-23"></a>ax.tick_params(which<span class="op">=</span><span class="st">"minor"</span>, length<span class="op">=</span><span class="dv">5</span>, labelsize<span class="op">=</span><span class="dv">10</span>, labelcolor<span class="op">=</span><span class="st">"0.25"</span>)</span>
+<span id="cb27-24"><a href="#cb27-24"></a></span>
+<span id="cb27-25"><a href="#cb27-25"></a>ax.set_ylabel(<span class="st">"GDP growth"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb27-26"><a href="#cb27-26"></a>ax.set_xlabel(<span class="st">"Date"</span>, weight<span class="op">=</span><span class="st">"medium"</span>)</span>
+<span id="cb27-27"><a href="#cb27-27"></a></span>
+<span id="cb27-28"><a href="#cb27-28"></a>ax.scatter(x <span class="op">=</span> gdp.Date, y <span class="op">=</span> gdp.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"#00589b"</span>, edgecolor<span class="op">=</span><span class="st">"#00589b"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb27-29"><a href="#cb27-29"></a></span>
+<span id="cb27-30"><a href="#cb27-30"></a>ax.plot(gdp.Date, gdp.Target, c <span class="op">=</span> <span class="st">"#00589b"</span>, linewidth <span class="op">=</span> <span class="dv">2</span>, alpha <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb27-31"><a href="#cb27-31"></a></span>
+<span id="cb27-32"><a href="#cb27-32"></a><span class="co"># ax.scatter(x = data.time, y = data.Target, s = 10, c = "red", edgecolor="red", linewidth=0.75, zorder=-20, alpha = 0.3)</span></span>
+<span id="cb27-33"><a href="#cb27-33"></a></span>
+<span id="cb27-34"><a href="#cb27-34"></a>ax.plot(data_1.time, data_1.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb27-35"><a href="#cb27-35"></a>ax.plot(data_2.time, data_2.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb27-36"><a href="#cb27-36"></a><span class="co">#ax.plot(data_3.time, data_3.Target, c = "black", linewidth = 1, alpha = 0.8)</span></span>
+<span id="cb27-37"><a href="#cb27-37"></a>ax.plot(data_4.time, data_4.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>)</span>
+<span id="cb27-38"><a href="#cb27-38"></a>ax.plot(data_5.time, data_5.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb27-39"><a href="#cb27-39"></a>ax.plot(data_6.time, data_6.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb27-40"><a href="#cb27-40"></a>ax.plot(data_7.time, data_7.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb27-41"><a href="#cb27-41"></a>ax.scatter(x <span class="op">=</span> data_8.time, y <span class="op">=</span> data_8.Target, s <span class="op">=</span> <span class="dv">10</span>, c <span class="op">=</span> <span class="st">"red"</span>, edgecolor<span class="op">=</span><span class="st">"red"</span>, linewidth<span class="op">=</span><span class="fl">0.75</span>, zorder<span class="op">=-</span><span class="dv">20</span>, alpha <span class="op">=</span> <span class="fl">0.3</span>)</span>
+<span id="cb27-42"><a href="#cb27-42"></a>ax.plot(data_8.time, data_8.Target, c <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="dv">2</span>, alpha <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb27-43"><a href="#cb27-43"></a>ax.plot(data_9.time, data_9.Target, c <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="dv">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</span>
+<span id="cb27-44"><a href="#cb27-44"></a></span>
+<span id="cb27-45"><a href="#cb27-45"></a><span class="co">#ax.plot(ar.time, ar.Target, c = "green", linewidth = 1.5, alpha = 0.7)</span></span>
+<span id="cb27-46"><a href="#cb27-46"></a></span>
+<span id="cb27-47"><a href="#cb27-47"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-comparison" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="ber-present_files/figure-revealjs/fig-comparison-output-1.png" width="981" height="507"></p>
-<p></p><figcaption>Figure 23: Historical forecast comparison</figcaption><p></p>
+<p></p><figcaption>Figure 25: Historical forecast comparison</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -2302,7 +2403,7 @@
 </tr>
 <tr class="odd">
 <td style="text-align: left;">RF</td>
-<td style="text-align: center;">0.24</td>
+<td style="text-align: center;">0.46</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr class="even">
@@ -2352,17 +2453,11 @@
 </div>
 </div>
 </section></section>
-<section>
 <section id="life-after-covid" class="title-slide slide level1 center">
 <h1>Life after COVID? 😷</h1>
 
 </section>
-<section id="post-covid-backtest" class="slide level2">
-<h2>Post-COVID backtest</h2>
-</section>
-<section id="post-covid-forecast" class="slide level2">
-<h2>Post-COVID forecast</h2>
-</section></section>
+
 <section>
 <section id="conclusion" class="title-slide slide level1 center">
 <h1>Conclusion 🤯</h1>
@@ -2385,7 +2480,7 @@
 <h1>Future plans 🗺️</h1>
 
 </section>
-<section id="section-24" class="slide level2">
+<section id="section-25" class="slide level2">
 <h2></h2>
 <div class="columns">
 <div class="column" style="width:50%;">
